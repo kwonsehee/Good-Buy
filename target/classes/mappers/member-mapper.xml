@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+	<resultMap type="member" id="memberResultSet">
+		<id property = "user_id" column ="USER_ID"/>
+		<result property="user_pwd" column="USER_PWD"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="email" column="EMAIL"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="phone" column="PHONE"/>
+		<result property="point" column="POINT"/>
+		<result property="reported" column="REPORTED"/>
+		<result property="user_type" column="USER_TYPE"/>
+		<result property="enroll_date" column="ENROLL_DATE"/>
+		<result property="admin_memo" column="ADMIN_MEMO"/>
+		<result property="ustatus" column="USTATUS"/>
+		<result property="is_business" column="IS_BUSINESS"/>
+	</resultMap>
+	
+	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
+		SELECT
+			   USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+		  FROM
+		  	   USER_INFO
+		 WHERE
+		 	   USER_ID = #{user_id}
+		<!--  암호화 적용 이후 삭제 : AND PWD = #{pwd} -->
+		   AND USTATUS = 'Y'
+	
+	</select>
+	<insert id="insertMember" parameterType="Member">
+	INSERT
+	INTO USER_INFO
+	(
+	  USER_ID
+	, USER_PWD
+	, NICKNAME
+	, EMAIL
+	, PHONE
+	, USER_TYPE
+	, ENROLL_DATE
+	, IS_BUSINESS
+	, USTATUS
+	)
+	VALUES
+	(
+	  #{ user_id }
+	, #{ user_pwd }
+	, #{ nickname}
+	, #{ email}
+	, #{ phone}
+	, DEFAULT
+	, SYSDATE
+	, DEFAULT	
+	, DEFAULT
+
+	)
+	</insert>
+	
+</mapper>
