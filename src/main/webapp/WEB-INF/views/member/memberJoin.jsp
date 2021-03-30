@@ -4,10 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Good-Buy</title>
+<title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
 <!-- 공통 UI -->
-<link href="${ contextPath }/resources/css/memberJoin.css" rel="stylesheet" type="text/css">
-
+ <link href="${ contextPath }/resources/css/memberJoin.css?" rel="stylesheet" type="text/css">
+<style>
+	
+</style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
@@ -19,8 +21,8 @@
         </div> 
 
         <div class="joinformWrap">
-            <h2 id="goodbuy_h2">good-buy Family</h2>
-            <h2 id="join_h2">회원 가입</h2>  
+            <h4 id="goodbuy_h2">good-buy Family</h4>
+            <h4 id="join_h2">회원 가입</h4>  
             <p id="alreadyJoin_p">이미 가입하셨나요?  <a data-bs-toggle="modal" data-bs-target="#loginModal">로그인 하기</a></p> 
             <form action="${ contextPath }/member/join" method="POST" class="joinform">
                 <input type="text" name="user_id" placeholder="* ID"><br>
