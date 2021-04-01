@@ -1,0 +1,66 @@
+         @font-face {
+        font-family: 'yg-jalnan';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+        #viewCount{
+            padding-top: 30px;
+            margin: auto;
+            width: 80%;
+            height: 298px;
+        }
+        #btnArea{
+            text-align: center;
+        }
+
+        #viewCount tr{
+            text-align: center;
+        }
+        #viewCount label{
+            color: #9a9999;
+        }
+        #finalBtn{
+            width: 200px;
+            height: 43px;
+            border-radius: 27px;
+            border: none;
+            background-color: black;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-family: 'yg-jalnan';
+            margin-top: 10px;
+        }
+        input[type=range] {
+            -webkit-appearance: none; /* 기본슬라이드 숨기기*/
+            width: 500px;  
+            background: transparent; /* Chrome에서 투명하게 출력 */
+            margin-top: 25px;
+        }
+        #countInput::-webkit-slider-thumb{
+            border:0px;
+            height: 30px;
+            width: 30px;
+            background: #fff;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -8px;
+            border-radius: 30px;
+            box-shadow: 1px 1px 1px #9d9d9d, 0px 0px 3px #9d9d9d;
+
+         }
+
+         #countInput::-webkit-slider-runnable-track{
+            cursor: pointer;
+            background: #37BBDA;
+            height:15px;
+            border-radius: 25px;
+        }       
+
+        #countInput:focus::-ms-fill-lower{
+           background: #37BBDA;
+        }
+        #countInput:focus::-ms-fill-upper{
+            background:black;
+        }

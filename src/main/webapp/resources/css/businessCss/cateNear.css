@@ -1,0 +1,75 @@
+@charset "UTF-8";
+            @font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    }
+    #gbSection{
+        font-family: 'yg-jalnan';
+    }
+
+        #category{
+            display: flex;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+        #category > li{
+        list-style-type: none;
+        margin: 0px 25px 15px;
+        }
+        #cateArea{
+            margin-top: 50px;
+        }
+        .nearList{
+            border: 1px solid rgb(240, 228, 228);
+            border-radius: 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin : 20px 45px 30px 53px;
+            width: 251px;
+            height: auto;
+            box-sizing: border-box;
+            box-shadow: 0px 6px 5px 0px rgb(0 0 0 / 10%);
+
+        }
+        .nearArea{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1500px;
+        }
+        #nearNews{
+            text-align: center;
+        }
+        .btnArea{
+            
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .title{
+       font-size: 14px;
+       font-weight: bolder;
+        margin: 0;
+   }
+   .content{
+       font-size: 11px;
+       margin: 5px;
+       font-family: 'yg-jalnan';
+       font-weight: 500;
+   }
+   .name{
+       font-size: 12px;
+       font-weight: bold;
+   }
+   .address{
+       font-size: 10px;
+       color: #9A9999;
+   }

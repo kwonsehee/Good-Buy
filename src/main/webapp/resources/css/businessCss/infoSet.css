@@ -1,0 +1,111 @@
+@charset "UTF-8";
+         @font-face {
+        font-family: 'yg-jalnan';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+        #infoSet{
+            padding-top: 50px;
+            margin: auto;
+            width: 80%;
+            height: 664px;
+        }
+        #category{
+            width: 420px;
+            height: 40px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            padding-left: 10px;
+        }
+        #topMenu{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #nameInput{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #detailInput{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #addressInput{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #phoneInput{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #infoInput{
+            width: 95%;
+            height: 150px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-top: 20px;
+            padding-left: 15px;
+            margin-top: 15px;
+        }
+        #timeInput1{
+            width: 20%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #timeInput2{
+            width: 20%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #timeInput3{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        #finalBtn{
+            width: 85px;
+            height: 43px;
+            border-radius: 27px;
+            border: none;
+            background-color: black;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-family: 'yg-jalnan';
+        }
+        #btnArea{
+            text-align: center;
+        }
