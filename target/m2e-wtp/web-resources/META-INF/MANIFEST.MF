@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: kwonsehee
-Build-Jdk: 11.0.9.1
+Built-By: ￬ﾞﾄ￭ﾙﾍ￪ﾷﾜ
+Build-Jdk: 1.8.0_265
 Created-By: Maven Integration for Eclipse
 

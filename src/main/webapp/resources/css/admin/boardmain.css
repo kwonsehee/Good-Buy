@@ -1,0 +1,192 @@
+
+/*동네생활검색
+
+/*카테고리 시작*/
+#townstory1{
+    padding-left: 11%;
+    padding-right: 11%;
+    text-align: center;
+    
+}
+
+.townserch{
+    text-align: center;
+
+
+}
+#townbox{
+     width: 500px;
+    height: 35px;
+    margin-bottom: 50px;
+    border:3px solid #05AAD1; 
+    border-radius: 25px;
+    font-size: 14px;
+    padding-left:30px;
+    color:#05AAD1;
+  
+
+}
+#townbutton{
+    margin-top:33px;
+    background: black;
+    color:white;
+    border-radius:27px;
+    width:70px;
+    height:39px;
+    font-size:14px;
+    font-weight: bold;
+    border:0px;
+}
+
+.categorys{
+    list-style: none; 
+    width:800px;
+    height: 50px;
+    margin:0;
+    padding:0;
+    margin-left:50%;
+    margin-top:30px; 
+    transform: translate(-50%);    
+    text-align: center;
+}
+
+.categorys a{
+color: black;
+}
+.categorys li{
+        float: left;
+        width: 25%;
+    
+}
+.categorya{
+    
+    width: 50px;
+    height: 50px;
+}
+/*인기글*/
+#popularity{
+     position:relative;
+     left: 40%;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #000000;
+    
+}
+/*최신글*/
+#new{
+position:relative;
+left: 40%;
+font-style: normal;
+font-weight: bold;
+font-size: 30px;
+line-height: 35px;
+
+color: #000000;
+
+}
+/*스토리 전체*/
+.townboard{
+   
+    align-items: center;
+    display: inline-block;
+    margin: 1% -1% 0% 7%; 
+    border-radius: 5%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin : 20px 45px 30px 53px;
+    width: 220px;
+    height: auto;
+    box-sizing: border-box;
+    box-shadow: 0px 6px 5px 0px rgb(0 0 0 / 10%);
+
+
+}
+
+
+
+
+/*스토리 이미지 크기 지정 */
+#storyimage{
+    width: 150px;
+    height: 100px;
+
+}
+/*제목 */
+.title{
+    margin-top: 35px;
+    font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 16px;
+
+color: #000000;
+
+}
+.date{
+    margin-top: 10px;
+}
+
+
+/*날짜 */
+.boarddate{
+
+padding-bottom: 5%;
+    margin-top: 10px;
+    font-style: normal;
+    font-weight: border;
+    font-size: 18px;
+    line-height: 17px;
+    
+    color: #9A9999;
+}
+
+/*이름*/
+.name{
+display: inline-block;
+margin-top: 10px;
+margin-bottom:20px;
+font-style: normal;
+font-weight: bolder;
+font-size: 14px;
+line-height: 14px;
+
+color: #9A9999;
+}
+/*내용*/
+.story{
+    margin-top: 10px;
+    font-style: normal;
+    font-weight: bolder;
+    font-size: 14px;
+    line-height: 14px;
+    
+    color: #000000;
+    
+}
+
+
+
+
+#writeBtn{ 
+    position:relative;
+    margin-bottom: 5%;
+    left: 51%;
+    top: 10%;
+    margin-left: 23%; 
+    display: inline-block;
+     width: 130px;
+     height: 45px;
+     border-radius: 27px;
+     font-size: 14px;
+     background-color: #000000;
+     border: 0px;
+   color : white;
+   }
+   #title1{
+       font-size: 30px;
+       padding-left: 20%;
+       padding-bottom: 20px;
+   }
