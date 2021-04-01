@@ -1,0 +1,112 @@
+@charset "UTF-8";
+#gbSection{
+    margin-top: 5%;
+
+    margin-bottom: 5%;
+}
+#pg_title{
+    font-size: 20px;
+    text-align: center;
+}
+#insert_goods, #insert_goods th, #insert_goods tr, #insert_goods td{
+    /* border: solid 1px blue; */
+}
+#insert_goods{
+    width: 80%;
+    height: 1000px;
+    margin: auto;
+
+
+}
+#insert_goods th{
+    font-size: 16px;
+    font-weight:normal;
+    text-align: left;
+    padding-left: 6%;
+}
+
+#gtitle{
+    width: 90%;
+    height: 50px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    padding-left: 2%;
+}
+.gcate{
+    display: inline-block;
+    width: 65%;
+    height: 200px;
+    border-radius: 10px;
+    padding-left: 10%;
+    padding-top: 5%;
+  border: solid 1px #c4c4c4;
+  background-color: #ffffff;
+}
+#deal_town{
+    width: 208px;
+    height: 45px;
+    padding: 8px 0px 8px 20px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    font-size: 15px;
+}
+#gprice{
+    width: 190px;
+    height: 42px;
+    padding-left: 15px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    margin-bottom: 13px;
+}
+#godds_condition div{
+    display: inline;
+    width: 136px;
+    height: 50px;
+    padding: 8px 13px 8px 13px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    font-size: 15px;
+    margin-right: 2%;
+}
+#gcontent{
+    width: 90%;
+    height: 300px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    padding-top: 20px;
+    padding-left: 15px;
+    margin-top: 15px;
+}
+#imginput{
+    width: 180px;
+    height: 170px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    text-align: center;
+}
+#greset{
+width: 171px;
+  height: 47px;
+  border-radius: 27px;
+  font-size: 16px;
+  border: solid 1px #000000;
+  background-color: #ffffff;
+  margin-left: 35%;
+  margin-top: 2.5%;
+}
+#gsubmit{
+    width: 171px;
+  height: 47px;
+  border-radius: 27px;
+  font-size: 16px;
+  background-color: #000000;
+color : white;
+margin-left: 10%;
+margin-top: 2.5%;
+}
