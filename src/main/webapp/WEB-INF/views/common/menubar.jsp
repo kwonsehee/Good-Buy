@@ -59,7 +59,7 @@
                     <button onclick="closeNavi()">X</button>
                 </div>      
                 <ul>
-                    <li><a href="#">중고거래</a></li>
+                    <li><a href="${contextPath }/goods/list">중고거래</a></li>
                     <li><a href="#">내근처</a></li>
                     <li><a href="#">동네생활</a></li>
                     <li><a href="#">공지사항</a></li>
