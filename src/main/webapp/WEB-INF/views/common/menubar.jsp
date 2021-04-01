@@ -60,7 +60,7 @@
                 </div>      
                 <ul>
                     <li><a href="#">중고거래</a></li>
-                    <li><a href="#">내근처</a></li>
+                    <li><a href="${contextPath }/business/list">내근처</a></li>
                     <li><a href="#">동네생활</a></li>
                     <li><a href="#">공지사항</a></li>
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>

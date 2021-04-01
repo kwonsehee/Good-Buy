@@ -1,0 +1,177 @@
+@charset "UTF-8";
+        @font-face {
+        font-family: 'yg-jalnan';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+        .area{
+            display: block;
+            text-align: -webkit-center;
+            font-family: 'yg-jalnan';
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+        .photoArea{
+            width: 654px;
+            height: 632px;
+            border: 1px solid #e0e0e0;
+            
+        }
+        .infoArea{
+            width: 654px;
+            height: 230px;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+        .priceArea{
+            width: 654px;
+            height: auto;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        #profileImg{
+            position: relative;
+            left: -41%;
+        }
+        #nameArea{
+            position: relative;
+            top: -13%;
+            left: -26%;
+            width: 69px;
+            height: 32px;
+            border: 1px solid #c4c4c4;
+            border-style: dashed;
+            text-align: center;
+        }
+        #namePen{
+            position: relative;
+            top: -28%;
+            left: 7%;
+        }
+
+        #likeBtn{
+            position: relative;
+            left: -8%;
+            top: -20%;
+            width: 69px;
+            height: 31px;
+            border: 1px solid #C4c4c4;
+            background-color: white;
+            color: black;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            font-family: 'yg-jalnan';
+        }
+        #adImg{
+            position: relative;
+            top: 2%;
+            left: -17%;
+        }
+        #adLabel{
+            position: relative;
+            top: 8%;
+            left: -28%;
+        }
+        #line{
+            position: relative;
+            top: 6%;
+            left: -8%;
+        }
+        #pen{
+            position: relative;
+            top: 2%;
+            left: 13%;
+
+        }
+        #newsLabel{
+            position: relative;
+            top: 8%;
+            left: 2%;
+        }
+        #infoLabel{
+            font-size: 24px;
+            text-align: left;
+            margin-left: 17px;
+        }
+        #infoPlusArea{
+            width: 549px;
+            height: 54px;
+            border: 1px solid #C4c4c4;
+            border-style: dashed;
+            /* text-align: center; */
+            /* display: flex; */
+            margin-left: 52px;
+        }
+
+        #addressImg{
+           margin-right: 10px;
+        }
+
+        #clockImg{
+            margin-right: 10px;
+        }
+      
+        #infoBtn{
+         
+            width: 549px;
+            border: 1px solid #C4c4c4;
+            background-color: white;
+           
+            font-family: 'yg-jalnan';
+        }
+        #priceLabel{
+            font-size: 24px;
+            margin-left: 17px;
+            margin-bottom: 10px;
+        }
+        #pricePlusLabel{
+            margin-left: 17px;
+            margin-bottom: 15px;
+        }
+        #priceBtn{
+            width: 549px;
+            border: 1px solid #c4c4c4;
+            background-color: white;
+           
+            font-family: 'yg-jalnan';
+        }
+        #btnArea{
+            text-align: center;
+        }
+        #finalBtn{
+            width: 85px;
+            height: 43px;
+            border-radius: 27px;
+            border: none;
+            background-color: black;
+            color: white;
+            letter-spacing: 2px;
+            /* text-align: -webkit-center; */
+            /* position: relative; */
+           
+            margin-bottom: 30px;
+            font-family: 'yg-jalnan';
+        }
+        #priceBtnArea{
+            margin-bottom: 5px;
+             text-align: center;
+        }
+        #infoBtnArea{
+            margin-top: 10px;
+        }
+        #addressArea{
+            text-align: left;
+            margin-left: 17px;
+            margin-top: 10px;
+
+        }
+        #timeArea{
+            text-align: left;
+            margin-left: 17px;
+            margin-top: 10px;
+
+        }
