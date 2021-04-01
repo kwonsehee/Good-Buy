@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- 공통 UI -->
-<link href="resources/css/menustyle.css" rel="stylesheet" type="text/css">
+<link href="${ contextPath }/resources/css/menustyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
  <footer id="gbFooter">

@@ -63,19 +63,15 @@
                     <li><a href="#">내근처</a></li>
                     <li><a href="#">동네생활</a></li>
                     <li><a href="#">공지사항</a></li>
-                    <li><a href="#">고객센터</a></li>
+                    <li><a href="${ contextPath }/center/join">고객센터</a></li>
                     <li><a href="mypageMain.html">마이페이지</a></li>
-                    <li> <a href="#">관리자페이지</a></li>
+                    <li><a href="${ contextPath }/admin/join">관리자페이지</a></li>
                     <li><a href="#">로그아웃</a></li>
                 </ul>
             </div>
         </div>
     </header>
 
-    <section id="gbSection">
-    
-    
-     </section>
 	<!-- 로그인 Modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">

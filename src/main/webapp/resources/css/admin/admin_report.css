@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+     
+#div1{
+  font-family: 'Nanum Myeongjo', serif;
+  text-align: center;
+  padding-top: 40px;
+}
+#div2{
+  font-family: 'Nanum Myeongjo', serif;
+  text-align: center;
+}
+#button1 {
+  font-family: 'Nanum Myeongjo', serif;
+    font-size: 15px;
+    margin: 20px;
+    border: 0;
+    outline: 0;
+    background-color: white;
+    color : gray;
+}
+a:visited {color:black}
+#a1{
+    color: gray;
+}
+#a2{
+    font-weight: bold;
+}
+
+#a3{
+    color: gray;
+}
+#a4{
+    color: gray;
+}
+#a5{
+    color: gray;
+}
+#a6{
+    color: gray;
+}
+#div3{
+  font-family: 'Nanum Myeongjo', serif;
+    padding-top : 60px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+ #table1 {
+    width: 100%;
+    border-top: 1px solid #444444;
+  
+    border-collapse: collapse;
+  }
+  #table1 tr {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 th {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 td{
+    font-weight:bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+#tr_hover1:hover{
+background-color: rgb(182, 228, 255);
+}
+#tr_hover2:hover{
+background-color: rgb(182, 228, 255);
+}
+#img1{
+width: 20px;
+}
+
+#div5{
+font-weight: bold;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+}
+#div4{
+padding-top: 20%;
+padding-left: 85%;
+}
+#createButton{
+font-weight: bold;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 20px;
+padding-right: 20px;
+border: 0;
+  outline: 0;
+  background: black;
+  border-radius: 20px;
+  color:white;
+
+
+}
