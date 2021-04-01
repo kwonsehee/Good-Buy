@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+     
+#div1{
+  font-family: 'Nanum Myeongjo', serif;
+  text-align: center;
+  padding-top: 40px;
+}
+#div2{
+  font-family: 'Nanum Myeongjo', serif;
+  text-align: center;
+}
+#button1 {
+  font-family: 'Nanum Myeongjo', serif;
+    font-size: 15px;
+    margin: 20px;
+    border: 0;
+    outline: 0;
+    background-color: white;
+    color : gray;
+}
+a:visited {color:black}
+#a1{
+    color: gray;
+}
+#a2{
+    font-weight: bold;
+}
+
+#a3{
+    color: gray;
+}
+#a4{
+    color: gray;
+}
+#a5{
+    color: gray;
+}
+#a6{
+    color: gray;
+}
+#div3{
+  font-family: 'Nanum Myeongjo', serif;
+    padding-top : 60px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+ #table1 {
+    width: 100%;
+    border-top: 1px solid #444444;
+  
+    border-collapse: collapse;
+  }
+  #table1 tr {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 th {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 td{
+    font-weight:bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+
+#img1{
+width: 20px;
+}
+#tr_hover1{
+background-color: rgb(182, 228, 255);
+}
+
+#div5{
+font-weight: bold;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+}
+#div4{
+
+width: 80%;
+padding-left: 10%;
+padding-right: 10%;
+
+display: inline-block;
+
+
+}
+#createButton{
+font-weight: bold;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 20px;
+padding-right: 20px;
+border: 0;
+  outline: 0;
+  background: black;
+  border-radius: 20px;
+  color:white;
+
+
+}
+#createButton1{
+font-weight: bold;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 60px;
+padding-right: 60px;
+border: 0;
+  outline: 0;
+  background: black;
+  border-radius: 20px;
+  color:white;
+  margin-top: 10px;
+
+
+}
+
+#createButton2{
+font-weight: bold;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 60px;
+padding-right: 60px;
+border: 0;
+  outline: 0;
+  background: black;
+  border-radius: 20px;
+  color:white;
+margin-left: 110px;
+margin-right: 110px;
+
+
+}
+#div4_1{
+
+
+padding-top: 30px;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+padding-left: 9.5%;
+width: 40%;
+float: left;
+height: 500px;
+
+
+}
+#div4_2{
+padding-top: 30px;
+font-family: 'Nanum Myeongjo', serif;
+text-align: center;
+padding-right: 10%;
+width: 40%;
+float: left;
+vertical-align: top;
+
+
+}
+#la1{
+font-weight: bold;
+font-size: 30px;
+
+}
+
+#la3{
+text-align: center;
+height: 350px;
+
+
+
+}
+
+#src1{
+width: 400px;
+height: 350px;
+}
+#div4_2_2{
+padding-top: 25%;
+}
+.la3_1{
+font-weight: bolder;
+}

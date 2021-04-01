@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+     
+      #div1{
+        font-family: 'Nanum Myeongjo', serif;
+        text-align: center;
+        padding-top: 40px;
+      }
+      #div2{
+        font-family: 'Nanum Myeongjo', serif;
+        text-align: center;
+      }
+      #button1 {
+        font-family: 'Nanum Myeongjo', serif;
+          font-size: 15px;
+          margin: 20px;
+          border: 0;
+          outline: 0;
+          background-color: white;
+          color : gray;
+      }
+      a:visited {color:black}
+      #a1{
+          color: gray;
+      }
+      #a2{
+          color: gray;
+      }
+      #a3{
+          color: gray;
+      }
+      #a4{
+          color: gray;
+      }
+      #a5{
+          color:gray;
+      }
+      #a6{
+          font-weight: bold;
+      }
+      #b1{
+        color:gray;
+      }
+      #b2{
+        font-weight: bold;
+      }
+       #table1 {
+    width: 100%;
+    border-top: 1px solid #444444;
+  
+    border-collapse: collapse;
+  }
+  #table1 tr {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 th {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 td{
+    font-weight:bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #div3{
+      
+      text-align: center;
+    padding-top: 10px;
+    padding-left: 10%;
+      padding-right:10%;
+  }
+
+  #div4{
+      text-align: center;
+    font-family: 'Nanum Myeongjo', serif;
+      padding-top: 30px;
+      padding-left: 10%;
+      padding-right:10%;
+  }
+  .menu a{cursor:pointer;}
+  .menu .hide{display:none;}
+  ol.mylist li {
+    padding: 10px 0px 5px 5px;
+    margin-bottom: 5px;
+    display: block;
+    
+}
+ul.mylist li{
+    padding: 10px 0px 5px 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    
+}
+#div4{
+    padding-bottom: 5%;
+}
+ul{
+   list-style:none;
+   }
+   #createButton1{
+      font-weight: bold;
+    font-family: 'Nanum Myeongjo', serif;
+      text-align: center;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: 0;
+        outline: 0;
+        background: black;
+        border-radius: 20px;
+        color:white;
+
+
+  }
+  #div5{
+    font-family: 'Nanum Myeongjo', serif;
+      text-align: center;
+    padding-left: 10%;
+      padding-right:10%;
+      padding-bottom: 10%;
+  }
+
