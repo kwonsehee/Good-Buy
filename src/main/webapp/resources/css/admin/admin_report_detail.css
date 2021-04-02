@@ -77,14 +77,15 @@ background-color: rgb(182, 228, 255);
 font-weight: bold;
 font-family: 'Nanum Myeongjo', serif;
 text-align: center;
+padding-bottom : 5%;
+padding-top:5%;
 }
 #div4{
 
-width: 80%;
-padding-left: 10%;
-padding-right: 10%;
 
-display: inline-block;
+
+padding-bottom : 25%;
+
 
 
 }
@@ -142,14 +143,14 @@ margin-right: 110px;
 }
 #div4_1{
 
-
+padding-right:5%;
 padding-top: 30px;
 font-family: 'Nanum Myeongjo', serif;
 text-align: center;
-padding-left: 9.5%;
-width: 40%;
-float: left;
-height: 500px;
+
+padding-left : 25%;
+float:left;
+
 
 
 }
@@ -157,10 +158,10 @@ height: 500px;
 padding-top: 30px;
 font-family: 'Nanum Myeongjo', serif;
 text-align: center;
-padding-right: 10%;
-width: 40%;
+padding-right : 25%;
+padding-left : 5%;
 float: left;
-vertical-align: top;
+
 
 
 }
@@ -172,7 +173,7 @@ font-size: 30px;
 
 #la3{
 text-align: center;
-height: 350px;
+
 
 
 
@@ -183,7 +184,7 @@ width: 400px;
 height: 350px;
 }
 #div4_2_2{
-padding-top: 25%;
+
 }
 .la3_1{
 font-weight: bolder;
