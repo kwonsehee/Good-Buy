@@ -19,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="is_business" column="IS_BUSINESS"/>
 	</resultMap>
 	
+	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
 			   USER_ID
@@ -67,8 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	, SYSDATE
 	, DEFAULT	
 	, DEFAULT
-
 	)
+	
 	</insert>
 	
 </mapper>

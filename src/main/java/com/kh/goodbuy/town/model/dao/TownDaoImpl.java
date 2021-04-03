@@ -1,0 +1,51 @@
+package com.kh.goodbuy.town.model.dao;
+
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.town.model.vo.Town;
+
+@Repository	
+public class TownDaoImpl implements TownDao{
+
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
+	
+	@Override
+	public List<Town> selectAllTown1() {
+		return sqlSession.selectList("townMapper.selectAllTown1");
+	}
+
+
+	@Override
+	public List<Town> selectAllTown2() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("townMapper.selectAllTown2");
+	}
+
+
+	@Override
+	public List<Town> selectAllTown3() {
+		return sqlSession.selectList("townMapper.selectAllTown3");
+	}
+
+
+	@Override
+	public int selectTownNo(String address_3) {
+		return sqlSession.selectOne("townMapper.selectTownNo", address_3);
+	}
+
+
+	@Override
+	public int insertMyTown(MyTown mt) {
+		return sqlSession.insert("townMapper.insertMyTown",mt);
+	}
+
+
+
+}

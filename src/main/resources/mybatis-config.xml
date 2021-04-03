@@ -14,13 +14,23 @@
 	<!-- TypeAliases -->
 	<typeAliases>
 		<typeAlias type="com.kh.goodbuy.member.model.vo.Member" alias = "Member"/>
+
+		<typeAlias type="com.kh.goodbuy.town.model.vo.Town" alias = "Town"/>
+		<typeAlias type="com.kh.goodbuy.member.model.vo.MyTown" alias = "MyTown"/>
+
 		<typeAlias type="com.kh.goodbuy.business.model.vo.Business" alias = "Business"/>
+
 	</typeAliases>
+	
 	<!-- mappers -->
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
+
+		<mapper resource="mappers/town-mapper.xml"/>
+
 		<mapper resource="mappers/business-mapper.xml"/>
 		
+
 	</mappers>
 	
 	

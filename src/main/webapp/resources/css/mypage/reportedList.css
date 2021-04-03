@@ -1,0 +1,207 @@
+@charset "UTF-8";
+
+#backBtn {
+	width: 28px;
+	float: left;
+	margin-left: 14%;
+	cursor: pointer;
+}
+
+.title_h1 {
+	margin-left: 50%;
+	transform: translate(-50%);
+	text-align: center;
+	margin-top: 50px;
+	font-size: 20px;
+}
+
+.subCategory_ul {
+	list-style: none;
+	width: 500px;
+	height: 50px;
+	margin: 0;
+	padding: 0;
+	margin-left: 50%;
+	margin-top: 40px;
+	transform: translate(-50%);
+	text-align: center;
+}
+
+.subCategory_ul li {
+	float: left;
+	width: 49%;
+}
+
+#reported {
+	color: black;
+}
+
+#report {
+	color: #9A9999;
+}
+
+.listWrap {
+	border: 1px solid #fff;
+	width: 65%;
+	margin: auto;
+	margin-top: 20px;
+}
+
+.eachListWrap {
+	border: 1px solid #fff;
+	border-bottom: 1px solid #9a99994a;
+	width: 85%;
+	height: 130px;
+	margin: auto;
+	margin-bottom: 20px;
+	position: relative;
+	/* cursor: pointer; */
+}
+
+.cateName {
+	font-size: 14px;
+	text-align: center;
+	margin: 0;
+	border: 1px solid #9A9999;
+	color: #9A9999;
+	background: #F9F9F9;
+	border-radius: 15px;
+	padding: 5px;
+	margin-top: 5px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.firstUl {
+	margin: 0;
+	padding: 0;
+	height: 40px;
+}
+
+.firstUl li {
+	list-style: none;
+	color: #9A9999;
+	float: left;
+	margin-right: 15px;
+	font-size: 14px;
+}
+
+.firstUl li:nth-child(2), .firstUl li:nth-child(3), .firstUl li:nth-child(4),
+	.firstUl li:nth-child(5) {
+	line-height: 40px;
+}
+
+.secondUl {
+	padding: 0;
+}
+
+.secondUl li {
+	list-style: none;
+	height: 30px;
+	line-height: 30px;
+}
+
+.secondUl li:nth-child(2) {
+	color: #9A9999;
+	font-size: 13px;
+}
+
+.moreIcon {
+	position: absolute;
+	width: 20px;
+	top: 13px;
+	left: 98%;
+	cursor: pointer;
+}
+
+.bcontent {
+	color: #9A9999;
+	font-size: 14px;
+}
+
+.reportedCountWrap {
+	width: 50%;
+	height: 50px;
+	margin: auto;
+}
+
+.reportedCountWrap ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.reportedCountWrap li {
+	float: left;
+	text-align: center;
+	line-height: 50px;
+	margin-left: 5%;
+}
+
+.reportedCountWrap li:nth-child(1) {
+	width: 35%;
+	line-height: 40px;
+	font-size: 14px;
+}
+
+.reportedCountWrap li:nth-child(2) {
+	color: #9A9999;
+	font-size: 14px;
+}
+
+.setBox {
+	width: 180px;
+	height: 40px;
+	margin: auto;
+	display: inline-block;
+	border-radius: 25px;
+	background: #9BDDEC;
+	border: 0;
+	margin-top: 5px;
+}
+
+.pagingArea ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 500px;
+	height: 30px;
+	margin-left: 50%;
+	margin-top: 40px;
+	transform: translate(-50%);
+	margin-bottom: 100px;
+}
+
+.pagingArea ul li {
+	float: left;
+	margin-right: 10px;
+}
+
+.pagingArea ul li:nth-child(1) {
+	margin-left: 30%;
+	transform: translate(-30%);
+}
+
+.pagingArea ul li a {
+	color: #9A9999;
+}
+
+.subMenu {
+	width: 100px;
+	height: 50px;
+	background: #F9F9F9;
+	text-align: center;
+	display: none;
+}
+
+.subMenu a {
+	font-size: 12px;
+	color: #222;
+	display: block;
+	padding-top: 20px;
+	padding-bottom: 15px;
+}
+
+.subMenu a:nth-child(1) {
+	color: red;
+}
