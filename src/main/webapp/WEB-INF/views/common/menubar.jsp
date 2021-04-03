@@ -33,7 +33,7 @@
                 <li class="li_1">
                     <img src="${ contextPath }/resources/images/menu.png" id="menuicon" onclick="showNavi()">
                 </li>
-                <li class="li_2"><a href="common.html"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
+                <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
                     <input type="text" id="searchbox" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
                     <button type="submit">검색</button>
@@ -64,7 +64,7 @@
                     <li><a href="#">동네생활</a></li>
                     <li><a href="#">공지사항</a></li>
                     <li><a href="#">고객센터</a></li>
-                    <li><a href="mypageMain.html">마이페이지</a></li>
+                    <li><a href="${ contextPath }/mypage/main">마이페이지</a></li>
                     <li> <a href="#">관리자페이지</a></li>
                     <li><a href="#">로그아웃</a></li>
                 </ul>
@@ -72,10 +72,7 @@
         </div>
     </header>
 
-    <section id="gbSection">
-    
-    
-     </section>
+  
 	<!-- 로그인 Modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">

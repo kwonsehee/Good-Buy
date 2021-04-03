@@ -1,15 +1,19 @@
 package com.kh.goodbuy.member.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.goodbuy.member.model.dao.MemberDao;
 import com.kh.goodbuy.member.model.vo.Member;
+import com.kh.goodbuy.member.model.vo.MyTown;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDao mDao;
+	
 	@Override
 	public Member loginMember(Member m) {
 		// TODO Auto-generated method stub
@@ -20,6 +24,15 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		
 		return mDao.insertMember(m);
+	}
+	@Override
+	public int insertMyTown(MyTown mt) {
+		return  mDao.insertMember(mt);
+	}
+	
+	@Override
+	public int insertMember(ArrayList<Object> list) {
+		return mDao.insertMember(list);
 	}
 
 }

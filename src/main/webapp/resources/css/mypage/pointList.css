@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+#backBtn {
+	width: 28px;
+	float: left;
+	margin-left: 14%;
+	cursor: pointer;
+}
+
+.title_h1 {
+	margin-left: 50%;
+	transform: translate(-50%);
+	text-align: center;
+	margin-top: 50px;
+	font-size: 20px;
+}
+
+.subCategory_ul {
+	list-style: none;
+	width: 800px;
+	height: 50px;
+	margin: 0;
+	padding: 0;
+	margin-left: 50%;
+	margin-top: 40px;
+	transform: translate(-50%);
+	text-align: center;
+}
+
+.subCategory_ul li {
+	float: left;
+	width: 33%;
+}
+
+#sub_board {
+	color: #222;
+}
+
+#sub_boardReply, #sub_goods {
+	color: #9A9999;
+}
+
+.pointTextBox {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 500px;
+	height: 40px;
+	margin: auto;
+}
+
+.pointTextBox li {
+	float: left;
+	width: 50%;
+	height: 35px;
+	text-align: center;
+	line-height: 35px;
+	font-size: 14px;
+}
+
+.pointTextBox li div {
+	margin: auto;
+	width: 90%;
+	height: 100%;
+	background: #9BDDEC;
+	border-radius: 25px;
+}
+
+.tableWrap {
+	/* border: 1px solid black; */
+	width: 45%;
+	margin: auto;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	height: 500px;
+}
+
+.tableWrap table {
+	width: 100%;
+	color: #9A9999;
+	font-size: 14px;
+}
+
+.tableWrap tr {
+	border-bottom: 1px solid #9A9999;
+	/* 왜 이 스타일 안먹지? 왜?!?!?! */
+}
+
+.tableWrap table td:nth-child(1) {
+	width: 75%;
+	height: 40px;
+	padding-left: 5px;
+	border-bottom: 1px solid #9A9999;
+}
+
+.tableWrap table td:nth-child(2) {
+	text-align: right;
+	border-bottom: 1px solid #9A9999;
+}
+
+.pagingArea ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 500px;
+	height: 30px;
+	margin-left: 50%;
+	margin-top: 40px;
+	transform: translate(-50%);
+	margin-bottom: 60px;
+}
+
+.pagingArea ul li {
+	float: left;
+	margin-right: 10px;
+}
+
+.pagingArea ul li:nth-child(1) {
+	margin-left: 30%;
+	transform: translate(-30%);
+}
+
+.pagingArea ul li a {
+	color: #9A9999;
+}

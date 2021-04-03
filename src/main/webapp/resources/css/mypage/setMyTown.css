@@ -1,0 +1,180 @@
+@charset "UTF-8";
+
+#gbSection {
+	margin-bottom: 300px;
+}
+
+#backBtn {
+	width: 28px;
+	float: left;
+	margin-left: 14%;
+	cursor: pointer;
+}
+
+.title_h1 {
+	margin-left: 50%;
+	transform: translate(-50%);
+	text-align: center;
+	margin-top: 50px;
+	font-size: 20px;
+	margin-bottom: 50px;
+}
+
+.totalWrap {
+	width: 50%;
+	margin: auto;
+	/* border:1px solid black; */
+	text-align: center;
+}
+
+.totalWrap p:nth-child(2) {
+	color: #9A9999;
+	font-size: 12px;
+}
+.setBoxWrap{
+/* 	border:1px solid black;
+ */	
+}
+.setBox {
+	width: 180px;
+	height: 40px;
+	margin: auto;
+	display: inline-block;
+	margin-right: 10px;
+	margin-top: 10px;
+	/* border:1px solid black; */
+	border-radius: 15px;
+}
+
+.firstBox {
+	background: #9BDDEC;
+	border: 0;
+}
+
+.firstBox ul {
+	margin: 0;
+	padding: 0;
+	width: 180px;
+	height: 40px;
+	list-style: none;
+}
+
+.firstBox li {
+	float: left;
+}
+
+.firstBox li:nth-child(1) {
+	width: 78%;
+	text-align: justify;
+	padding-left: 12px;
+	line-height: 40px;
+	font-size: 14px;
+}
+
+.firstBox li:nth-child(2) {
+	width: 15%;
+	line-height: 40px;
+}
+
+.Xbtn {
+	width: 25px;
+	height: 40px;
+	color: #fff;
+	border-radius: 100px;
+	border: 0px;
+	background: none;
+}
+
+.secondBox {
+	background: #F9F9F9;
+	border: 1px solid #E0E0E0;
+}
+
+.secondBox ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+	color: #9A9999;
+}
+
+#mytown {
+	font-size: 16px;
+	margin-right: 10px;
+}
+
+#townCount {
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.totalWrap p:nth-child(10) {
+	font-size: 12px;
+	color: #9A9999;
+	margin-top: 30px;
+}
+
+input[type=range] {
+	-webkit-appearance: none; /* 기본슬라이드 숨기기*/
+	width: 500px;
+	background: transparent; /* Chrome에서 투명하게 출력 */
+	margin-top: 25px;
+}
+
+#townArea::-webkit-slider-thumb {
+	border: 0px;
+	height: 30px;
+	width: 30px;
+	background: #fff;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -8px;
+	border-radius: 30px;
+	box-shadow: 1px 1px 1px #9d9d9d, 0px 0px 3px #9d9d9d;
+}
+
+#townArea::-webkit-slider-runnable-track {
+	cursor: pointer;
+	background: #37BBDA;
+	height: 15px;
+	border-radius: 25px;
+}
+
+#townArea:focus::-ms-fill-lower {
+	background: #37BBDA;
+}
+
+#townArea:focus::-ms-fill-upper {
+	background: black;
+}
+
+.nonameDiv {
+	/* border:1px solid black; */
+	width: 500px;
+	height: 40px;
+	margin-top: 20px;
+	margin: auto;
+}
+
+.nonameDiv ul {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	margin-top: 10px;
+}
+
+.nonameDiv ul li {
+	list-style: none;
+	/* border:1px solid black; */
+	width: 49.5%;
+	float: left;
+}
+
+.nonameDiv ul li:nth-child(1) {
+	text-align: justify;
+}
+
+.nonameDiv ul li:nth-child(2) {
+	text-align: right;
+}
