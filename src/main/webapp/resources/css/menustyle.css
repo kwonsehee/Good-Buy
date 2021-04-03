@@ -232,6 +232,7 @@ button {
 #closeBtn {
 	border-style: none;
 	background-color: white;
+	margin-bottom: 0px;
 }
 
 .modal-header {
@@ -257,6 +258,9 @@ label {
 }
 
 .modal-body div {
+	margin-bottom: 10%;
+}
+.modal-body table {
 	margin-bottom: 10%;
 }
 #find_id_pwd{

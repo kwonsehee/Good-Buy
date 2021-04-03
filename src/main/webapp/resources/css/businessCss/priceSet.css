@@ -1,0 +1,56 @@
+@charset "UTF-8";
+         @font-face {
+        font-family: 'yg-jalnan';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+        #priceSet{
+            padding-top: 50px;
+            margin: auto;
+            width: 80%;
+            height: 664px;
+        }
+        #priceSet button{
+            text-align: center;
+        }
+        #btnArea{
+            text-align: center;
+        }
+        #topMenu{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #priceInput{
+            width: 95%;
+            height: 30px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-left: 2%;
+        }
+        #menuInfo{
+            width: 95%;
+            height: 150px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-top: 20px;
+            padding-left: 15px;
+            margin-top: 15px;
+        }
+        #finalBtn{
+            width: 85px;
+            height: 43px;
+            border-radius: 27px;
+            border: none;
+            background-color: black;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-family: 'yg-jalnan';
+        }

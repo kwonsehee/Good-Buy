@@ -1,0 +1,133 @@
+@charset "UTF-8";
+      @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+     
+     #div1{
+       font-family: 'Nanum Myeongjo', serif;
+       text-align: center;
+       padding-top: 40px;
+     }
+     #div2{
+       font-family: 'Nanum Myeongjo', serif;
+       text-align: center;
+     }
+     #button1 {
+       font-family: 'Nanum Myeongjo', serif;
+         font-size: 15px;
+         margin: 20px;
+         border: 0;
+         outline: 0;
+         background-color: white;
+         color : gray;
+     }
+     a:visited {color:black}
+     #a1{
+       color:gray;
+     }
+     #a2{
+       color:gray;
+     }
+     #a3{
+       font-weight: bold;
+     }
+      #table1 {
+    width: 100%;
+    border-top: 1px solid #444444;
+  
+    border-collapse: collapse;
+  }
+  #table1 tr {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 th {
+      font-weight: bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  #table1 td{
+    font-weight:bold;
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+ 
+ #div3{
+     text-align: center;
+   padding-left: 10%;
+     padding-right:10%;
+    
+ }
+ #div3_1{
+     
+     padding-left: 32%;
+     padding-right:25%;
+     padding-bottom : 10%;
+ }
+ #div4{
+     text-align: center;
+   font-family: 'Nanum Myeongjo', serif;
+     padding-top: 30px;
+     padding-left: 10%;
+     padding-right:10%;
+     padding-bottom: 20%;
+ }
+ .menu a{cursor:pointer;}
+ .menu .hide{display:none;}
+
+ #createButton1{
+     font-size: 40px;
+     font-weight: bold;
+   font-family: 'Nanum Myeongjo', serif;
+     text-align: center;
+     padding-top: 15px;
+     padding-bottom: 15px;
+     padding-left: 20px;
+     padding-right: 20px;
+     border: 0;
+       outline: 0;
+       background: black;
+       border-radius: 20px;
+       color:white;
+
+
+ }
+
+  #createButton2{
+     font-weight: bold;
+   font-family: 'Nanum Myeongjo', serif;
+     text-align: center;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     padding-left: 15px;
+     padding-right: 15px;
+     border: 0;
+       outline: 0;
+       background: black;
+       border-radius: 20px;
+       color:white;
+
+
+ }
+
+  #greset{
+    font-family: 'Nanum Myeongjo', serif;
+width: 171px;
+  height: 47px;
+  border-radius: 27px;
+  font-size: 16px;
+  border: solid 1px #000000;
+  background-color: #ffffff;
+  
+  margin-top: 2.5%;
+}
+#gsubmit{
+  font-family: 'Nanum Myeongjo', serif;
+    width: 171px;
+  height: 47px;
+  border-radius: 27px;
+  font-size: 16px;
+  background-color: #000000;
+color : white;
+
+margin-top: 2.5%;
+}
