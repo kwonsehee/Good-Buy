@@ -80,9 +80,17 @@
                   <tr id="tr_hover2">
                     <th>5</th><th>윤세홍</th><th>nfgyuj4756</th><th>010-6254-6857</th><th>nsfgrea@naver.com</th><th>2021/01/04</th><th><button id="createButton2">보기</button></th>
                   </tr>
-                  <tr id="tr_hover1">
-                    <th>6</th><th>최준</th><th>dntghg1234</th><th>010-0896-6978</th><th>fweajytd@naver.com</th><th>2021/03/06</th><th><button id="createButton2">보기</button></th>
-                  </tr>
+                  <c:forEach var="m" items="${ list }">
+               <tr onclick="selectMember(${m.user_id})" id="tr_hover2">
+                  <td>${ m.nickname }</td>
+                  <td>${ m.user_id }</td>
+                  <td>${ m.user_id }</td>
+                  <td>${ m.phone }</td>
+                  <td>${ m.email }</td>
+                  <td>${ m.enroll_date }</td>
+                  <td><button id="createButton2">보기</button></td>
+               </tr>
+            </c:forEach>
                   
                   
                 </tbody>
@@ -97,6 +105,8 @@
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
+
+
 
 </body>
 </html>

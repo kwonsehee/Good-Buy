@@ -1,11 +1,14 @@
 package com.kh.goodbuy.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.admin.model.vo.PageInfo;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 
@@ -36,5 +39,13 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("memberMapper.insertMember", list);
 	}
+
+	@Override
+	public List<Member> selectList() {
+		
+		return sqlSession.selectList("memberMapper.selectList");
+	}
+
+	
 
 }
