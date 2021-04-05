@@ -118,6 +118,7 @@ padding-top: 10%;
 font-weight: bold;
 font-family: 'Nanum Myeongjo', serif;
 text-align: center;
+padding-bottom:5%;
 }
 #tr_hover1:hover{
 background-color: rgb(182, 228, 255);

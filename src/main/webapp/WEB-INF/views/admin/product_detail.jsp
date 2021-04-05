@@ -10,7 +10,7 @@
     <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- 공통 UI -->
-    <link href="${ contextPath }/resources/css/admin/admin_product.css?" rel="stylesheet" type="text/css">
+    <link href="${ contextPath }/resources/css/admin/admin_product_detail.css?" rel="stylesheet" type="text/css">
   <style>
      
   
@@ -48,16 +48,16 @@
             <table id="table1">
                 <thead>
                   <tr style="background-color: #F1FCFF;">
-                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>지역</th><th></th>
+                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>지역</th><th></th><th></th><th></th>
                   </tr>
                 </thead>
                 <tbody>
                   
                   <tr id="tr_hover2" onClick="location.href='admin_product_detail.html'" style="background-color: rgb(182, 228, 255);">
-                    <th><img src="images/아이패드.jpg" id="src1"></th><th>아이패드</th><th>700,000</th><th>2021/03/07</th><th>권세희</th><th>인천</th><th><button id="createButton1">신고 처리</button></th>
+                    <th><img src="images/아이패드.jpg" id="src1"></th><th>아이패드</th><th>700,000</th><th>2021/03/07</th><th>권세희</th><th colspan="3">인천</th><th><button id="createButton1">신고 처리</button></th>
                   </tr>
                  <tr style="height: 200px; font-size: 30px;">
-                    <th></th><th></th><th>상품신고 처리<br><input type="checkbox" checked></th><th>상품판매 정지<br><input type="checkbox" ><th></th><th></th><th></th>
+                    <th></th><th></th><td>상품신고 처리</td><td><input type="checkbox"  style="width:40px;height:40px;" checked></td><td>상품판매 정지</td><td><input type="checkbox"  style="width:40px;height:40px;"><td></th><th></th><th></th>
                  </tr>
                   
                   
