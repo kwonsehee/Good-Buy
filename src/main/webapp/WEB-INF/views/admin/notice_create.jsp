@@ -37,17 +37,20 @@
 
         </div>
 
-
+	<form action="${ contextPath }/admin/noticecreate" id="writeForm" method="post">
         <div id="div3">
             <label style="font-weight : bold; font-size: 20px;">글 제목</label>
-            <input type="text" id="notice_title" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="100px" 
+            <input type="text" id="notice_title" name="nt_title" style="border-right: white; border-left: white; border-top: white;" size="100px" 
             value="">
+            <label style="font-weight : bold; font-size: 20px;">작성자</label>
+            <input type="text" id="notice_title" name="user_id" value="${ loginUser.id }" style="border-right: white; border-left: white; border-top: white;" size="100px" 
+            readonly>
              </div>
 
 
         <div id="textareadiv">
             <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top;">글 내용</label>
-            <textarea id="notice_content" name="notice_content" ></textarea>
+            <textarea id="notice_content" name="nt_content" ></textarea>
 <br>
         
             <button id="createButton">
@@ -58,7 +61,7 @@
         </div>
 
 
-        
+	</form>        
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
