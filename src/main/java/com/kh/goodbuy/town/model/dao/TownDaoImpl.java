@@ -47,5 +47,24 @@ public class TownDaoImpl implements TownDao{
 	}
 
 
+	@Override
+	public int insertMyNewTown(MyTown mt) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("townMapper.insertMyNewTown",mt);
+	}
+
+
+	@Override
+	public List<String> selectMyTownList(String user_id) {
+		return sqlSession.selectList("townMapper.selectMyTownList",user_id);
+	}
+
+
+	@Override
+	public int deleteTown(MyTown mt) {
+		return sqlSession.delete("townMapper.deleteTown", mt);
+	}
+
+
 
 }
