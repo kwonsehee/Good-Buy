@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="noticeMapper">
+	<resultMap type="Notice" id="noticeResultSet">
+		<id property = "nt_no" column ="NT_NO"/>
+		<result property="nt_title" column="NT_TITLE"/>
+		<result property="nt_content" column="NT_CONTENT"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="nt_status" column="NT_STATUS"/>
+		<result property="nt_create_date" column="NT_CREATE_DATE"/>
+		<result property="nt_modify_date" column="NT_MODIFY_DATE"/>
+		<result property="nt_cnt" column="NT_CNT"/>
+	</resultMap>
+	
+	<select id="selectNoitceList" resultMap="noticeResultSet">
+		SELECT
+		       NID
+		     , NTITLE
+		     , NWRITER
+		     , NCONTENT
+		     , N_CREATE_DATE
+		     , N_MODIFY_DATE
+		     , FILE_PATH
+		  FROM
+		       NOTICE
+      ORDER BY
+               NID DESC
+	</select>
+</mapper>
