@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
+
 
 public interface MemberDao {
 	// 1. 회원 로그인을 위한 메소드
@@ -19,7 +22,11 @@ public interface MemberDao {
 
 	public int insertMember(ArrayList<Object> list);
 
-	public List<Member> selectList();
+	public List<Member> selectList(PageInfo pi);
+
+	public int selectListCount();
+
+	public List<Member> searchList(Search search);
 
 
 }
