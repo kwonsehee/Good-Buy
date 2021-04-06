@@ -60,7 +60,7 @@ public class AdminController {
 		
 		
 	}
-
+/*
 	// 관리자 공지사항 작성페이지 이동
 	@GetMapping("/noticecreate")
 	 public String NoticeCreateView(@ModelAttribute Notice n, 
@@ -82,7 +82,7 @@ public class AdminController {
 		
 		
 	
-	}
+	}*/
 
 	// 관리자 공지사항 디테일페이지 이동
 	/*@GetMapping("/noticedetail")

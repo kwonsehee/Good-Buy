@@ -13,10 +13,10 @@ import com.kh.goodbuy.center.model.vo.Notice;
 
 
 
-
 @Controller
 @RequestMapping("/center")
 public class CenterController {
+	
 	@Autowired
 	private NoticeService nService;
 	// 고객센터 페이지 이동
