@@ -23,7 +23,6 @@
 .totalWrap {
 	width: 50%;
 	margin: auto;
-	/* border:1px solid black; */
 	text-align: center;
 }
 
@@ -31,24 +30,25 @@
 	color: #9A9999;
 	font-size: 12px;
 }
+
 .setBoxWrap{
-/* 	border:1px solid black;
- */	
+ 	margin:auto;
+ 	display: flex;
+ 	width: 60%;
 }
 .setBox {
 	width: 180px;
 	height: 40px;
 	margin: auto;
-	display: inline-block;
-	margin-right: 10px;
 	margin-top: 10px;
-	/* border:1px solid black; */
 	border-radius: 15px;
+	cursor: pointer;
 }
 
 .firstBox {
 	background: #9BDDEC;
 	border: 0;
+	border: 1px solid #fff;
 }
 
 .firstBox ul {
@@ -85,17 +85,48 @@
 	background: none;
 }
 
+.secondXbtn{
+	color:black;
+}
+
 .secondBox {
 	background: #F9F9F9;
 	border: 1px solid #E0E0E0;
+	width:180px;
+	
 }
-
 .secondBox ul {
 	margin: 0;
 	padding: 0;
+	width: 180px;
+	height: 40px;
 	list-style: none;
-	text-align: center;
-	color: #9A9999;
+}
+
+.secondBox ul li{
+	float:left;
+}
+/* 두번재 동네 추가 안 되어있을 때 */
+#newTownli_1{
+	width:100%;
+	margin-top:7px;
+	color:#9A9999;
+}
+/* 두번재 동네 추가 되어있을 때 */
+#newTownli_1{
+	float: left;
+}
+#newTownli_2 {
+	width: 78%;
+	text-align: justify;
+	padding-left: 12px;
+	line-height: 40px;
+	font-size: 14px;
+}
+
+#newTownli_3 {
+	width: 15%;
+	line-height: 40px;
 }
 
 #mytown {
@@ -109,7 +140,7 @@
 	text-decoration: underline;
 }
 
-.totalWrap p:nth-child(10) {
+#ppp {
 	font-size: 12px;
 	color: #9A9999;
 	margin-top: 30px;
@@ -150,7 +181,6 @@ input[type=range] {
 }
 
 .nonameDiv {
-	/* border:1px solid black; */
 	width: 500px;
 	height: 40px;
 	margin-top: 20px;
@@ -166,7 +196,6 @@ input[type=range] {
 
 .nonameDiv ul li {
 	list-style: none;
-	/* border:1px solid black; */
 	width: 49.5%;
 	float: left;
 }
@@ -178,3 +207,63 @@ input[type=range] {
 .nonameDiv ul li:nth-child(2) {
 	text-align: right;
 }
+
+/* 주소 추가 Modal */
+.modal-header{
+	padding : 5%;
+	margin : auto;
+}
+
+.modal-body {
+	padding : 10%;
+}
+
+.modal-body p{
+	font-size:14px;
+	color:#9A9999;
+}
+
+.modal-body button{
+	margin-top:30px;
+	border:0;
+	border-radius:27px;
+	background:black;
+	color:#fff;
+	width:100px;
+	height:40px;
+	font-weight:bold;
+}
+
+.modal-body select{
+	width: 110px;
+	height: 40px;
+	margin-right: 15px;
+	border: 1px #9A9999 solid;
+	border-radius: 15px;
+	color: #9A9999;
+	background: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

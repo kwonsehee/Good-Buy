@@ -76,9 +76,9 @@ body {
         <p>동일한 키워드 알림이라면 한 번 이상 발송되지 않는 점 참고해 주세요.</p>
     </div>
 
-    <div class="goQnA"> <a href="#" >Q & A 게시판으로 이동하기</a></div>
-   
+    <div class="goQnA"> <a onclick="opener.location.href='${contextPath}/center/QNA';self.close()" style="cursor:pointer;">Q & A 게시판으로 이동하기</a></div>
    
     <img src="${ contextPath }/resources/images/mypage/logo2.png" class="logo">
+    
 </body>
 </html>

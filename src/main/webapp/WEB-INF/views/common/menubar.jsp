@@ -106,7 +106,6 @@
 							</p>
 						</div>
 
-
 					</div>
 					<div class="modal-footer">
 						<a href="${ contextPath }/member/find" id="find_id_pwd">아이디/비밀번호 찾기</a>
