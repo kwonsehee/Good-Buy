@@ -20,13 +20,13 @@
     <section id="gbSection">
         <div class="area">
             <div class="photoArea">
-                <img src="images/디테일샘플.png">
+                <img src="${contextPath}/resources/images/business/디테일샘플.png">
                 <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
                 <label id="name">커피커피</label>
                 <button id="likeBtn">+단골0</button>
                 <img id="call" src="${contextPath}/resources/images/business/전화기.png" width="50px" height="50px">
                 <label id="callLabel">전화문의</label>
-                <img id="line" src="images/선.png" >
+                <img id="line" src="${contextPath}/resources/images/business/선.png" >
                 <img id="review" src="${contextPath}/resources/images/business/연필.png" width="50px" height="50px">
                 <label id="reviewLabel">후기작성</label>
             </div>
@@ -76,7 +76,7 @@
     <script>
      
        $("#review").click(function(){
-            var url = "reviewWrite.html";
+            var url = "${contextPath}/business/reviewWrite";
             var name = "정보관리";
             var _width = '500';
             var _height = '400';

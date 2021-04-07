@@ -54,15 +54,15 @@
         }
         #name{
             position: relative;
-            top: -8%;
+            top: -3%;
             left: -8%;
         }
 
         #likeBtn{
             position: relative;
             left: -19%;
-            top: -2%;
-            width: 69px;
+            top: 3%;
+            width: 74px;
             height: 31px;
             border: none;
             background-color: #37BBDA;
@@ -74,28 +74,28 @@
         #call{
             position: relative;
             top: 18%;
-            left: -31%;
+            left: -30%;
         }
         #callLabel{
             position: relative;
-            top: 24%;
-            left: -41%;
+            top: 25%;
+            left: -40%;
         }
         #line{
             position: relative;
             top: 21%;
-            left: -21%;
+            left: -18%;
         }
         #review{
             position: relative;
             top: 18%;
-            left: 0%;
+            left: 2%;
 
         }
         #reviewLabel{
             position: relative;
-            top: 24%;
-            left: -10%;
+            top: 25%;
+            left: -8%;
         }
         #infoLabel{
             position: relative;

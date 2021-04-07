@@ -3,7 +3,44 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="businessMapper">
+	<resultMap type="Business" id="businessResultSet">
+		<id property="shopNo" column="SHOP_NO"/>
+		<result property="shopCate" column="SHOP_CATE"/>
+		<result property="shopAdd" column="SHOP_ADD"/>
+		<result property="shopIntro" column="SHOP_INTRO"/>
+		<result property="shopTime1" column="SHOP_TIME1"/>
+		<result property="topMenu" column="TOP_MENU"/>
+		<result property="price" column="PRICE"/>
+		<result property="menuInfo" column="MENU_INFO"/>
+		<result property="shopPhone" column="SHOP_PHONE"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="adCash" column="AD_CASH"/>
+		<result property="shopTime2" column="SHOP_TIME2"/>
+		<result property="shopTime3" column="SHOP_TIME3"/>
+	</resultMap>
 
+	<select  id="selectbList" resultMap="businessResultSet">
+		SELECT * 
+		FROM
+		(SELECT
+				SHOP_NO
+			  , SHOP_CATE
+			  , SHOP_ADD
+			  , SHOP_INTRO
+			  , SHOP_TIME1
+			  , TOP_MENU
+			  , PRICE
+			  , MENU_INFO
+			  , SHOP_PHONE
+			  , USER_ID
+			  , AD_CASH
+			  , SHOP_TIME2
+			  , SHOP_TIME3
+		FROM
+				BUS_INFO
+		ORDER BY DBMS_RANDOM.RANDOM)
+			
+	</select>
 	
 
 	

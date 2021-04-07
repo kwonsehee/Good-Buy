@@ -18,12 +18,12 @@
     <section id="gbSection">
         <div class="area">
             <div class="first">
-                <h1>나의 비즈니스 프로필</h1>
+                <h3>나의 비즈니스 프로필</h3>
                 <p>내 비즈니스와 이웃을 연결하는 방법, 지금 시작해 보세요!</p>
                 <img src="${contextPath}/resources/images/business/정보페이지사진1.png">
             </div>
             <div class="second">
-                <h1>정보와 후기를 한눈에</h1>
+                <h3>정보와 후기를 한눈에</h3>
                 <pre>이웃들의 관심을 끌 수 있도록
 프로필을 채워보세요.
                 </pre>

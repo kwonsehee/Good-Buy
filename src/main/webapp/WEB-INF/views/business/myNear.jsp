@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,7 @@
 </head>
 
 <body>
+	<c:if test="${ !empty sessionScope.loginUser }">
      <jsp:include page="../common/menubar.jsp"/>
 
     <section id="gbSection">
@@ -33,7 +35,7 @@
         <!--카테고리 부분 끝-->
 
         <!--내 근처  시작-->
-        <h1 id="nearNews">내 근처 소식</h1>
+        <h3 id="nearNews">내 근처 소식</h3>
         <div class="nearArea">
             <div class="nearList">
                 <img src="${contextPath}/resources/images/business/내근처샘플.png">
@@ -90,7 +92,7 @@
 
         <!--이웃들의 추천 가게 시작-->
         
-        <h1 id="likeShopArea">이웃들의 추천 가게</h1>
+        <h3 id="likeShopArea">이웃들의 추천 가게</h3>
         <div id="star">
         <a>별점순</a>
         <a>후기순</a>
@@ -155,7 +157,13 @@
             </div>
         </div>
         <div class="btnArea">
+        	<c:if test="${ sessionScope.loginUser.is_business eq 'Y' }">
             <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/setting'">비즈 프로필 관리</label></button>
+            </c:if>
+            <c:if test="${ sessionScope.loginUser.is_business eq 'N'}">
+            <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/create'">비즈 프로필 생성</label></button>
+            </c:if>
+           
         </div>
 
         
@@ -171,6 +179,9 @@
     <jsp:include page="../common/footer.jsp"/>
    
 
-
+	</c:if>
+	<c:if test="${ empty sessionScope.loginUser }">
+		<h3>로그인 후 이용해주세요</h3>
+	</c:if>
 </body>
 </html>

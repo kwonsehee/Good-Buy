@@ -71,7 +71,7 @@
         padding-bottom: 20px;
         padding-top: 20px;
     }
-    #category > li{
+    #category  li{
         list-style-type: none;
     float: left;
     width: 400px;
@@ -216,12 +216,9 @@
    }
    #businessBtn > img{
     margin-right: 5px;
-    margin-top: 5px;
+  
    }
-   #businessBtn > label{
-    position: relative;
-    top: -15%;
-   }
+  
    .title{
        font-size: 14px;
        font-weight: bolder;

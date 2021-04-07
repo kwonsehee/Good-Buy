@@ -1,5 +1,42 @@
 package com.kh.goodbuy.business.model.vo;
 
-public class Business {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class Business {
+//	SHOP_NO	NUMBER
+//	SHOP_NAME	VARCHAR2(100 BYTE)
+//	SHOP_CATE	VARCHAR2(100 BYTE)
+//	SHOP_DETAIL	VARCHAR2(100 BYTE)
+//	SHOP_ADD	VARCHAR2(100 BYTE)
+//	SHOP_INTRO	VARCHAR2(300 BYTE)
+//	SHOP_TIME	VARCHAR2(100 BYTE)
+//	TOP_MENU	VARCHAR2(100 BYTE)
+//	PRICE	VARCHAR2(100 BYTE)
+//	MENU_INFO	VARCHAR2(300 BYTE)
+//	SHOP_PHONE	NUMBER
+//	USER_ID	VARCHAR2(30 BYTE)
+//	AD_CASH	NUMBER
+	
+	private int shopNo;				// 프로필번호
+	private String shopCate;		// 카테고리
+	private String shopAdd;			// 주소
+	private String shopIntro;		// 소개문구
+	private String shopTime1;		// 영업시작시간
+	private String topMenu;		 	// 대표메뉴
+	private String price;			// 가격
+	private String menuInfo;		// 메뉴설명
+	private int shopPhone;			// 전화번호
+	private String userId;			// 아이디
+	private int adCash;				// 광고캐시
+	private String shopTime2;		// 영업마감시간
+	private String shopTime3;
 }
