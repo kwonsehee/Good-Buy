@@ -19,7 +19,7 @@
 		<typeAlias type="com.kh.goodbuy.member.model.vo.MyTown" alias = "MyTown"/>
 		<typeAlias type="com.kh.goodbuy.center.model.vo.Notice" alias = "Notice"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.Business" alias = "Business"/>
-		
+		<typeAlias type="com.kh.goodbuy.member.model.vo.Search" alias="Search"/>
 	</typeAliases>
 	
 	<!-- mappers -->

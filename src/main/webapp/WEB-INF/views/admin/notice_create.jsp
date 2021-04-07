@@ -44,7 +44,7 @@
             <input type="text" id="notice_title" name="nt_title" style="border-right: white; border-left: white; border-top: white;" size="100px" 
             value=""><br>
             <label style="font-weight : bold; font-size: 20px;">작성자</label>
-            <input type="text" id="notice_title" name="user_id" value="${ loginUser.id }" style="border-right: white; border-left: white; border-top: white;" size="100px" >
+            <input type="text" id="notice_title" name="user_id" value="${ loginUser.user_id }" style="border-right: white; border-left: white; border-top: white;" size="100px" >
              
 
 	        <div id="textareadiv">

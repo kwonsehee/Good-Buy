@@ -27,6 +27,7 @@ import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
 
 
 
@@ -161,7 +162,7 @@ public class AdminController {
 	// 회원관리
 	// -------------------------------------------------------------------------------------------
 	// 회원관리 메인페이지 이동
-	/*
+	
 	@GetMapping("/member")
 	public ModelAndView MemberMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
 		
@@ -180,7 +181,7 @@ public class AdminController {
 		}
 		return mv;
 
-	}*/
+	}
 
 	// 회원관리 디테일페이지 이동
 	@GetMapping("/memberdetail")
@@ -191,7 +192,7 @@ public class AdminController {
 	
 	
 	// 검색 기능
-	/*
+	
 		@GetMapping("/search")
 		public String memberSearch(@ModelAttribute Search search,
 								   Model model) {
@@ -200,10 +201,10 @@ public class AdminController {
 			List<Member> searchList = mService.searchList(search);
 			
 			model.addAttribute("list", searchList);
-			
-			return "admin/member";
+			System.out.println(searchList);
+			return "admin/member_main";
 		}
-*/
+
 	// FAQ 관리
 	// -------------------------------------------------------------------------------------------
 	// FAQ 메인페이지 이동

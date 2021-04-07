@@ -13,6 +13,7 @@ import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.member.model.vo.Search;
 
+
 @Repository
 public class MemberDaoImpl implements MemberDao {
 
@@ -59,6 +60,8 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("memberMapper.searchList", search);
 	}
+
+	
 
 	
 

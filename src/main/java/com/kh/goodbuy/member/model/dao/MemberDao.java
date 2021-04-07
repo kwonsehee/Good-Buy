@@ -10,6 +10,7 @@ import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.member.model.vo.Search;
 
 
+
 public interface MemberDao {
 	// 1. 회원 로그인을 위한 메소드
 	public Member selectMember(Member m);
@@ -27,6 +28,8 @@ public interface MemberDao {
 	public int selectListCount();
 
 	public List<Member> searchList(Search search);
+
+	
 
 
 }
