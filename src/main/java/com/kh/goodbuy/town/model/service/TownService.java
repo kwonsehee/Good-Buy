@@ -30,4 +30,7 @@ public interface TownService {
 	// 내동네 한 개 삭제
 	int deleteTown(MyTown mt);
 	
+	// 로그인 유저의 동네 정보 조회용 
+	Town selectUserTown(String user_id);
+	
 }
