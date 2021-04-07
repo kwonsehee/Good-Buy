@@ -56,6 +56,11 @@ public class TownServiceImpl implements TownService {
 		return tDao.deleteTown(mt);
 	}
 
+	@Override
+	public Town selectUserTown(String user_id) {
+		return tDao.selectUserTown(user_id);
+	}
+
 	
 
 }

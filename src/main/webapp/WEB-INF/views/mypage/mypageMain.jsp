@@ -39,6 +39,7 @@
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/reportList'"><img src="${ contextPath }/resources/images/mypage/alarm2.png"><p>신고</p></div>
         </div>
     </section>
+    
 	
 	<jsp:include page="../common/footer.jsp"/>
 	
