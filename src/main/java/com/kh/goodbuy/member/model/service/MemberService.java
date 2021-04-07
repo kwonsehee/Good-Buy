@@ -9,6 +9,7 @@ import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.member.model.vo.Search;
 
+
 public interface MemberService {
 	//Controller에서 서비스를 수행하기 위한 메소드의 이름을 정의하여 프로젝트에 규칙을 부여
 	
@@ -29,6 +30,8 @@ public interface MemberService {
 		public int selectListCount();
 
 		public List<Member> searchList(Search search);
+
+		
 
 	
 

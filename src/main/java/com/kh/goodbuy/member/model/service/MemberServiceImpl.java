@@ -14,6 +14,7 @@ import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.member.model.vo.Search;
 
 
+
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
@@ -54,6 +55,7 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.searchList(search);
 	}
+	
 	
 
 }

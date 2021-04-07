@@ -38,32 +38,32 @@
             <button id="button1"><a id="a6" href="${ contextPath }/admin/stats">통계</a></button>
 
         </div>
-<!--  
+  
         <div id="div3">
             <div id="div3_1">
             <form action="${ contextPath }/admin/search" method="get">
             <label>ID</label>
             <select name="searchCondition" id="option1">
-                <option value='Y' <c:if test="${ param.searchCondition == 'common' }">selected</c:if>>일반</option>
-                <option value='N' <c:if test="${ param.searchCondition == 'business' }">selected</c:if>>비즈</option>
+                <option value="common" <c:if test="${ param.searchCondition == 'common' }">selected</c:if>>일반</option>
+                <option value="business" <c:if test="${ param.searchCondition == 'business' }">selected</c:if>>비즈</option>
               </select>
             <input type="search" name="searchValue" value="${ param.searchValue }">
             <button id="createButton1">검색</button><br>
             </form>
               </div>
--->
+
             <label>가입일</label>
             
-            <input type="date" id="option1">
+            <input type="date" id="option1" name="date1">
             <label>~</label>
-            <input type="date">
+            <input type="date" name="date2">
         </div>
 
         <div id="div4">
             <table id="table1">
                 <thead>
                   <tr style="background-color: #F1FCFF;">
-                    <th>회원번호</th><th>이름</th><th>아이디</th><th>휴대폰</th><th>이메일</th><th>가입일</th><th></th>
+                    <th>닉네임</th><th>아이디</th><th>비즈니스</th><th>휴대폰</th><th>이메일</th><th>가입일</th><th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,7 +72,7 @@
                <tr onclick="selectMember(${m.user_id})" id="tr_hover2">
                   <td>${ m.nickname }</td>
                   <td>${ m.user_id }</td>
-                  <td>${ m.user_id }</td>
+                  <td>${ m.is_business }</td>
                   <td>${ m.phone }</td>
                   <td>${ m.email }</td>
                   <td>${ m.enroll_date }</td>
@@ -86,11 +86,8 @@
             
 				<tr>
 					<td colspan="6">
-					<!-- [이전] -->
-					<c:if test="${ pi.currentPage <= 1 }">
-						[이전] &nbsp;
-					</c:if>
-					<c:if test="${ pi.currentPage > 1 }">
+					
+					<c:if test="${ pi.currentPage >= 0 }">
 						<c:url var="before" value="/admin/member">
 							<c:param name="page" value="${ pi.currentPage -1 }" />
 						</c:url>

@@ -105,8 +105,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          WHERE
                USTATUS = 'Y' OR USTATUS = 'N'
    </select>
-   
-   <select id="searchList" parameterType="Search" resultMap="noticeResultSet">
+    
+   <select id="searchList" parameterType="Search" resultMap="memberResultSet">
 		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
 		SELECT
 		     USER_ID
@@ -127,13 +127,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<where>
 			<choose>
 				<when test="searchCondition == 'common'">
-				AND IS_BUSINESS LIKE #{sv}
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'N')
 				</when>
 				<when test="searchCondition == 'business'">
-				AND IS_BUSINESS LIKE #{sv}
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'Y')
 				</when>
 			</choose>
 		</where>
-		ORDER BY USER_ID DESC
+		ORDER BY USER_ID ASC
 	</select>
 </mapper>
