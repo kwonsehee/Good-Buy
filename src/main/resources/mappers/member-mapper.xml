@@ -72,4 +72,28 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</insert>
 	
+   
+   <select id="selectList" resultMap="memberResultSet">
+      SELECT
+             USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+       FROM
+             USER_INFO
+      WHERE
+               USTATUS = 'Y'
+     ORDER BY
+              USER_ID DESC
+   
+   </select>
 </mapper>

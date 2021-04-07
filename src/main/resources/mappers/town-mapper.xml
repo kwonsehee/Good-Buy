@@ -10,12 +10,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="address_3" column="ADDRESS_3"/>
 	</resultMap>
 	
-	<!-- <resultMap type="MyTown" id="MytownResultSet">
-		<id property = "t_no" column ="T_NO"/>
-		<result property="address_1" column="ADDRESS_1"/>
-		<result property="address_2" column="ADDRESS_2"/>
-		<result property="address_3" column="ADDRESS_3"/>
-	</resultMap> -->
+	 <resultMap type="MyTown" id="MytownResultSet">
+		<id property = "mytown_type" column ="MYTOWN_TYPE"/>
+		<id property = "user_id" column ="USER_ID"/>
+		<result property="t_no" column="T_NO"/>
+		<result property="area" column="AREA"/>
+	</resultMap>
 	
 	<select id="selectAllTown1" resultMap="townResultSet">
 		SELECT
@@ -61,4 +61,72 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , DEFAULT
 		)
 	</insert>
+	
+	<insert id="insertMyNewTown" parameterType="MyTown">
+		INSERT 
+		INTO MY_TOWN
+		(
+			MYTOWN_TYPE
+		  , USER_ID
+		  , T_NO
+		  , AREA
+		)
+		VALUES
+		(
+			2
+		  , #{user_id}
+		  , #{t_no}
+		  , DEFAULT
+		)
+	</insert>
+	
+	<select id="selectDefaultTown" parameterType="string" resultType="string">
+		SELECT 
+				ADDRESS_3
+		  FROM 
+		  		MY_TOWN
+		  JOIN 
+		   		TOWN USING(T_NO)
+		 WHERE
+		 		USER_ID = #{user_id}
+		   AND  
+		   		MYTOWN_TYPE = 1
+	
+	</select>
+	
+	
+	<select id="selectNewTown" parameterType="string" resultType="string">
+		SELECT 
+				ADDRESS_3
+		  FROM 
+		  		MY_TOWN
+		  JOIN 
+		   		TOWN USING(T_NO)
+		 WHERE
+		 		USER_ID = #{user_id}
+		   AND  
+		   		MYTOWN_TYPE = 2
+	</select>
+	
+	<select id="selectMyTownList" resultType="string">
+		SELECT 
+				ADDRESS_3
+		  FROM 
+		  		MY_TOWN
+		  JOIN 
+		   		TOWN USING(T_NO)
+		 WHERE
+		 		USER_ID = #{user_id}
+	</select>
+	
+	<delete id="deleteTown" parameterType="MyTown">
+		DELETE  
+		  FROM 
+				MY_TOWN
+		 WHERE 
+		 		T_NO = #{t_no}
+		   AND 
+		   		USER_ID = #{user_id}
+	</delete>
+	
 </mapper>

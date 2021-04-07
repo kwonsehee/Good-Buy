@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
-<link href="${ contextPath }/resources/css/mypage/setKeyword.css" rel="stylesheet" type="text/css">
+<link href="${ contextPath }/resources/css/mypage/setKeyword.css?v" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
@@ -52,8 +52,7 @@
        function add(){
            var keyword = $("#keywordInput").val();
           
-            $(".keywordWrap").append("<div class='eachKeywordWrap'></div>");
-            $(".eachKeywordWrap").append(keyword + "&nbsp; &nbsp;" + "<button id='cancelBtn' onclick='cancelKeyword()'>X</button>");
+            $(".keywordWrap").append("<div class='eachKeywordWrap'>"+keyword+"&nbsp; &nbsp; <button class='cancelBtn' onclick='cancelKeyword()'>X</button></div>");
             $("#keywordInput").val(""); // input 리셋 시키기
 
             // 키워드 카운팅

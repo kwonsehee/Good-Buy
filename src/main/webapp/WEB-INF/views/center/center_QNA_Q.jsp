@@ -63,10 +63,10 @@
 
               <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif; padding-top: 60px; font-weight: bold;">첨부 파일</p>
               <button id="createButton2" onClick="location.href='admin_membercenter_QNA_Q.html'">첨부하기</button><br>
-              
-              <button id="greset" onClick="location.href='admin_membercenter_QNA.html'" style="margin-top: 50px; ">취소</button>
+              <div id="buttondiv" style="text-align:center; padding-right:10%;">
+              <button id="greset" onClick="location.href='admin_membercenter_QNA.html'" style="margin-top: 50px; margin-right:5%;">취소</button>
               <button id="gsubmit" onClick="location.href='admin_membercenter_QNA.html'" style="margin-top: 50px;">등록</button>
-            
+            </div>
         </div>
 
 
@@ -91,7 +91,7 @@
         $(".menu>a").click(function(){
             // 현재 클릭한 태그가 a 이기 때문에
             // a 옆의 태그중 ul 태그에 hide 클래스 태그를 넣던지 빼던지 한다.
-            $(this).next("ul").toggleClass("hide");
+           
         });
     });
 

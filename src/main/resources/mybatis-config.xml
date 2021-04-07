@@ -17,9 +17,9 @@
 
 		<typeAlias type="com.kh.goodbuy.town.model.vo.Town" alias = "Town"/>
 		<typeAlias type="com.kh.goodbuy.member.model.vo.MyTown" alias = "MyTown"/>
-
+		<typeAlias type="com.kh.goodbuy.center.model.vo.Notice" alias = "Notice"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.Business" alias = "Business"/>
-
+		
 	</typeAliases>
 	
 	<!-- mappers -->
@@ -29,7 +29,7 @@
 		<mapper resource="mappers/town-mapper.xml"/>
 
 		<mapper resource="mappers/business-mapper.xml"/>
-		
+		<mapper resource="mappers/notice-mapper.xml"/>
 
 	</mappers>
 	

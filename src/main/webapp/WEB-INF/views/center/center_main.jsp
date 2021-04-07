@@ -74,7 +74,18 @@
                     </ul>
                 </li>
             </ul>
-
+			<c:forEach var="n" items="${ list }">
+               
+               <ul class="mylist">
+                <li class="menu">
+                    <a style="font-size: 30px; font-weight: bolder;">${ n.nt_title }<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
+                    <ul class="hide">
+                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">${ n.nt_content }</li>
+                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white; color: gray">${ n.nt_create_date }</li>
+                    </ul>
+                </li>
+            </ul>
+            </c:forEach>
             
             
         </div>
@@ -97,7 +108,7 @@
         $(".menu>a").click(function(){
             // 현재 클릭한 태그가 a 이기 때문에
             // a 옆의 태그중 ul 태그에 hide 클래스 태그를 넣던지 빼던지 한다.
-            $(this).next("ul").toggleClass("hide");
+
         });
     });
 

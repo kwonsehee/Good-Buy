@@ -23,7 +23,7 @@
             <h4 id="join_h2">회원 가입</h4>  
             <p id="alreadyJoin_p">이미 가입하셨나요?  <a data-bs-toggle="modal" data-bs-target="#loginModal">로그인 하기</a></p> 
             
-            <form action="${ contextPath }/member/join" method="POST" class="joinform" onsubmit="sendAddress();">
+            <form action="${ contextPath }/member/join" method="POST" class="joinform" onsubmit="sendAddress(); joinValidate();">
                 <input type="text" name="user_id" placeholder="* ID" id="user_id"><br>
                 <input type="text" name="nickname" placeholder="* NICKNAME"><br>
                 <input type="password" name="user_pwd" placeholder="* PASSWORD"><br>
@@ -73,14 +73,14 @@
  	};
  	
  	/* 유효성 검사 */
- 	/*
- 	function joinValidate(){
+ 	
+ 	/* function joinValidate(){
  		//아이디 - 영소문자로 시작해서 4~12자 입력(숫자포함가능)
  		if(!(/^[a-z][a-z\d]{3,11}$/.test($(".joinForm input[name=user_id]").val()))){
 			alert('아이디는 영소문자로 시작해서 4~12자 입력(숫자포함가능)');
 			$(".joinForm input[name=user_id]").select();
 			return false;
-		}*/
+		}
  		
  		//비밀번호 유효성 검사
  		
@@ -102,15 +102,13 @@
  		return true;
  		
  	}
- 	*/
+ 	 */
  	
  	
  	/* 아이디 중복확인(ajax)*/
  	/* 중복확인 버튼 만들기 */
  	$(function(){
  		var isUsable = false;
- 		
- 		
  	});
  	
  	</script>

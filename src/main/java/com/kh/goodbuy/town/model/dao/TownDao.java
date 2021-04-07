@@ -16,5 +16,12 @@ public interface TownDao {
 	int selectTownNo(String address_3);
 
 	int insertMyTown(MyTown mt);
+	
+	int insertMyNewTown(MyTown mt);
+
+	List<String> selectMyTownList(String user_id);
+
+	int deleteTown(MyTown mt);
+
 
 }

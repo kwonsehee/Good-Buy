@@ -53,7 +53,12 @@
                   <tr id="tr_hover2" onClick="${ contextPath }/admin/notice">
                     <th>2</th><th>그만큼 기분이 좋은 공지사항입니다</th>
                   </tr>
-                  
+                  <c:forEach var="n" items="${ list }">
+               
+               <tr id="tr_hover2" onclick="selectNotice(${n.nt_no})">
+                    <th>${ n.nt_no }</th><th>${ n.nt_title }</th>
+                  </tr>
+            </c:forEach>
                   
                 </tbody>
               </table>
@@ -79,7 +84,12 @@
     </section>
 
      <jsp:include page="../common/footer.jsp"/>
-
+<script>
+      function selectNotice(nt_no){
+         location.href='${contextPath}/admin/noticedetail?nt_no=' + nt_no + '&page=${ pi.currentPage }';
+         // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+      }
+   </script>
 
 </body>
 </html>

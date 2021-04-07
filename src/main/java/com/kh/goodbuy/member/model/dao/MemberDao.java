@@ -1,6 +1,8 @@
 package com.kh.goodbuy.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -16,5 +18,8 @@ public interface MemberDao {
 	public int insertMember(MyTown mt);
 
 	public int insertMember(ArrayList<Object> list);
+
+	public List<Member> selectList();
+
 
 }

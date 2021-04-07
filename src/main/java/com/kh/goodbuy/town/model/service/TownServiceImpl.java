@@ -41,6 +41,21 @@ public class TownServiceImpl implements TownService {
 		return tDao.insertMyTown(mt);
 	}
 
+	@Override
+	public int insertMyNewTown(MyTown mt) {
+		return tDao.insertMyNewTown(mt);
+	}
+
+	@Override
+	public List<String> selectMyTownList(String user_id) {
+		return tDao.selectMyTownList(user_id);
+	}
+
+	@Override
+	public int deleteTown(MyTown mt) {
+		return tDao.deleteTown(mt);
+	}
+
 	
 
 }

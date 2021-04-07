@@ -1,6 +1,8 @@
 package com.kh.goodbuy.member.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -19,5 +21,9 @@ public interface MemberService {
 
 		// 2. 회원가입 서비스를 위한 메소드
 		public int insertMember(ArrayList<Object> list);
+
+		public List<Member> selectMemberList();
+
+	
 
 }

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
-<link href="${ contextPath }/resources/css/mypage/mypageMain.css?v" rel="stylesheet" type="text/css">
+<link href="${ contextPath }/resources/css/mypage/mypageMain.css?vs" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
@@ -15,9 +15,9 @@
         <div class="proWrap">
             <img src="${ contextPath }/resources/images/mypage/loopy.jpeg" id="userPhoto" onclick="setPhoto()">
             <img src="${ contextPath }/resources/images/mypage/camera.png" id="cameraIcon" onclick="setPhoto()">
-            <p>곽두팔</p><br>
-            <p>길동</p>
-            <p>sehong123</p>
+            <p>${loginUser.nickname}</p><br>
+            <p>${ mtlist.get(0) }</p>
+            <p>${loginUser.user_id}</p>
             <p><a onclick="showFollowing()">팔로잉 6</a></p>
             <p><a onclick="showFollower()">팔로워 15</a></p>
             <p><a href="${ contextPath }/mypage/pointList">1,500 P</a></p>
@@ -35,7 +35,7 @@
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/setMyTown'"><img src="${ contextPath }/resources/images/mypage/placeholder.png"><p>내동네 설정</p></div>
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/setKeyword'"><img src="${ contextPath }/resources/images/mypage/pricetag.png"><p>키워드 알림</p></div>
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/myBoardList'"><img src="${ contextPath }/resources/images/mypage/content.png"><p>내 글 / 댓글</p></div>
-           <div class="secondLineBtn" onclick=""><img src="${ contextPath }/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
+           <div class="secondLineBtn" onclick=""><img src="${contextPath}/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/reportList'"><img src="${ contextPath }/resources/images/mypage/alarm2.png"><p>신고</p></div>
         </div>
     </section>
