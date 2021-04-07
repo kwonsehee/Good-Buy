@@ -18,4 +18,28 @@ public class NoticeDaoImpl implements NoticeDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("noticeMapper.selectNoticeList");
 	}
+
+	@Override
+	public int insertNotice(Notice n) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("noticeMapper.insertNotice", n);
+	}
+
+	@Override
+	public Notice selectNotice(int nt_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("noticeMapper.selectNotice", nt_no);
+	}
+
+	@Override
+	public int updateNotice(Notice n) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.updateNotice", n);
+	}
+
+	@Override
+	public int deleteNotice(int nt_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("noticeMapper.deleteNotice", nt_no);
+	}
 }

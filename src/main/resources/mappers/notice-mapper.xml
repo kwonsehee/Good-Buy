@@ -14,18 +14,75 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="nt_cnt" column="NT_CNT"/>
 	</resultMap>
 	
-	<select id="selectNoitceList" resultMap="noticeResultSet">
+	<select id="selectNoticeList" resultMap="noticeResultSet">
 		SELECT
-		       NID
-		     , NTITLE
-		     , NWRITER
-		     , NCONTENT
-		     , N_CREATE_DATE
-		     , N_MODIFY_DATE
-		     , FILE_PATH
+		       NT_NO
+		     , NT_TITLE
+		     , NT_CONTENT
+		     , USER_ID
+		     , NT_STATUS
+		     , NT_CREATE_DATE
+		     , NT_MODIFY_DATE
+		     , NT_CNT
 		  FROM
 		       NOTICE
       ORDER BY
-               NID DESC
+               NT_NO DESC
 	</select>
+	
+	<insert id="insertNotice" parameterType="Notice">
+		INSERT
+			INTO NOTICE
+			(
+			   NT_NO
+		     , NT_TITLE
+		     , NT_CONTENT
+		     , USER_ID
+		     , NT_CREATE_DATE
+		     
+			)
+			VALUES
+			(
+				SEQ_NT_NO.NEXTVAL
+			  , #{nt_title}
+			  , #{nt_content}
+			  , #{user_id}
+			  , SYSDATE
+			)
+	
+	</insert>
+	
+	<select id="selectNotice" parameterType="_int" resultMap="noticeResultSet">
+		SELECT
+		       NT_NO
+		     , NT_TITLE
+		     , NT_CONTENT
+		     , USER_ID
+		     , NT_STATUS
+		     , NT_CREATE_DATE
+		     , NT_MODIFY_DATE
+		     , NT_CNT
+		  FROM
+		       NOTICE
+		 WHERE
+		       NT_NO = #{nt_no} 
+	</select>
+	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE
+		       NOTICE
+		   SET
+		       NT_TITLE = #{nt_title}
+		     , NT_CONTENT = #{nt_content}
+		     , NT_MODIFY_DATE = SYSDATE
+		 WHERE
+		       NT_NO = #{nt_no}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="_int">
+		DELETE 
+		  FROM NOTICE
+		 WHERE 
+		       NT_NO = #{nt_no}
+	</delete>
 </mapper>

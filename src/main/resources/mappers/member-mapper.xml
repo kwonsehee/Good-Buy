@@ -96,4 +96,44 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               USER_ID DESC
    
    </select>
+   
+   <select id="selectListCount" resultType="_int">
+      SELECT 
+            COUNT(*)
+          FROM
+                USER_INFO
+         WHERE
+               USTATUS = 'Y' OR USTATUS = 'N'
+   </select>
+   
+   <select id="searchList" parameterType="Search" resultMap="noticeResultSet">
+		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
+		SELECT
+		     USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+		  FROM
+		       USER_INFO
+		<where>
+			<choose>
+				<when test="searchCondition == 'common'">
+				AND IS_BUSINESS LIKE #{sv}
+				</when>
+				<when test="searchCondition == 'business'">
+				AND IS_BUSINESS LIKE #{sv}
+				</when>
+			</choose>
+		</where>
+		ORDER BY USER_ID DESC
+	</select>
 </mapper>

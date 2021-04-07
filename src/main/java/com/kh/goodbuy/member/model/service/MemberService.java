@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
 
 public interface MemberService {
 	//Controller에서 서비스를 수행하기 위한 메소드의 이름을 정의하여 프로젝트에 규칙을 부여
@@ -22,7 +24,11 @@ public interface MemberService {
 		// 2. 회원가입 서비스를 위한 메소드
 		public int insertMember(ArrayList<Object> list);
 
-		public List<Member> selectMemberList();
+		public List<Member> selectMemberList(PageInfo pi);
+
+		public int selectListCount();
+
+		public List<Member> searchList(Search search);
 
 	
 
