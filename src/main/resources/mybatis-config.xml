@@ -19,7 +19,11 @@
 		<typeAlias type="com.kh.goodbuy.member.model.vo.MyTown" alias = "MyTown"/>
 		<typeAlias type="com.kh.goodbuy.center.model.vo.Notice" alias = "Notice"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.Business" alias = "Business"/>
+		<typeAlias type="com.kh.goodbuy.goods.model.vo.Gcate" alias = "Gcate"/>
+		<typeAlias type="com.kh.goodbuy.goods.model.vo.Goods" alias = "Goods"/>
+		<typeAlias type="com.kh.goodbuy.goods.model.vo.Addfile" alias = "Addfile"/>
 		<typeAlias type="com.kh.goodbuy.member.model.vo.Search" alias="Search"/>
+
 	</typeAliases>
 	
 	<!-- mappers -->
@@ -29,8 +33,11 @@
 		<mapper resource="mappers/town-mapper.xml"/>
 
 		<mapper resource="mappers/business-mapper.xml"/>
-		<mapper resource="mappers/notice-mapper.xml"/>
 
+		<mapper resource="mappers/goods-mapper.xml"/>
+		
+
+		<mapper resource="mappers/notice-mapper.xml"/>
 	</mappers>
 	
 	
