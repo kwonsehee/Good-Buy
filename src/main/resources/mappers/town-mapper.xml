@@ -140,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<select id="selectUserTown" parameterType="string" resultMap="townResultSet2">
 		SELECT 
 				T_NO
-			  , AREA
+			  , AREA     
 			  , ADDRESS_1
 			  , ADDRESS_2
 			  , ADDRESS_3

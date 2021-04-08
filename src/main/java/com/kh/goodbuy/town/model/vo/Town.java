@@ -23,4 +23,5 @@ public class Town {
 	private String address_1;
 	private String address_2;
 	private String address_3;
+	     
 }
