@@ -1,7 +1,9 @@
 package com.kh.goodbuy.member.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,7 +27,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "loginUser", "msg" })
+@SessionAttributes({ "loginUser", "msg", "townInfo" })
 public class MemberController {
 
 	@Autowired
@@ -41,19 +43,18 @@ public class MemberController {
 //		   System.out.println("m" + m);
 
 		Member loginUser = mService.loginMember(m);
-
-//		   System.out.println("loginUser + " + loginUser);	   
-
+		
 		// 일반 로그인이까 암호화 필요 o
 		if (loginUser != null && bcryptPasswordEncoder.matches(m.getUser_pwd(), loginUser.getUser_pwd())) {
 			// System.out.println("loginUser : " + loginUser);
-
 			model.addAttribute("loginUser", loginUser);
+			saveUserTown(loginUser.getUser_id(), model);
 			return "redirect:/home";
 		} else {
 			model.addAttribute("msg", "로그인에 실패하였습니다.");
 			return "redirect:/home";
 		}
+		
 	}
 
 	// 회원가입 페이지로
@@ -119,7 +120,6 @@ public class MemberController {
 
 	}
 	
-	
 	// 아이디 비밀번호 찾기
 	@GetMapping("/find")
 	public String goFindIdPwdView() {
@@ -133,4 +133,31 @@ public class MemberController {
 		status.setComplete();
 		return "redirect:/home";
 	}
+	
+	// 로그인 시 로그인 유저의 동네 정보 세션에 저장하기
+	public void saveUserTown(String user_id,
+							   Model model
+							 ) {
+		System.out.println(user_id + "  zzzzz");
+		
+		//HttpSession session = request.getSession();
+		Town townInfo = tService.selectUserTown(user_id);
+		
+		/* townInfo
+		 * user_id
+		 * mytown_type = 1:기본 동네 2:추가한 동네
+		 * address_1 : 시,도 
+		 * address_2 : 구,군 
+		 * address_3 : 읍,면,리 
+		 * area : 동네 범위(1,2,3,4)
+		 * */
+		// System.out.println(townInfo);
+		if(townInfo != null) {
+			model.addAttribute("townInfo", townInfo);
+		//	session.setAttribute("townInfo", townInfo);
+			System.out.println("멤버 컨트롤러 townInfo" + townInfo);
+		} 
+		
+	}
+	
 }

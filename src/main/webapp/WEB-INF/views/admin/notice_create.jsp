@@ -37,31 +37,32 @@
 
         </div>
 
-	<form action="${ contextPath }/admin/noticecreate" id="writeForm" method="post">
+	
         <div id="div3">
-            <label style="font-weight : bold; font-size: 20px;">글 제목</label>
+        <form action="${ contextPath }/admin/noticewrite" id="writeForm" method="post">
+            <label style="font-weight : bold; font-size: 20px;">글제목</label>
             <input type="text" id="notice_title" name="nt_title" style="border-right: white; border-left: white; border-top: white;" size="100px" 
-            value="">
+            value=""><br>
             <label style="font-weight : bold; font-size: 20px;">작성자</label>
-            <input type="text" id="notice_title" name="user_id" value="${ loginUser.id }" style="border-right: white; border-left: white; border-top: white;" size="100px" 
-            readonly>
-             </div>
+            <input type="text" id="notice_title" name="user_id" value="${ loginUser.user_id }" style="border-right: white; border-left: white; border-top: white;" size="100px" >
+             
 
-
-        <div id="textareadiv">
-            <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top;">글 내용</label>
-            <textarea id="notice_content" name="nt_content" ></textarea>
-<br>
+	        <div id="textareadiv">
+	            <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">글 내용</label>
+	            <textarea id="notice_content" name="nt_content" ></textarea>
+			<br>
         
-            <button id="createButton">
-                작 성
-            </button>
             
             
         </div>
-
-
-	</form>        
+	<button id="createButton" type="submit">
+               	 작 성
+            </button>
+	</form> 
+	
+	
+	</div>       
+            
     </section>
 
     <jsp:include page="../common/footer.jsp"/>

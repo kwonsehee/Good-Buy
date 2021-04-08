@@ -23,6 +23,9 @@
 		<typeAlias type="com.kh.goodbuy.business.model.vo.NewsAttachment" alias = "NewsAttachment"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.News" alias = "News"/>
 		
+
+		<typeAlias type="com.kh.goodbuy.member.model.vo.Search" alias="Search"/>
+
 	</typeAliases>
 	
 	<!-- mappers -->

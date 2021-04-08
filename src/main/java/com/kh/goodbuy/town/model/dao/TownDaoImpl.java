@@ -66,5 +66,11 @@ public class TownDaoImpl implements TownDao{
 	}
 
 
+	@Override
+	public Town selectUserTown(String user_id) {
+		return sqlSession.selectOne("townMapper.selectUserTown", user_id);
+	}
+
+
 
 }

@@ -19,4 +19,28 @@ public class NoticeServiceImpl implements NoticeService{
 		// TODO Auto-generated method stub
 		return nDao.selectNoticeList();
 	}
+
+	@Override
+	public int insertNotice(Notice n) {
+		// TODO Auto-generated method stub
+		return nDao.insertNotice(n);
+	}
+
+	@Override
+	public Notice selectNotice(int nt_no) {
+		// TODO Auto-generated method stub
+		return nDao.selectNotice(nt_no);
+	}
+
+	@Override
+	public int updateNotice(Notice n) {
+		// TODO Auto-generated method stub
+		return nDao.updateNotice(n);
+	}
+
+	@Override
+	public int deleteNotice(int nt_no) {
+		// TODO Auto-generated method stub
+		return nDao.deleteNotice(nt_no);
+	}
 }

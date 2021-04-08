@@ -8,4 +8,12 @@ public interface NoticeDao {
 
 	public List<Notice> selectNoticeList();
 
+	public int insertNotice(Notice n);
+
+	public Notice selectNotice(int nt_no);
+
+	public int updateNotice(Notice n);
+
+	public int deleteNotice(int nt_no);
+
 }

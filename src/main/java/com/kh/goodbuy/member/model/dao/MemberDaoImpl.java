@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
+
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -40,10 +43,25 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public List<Member> selectList() {
-		
-		return sqlSession.selectList("memberMapper.selectList");
+	public List<Member> selectList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("memberMapper.selectList", null, rowBounds);
 	}
+
+	@Override
+	public int selectListCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectListCount");
+	}
+
+	@Override
+	public List<Member> searchList(Search search) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberMapper.searchList", search);
+	}
+
+	
 
 	
 
