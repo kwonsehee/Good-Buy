@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+#gbSection {
+	margin-bottom: 400px;
+}
+
+#backBtn {
+	width: 28px;
+	float: left;
+	margin-left: 14%;
+	cursor: pointer;
+}
+
+.title_h1 {
+	margin-left: 50%;
+	transform: translate(-50%);
+	text-align: center;
+	margin-top: 50px;
+	font-size: 20px;
+	margin-bottom: 50px;
+}
+
+.inputWrap {
+	width: 100%;
+	text-align: center;
+}
+
+#keywordInput {
+	width: 420px;
+	height: 35px;
+	border: 2px solid #05AAD1;
+	border-radius: 25px;
+	font-size: 14px;
+	padding-left: 30px;
+	color: #05AAD1;
+	margin-bottom: 20px;
+}
+
+#keywordInput::placeholder {
+	color: #05AAD1;
+}
+
+#keyBtn {
+	border: 0;
+	background: #222;
+	color: #fff;
+	font-weight: bold;
+	font-size: 14px;
+	width: 70px;
+	height: 39px;
+	border-radius: 27px;
+	margin-left: 10px;
+}
+
+.popupText {
+	color: #9A9999;
+	font-size: 12px;
+	text-decoration: underline;
+	margin-left: 31%;
+	cursor: pointer;
+}
+
+.countingWrap {
+	width: 38%;
+	margin: auto;
+	padding: 5px;
+	margin-top: 20px;
+}
+
+.countingWrap span {
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.countingWrap span:nth-child(2) {
+	color: #05AAD1;
+}
+
+.keywordWrap {
+	/* border:1px solid black; */
+	width: 38%;
+	margin: auto;
+	margin-top: 15px;
+	padding: 5px;
+}
+
+.eachKeywordWrap {
+	border: 2px solid #C4C4C4;
+	display: inline-block;
+	margin-right: 5px;
+	padding: 5px;
+	margin-right: 15px;
+	margin-bottom: 20px;
+}
+
+.cancelBtn {
+	background: none;
+	border: 0;
+}

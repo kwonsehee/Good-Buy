@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+#backBtn {
+	width: 28px;
+	float: left;
+	margin-left: 14%;
+	cursor: pointer;
+}
+
+.title_h1 {
+	margin-left: 50%;
+	transform: translate(-50%);
+	text-align: center;
+	margin-top: 50px;
+	font-size: 20px;
+	margin-bottom: 50px;
+}
+
+.listWrap {
+	border: 1px solid #fff;
+	width: 65%;
+	margin: auto;
+	margin-top: 10px;
+}
+
+.eachListWrap {
+	border: 1px solid #fff;
+	width: 100%;
+	height: 150px;
+	margin: auto;
+	margin-bottom: 20px;
+	position: relative;
+	/* cursor: pointer; */
+}
+
+.gPhoto {
+	width: 120px;
+	border-radius: 10px;
+	position: absolute;
+	left: 10px;
+	top: 15px;
+}
+
+.gtitle {
+	position: absolute;
+	left: 150px;
+	font-size: 18px;
+	top: 12px;
+}
+
+.eachListWrap ul {
+	margin: 0;
+	padding: 0;
+	margin-left: 150px;
+	margin-top: 50px;
+}
+
+.eachListWrap ul li {
+	list-style: none;
+	color: #9A9999;
+	float: left;
+	margin-right: 10px;
+	font-size: 14px;
+}
+
+.gStatus {
+	width: 75px;
+	height: 26px;
+	background: #737272;
+	border-radius: 10px;
+	position: absolute;
+	left: 150px;
+	top: 110px;
+}
+
+.statusText {
+	color: #fff;
+	text-align: center;
+	margin: 0;
+	font-size: 14px;
+	margin-top: 2px;
+}
+
+.gprice {
+	position: absolute;
+	top: 110px;
+	left: 250px;
+	font-size: 16px;
+}
+
+.replyIcon {
+	position: absolute;
+	width: 20px;
+	top: 113px;
+	left: 85%;
+}
+
+.heartIcon {
+	position: absolute;
+	width: 20px;
+	top: 113px;
+	left: 92%;
+}
+
+.replyCount {
+	position: absolute;
+	top: 110px;
+	font-size: 16px;
+	left: 88%;
+}
+
+.likeCount {
+	position: absolute;
+	top: 110px;
+	font-size: 16px;
+	left: 96%;
+}
+
+.pagingArea ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 500px;
+	height: 30px;
+	margin-left: 50%;
+	margin-top: 40px;
+	transform: translate(-50%);
+	margin-bottom: 100px;
+}
+
+.pagingArea ul li {
+	float: left;
+	margin-right: 10px;
+}
+
+.pagingArea ul li:nth-child(1) {
+	margin-left: 30%;
+	transform: translate(-30%);
+}
+
+.pagingArea ul li a {
+	color: #9A9999;
+}

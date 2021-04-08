@@ -19,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="is_business" column="IS_BUSINESS"/>
 	</resultMap>
 	
+	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
 			   USER_ID
@@ -67,8 +68,72 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	, SYSDATE
 	, DEFAULT	
 	, DEFAULT
-
 	)
+	
 	</insert>
 	
+   
+   <select id="selectList" resultMap="memberResultSet">
+      SELECT
+             USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+       FROM
+             USER_INFO
+      WHERE
+               USTATUS = 'Y'
+     ORDER BY
+              USER_ID DESC
+   
+   </select>
+   
+   <select id="selectListCount" resultType="_int">
+      SELECT 
+            COUNT(*)
+          FROM
+                USER_INFO
+         WHERE
+               USTATUS = 'Y' OR USTATUS = 'N'
+   </select>
+    
+   <select id="searchList" parameterType="Search" resultMap="memberResultSet">
+		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
+		SELECT
+		     USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+		  FROM
+		       USER_INFO
+		<where>
+			<choose>
+				<when test="searchCondition == 'common'">
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'N')
+				</when>
+				<when test="searchCondition == 'business'">
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'Y')
+				</when>
+			</choose>
+		</where>
+		ORDER BY USER_ID ASC
+	</select>
 </mapper>

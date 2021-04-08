@@ -1,16 +1,43 @@
 package com.kh.goodbuy.admin.controller;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.goodbuy.center.model.service.NoticeService;
+import com.kh.goodbuy.center.model.vo.Notice;
+import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.member.model.service.MemberService;
+import com.kh.goodbuy.member.model.vo.Member;
+import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
+
+
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	@Autowired
+	private MemberService mService;
+	@Autowired
+	private NoticeService nService;
 
 	// 관리자 페이지 메인페이지 이동
 	@GetMapping("/join")
@@ -23,20 +50,85 @@ public class AdminController {
 
 	// 관리자 공지사항 메인페이지 이동
 	@GetMapping("/notice")
-	public String NoticeMainView() {
-		return "admin/notice_main";
+
+	public ModelAndView NoticeMainView(ModelAndView mv) {
+		List<Notice> list = nService.selectNoticeList();
+		if (list != null) {
+			mv.addObject("list", list);
+			mv.setViewName("admin/notice_main");
+		} else {
+			mv.addObject("msg", "공지사항 목록 조회에 실패하였습니다.");
+			mv.setViewName("common/error_page");
+		}
+		return mv;
+
 	}
 
-	// 관리자 공지사항 작성페이지 이동
-	@GetMapping("/noticecreate")
-	public String NoticeCreateView() {
+	// 공지사항 등록 화면이동
+	@GetMapping("/write")
+	public String NoticeWriteView() {
 		return "admin/notice_create";
+	}
+
+	// 관리자 공지사항 작성버튼
+	@PostMapping("/noticewrite")
+	public String NoticeCreateView(@ModelAttribute Notice n, HttpServletRequest request) {
+		System.out.println("공지사항 작성 내용 : " + n);
+
+		// * 2) DB에 Notice 객체 insert
+		int result = nService.insertNotice(n);
+		System.out.println(result);
+		if (result > 0) {
+			return "redirect:/admin/notice";
+		} else {
+			throw new NoticeException("공지사항 등록에 실패하였습니다.");
+		}
+
+	}
+
+	// 공지사항 수정
+	@PostMapping("/update")
+	public String noticeUpdate(@ModelAttribute Notice n, HttpServletRequest request) {
+		
+		
+		int result = nService.updateNotice(n);
+		
+		
+		if (result > 0) {
+			return "redirect:/admin/notice";
+		} else {
+			throw new NoticeException("공지사항 수정에 실패하였습니다.");
+		}
+		
+	}
+
+	// 공지사항 삭제
+	@GetMapping("/delete")
+	public String noticeDelete(int nt_no, HttpServletRequest request) {
+		
+		Notice n = nService.selectNotice(nt_no);
+		int result = nService.deleteNotice(nt_no);
+
+		if (result > 0) {
+			return "redirect:/admin/notice";
+		} else {
+			throw new NoticeException("공지사항 삭제에 실패하였습니다.");
+		}
 	}
 
 	// 관리자 공지사항 디테일페이지 이동
 	@GetMapping("/noticedetail")
-	public String NoticeDetailView() {
-		return "admin/notice_detail";
+	public String NoticeDetailView(@RequestParam int nt_no, Model model) {
+
+		Notice n = nService.selectNotice(nt_no);
+
+		if (n != null) {
+			model.addAttribute("notice", n);
+			return "admin/notice_detail";
+		} else {
+			model.addAttribute("msg", "공지사항 게시글 보기에 실패했습니다.");
+			return "common/errorpage";
+		}
 	}
 
 	// 신고
@@ -70,9 +162,25 @@ public class AdminController {
 	// 회원관리
 	// -------------------------------------------------------------------------------------------
 	// 회원관리 메인페이지 이동
+	
 	@GetMapping("/member")
-	public String MemberMainView() {
-		return "admin/member_main";
+	public ModelAndView MemberMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = mService.selectListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		List<Member> list = mService.selectMemberList(pi);
+		System.out.println(listCount);
+		if (list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("admin/member_main");
+		} else {
+			mv.addObject("msg", "회원 목록 조회에 실패하였습니다.");
+			mv.setViewName("common/error_page");
+		}
+		return mv;
+
 	}
 
 	// 회원관리 디테일페이지 이동
@@ -80,6 +188,22 @@ public class AdminController {
 	public String MemberDetailView() {
 		return "admin/member_detail";
 	}
+	
+	
+	
+	// 검색 기능
+	
+		@GetMapping("/search")
+		public String memberSearch(@ModelAttribute Search search,
+								   Model model) {
+			// 체크 박스가 체크 된 경우 on
+			// 체크 박스가 체크 되지 않은 경우 null
+			List<Member> searchList = mService.searchList(search);
+			
+			model.addAttribute("list", searchList);
+			System.out.println(searchList);
+			return "admin/member_main";
+		}
 
 	// FAQ 관리
 	// -------------------------------------------------------------------------------------------

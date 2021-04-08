@@ -37,28 +37,34 @@
 
         </div>
 
-
+	
         <div id="div3">
-            <label style="font-weight : bold; font-size: 20px;">글 제목</label>
-            <input type="text" id="notice_title" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="100px" 
-            value="믿을 수 있는 중고거래 굿바이 중고거래 페이지 공지사항입니다">
-             </div>
-
-
-        <div id="textareadiv">
-            <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top;">글 내용</label>
-            <textarea id="notice_content" name="notice_content" >안녕하세요 !</textarea>
-<br>
+        <form action="${ contextPath }/admin/update" id="writeForm" method="post">
+            <label style="font-weight : bold; font-size: 20px;">글제목</label>
+            <input type="text" id="notice_title" name="nt_title" style="border-right: white; border-left: white; border-top: white;" size="100px" 
+            value="${ notice.nt_title }"><br>
+           
+	        <div id="textareadiv">
+	            <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">글 내용</label>
+	            <textarea id="notice_content" name="nt_content" >${ notice.nt_content }</textarea>
+			<br>
+			
+        <input type="hidden" name="nt_no" value="${ notice.nt_no }"/>
+            
+            
+        </div>
         
-            <button id="createButton">
-                수 정
+	<button id="createButton" type="submit" style="float:left; text-align:center">
+               	 수 정
             </button>
-            <button id="createButton">
-                삭 제
+            
+	</form> 
+	<button id="createButton" style="float:left;" onclick="location.href='${ contextPath }/admin/delete?nt_no=${ notice.nt_no }'">
+               	 삭 제
             </button>
             
         </div>
-
+	
 
         
     </section>

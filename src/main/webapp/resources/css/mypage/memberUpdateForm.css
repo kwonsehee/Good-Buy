@@ -8,13 +8,12 @@
 	width:100%;
 }
 
-.imgWrap1 {
+.imgWrap {
 	width: 640px;
 	display: inline-block;
 	float:left;
 	margin-top: 100px;
 	margin-left:5%;
-	 
 }
 
 #joinImg {
@@ -22,16 +21,20 @@
 	
 }
 
-.joinformWrap {
+.formWrap {
 	width: 530px;
-	display:inline-block;
+	display: inline-block;
 	margin-top:100px;
+}
+
+#join_h2 {
+	text-align: justify;
 }
 
 #goodbuy_h2 {
 	float: left;
+	margin-right: 20px;
 	color: #05AAD1;
-	margin-right: 10px;
 }
 
 #join_h2 {
@@ -55,7 +58,7 @@
 	color: #9A9999;
 	border: 0px;
 	border-bottom: 1px #9A9999 solid;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	font-size: 14px;
 }
 
@@ -65,6 +68,9 @@
 
 .joinform p {
 	color: #9A9999;
+	font-size: 13px;
+	margin: 0;
+	margin-bottom: 5px;
 	text-align: justify;
 }
 
@@ -88,4 +94,9 @@
 	border-radius: 27px;
 	font-weight: bold;
 }
-</style>
+
+#memberLeaveBtn {
+	color: #9A9999;
+	font-size: 14px;
+	margin-left: 450px;
+}

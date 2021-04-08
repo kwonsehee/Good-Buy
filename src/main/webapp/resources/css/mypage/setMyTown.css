@@ -1,0 +1,269 @@
+@charset "UTF-8";
+
+#gbSection {
+	margin-bottom: 300px;
+}
+
+#backBtn {
+	width: 28px;
+	float: left;
+	margin-left: 14%;
+	cursor: pointer;
+}
+
+.title_h1 {
+	margin-left: 50%;
+	transform: translate(-50%);
+	text-align: center;
+	margin-top: 50px;
+	font-size: 20px;
+	margin-bottom: 50px;
+}
+
+.totalWrap {
+	width: 50%;
+	margin: auto;
+	text-align: center;
+}
+
+.totalWrap p:nth-child(2) {
+	color: #9A9999;
+	font-size: 12px;
+}
+
+.setBoxWrap{
+ 	margin:auto;
+ 	display: flex;
+ 	width: 60%;
+}
+.setBox {
+	width: 180px;
+	height: 40px;
+	margin: auto;
+	margin-top: 10px;
+	border-radius: 15px;
+	cursor: pointer;
+}
+
+.firstBox {
+	background: #9BDDEC;
+	border: 0;
+	border: 1px solid #fff;
+}
+
+.firstBox ul {
+	margin: 0;
+	padding: 0;
+	width: 180px;
+	height: 40px;
+	list-style: none;
+}
+
+.firstBox li {
+	float: left;
+}
+
+.firstBox li:nth-child(1) {
+	width: 78%;
+	text-align: justify;
+	padding-left: 12px;
+	line-height: 40px;
+	font-size: 14px;
+}
+
+.firstBox li:nth-child(2) {
+	width: 15%;
+	line-height: 40px;
+}
+
+.Xbtn {
+	width: 25px;
+	height: 40px;
+	color: #fff;
+	border-radius: 100px;
+	border: 0px;
+	background: none;
+}
+
+.secondXbtn{
+	color:black;
+}
+
+.secondBox {
+	background: #F9F9F9;
+	border: 1px solid #E0E0E0;
+	width:180px;
+	
+}
+.secondBox ul {
+	margin: 0;
+	padding: 0;
+	width: 180px;
+	height: 40px;
+	list-style: none;
+}
+
+.secondBox ul li{
+	float:left;
+}
+/* 두번재 동네 추가 안 되어있을 때 */
+#newTownli_1{
+	width:100%;
+	margin-top:7px;
+	color:#9A9999;
+}
+/* 두번재 동네 추가 되어있을 때 */
+#newTownli_1{
+	float: left;
+}
+#newTownli_2 {
+	width: 78%;
+	text-align: justify;
+	padding-left: 12px;
+	line-height: 40px;
+	font-size: 14px;
+}
+
+#newTownli_3 {
+	width: 15%;
+	line-height: 40px;
+}
+
+#mytown {
+	font-size: 16px;
+	margin-right: 10px;
+}
+
+#townCount {
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#ppp {
+	font-size: 12px;
+	color: #9A9999;
+	margin-top: 30px;
+}
+
+input[type=range] {
+	-webkit-appearance: none; /* 기본슬라이드 숨기기*/
+	width: 500px;
+	background: transparent; /* Chrome에서 투명하게 출력 */
+	margin-top: 25px;
+}
+
+#townArea::-webkit-slider-thumb {
+	border: 0px;
+	height: 30px;
+	width: 30px;
+	background: #fff;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -8px;
+	border-radius: 30px;
+	box-shadow: 1px 1px 1px #9d9d9d, 0px 0px 3px #9d9d9d;
+}
+
+#townArea::-webkit-slider-runnable-track {
+	cursor: pointer;
+	background: #37BBDA;
+	height: 15px;
+	border-radius: 25px;
+}
+
+#townArea:focus::-ms-fill-lower {
+	background: #37BBDA;
+}
+
+#townArea:focus::-ms-fill-upper {
+	background: black;
+}
+
+.nonameDiv {
+	width: 500px;
+	height: 40px;
+	margin-top: 20px;
+	margin: auto;
+}
+
+.nonameDiv ul {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	margin-top: 10px;
+}
+
+.nonameDiv ul li {
+	list-style: none;
+	width: 49.5%;
+	float: left;
+}
+
+.nonameDiv ul li:nth-child(1) {
+	text-align: justify;
+}
+
+.nonameDiv ul li:nth-child(2) {
+	text-align: right;
+}
+
+/* 주소 추가 Modal */
+.modal-header{
+	padding : 5%;
+	margin : auto;
+}
+
+.modal-body {
+	padding : 10%;
+}
+
+.modal-body p{
+	font-size:14px;
+	color:#9A9999;
+}
+
+.modal-body button{
+	margin-top:30px;
+	border:0;
+	border-radius:27px;
+	background:black;
+	color:#fff;
+	width:100px;
+	height:40px;
+	font-weight:bold;
+}
+
+.modal-body select{
+	width: 110px;
+	height: 40px;
+	margin-right: 15px;
+	border: 1px #9A9999 solid;
+	border-radius: 15px;
+	color: #9A9999;
+	background: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

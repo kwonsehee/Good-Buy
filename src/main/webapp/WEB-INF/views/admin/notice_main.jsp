@@ -47,13 +47,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr id="tr_hover1" onclick="location.href='${ contextPath }/admin/noticedetail'">
-                    <th>1</th><th>믿을 수 있는 중고거래 굿바이 중고거래 페이지 공지사항입니다</th>
-                  </tr>
-                  <tr id="tr_hover2" onClick="${ contextPath }/admin/notice">
-                    <th>2</th><th>그만큼 기분이 좋은 공지사항입니다</th>
-                  </tr>
                   
+                  <c:forEach var="n" items="${ list }">
+               
+               <tr id="tr_hover2" onclick="selectNotice(${n.nt_no})">
+                    <th>${ n.nt_no }</th><th>${ n.nt_title }</th>
+                  </tr>
+            </c:forEach>
                   
                 </tbody>
               </table>
@@ -65,21 +65,23 @@
 
 
         <div id="div4">
-            <button id="createButton" onclick="location.href='${ contextPath }/admin/noticecreate'">
+            <button type="button" id="createButton" onclick="location.href='${ contextPath }/admin/write'">
                 작 성
             </button>
             
         </div>
 
 
-        <div id="div5">
-           <p><<&nbsp; <&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; >&nbsp;>></p>
-
-        </div>
+        
     </section>
 
      <jsp:include page="../common/footer.jsp"/>
-
+<script>
+      function selectNotice(nt_no){
+         location.href='${contextPath}/admin/noticedetail?nt_no=' + nt_no + '&page=${ pi.currentPage }';
+         // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+      }
+   </script>
 
 </body>
 </html>

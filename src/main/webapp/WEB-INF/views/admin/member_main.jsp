@@ -38,65 +38,98 @@
             <button id="button1"><a id="a6" href="${ contextPath }/admin/stats">통계</a></button>
 
         </div>
-
+  
         <div id="div3">
             <div id="div3_1">
+            <form action="${ contextPath }/admin/search" method="get">
             <label>ID</label>
-            <select name='value' id="option1">
-                <option value='1'  selected>일반</option>
-                <option value='2'>비즈</option>
+            <select name="searchCondition" id="option1">
+                <option value="common" <c:if test="${ param.searchCondition == 'common' }">selected</c:if>>일반</option>
+                <option value="business" <c:if test="${ param.searchCondition == 'business' }">selected</c:if>>비즈</option>
               </select>
-            <input type="text">
+            <input type="search" name="searchValue" value="${ param.searchValue }">
             <button id="createButton1">검색</button><br>
+            </form>
               </div>
 
             <label>가입일</label>
             
-            <input type="date" id="option1">
+            <input type="date" id="option1" name="date1">
             <label>~</label>
-            <input type="date">
+            <input type="date" name="date2">
         </div>
 
         <div id="div4">
             <table id="table1">
                 <thead>
                   <tr style="background-color: #F1FCFF;">
-                    <th>회원번호</th><th>이름</th><th>아이디</th><th>휴대폰</th><th>이메일</th><th>가입일</th><th></th>
+                    <th>닉네임</th><th>아이디</th><th>비즈니스</th><th>휴대폰</th><th>이메일</th><th>가입일</th><th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr id="tr_hover1">
-                    <th>1</th><th>김수민</th><th>sumin1234</th><th>010-2231-9173</th><th>compu9173@naver.com</th><th>2021/03/06</th><th><button id="createButton2" onclick="location.href='${ contextPath }/admin/memberdetail'">보기</button></th>
-                  </tr>
-                  <tr id="tr_hover2">
-                    <th>2</th><th>권세희</th><th>sehee6789</th><th>010-1234-1234</th><th>s@naver.com</th><th>2021/02/07</th><th><button id="createButton2">보기</button></th>
-                  </tr>
-                  <tr id="tr_hover1">
-                    <th>3</th><th>정희준</th><th>gea1453</th><th>010-5234-3564</th><th>asdqwd@naver.com</th><th>2021/04/08</th><th><button id="createButton2">보기</button></th>
-                  </tr>
-                  <tr id="tr_hover1">
-                    <th>4</th><th>임홍규</th><th>rht746</th><th>010-2453-4756</th><th>crfgwe@naver.com</th><th>2021/02/08</th><th><button id="createButton2">보기</button></th>
-                  </tr>
-                  <tr id="tr_hover2">
-                    <th>5</th><th>윤세홍</th><th>nfgyuj4756</th><th>010-6254-6857</th><th>nsfgrea@naver.com</th><th>2021/01/04</th><th><button id="createButton2">보기</button></th>
-                  </tr>
-                  <tr id="tr_hover1">
-                    <th>6</th><th>최준</th><th>dntghg1234</th><th>010-0896-6978</th><th>fweajytd@naver.com</th><th>2021/03/06</th><th><button id="createButton2">보기</button></th>
-                  </tr>
+                  
+                  <c:forEach var="m" items="${ list }">
+               <tr onclick="selectMember(${m.user_id})" id="tr_hover2">
+                  <td>${ m.nickname }</td>
+                  <td>${ m.user_id }</td>
+                  <td>${ m.is_business }</td>
+                  <td>${ m.phone }</td>
+                  <td>${ m.email }</td>
+                  <td>${ m.enroll_date }</td>
+                  <td><button id="createButton2">보기</button></td>
+               </tr>
+            </c:forEach>
                   
                   
                 </tbody>
+                <!-- 페이징 처리 -->
+            
+				<tr>
+					<td colspan="6">
+					
+					<c:if test="${ pi.currentPage >= 0 }">
+						<c:url var="before" value="/admin/member">
+							<c:param name="page" value="${ pi.currentPage -1 }" />
+						</c:url>
+						<a href="${ before }">[이전]</a> &nbsp;
+					</c:if>
+					<!-- 페이지 숫자 -->
+					<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+						<c:if test="${ p eq pi.currentPage }">
+							<font color="red" size="4"><b>[${ p }]</b></font> &nbsp;
+						</c:if>
+						<c:if test="${ p ne pi.currentPage }">
+							<c:url var="pagination" value="/admin/member">
+								<c:param name="page" value="${ p }"/>
+							</c:url>
+							<a href="${ pagination }">${ p }</a> &nbsp;
+						</c:if>
+					</c:forEach>
+					<!-- [다음] -->
+					<c:if test="${ pi.currentPage >= pi.maxPage }">
+						[다음]
+					</c:if>
+					<c:if test="${ pi.currentPage < pi.maxPage }">
+						<c:url var="after" value="/admin/member">
+							<c:param name="page" value="${ pi.currentPage + 1 }" />
+						</c:url>
+						<a href="${ after }">[다음]</a>
+					</c:if>
+					</td> 
+				</tr>
               </table>
 
 
         </div>
         <div id="div5">
-            <p><<&nbsp; <&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; >&nbsp;>></p>
- 
+            
+
          </div>
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
+
+
 
 </body>
 </html>
