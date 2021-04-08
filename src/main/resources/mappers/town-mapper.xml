@@ -11,7 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</resultMap>
 	
 	<resultMap type="Town" id="townResultSet2">
-		<id property = "t_no" column ="AREA"/>
+		<id property = "t_no" column ="T_NO"/>
+		<result property="area" column="AREA"/>
 		<result property="address_1" column="ADDRESS_1"/>
 		<result property="address_2" column="ADDRESS_2"/>
 		<result property="address_3" column="ADDRESS_3"/>
@@ -138,10 +139,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<select id="selectUserTown" parameterType="string" resultMap="townResultSet2">
 		SELECT 
-			    ADDRESS_1
+				T_NO
+			  , AREA
+			  , ADDRESS_1
 			  , ADDRESS_2
 			  , ADDRESS_3
-			  , AREA
+			  
 		  FROM 
 		  		MY_TOWN
 		  JOIN 

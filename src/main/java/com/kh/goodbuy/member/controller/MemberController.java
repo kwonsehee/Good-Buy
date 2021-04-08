@@ -142,15 +142,7 @@ public class MemberController {
 		
 		//HttpSession session = request.getSession();
 		Town townInfo = tService.selectUserTown(user_id);
-		
-		/* townInfo
-		 * user_id
-		 * mytown_type = 1:기본 동네 2:추가한 동네
-		 * address_1 : 시,도 
-		 * address_2 : 구,군 
-		 * address_3 : 읍,면,리 
-		 * area : 동네 범위(1,2,3,4)
-		 * */
+		 
 		// System.out.println(townInfo);
 		if(townInfo != null) {
 			model.addAttribute("townInfo", townInfo);
