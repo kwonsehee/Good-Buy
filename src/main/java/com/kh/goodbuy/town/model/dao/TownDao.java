@@ -23,5 +23,7 @@ public interface TownDao {
 
 	int deleteTown(MyTown mt);
 
+	Town selectUserTown(String user_id);
+
 
 }

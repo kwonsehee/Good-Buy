@@ -2,6 +2,8 @@ package com.kh.goodbuy.mypage.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,29 +23,31 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/mypage")
-@SessionAttributes({ "loginUser" })
+@SessionAttributes({ "loginUser"})
 public class MypageController {
 	
 	@Autowired
 	private TownService tService;
-	@Autowired
-	private MemberService mService;
+//	@Autowired
+//	private MemberService mService;
 	
-	public void userLogin(@ModelAttribute Member m, Model model) {
-		Member loginUser = mService.loginMember(m);
-		model.addAttribute("loginUser", loginUser);
-	}
 	
 	// 마이페이지 메인 화면으로
 	@GetMapping("/main")
-	public ModelAndView showMain(ModelAndView mv, @ModelAttribute("loginUser") Member loginUser) {
+	public ModelAndView showMain(ModelAndView mv, 
+								@ModelAttribute("loginUser") Member loginUser,
+								HttpServletRequest request) {
 		// 마이타운 첫번째, 두번째 동네 리스트로 조회
 		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
+		
+		
+		Town townInfo = (Town) request.getSession().getAttribute("townInfo");
 		
 		if(mtlist != null) {
 			mv.addObject("mtlist",mtlist);
 			mv.setViewName("mypage/mypageMain");
 		}
+		
 		return mv;
 	}
 	
