@@ -22,6 +22,9 @@ public class Town {
 	private int area;
 	private String address_1;
 	private String address_2;
-	private String address_3;
-	     
+	private String address_3;       
+	      
+	
+	
+	
 }
