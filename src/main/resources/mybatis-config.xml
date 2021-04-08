@@ -15,11 +15,16 @@
 	<typeAliases>
 		<typeAlias type="com.kh.goodbuy.member.model.vo.Member" alias = "Member"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.Business" alias = "Business"/>
+		<typeAlias type="com.kh.goodbuy.goods.model.vo.Gcate" alias = "Gcate"/>
+		<typeAlias type="com.kh.goodbuy.goods.model.vo.Goods" alias = "Goods"/>
+		
+		<typeAlias type="com.kh.goodbuy.goods.model.vo.Addfile" alias = "Addfile"/>
 	</typeAliases>
 	<!-- mappers -->
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/business-mapper.xml"/>
+		<mapper resource="mappers/goods-mapper.xml"/>
 		
 	</mappers>
 	

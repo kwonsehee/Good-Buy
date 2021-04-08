@@ -33,15 +33,36 @@
     background-color: #ffffff;
     padding-left: 2%;
 }
+.gcate ul{
+    list-style-type:none;
+}
+.gcate ul button{
+    border:0;
+    outline:0;
+    background-color:white;
+    padding-bottom:4px;
+}
+
 .gcate{
     display: inline-block;
-    width: 65%;
-    height: 200px;
+    width: 25%;
+    height: 320px;
     border-radius: 10px;
-    padding-left: 10%;
-    padding-top: 5%;
+    padding-top: 1%;
   border: solid 1px #c4c4c4;
   background-color: #ffffff;
+  margin-top:1%;
+  margin-bottom:1%;
+  margin-right : 7.4%;
+}
+
+#cate_md ul{
+	display:none;
+
+}
+#cate_sm ul{
+	display:none;
+
 }
 #deal_town{
     width: 208px;
@@ -51,6 +72,7 @@
     border: solid 1px #c4c4c4;
     background-color: #ffffff;
     font-size: 15px;
+     margin-bottom:1%;
 }
 #gprice{
     width: 190px;
@@ -59,7 +81,7 @@
     border-radius: 10px;
     border: solid 1px #c4c4c4;
     background-color: #ffffff;
-    margin-bottom: 13px;
+    margin-bottom:1%;;
 }
 #godds_condition div{
     display: inline;
@@ -82,8 +104,23 @@
     padding-left: 15px;
     margin-top: 15px;
 }
-#imginput{
+#button-add-file{
     width: 180px;
+    height: 170px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    text-align: center;
+ 	float : left;
+
+}
+#button-add-file img{
+	 width: 100px ;
+    height: 100px ;
+}
+#preview{
+	float : left;
+	width: 180px;
     height: 170px;
     border-radius: 10px;
     border: solid 1px #c4c4c4;
