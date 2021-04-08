@@ -2,22 +2,24 @@ package com.kh.goodbuy.business.model.service;
 
 import java.util.List;
 
-
 import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
+import com.kh.goodbuy.business.model.vo.NewsAttachment;
 
 public interface BusinessService {
 
 	int infoInsert(Business bus);
 
-	List<Business> selectbList();
+	List<Business> selectbList(String userId);
 
-	List<Attachment> selectfList();
+	List<Attachment> selectfList(String userId);
 
-	List<Attachment> selectnfList();
+	List<NewsAttachment> selectnfList(String userId);
 
-	List<News> selectnList();
+	List<News> selectnList(String userId);
+
+	
 
 
 

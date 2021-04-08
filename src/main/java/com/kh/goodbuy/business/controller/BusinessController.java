@@ -2,6 +2,8 @@ package com.kh.goodbuy.business.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,8 @@ import com.kh.goodbuy.business.model.service.BusinessService;
 import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
+import com.kh.goodbuy.business.model.vo.NewsAttachment;
+import com.kh.goodbuy.member.model.vo.Member;
 
 @Controller
 @RequestMapping("/business")
@@ -21,12 +25,17 @@ public class BusinessController {
 	
 	// 내 근처 페이지
 	@GetMapping("/list")
-	public String BusinessView(ModelAndView mv) {
-		List<Business> bList = bService.selectbList();
-		List<Attachment> fList = bService.selectfList();
-		List<Attachment> nfList = bService.selectnfList();
-		List<News> nList = bService.selectnList();
-		
+	public String BusinessView(ModelAndView mv, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId = loginUser.getUser_id();
+		List<Business> bList = bService.selectbList(userId);
+		List<Attachment> fList = bService.selectfList(userId);
+		List<NewsAttachment> nfList = bService.selectnfList(userId);
+		List<News> nList = bService.selectnList(userId);
+		System.out.println(bList);
+		System.out.println(fList);
+		System.out.println(nfList);
+		System.out.println(nList);
 		return "business/myNear";
 	}
 	

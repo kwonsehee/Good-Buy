@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class News {
-	private int nno;
+	private int nNo;
 	private String newsTitle;
 	private String shopNews;
 	private int shopNo;

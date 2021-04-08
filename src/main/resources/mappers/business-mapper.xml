@@ -18,11 +18,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="shopTime2" column="SHOP_TIME2"/>
 		<result property="shopTime3" column="SHOP_TIME3"/>
 	</resultMap>
+	<resultMap type="Attachment" id="AttachmentResultSet">
+		<id property="shopNo" column="SHOP_NO"/>
+		<result property="fno" column="F_NO"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="originNmae" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
+	<resultMap type="News" id="NewsResultSet">
+		<id property="nNo" column="N_NO"/>
+		<result property="newsTitle" column="NEWS_TITLE"/>
+		<result property="shopNews" column="SHOP_NEWS"/>
+		<result property="shopNo" column="SHOP_NO"/>
+	</resultMap>
+	
 
-	<select  id="selectbList" resultMap="businessResultSet">
-		SELECT * 
-		FROM
-		(SELECT
+
+	<select id="selectbList" parameterType="Member" resultMap="businessResultSet">
+		SELECT
 				SHOP_NO
 			  , SHOP_CATE
 			  , SHOP_ADD
@@ -38,10 +53,44 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , SHOP_TIME3
 		FROM
 				BUS_INFO
-		ORDER BY DBMS_RANDOM.RANDOM)
-			
+	</select>
+	<select id="selectfList" resultMap="AttachmentResultSet" >
+		SELECT
+		    SHOP_NO
+		 ,  F_NO
+		 ,  FILE_PATH
+		 ,  ORIGIN_NAME
+		 ,  CHANGE_NAME
+		 ,  STATUS
+		 FROM 
+		 	ADDFILE
+		 JOIN BUS_FILE USING(F_NO)
+		 JOIN BUS_INFO USING(SHOP_NO)
 	</select>
 	
-
+	<select id="selectnList" resultMap="NewsResultSet">
+		SELECT
+				N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , SHOP_NO
+		FROM 
+				NEWS
+		ORDER BY N_NO DESC  
+	</select>
 	
+	<select id="selectnfList" resultMap="AttachmentResultSet" >
+		SELECT
+		    N_NO
+		 ,  F_NO
+		 ,  FILE_PATH
+		 ,  ORIGIN_NAME
+		 ,  CHANGE_NAME
+		 ,  STATUS
+		 FROM 
+		 	ADDFILE
+		 JOIN NEWS_FILE USING(F_NO)
+		 JOIN NEWS USING(N_NO)
+	</select>	
+
 </mapper>
