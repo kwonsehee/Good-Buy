@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="goodsMapper">
+<resultMap type="Gcate" id="cateSet">
+	<id column="L_FILTER" property="topcate"/>
+	<collection property="subcate" ofType="Gcate">
+		<id column="M_FILTER" property="topcate" />
+		<collection property="subcate" ofType="Gcate">
+			<id column="S_FILTER" property="topcate" />
+		</collection>
+	</collection>
+
+</resultMap>
+	<select id="selectCate" resultMap="cateSet">
+		SELECT
+			   L_FILTER
+			 , M_FILTER
+			 , S_FILTER
+		  FROM
+		  	   GOODS_CATE
+	</select>
+	<select id="selectCateNo" parameterType="Gcate" resultType="_int">
+		SELECT C_NO
+		FROM GOODS_CATE
+		WHERE L_FILTER = #{lfilter}
+		 AND M_FILTER = #{mfilter}
+		 AND S_FILTER = #{sfilter}
+
+	</select>
+	<insert id="insertGoods" parameterType="Goods">
+		INSERT INTO
+		GOODS(
+			G_NO
+		  , G_PLACE
+		  , G_PRICE
+		  , G_CONDITION
+		  , G_COMMENT
+		  , CREATE_DATE
+		  , PULL_DATE
+		  , G_STATUS
+		  , USER_ID
+		  , C_NO
+		  , G_TITLE
+		)
+		VALUES
+		(
+			G_SEQ.NEXTVAL
+		  , (SELECT T_NO FROM MY_TOWN WHERE USER_ID = #{user_id} AND MYTOWN_TYPE=#{gplace})
+		  , #{gprice}
+		  , #{gcondition}
+		  , #{gcomment}
+		  , DEFAULT
+		  , DEFAULT
+		  , DEFAULT
+		  , #{user_id}
+	      , #{cno}
+		  , #{gtitle}
+		)
+	
+	
+	</insert>
+	
+	<insert id="insertFile" parameterType="Addfile">
+	 INSERT ALL
+		INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{originName}
+		  , #{changeName}
+          , DEFAULT
+		 
+		)
+        INTO GOODSFILE
+        (
+            G_NO
+          , F_NO
+        )
+        VALUES
+        (
+            G_SEQ.CURRVAL
+          , F_SEQ.CURRVAL
+        )
+        SELECT * FROM DUAL
+	
+	
+	</insert>
+</mapper>
