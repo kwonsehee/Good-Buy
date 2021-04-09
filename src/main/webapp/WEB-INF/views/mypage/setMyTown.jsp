@@ -19,7 +19,7 @@
 			<p>동네 선택</p>
 			<p>지역은 최소 1개 이상 최대 2개까지 설정 가능해요.</p>
 			<div class="setBoxWrap">
-				<div class="setBox firstBox">
+				<div class="setBox firstBox" onclick="changeTownType('${mtlist.get(0)}','${ townInfo.address_2 }','${ townInfo.address_1 }')">
 					<ul>
 						<!-- 첫번째 동네 이름 출력 -->
 						<li id="defaultTown">${ mtlist.get(0) }</li>
@@ -43,9 +43,10 @@
 					</div>
 				</c:if>
 				
-				<!-- 두번째 동네 추가되어 있을 때 삭제 클릭 시 동네 삭제 -->
+				<!-- 두번째 동네 추가되어 있을 때 삭제 버튼 클릭 시 동네 삭제 -->
+				<!-- 두번째 동네 추가되어 있을 때 div 클릭 시 기본동네가 두번째 동네로 바뀌게 -->
 				<c:if test="${ mtlist.size() == 2 }">
-					<div class="setBox secondBox">
+					<div class="setBox secondBox" onclick="changeTownType('${mtlist.get(1)}','${ townInfo.address_2 }','${ townInfo.address_1 }')">
 					<ul>
 						 <li id="newTownli_2">${  mtlist.get(1) }</li>
 		                 <li id="newTownli_3"><input type="button" value="X" class="Xbtn secondXbtn" onclick="deleteTown('${mtlist.get(1)}')"></li>
@@ -102,13 +103,23 @@
 				</div>
 			</div>
 
-
-			<span id="mytown">${ mtlist.get(0) }</span>
-            <span id="townCount">근처 동네 1 개</span>
+			<!-- 내동네 설정 화면 들어왔을 때 처음 셋팅되어 있는 값 -->
+			<span id="mytown">
+			<c:if test="${ townInfo.area == 1 || townInfo.area == 2 || townInfo.area == 3}">${ mtlist.get(0) }</c:if>
+			</span>
+		
+            <span id="townCount">
+            <c:if test="${ townInfo.area == 1 }">내 동네 1개</c:if>
+            <c:if test="${ townInfo.area == 2 }">포함&nbsp;${ townInfo.address_2 }</c:if>
+            <c:if test="${ townInfo.area == 3 }">포함&nbsp;${ townInfo.address_1 }</c:if>
+            <c:if test="${ townInfo.area == 4 }">전국</c:if>
+            </span>
 
             <p id="ppp">선택한 동네의 이웃들만 피드에서 이 게시글을 볼 수 있어요.</p>
             <form class="townAreaForm">
-                <input type="range" name="townArea" id="townArea" min="1" max="4" value="1" step="1" onchange="showValue(this)">
+                <input type="range" name="townArea" id="townArea" min="1" max="4" value="${ townInfo.area }" step="1" onchange="showValue('${ townInfo.address_3 }','${ townInfo.address_2 }','${ townInfo.address_1 }',
+                																										  '${ townInfo.t_no }')">
+                																				 
             </form>
            <div class="nonameDiv">
                <ul>
@@ -117,9 +128,8 @@
                 </ul>
            </div>
         </div>
-
-    </section>
 	
+    </section>
 	
 	<jsp:include page="../common/footer.jsp"/>
 
@@ -138,26 +148,113 @@
 		function showModal(){
 			$("#addTown").modal("show");
 		}
-
-		// 동네 범위 변경 텍스트 동적으로 보여주기
-		function showValue(value) {
+		
+		// range 움직일 때 마다
+		// 동네 범위 변경 텍스트 동적으로 보여주고(javascript)
+		// 동네 범위 동적으로 바껴야함(Ajax전송)
+		function showValue(address_3,address_2,address_1,t_no) {
 			var val = $("#townArea").val();
-			console.log(val);
 
 			if (val == 1) {
+				$("#mytown").html(address_3);
 				$("#mytown").show();
-				$("#townCount").html("근처 동네 1개");
+				$("#townCount").html("내 동네 1개");
 			} else if (val == 2) {
+				$("#mytown").html(address_3);
 				$("#mytown").show();
-				$("#townCount").html("근처 동네 5개");
+				$("#townCount").html("포함  "+address_2);
 			} else if (val == 3) {
+				$("#mytown").html(address_3);
 				$("#mytown").show();
-				$("#townCount").html("근처 동네 15개");
+				$("#townCount").html("포함  "+address_1);
 			} else {
 				$("#mytown").hide();
 				$("#townCount").html("전국");
 			}
+			
+			$.ajax({
+
+			url: "changeArea",
+			data: {t_no : t_no,
+				  area : val},
+			type: "get",
+			success: function(data){
+				console.log(data);
+			},
+			error: function(e){
+				alert("error code: " + e.status + "\n" + "message: " + e.responseText);
+			}
+			
+			});
+			
+			
+			
+			
 		}
+		
+		// 동네 div 클릭 시 스타일 바뀔 때(javascript)
+		// 동네 범위 문구 동적으로 바껴야 함(Ajax응답 후)
+		// 동네 타입 MYTOWN_TYPE = 1로 업데이트 되어야 함(Ajax 전송)
+		function changeTownType(townName,address_2,address_1){
+			var val = $("#townArea").val();
+			console.log(townName);
+			$("#mytown").html(townName);
+			
+			if(event.target.id == "defaultTown"){
+				$(".firstBox").css("background","#9BDDEC");
+				$(".firstBox").css("border","1px solid #fff");
+				$(".Xbtn").css("color","#fff");
+				$(".secondBox").css("background","#F9F9F9");
+				$(".secondBox").css("border","1px solid #E0E0E0");
+				$(".secondXbtn").css("color","black");
+				
+			} else {
+				$(".secondBox").css("background","#9BDDEC");
+				$(".secondBox").css("border","1px solid #fff");
+				$(".firstBox").css("background","#F9F9F9");
+				$(".firstBox").css("border","1px solid #E0E0E0");
+				$(".Xbtn").css("color","black");
+				$(".secondXbtn").css("color","#fff");
+				
+			}
+			
+			$.ajax({
+				
+				url:"changeTownType",
+				type:"get",
+				success: function(area){
+					
+					 if (area == 1) {
+						$("#mytown").html(townName);
+						$("#mytown").show();
+						$("#townCount").html("내 동네 1개");
+					} else if (area == 2) {
+						$("#mytown").html(townName);
+						$("#mytown").show();
+						$("#townCount").html("포함  "+address_2);
+					} else if (area == 3) {
+						$("#mytown").html(townName);
+						$("#mytown").show();
+						$("#townCount").html("포함  "+address_1);
+					} else {
+						$("#mytown").hide();
+						$("#townCount").html("전국");
+					} 
+					
+				},
+				error: function(e){
+					alert("error code: " + e.status + "\n" + "message: " + e.responseText);
+				}
+			});
+			
+			
+			};  
+			  
+			
+			 
+			
+		
+		
 	</script>
 	
 </body>

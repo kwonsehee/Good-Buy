@@ -61,6 +61,23 @@ public class TownServiceImpl implements TownService {
 		return tDao.selectUserTown(user_id);
 	}
 
+	@Override
+	public int changeTownType(String user_id) {
+		return tDao.changeTownType(user_id);
+	}
+
+	@Override
+	public int changeTownType2(String user_id) {
+		return tDao.changeTownType2(user_id);
+	}
+
+	@Override
+	public int changeArea(MyTown mt) {
+		return tDao.changeArea(mt);
+	}
+	
+	
+
 	
 
 }
