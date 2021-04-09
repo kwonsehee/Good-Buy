@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="reportMapper">
+	<resultMap type="Report" id="reportResultSet">
+		<id property = "re_no" column ="RE_NO"/>
+		<result property="retitle" column="RETITLE"/>
+		<result property="reported_id" column="REPORTED_ID"/>
+		<result property="re_content" column="RE_CONTENT"/>
+		<result property="create_date" column="CREATE_DATE"/>
+		<result property="re_status" column="RE_STATUS"/>
+		<result property="re_result" column="RE_RESULT"/>
+	</resultMap>
+	<select id="selectReportList" resultMap="reportResultSet">
+		SELECT
+		       RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+		  FROM
+		       REPORT
+      ORDER BY
+               RE_NO ASC
+	</select>
+	<select id="selectReport" parameterType="_int" resultMap="reportResultSet">
+      SELECT
+            RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+        FROM
+             REPORT
+       WHERE 
+            RE_NO = #{re_no}
+   </select>
+	<update id="updateReport" parameterType="Report">
+      UPDATE
+            REPORT
+         SET
+             RE_RESULT = #{re_result}
+           
+      WHERE
+            RE_NO = #{re_no}
+   </update>
+   <select id="selectListCount" resultType="_int">
+      SELECT 
+            COUNT(*)
+          FROM
+                REPORT
+         WHERE
+               RE_STATUS = 'Y' OR RE_STATUS = 'N'
+   </select>
+	<select id="selectList" resultMap="reportResultSet">
+      SELECT
+          RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+        FROM
+             REPORT
+    ORDER BY 
+             RE_NO ASC 
+   </select>
+	
+	
+</mapper>

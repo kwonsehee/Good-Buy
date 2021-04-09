@@ -31,6 +31,9 @@ public interface MemberService {
 
 		public List<Member> searchList(Search search);
 
+
+		public Member selectMemberDetail(String user_id);
+
 		
 
 	

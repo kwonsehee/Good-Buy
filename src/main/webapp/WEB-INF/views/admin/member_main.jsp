@@ -69,14 +69,14 @@
                 <tbody>
                   
                   <c:forEach var="m" items="${ list }">
-               <tr onclick="selectMember(${m.user_id})" id="tr_hover2">
+               <tr id="tr_hover2" >
                   <td>${ m.nickname }</td>
                   <td>${ m.user_id }</td>
                   <td>${ m.is_business }</td>
                   <td>${ m.phone }</td>
                   <td>${ m.email }</td>
                   <td>${ m.enroll_date }</td>
-                  <td><button id="createButton2">보기</button></td>
+                  <td><button type="button" id="createButton2" onclick="selectMemberDetail('${m.user_id}')">보기</button></td>
                </tr>
             </c:forEach>
                   
@@ -129,7 +129,13 @@
 
     <jsp:include page="../common/footer.jsp"/>
 
-
+<script>
+      function selectMemberDetail(user_id){
+      	 console.log(user_id);
+         location.href='${contextPath}/admin/memberdetail?user_id=' + user_id + '&page=${ pi.currentPage }';
+         // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+      }
+   </script>
 
 </body>
 </html>
