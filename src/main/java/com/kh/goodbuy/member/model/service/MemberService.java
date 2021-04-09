@@ -34,6 +34,8 @@ public interface MemberService {
 
 		public Member selectMemberDetail(String user_id);
 
+		public int updateMember(Member m);
+
 		
 
 	

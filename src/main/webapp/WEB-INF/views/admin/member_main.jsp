@@ -54,9 +54,9 @@
 
             <label>가입일</label>
             
-            <input type="date" id="option1" name="date1">
+            <input type="date" id="option1" name="date1" pattern="yyyy-MM-dd">
             <label>~</label>
-            <input type="date" name="date2">
+            <input type="date" name="date2" pattern="yyyy-MM-dd">
         </div>
 
         <div id="div4">

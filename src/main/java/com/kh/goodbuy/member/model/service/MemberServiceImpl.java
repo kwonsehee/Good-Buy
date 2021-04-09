@@ -60,6 +60,11 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.selectMemberDetail(user_id);
 	}
+	@Override
+	public int updateMember(Member m) {
+		// TODO Auto-generated method stub
+		return mDao.updateMember(m);
+	}
 	
 	
 	
