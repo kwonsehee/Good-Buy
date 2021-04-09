@@ -28,5 +28,7 @@ public class Goods {
 	private String gstatus;
 	private String user_id;
 	private Integer cno;
+//	private String uploadFile;
+	private String gtitle;
 	
 }

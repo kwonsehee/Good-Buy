@@ -19,7 +19,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Town {
 	private int t_no;
+	private int area;
 	private String address_1;
 	private String address_2;
-	private String address_3;
+	private String address_3;       
+	      
+	
+	
+	
 }

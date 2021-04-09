@@ -28,7 +28,7 @@
                 <td colspan="4" id="selectTown" style="text-align: right;">
                     <span style="font-weight: bold; font-size: 15px;">내 동네</span>
                     <span style=" padding-left: 20px;">수원 팔달구 우만동</span>
-                    <img src="${ contextPath }/resources/images/recycle.png" style="width: 25px;height: 25px; padding-left: 25px;">     
+                    <img src="${ contextPath }/resources/images/recycle.png" style="width: 25px;height: 25px;">     
                 </td>
                </tr>
             <tr>
@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?</td>
-                    <td><img src="${ contextPath }/resources/images/reply.png" style="width : 20px;padding-left: 80%;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
+                    <td class="reviews"><img src="${ contextPath }/resources/images/reply.png" style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
                 </tr>
                 <tr>
                     <td style="padding-left: 80px;">나는 판매자</td>
@@ -91,7 +91,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?</td>
-                    <td><img src="${ contextPath }/resources/images/reply.png"  style="width : 20px;padding-left: 80%;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
+                    <td class="reviews"><img src="${ contextPath }/resources/images/reply.png"  style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
                 </tr>
                 <tr>
                     <td style="padding-left: 80px;">나는 판매자</td>

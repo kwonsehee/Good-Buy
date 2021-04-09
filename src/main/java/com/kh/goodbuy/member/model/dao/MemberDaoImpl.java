@@ -61,6 +61,12 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectList("memberMapper.searchList", search);
 	}
 
+	@Override
+	public Member selectMemberDetail(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectMemberDetail", user_id);
+	}
+
 	
 
 	

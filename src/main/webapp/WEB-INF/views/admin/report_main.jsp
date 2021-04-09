@@ -41,17 +41,24 @@
             <table id="table1">
                 <thead>
                   <tr>
-                    <th>신고 번호</th><th>분류</th><th>신고 작성자</th><th>신고 내용</th><th>신고 상태</th>
+                    <th>신고 번호</th><th>신고 제목</th><th>신고 대상자</th><th>신고 내용</th><th>신고 상태</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr id="tr_hover1" onclick="location.href='${ contextPath }/admin/reportdetail'">
-                    <th>1</th><th>글 신고</th><th>최준</th><th>이 글은 사기 글 같아요</th><th><button id="createButton" disabled>처리 완료</button></th>
-                  </tr>
-                  <tr id="tr_hover2" onClick="location.href='admin_report_detail.html'">
-                    <th>2</th><th>회원 신고</th><th>무야호 할아버지</th><th>기분이 좋지않은 회원입니다</th><th><button id="createButton" disabled>처리 전</button></th>
-                  </tr>
                   
+                  <c:forEach var="r" items="${ list }">
+               
+               <tr id="tr_hover1" onclick="selectReport(${r.re_no})">
+                    <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th>
+                    <c:if test="${ r.re_result == 'Y' }">
+						<th><button id="createButton" disabled>처리 완료</button></th>
+					</c:if>
+					<c:if test="${ r.re_result == 'N' }">
+						<th><button id="createButton" disabled>처리 전</button></th>
+					</c:if>
+                    
+                  </tr>
+            </c:forEach>
                   
                 </tbody>
               </table>
@@ -69,13 +76,52 @@
 
 
         <div id="div5">
-           <p><<&nbsp; <&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; >&nbsp;>></p>
-
+           <!-- 페이징 처리 -->
+            	<table>
+				<tr>
+					<td colspan="6">
+					
+					<c:if test="${ pi.currentPage >= 0 }">
+						<c:url var="before" value="/admin/report">
+							<c:param name="page" value="${ pi.currentPage -1 }" />
+						</c:url>
+						<a href="${ before }">[이전]</a> &nbsp;
+					</c:if>
+					<!-- 페이지 숫자 -->
+					<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+						<c:if test="${ p eq pi.currentPage }">
+							<font color="red" size="4"><b>[${ p }]</b></font> &nbsp;
+						</c:if>
+						<c:if test="${ p ne pi.currentPage }">
+							<c:url var="pagination" value="/admin/report">
+								<c:param name="page" value="${ p }"/>
+							</c:url>
+							<a href="${ pagination }">${ p }</a> &nbsp;
+						</c:if>
+					</c:forEach>
+					<!-- [다음] -->
+					<c:if test="${ pi.currentPage >= pi.maxPage }">
+						[다음]
+					</c:if>
+					<c:if test="${ pi.currentPage < pi.maxPage }">
+						<c:url var="after" value="/admin/report">
+							<c:param name="page" value="${ pi.currentPage + 1 }" />
+						</c:url>
+						<a href="${ after }">[다음]</a>
+					</c:if>
+					</td> 
+				</tr>
+				</table>
         </div>
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
-
+<script>
+      function selectReport(re_no){
+         location.href='${contextPath}/admin/reportdetail?re_no=' + re_no + '&page=${ pi.currentPage }';
+         // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+      }
+   </script>
 
 </body>
 </html>

@@ -42,12 +42,18 @@
             <table id="table1">
                 <thead>
                   <tr>
-                    <th>신고 번호</th><th>분류</th><th>신고 작성자</th><th>신고 내용</th><th>신고 상태</th>
+                    <th>신고 번호</th><th>신고 제목</th><th>신고 대상자</th><th>신고 내용</th><th>신고 상태</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr id="tr_hover1" onClick="location.href='admin_report_detail.html'">
-                    <th>1</th><th>글 신고</th><th>최준</th><th>이 글은 사기 글 같아요</th><th><button id="createButton" disabled>처리 완료</button></th>
+                    <th>${ report.re_no }</th><th>${ report.retitle }</th><th>${ report.reported_id }</th><th>${ report.retitle }</th>
+                    <c:if test="${ report.re_result == 'Y' }">
+						<th><button id="createButton" disabled>처리 완료</button></th>
+					</c:if>
+					<c:if test="${ report.re_result == 'N' }">
+						<th><button id="createButton" disabled>처리 전</button></th>
+					</c:if>
                   </tr>
                   
                   
@@ -65,7 +71,7 @@
             <div id="div4_1">
               <div id="div4_1_1">
             <label id="la1">상품 정보</label><br>
-            <label id="la2">상품 번호 1</label><br>
+            <label id="la2">상품 번호 </label><br>
           </div>
           <div id="div4_1_2">
             <img id="src1" src="images/아이패드.jpg"><br>
@@ -78,16 +84,11 @@
             <div id="div4_2">
               <div id="div4_2_1">
                 <label id="la1">신고 정보</label><br>
-                <label id="la2">신고 번호 1</label><br>
+                <label id="la2">신고 번호 ${ report.re_no }</label><br>
               </div>
                 <div id="div4_2_2">
                 <label id="la3" class="la3_1">신고 내용</label><br>
-                <label id="la3">가격도 말도 안되고 직거래도 안하려고해요<br>
-                가격도 말도 안되고 직거래도 안하려고해요<br>
-                가격도 말도 안되고 직거래도 안하려고해요<br>
-                가격도 말도 안되고 직거래도 안하려고해요<br>
-                가격도 말도 안되고 직거래도 안하려고해요<br>
-                가격도 말도 안되고 직거래도 안하려고해요<br></label><br>
+                <label id="la3">${ report.re_content }<br></label><br>
                 </div>
                 
                 
@@ -97,7 +98,12 @@
     
         </div>
         <div id="div5">
-          <button id="createButton2" onClick="location.href='admin_product_detail.html'">상품 상세</button><button id="createButton2" disabled>신고 처리</button>
+          <button id="createButton2" onClick="location.href='admin_product_detail.html'">상품 상세</button>
+          <form action="${ contextPath }/admin/reportupdate" id="writeForm" method="post">
+          <input type="hidden" name="re_no" value="${ report.re_no }"/>
+          <input type="hidden" name="re_result" value="Y"/>
+          <button id="createButton2">신고 처리</button>
+          </form>
 
 
         </div>
