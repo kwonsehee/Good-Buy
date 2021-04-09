@@ -33,4 +33,13 @@ public interface TownService {
 	// 로그인 유저의 동네 정보 조회용 
 	Town selectUserTown(String user_id);
 	
+	// 내동네 한개 삭제 시 남은 내동네가 기본 동네로 업데이트 
+	int changeTownType(String user_id);
+	
+	// 내동네 기본동네 타입 변경용
+	int changeTownType2(String user_id);
+	
+	// 내동네 범위 변경용
+	int changeArea(MyTown mt);
+	
 }
