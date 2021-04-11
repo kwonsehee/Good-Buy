@@ -29,6 +29,12 @@ public interface MemberDao {
 
 	public List<Member> searchList(Search search);
 
+	public Member selectMemberDetail(String user_id);
+
+	public int userIdCheck(String user_id);
+
+	public int updateMember(Member loginUser);
+
 	
 
 

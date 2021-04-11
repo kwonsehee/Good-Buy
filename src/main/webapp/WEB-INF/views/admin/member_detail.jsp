@@ -63,11 +63,11 @@
                 <table>
                     <tr height="80">
                         <td>아이디</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-            value="sumin1234" readonly></td>
+            value="${ member.user_id }" readonly></td>
                     </tr>
                     <tr height="80">
-                        <td>이름</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-            value="김수민" readonly></td>
+                        <td>닉네임</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
+            value="${ member.nickname }" readonly></td>
                     </tr>
                     <tr height="80">
                         <td>휴대전화</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 

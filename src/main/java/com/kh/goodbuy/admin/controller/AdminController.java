@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.admin.model.service.ReportService;
+import com.kh.goodbuy.admin.model.vo.Report;
 import com.kh.goodbuy.center.model.service.NoticeService;
 import com.kh.goodbuy.center.model.vo.Notice;
 import com.kh.goodbuy.common.Pagination;
@@ -38,6 +40,8 @@ public class AdminController {
 	private MemberService mService;
 	@Autowired
 	private NoticeService nService;
+	@Autowired
+	private ReportService rService;
 
 	// 관리자 페이지 메인페이지 이동
 	@GetMapping("/join")
@@ -135,14 +139,53 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// 신고 메인페이지 이동
 	@GetMapping("/report")
-	public String ReportMainView() {
-		return "admin/report_main";
-	}
+		public ModelAndView ReportMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+			
+			int listCount = rService.selectListCount();
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			List<Report> list = rService.selectReportList(pi);
+			System.out.println(listCount);
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("admin/report_main");
+			} else {
+				mv.addObject("msg", "회원 목록 조회에 실패하였습니다.");
+				mv.setViewName("common/error_page");
+			}
+			return mv;
+		}
 
 	// 신고 메인페이지 이동
 	@GetMapping("/reportdetail")
-	public String ReportDetailView() {
-		return "admin/report_detail";
+		public String ReportDetailView(@RequestParam int re_no, Model model) {
+
+			Report r = rService.selectReport(re_no);
+			
+			if (r != null) {
+				model.addAttribute("report", r);
+				return "admin/report_detail";
+			} else {
+				model.addAttribute("msg", "공지사항 게시글 보기에 실패했습니다.");
+				return "common/errorpage";
+			}
+		}
+	
+	// 신고 상세페이지에서 처리하기
+	@PostMapping("/reportupdate")
+	public String reportUpdate(@ModelAttribute Report r, HttpServletRequest request) {
+		
+		
+		int result = rService.updateReport(r);
+		
+		
+		if (result > 0) {
+			return "redirect:/admin/report";
+		} else {
+			throw new NoticeException("신고처리에 실패하였습니다.");
+		}
+		
 	}
 
 	// 상품관리
@@ -184,10 +227,19 @@ public class AdminController {
 	}
 
 	// 회원관리 디테일페이지 이동
-	@GetMapping("/memberdetail")
-	public String MemberDetailView() {
-		return "admin/member_detail";
-	}
+		@GetMapping("/memberdetail")
+		public String MemberDetailView(@RequestParam String user_id, Model model) {
+
+			Member m = mService.selectMemberDetail(user_id);
+
+			if (m != null) {
+				model.addAttribute("member", m);
+				return "admin/member_detail";
+			} else {
+				model.addAttribute("msg", "공지사항 게시글 보기에 실패했습니다.");
+				return "common/errorpage";
+			}
+		}
 	
 	
 	

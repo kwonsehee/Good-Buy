@@ -100,7 +100,7 @@
             <a> &nbsp;&gt;&gt; </a>
 
        </div>
-       <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insert'" >중고거래 글쓰기</button>
+       <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insertView'" >중고거래 글쓰기</button>
     </section>
     <script type="text/javascript">
     function showCate(){

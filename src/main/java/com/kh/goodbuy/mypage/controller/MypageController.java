@@ -41,8 +41,6 @@ public class MypageController {
 		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
 		
 		
-		Town townInfo = (Town) request.getSession().getAttribute("townInfo");
-		
 		if(mtlist != null) {
 			mv.addObject("mtlist",mtlist);
 			mv.setViewName("mypage/mypageMain");
@@ -68,7 +66,19 @@ public class MypageController {
 	// 프로필 수정 화면
 	@GetMapping("/updateMember")
 	public ModelAndView showUpdateForm(ModelAndView mv) {
-		mv.setViewName("mypage/memberUpdateForm");
+		List<Town> tlist1 = tService.selectAllTown1();
+		List<Town> tlist2 = tService.selectAllTown2();
+		List<Town> tlist3 = tService.selectAllTown3();
+		
+		if (tlist1 != null && tlist2 != null && tlist3 != null) {
+			mv.addObject("tlist1", tlist1);
+			mv.addObject("tlist2", tlist2);
+			mv.addObject("tlist3", tlist3);
+			mv.setViewName("mypage/memberUpdateForm");
+		} else {
+			mv.setViewName("mypage/memberUpdateForm");
+		}
+		
 		return mv;
 	}
 	
@@ -287,8 +297,6 @@ public class MypageController {
 		} else {
 			return "Fail to change area of town..";
 		}
-	
-		
 		
 	}
 	

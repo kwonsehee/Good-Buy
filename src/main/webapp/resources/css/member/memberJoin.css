@@ -47,6 +47,7 @@
 	color: #222;
 	text-decoration: underline;
 	font-size: 14px;
+	cursor:pointer;
 }
 
 .joinform input {
@@ -57,11 +58,27 @@
 	border-bottom: 1px #9A9999 solid;
 	margin-bottom: 30px;
 	font-size: 14px;
+	outline:none;
 }
+
+/* 중복확인버튼 */
+.joinform input[type=button]{
+	width:15%;
+	height:25px;
+	background:none;
+	text-align:right;
+}
+
 
 .joinform input::placeholder {
 	color: #9A9999;
 }
+
+.joinform input:nth-child(1){
+	width:85%;
+	float:left;
+}
+
 
 .joinform p {
 	color: #9A9999;
@@ -78,7 +95,7 @@
 	background: #fff;
 }
 
-.joinform button {
+#submitBtn {
 	width: 150px;
 	height: 47px;
 	text-align: center;
@@ -87,4 +104,21 @@
 	color: #fff;
 	border-radius: 27px;
 	font-weight: bold;
+	margin-top:-30px;
 }
+
+/* 비밀번호 일치 여부 알림 */
+.checkPwd-success{
+	text-align:justify;
+	color:#05AAD1;
+	margin-bottom:10px;
+	font-size:14px;
+}
+.checkPwd-fail{
+	text-align:justify;
+	color:red;
+	margin-bottom:10px;
+	font-size:14px;
+}
+
+

@@ -31,5 +31,6 @@ public interface TownDao {
 
 	int changeArea(MyTown mt);
 
+	int updateMyTown(MyTown mt);
 
 }

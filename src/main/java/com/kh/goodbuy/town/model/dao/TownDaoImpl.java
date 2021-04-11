@@ -90,5 +90,11 @@ public class TownDaoImpl implements TownDao{
 	}
 
 
+	@Override
+	public int updateMyTown(MyTown mt) {
+		return sqlSession.update("townMapper.updateMyTown",mt);
+	}
+
+
 
 }

@@ -42,4 +42,7 @@ public interface TownService {
 	// 내동네 범위 변경용
 	int changeArea(MyTown mt);
 	
+	// 회원정보 수정시 마이타운 수정
+	int updateMyTown(MyTown mt);
+	
 }
