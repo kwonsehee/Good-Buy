@@ -75,6 +75,11 @@ public class TownServiceImpl implements TownService {
 	public int changeArea(MyTown mt) {
 		return tDao.changeArea(mt);
 	}
+
+	@Override
+	public int updateMyTown(MyTown mt) {
+		return tDao.updateMyTown(mt);
+	}
 	
 	
 

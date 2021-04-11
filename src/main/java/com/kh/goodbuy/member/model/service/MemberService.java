@@ -33,6 +33,12 @@ public interface MemberService {
 
 
 		public Member selectMemberDetail(String user_id);
+		
+		// id 중복확인 
+		public int userIdCheck(String user_id);
+		
+		// 회원정보 수정
+		public int updateMember(Member loginUser);
 
 		
 

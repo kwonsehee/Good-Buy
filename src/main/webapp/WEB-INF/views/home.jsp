@@ -7,20 +7,5 @@
 </head>
 <body>
 	<jsp:include page="common/menubar.jsp"></jsp:include>
-
-	<h1>여기가 메인</h1> 
-	<h1>임홍규</h1>
-
-
-	<h1>희준이 첫푸쉬요</h1> 
-
-	<h1>여기가 메인</h1>
-
-	<h1>김수민!!!</h1> 
-
-	<h1>김수민</h1> 
-
-
-
 </body>
 </html>

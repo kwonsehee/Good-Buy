@@ -156,4 +156,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		       USER_ID = #{user_id} 
 	</select>
+	
+	<select id="userIdCheck" parameterType="string" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		USER_INFO
+		 WHERE
+		 		USER_ID = #{user_id}
+	</select>
 </mapper>

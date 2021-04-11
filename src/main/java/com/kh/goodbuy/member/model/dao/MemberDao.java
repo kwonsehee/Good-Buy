@@ -31,6 +31,10 @@ public interface MemberDao {
 
 	public Member selectMemberDetail(String user_id);
 
+	public int userIdCheck(String user_id);
+
+	public int updateMember(Member loginUser);
+
 	
 
 

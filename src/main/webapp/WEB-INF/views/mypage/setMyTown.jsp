@@ -241,6 +241,10 @@
 						$("#townCount").html("전국");
 					} 
 					
+					$("#townArea").attr("value",area); 
+					 
+					 
+					 
 				},
 				error: function(e){
 					alert("error code: " + e.status + "\n" + "message: " + e.responseText);

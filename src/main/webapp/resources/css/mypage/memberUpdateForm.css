@@ -100,3 +100,19 @@
 	font-size: 14px;
 	margin-left: 450px;
 }
+
+/* 비밀번호 일치 여부 알림 */
+.checkPwd-success{
+	text-align:justify;
+	color:#05AAD1;
+	margin-bottom:10px;
+	font-size:14px;
+}
+.checkPwd-fail{
+	text-align:justify;
+	color:red;
+	margin-bottom:10px;
+	font-size:14px;
+}
+
+
