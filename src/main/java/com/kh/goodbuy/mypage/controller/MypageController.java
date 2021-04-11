@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.town.model.service.TownService;
@@ -23,7 +23,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/mypage")
-@SessionAttributes({ "loginUser"})
+@SessionAttributes({ "loginUser","townInfo"})
 public class MypageController {
 	
 	@Autowired
@@ -153,7 +153,8 @@ public class MypageController {
 	@GetMapping("/setMyTown")
 	public ModelAndView showSetMyTown(ModelAndView mv,
 									  Model model,
-									  @ModelAttribute("loginUser") Member loginUser) {
+									  @ModelAttribute("loginUser") Member loginUser
+									 ) {
 		// 내동네 추가 모달 창에 띄울 전체 주소 리스트
 		List<Town> tlist1 = tService.selectAllTown1();
 		List<Town> tlist2 = tService.selectAllTown2();
@@ -196,8 +197,6 @@ public class MypageController {
 		
 		int insertMyNewtown = tService.insertMyNewTown(mt);
 		
-		//System.out.println("마이타운 객체확인 : " + mt);
-		//System.out.println("마이타운 들어갔나? : " + insertMytown);
 		
 		if(insertMyNewtown > 0) {
 			return "redirect:/mypage/setMyTown";
@@ -207,10 +206,9 @@ public class MypageController {
 		
 	}
 	
-	// 내 동네 삭제 메소드
+	// 내 동네 삭제
 	@GetMapping("/deleteTown")
 	public String deleteTown(@RequestParam String townName,
-							 Model model,
 							 @ModelAttribute("loginUser") Member loginUser) {
 		
 		// 1) 넘어온 주소값에 해당하는 t_no 조회하기
@@ -219,23 +217,79 @@ public class MypageController {
 		// 2) MYTOWN delete 
 		MyTown mt = new MyTown(loginUser.getUser_id(), t_no);
 		
-		System.out.println("로그인유저 아이디 : " + loginUser.getUser_id());
 		// 내 동네 삭제
 		int result = tService.deleteTown(mt);
 		
-		System.out.println("삭제됐나? : " + result);
-		
-		// 동네 하나가 더 남아 있을 때 MYTOWN_TYPE = 1로 변경
+		// 내동네 한개 삭제 시 남은 내동네가 기본 동네로 업데이트 
 		// 1 동네 삭제 시 -> 1로 변경
 		// 2 동네 삭제 시 -> 1로 변경
 		
-		//int result2 = tService.changeTownType(user_id);
+		int result2 = tService.changeTownType(loginUser.getUser_id());
 		
 		if(result > 0) {
 			return "redirect:/mypage/setMyTown?user_id="+loginUser.getUser_id();
 		} else {
 			return "common/errorpage";
 		}
+	}
+	
+	// 내동네 바꾸기 
+	@GetMapping("changeTownType")
+	public @ResponseBody String changeTownType(@ModelAttribute("loginUser") Member loginUser,
+												Model model) {
+		
+		System.out.println("로그인유저 넘어왔나 " + loginUser.getUser_id());
+		// 내동네 기본동네 타입 변경용
+		// 1 -> 2
+		// 1 -> 2
+		int result = tService.changeTownType2(loginUser.getUser_id());
+		
+		System.out.println("동네타입 2->1로 잘 바꼈나? " + result);
+		
+		// 바뀐 동네정보 세션에 다시 담아주기
+		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
+		
+		if(townInfo != null) {
+			model.addAttribute("townInfo", townInfo);
+			System.out.println("세션에 저장되는 타운 바뀌나 : " + townInfo);
+		}
+		
+		// ajax통신 성공 시 동적으로 화면 문구 바뀌어야 하므로
+		String area = Integer.toString(townInfo.getArea());
+		return area;
+		
+	}
+	
+	// 내동네 범위 바꾸기 
+	@GetMapping("changeArea")
+	public @ResponseBody String changeArea(@ModelAttribute("loginUser") Member loginUser,
+											Model model,
+											@RequestParam int t_no,
+											@RequestParam int area) {
+		
+		System.out.println("내동네 범위 바꾸기 잘 넘어왔나 " + loginUser.getUser_id() + t_no + area);
+		
+		MyTown mt = new MyTown(loginUser.getUser_id(),t_no,area);
+		
+		int result = tService.changeArea(mt);
+		
+		// 바뀐 동네 정보 세션에 다시 담아주기
+		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
+		
+		if(townInfo != null) {
+			model.addAttribute("townInfo", townInfo);
+			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo);
+		}
+		
+		
+		if(result > 0) {
+			return "Success to change area of town~!";
+		} else {
+			return "Fail to change area of town..";
+		}
+	
+		
+		
 	}
 	
 	
