@@ -68,9 +68,18 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int updateMember(Member m) {
+	public int updateadminMember(Member m) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("memberMapper.updateMember", m);
+		return sqlSession.update("memberMapper.updateadminMember", m);
+	}
+	public int userIdCheck(String user_id) {
+		return sqlSession.selectOne("memberMapper.userIdCheck", user_id);
+	}
+
+	@Override
+	public int updateMember(Member loginUser) {
+		return sqlSession.update("memberMapper.updateMember",loginUser);
+
 	}
 
 	
