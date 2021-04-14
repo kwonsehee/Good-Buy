@@ -76,9 +76,6 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateMember(Member loginUser) {
 		return sqlSession.update("memberMapper.updateMember",loginUser);
 	}
-
-	
-
 	
 
 }

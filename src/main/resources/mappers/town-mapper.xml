@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="area" column="AREA"/>
 	</resultMap>
 	
+	<!-- 전국 동네 정보 조회용 -->
 	<select id="selectAllTown1" resultMap="townResultSet">
 		SELECT
 			 	DISTINCT ADDRESS_1
@@ -43,6 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  FROM
 		  		TOWN
 	</select>
+	
+	<!-- t_no 조회용 -->
 	<select id="selectTownNo" parameterType="string" resultType="_int">
 		SELECT
 				T_NO
@@ -52,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ADDRESS_3 = #{address_3}
 	</select>
 	
+	<!-- 회원가입 시 동네 insert -->
 	<insert id="insertMyTown" parameterType="MyTown">
 		INSERT 
 		INTO MY_TOWN
@@ -70,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 	</insert>
 	
+	<!-- 내동네 설정에서 두번째 동네 추가 시 -->
 	<insert id="insertMyNewTown" parameterType="MyTown">
 		INSERT 
 		INTO MY_TOWN
@@ -88,34 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 	</insert>
 	
-	<select id="selectDefaultTown" parameterType="string" resultType="string">
-		SELECT 
-				ADDRESS_3
-		  FROM 
-		  		MY_TOWN
-		  JOIN 
-		   		TOWN USING(T_NO)
-		 WHERE
-		 		USER_ID = #{user_id}
-		   AND  
-		   		MYTOWN_TYPE = 1
-	
-	</select>
-	
-	
-	<select id="selectNewTown" parameterType="string" resultType="string">
-		SELECT 
-				ADDRESS_3
-		  FROM 
-		  		MY_TOWN
-		  JOIN 
-		   		TOWN USING(T_NO)
-		 WHERE
-		 		USER_ID = #{user_id}
-		   AND  
-		   		MYTOWN_TYPE = 2
-	</select>
-	
+	<!-- 내 동네1,2 address_3만 조회용 -->
 	<select id="selectMyTownList" resultType="string">
 		SELECT 
 				ADDRESS_3
@@ -125,8 +103,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		TOWN USING(T_NO)
 		 WHERE
 		 		USER_ID = #{user_id}
+	  ORDER BY	
+	  			MYTOWN_TYPE
 	</select>
 	
+	<!-- 내동네 설정에서 동네 삭제 시 -->
 	<delete id="deleteTown" parameterType="MyTown">
 		DELETE  
 		  FROM 
@@ -137,6 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		USER_ID = #{user_id}
 	</delete>
 	
+	<!-- 로그인 유저의 기본 동네 조회용(세션에 저장) -->
 	<select id="selectUserTown" parameterType="string" resultMap="townResultSet2">
 		SELECT 
 				T_NO
@@ -155,6 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    	MYTOWN_TYPE = 1
 	</select>
 	
+	<!-- 내동네 중 하나 삭제 시 남은 하나가 기본동네로 업데이트 무조건 1로  -->
 	<update id="changeTownType" parameterType="string">
 		UPDATE 
 				MY_TOWN
@@ -166,6 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		MYTOWN_TYPE = 2
 	</update>
 	
+	<!-- 내동네 설정에서 기본동네 바꿀 때 타입 상호 업데이트 -->
 	<update id="changeTownType2" parameterType="string">
 		UPDATE 
 				MY_TOWN
@@ -181,6 +165,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		
 	</update>
 	
+	<!-- 내동네 범위 변경 -->
 	<update id="changeArea" parameterType="MyTown">
 		UPDATE 
 				MY_TOWN
@@ -193,6 +178,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</update>
 	
+	<!-- 회원 정보 수정시 기본 동네 수정 -->
+	<update id="updateMyTown" parameterType="MyTown">
+		UPDATE 
+				MY_TOWN
+		   SET 
+		   		T_NO = #{t_no}
+		 WHERE 
+		 		USER_ID = #{user_id}
+		   AND 	
+		   		MYTOWN_TYPE = 1
+	</update>
 	
 	
 	
