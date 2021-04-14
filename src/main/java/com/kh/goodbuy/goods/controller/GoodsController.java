@@ -40,6 +40,7 @@ public class GoodsController {
 	@GetMapping("/list")
 	public String goGoodsView(HttpServletRequest request,
 			 @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			 @RequestParam(value="cate", required=false, defaultValue="null") String cate,
 			 Model model) {
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		Town myTown = (Town) request.getSession().getAttribute("townInfo");
@@ -47,13 +48,31 @@ public class GoodsController {
 		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
 		List<Goods> glist;
 		PageInfo pi;
+		System.out.println("cate : "+cate);
 		if(loginUser==null) {
-			listCount = gService.selectAllCount();
-			System.out.println("로그인 유저 없을때 : listCount"+ listCount);
-			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
-			glist = gService.selectAllList(pi);
-			System.out.println("로그인 유저 없을때 : glist"+ glist);
+			if(!cate.equals("null")) {
+				listCount = gService.selectCateCount(cate);
+				System.out.println("로그인 유저 없을때 cate : listCount"+ listCount);
+				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				glist = gService.selectCateList(pi, cate);
+				System.out.println("로그인 유저 없을때 cate: glist"+ glist);
+			}else {
+				listCount = gService.selectAllCount();
+				System.out.println("로그인 유저 없을때 : listCount"+ listCount);
+				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				glist = gService.selectAllList(pi);
+				System.out.println("로그인 유저 없을때 : glist"+ glist);
+			}
 		}else {
+			if(!cate.equals("null")) {
+				System.out.println("loginUser : "+ loginUser.getUser_id());
+				System.out.println("myTown : "+ myTown);
+				listCount = gService.selectCateCount2(myTown, cate);
+				System.out.println("로그인 유저 있을때 cate: listCount"+ listCount);
+				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				glist = gService.selectCateList2(myTown, pi, cate);
+				System.out.println("로그인 유저 있을때 cate : glist"+ glist);
+			}else {
 			System.out.println("loginUser : "+ loginUser.getUser_id());
 			System.out.println("myTown : "+ myTown);
 			listCount = gService.selectListCount(myTown);
@@ -61,6 +80,7 @@ public class GoodsController {
 			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 			glist = gService.selectList(myTown, pi);
 			System.out.println("로그인 유저 있을때 : glist"+ glist);
+			}
 		}
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
@@ -71,16 +91,32 @@ public class GoodsController {
 	@GetMapping("/mylist")
 	public String goMyGoodsView(HttpServletRequest request,
 			 @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			 @RequestParam(value="cate", required=false, defaultValue="null") String cate,
 			 Model model) {
+		
+		System.out.println("로그인 유저의 상품 cate : "+ cate);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		//Town myTown = (Town) request.getSession().getAttribute("townInfo");
-		
-		int listCount = gService.selectMyListCount(loginUser.getUser_id());
+		int listCount = 0;
 		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
-		System.out.println("로그인 유저꺼 : listCount"+ listCount);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
-		List<Goods> glist = gService.selectMyList(loginUser.getUser_id(), pi);
-		System.out.println("로그인 유저꺼 : glist"+ glist);
+		PageInfo pi;
+		List<Goods> glist;
+		if(!cate.equals("null")) {
+			listCount = gService.selectMyCateListCount(loginUser.getUser_id(), cate);
+			System.out.println("로그인 유저꺼 cate : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectMyCateList(loginUser.getUser_id(), pi, cate);
+			System.out.println("로그인 유저꺼 cate: glist"+ glist);
+			
+		}
+		else{
+			listCount = gService.selectMyListCount(loginUser.getUser_id());
+			System.out.println("로그인 유저꺼 : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectMyList(loginUser.getUser_id(), pi);
+			System.out.println("로그인 유저꺼 : glist"+ glist);
+		}
+		
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
 		

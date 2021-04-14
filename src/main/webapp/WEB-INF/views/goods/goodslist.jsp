@@ -17,14 +17,22 @@
        <table id="goodlist" >
            <tr>
             <td>
-                <img src="${ contextPath }/resources/images/filter.png" onclick="showCate();" id="gfilter"> 전체
-                <div class="catebar">
+                 <span id="allCate" onclick="showCate();">
+                <img src="${ contextPath }/resources/images/filter.png"  id="gfilter">
+                전체 </span>
+                  <div class="catebar">
                   
                     <button onclick="closeCate()">X</button>
                        
                     <ul>
-                        <li><a href="${contextPath }/goods/list?cate='여성의류'">여성의류</a></li>
-                        <li><a href="${contextPath }/goods/list?cate'패션잡화'">패션잡화</a></li>
+                    <c:url var="selected0" value="/goods/list">
+            				<c:param name="cate" value="여성의류"/>
+            		</c:url>
+           		  	<li><a href="${selected0}"> 여성의류 </a></li>
+   				 	<c:url var="selected1" value="/goods/list">
+            				<c:param name="cate" value="패션잡화"/>
+            		</c:url>
+           		  	<li><a href="${selected1}"> 패션잡화 </a></li>
                         <li><a href="${contextPath }/goods/list">디지털/가전</a></li>
                         <li><a href="${contextPath }/goods/list">도서/티켓/취미/애완</a></li>
                         <li><a href="${contextPath }/goods/list">스타굿즈</a></li>
@@ -83,10 +91,10 @@
             	</c:url>
            		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
             </c:if>
-            <c:if test="${pi.currentPage <= 0}">
+            <c:if test="${pi.currentPage <= pi.startPage}">
             <a> &lt;&nbsp; </a>
             </c:if>
-            <c:if test="${pi.currentPage > 0 }">
+            <c:if test="${pi.currentPage > pi.startPage }">
             	<c:url var="before" value="/goods/list">
             		<c:param name="page" value="${pi.currentPage -1}"/>
             	</c:url>
