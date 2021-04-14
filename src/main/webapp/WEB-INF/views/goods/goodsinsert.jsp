@@ -98,8 +98,10 @@
                 <td colspan="3">
                     <select id="deal_town" name="gplace" required>
                         <option disabled selected value="">내 동네 선택</option>
-                        <option value="1">내 동네1</option>
-                        <option value="2">내 동네2</option>
+                        <option value="1">${townInfo.address_1 } &nbsp;${townInfo.address_2 } &nbsp;${townInfo.address_3 } </option>
+                        <c:if test="${ !empty secondTown}">
+                        <option value="2">${secondTown.address_1 }&nbsp;${secondTown.address_2 }&nbsp;${secondTown.address_3 }</option>
+						</c:if>
                         <option value="0">직거래 불가</option>
                     </select>
                 </td>

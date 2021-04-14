@@ -28,7 +28,7 @@ public class Goods {
 	private String gstatus;
 	private String user_id;
 	private Integer cno;
-//	private String uploadFile;
+	private String changeName;	//올라간 파일의 변경한 이름
 	private String gtitle;
 	
 }

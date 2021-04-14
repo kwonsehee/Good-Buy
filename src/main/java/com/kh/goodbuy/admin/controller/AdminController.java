@@ -142,8 +142,8 @@ public class AdminController {
 		public ModelAndView ReportMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
 			
 			int listCount = rService.selectListCount();
-			
-			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			int boardLimit = 7;	// 한 페이지 보여질 게시글 개수
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 			List<Report> list = rService.selectReportList(pi);
 			System.out.println(listCount);
 			if (list != null) {
@@ -210,8 +210,9 @@ public class AdminController {
 	public ModelAndView MemberMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
 		
 		int listCount = mService.selectListCount();
-		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+		int boardLimit = 7;	// 한 페이지 보여질 게시글 개수
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		List<Member> list = mService.selectMemberList(pi);
 		System.out.println(listCount);
 		if (list != null) {
