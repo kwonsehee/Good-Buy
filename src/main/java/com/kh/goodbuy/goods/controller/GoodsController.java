@@ -11,20 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
-import com.kh.goodbuy.goods.model.vo.GoodsFile;
 import com.kh.goodbuy.member.model.vo.Member;
+import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/goods")
@@ -34,25 +38,67 @@ public class GoodsController {
 	
 	// 중고상품 리스트 페이지로
 	@GetMapping("/list")
-	public String goGoodsView() {
+	public String goGoodsView(HttpServletRequest request,
+			 @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			 Model model) {
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		Town myTown = (Town) request.getSession().getAttribute("townInfo");
+		int listCount=0;
+		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
+		List<Goods> glist;
+		PageInfo pi;
+		if(loginUser==null) {
+			listCount = gService.selectAllCount();
+			System.out.println("로그인 유저 없을때 : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectAllList(pi);
+			System.out.println("로그인 유저 없을때 : glist"+ glist);
+		}else {
+			System.out.println("loginUser : "+ loginUser.getUser_id());
+			System.out.println("myTown : "+ myTown);
+			listCount = gService.selectListCount(myTown);
+			System.out.println("로그인 유저 있을때 : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectList(myTown, pi);
+			System.out.println("로그인 유저 있을때 : glist"+ glist);
+		}
+		model.addAttribute("glist", glist);
+		model.addAttribute("pi", pi);
 		return "goods/goodslist";
 	}
 
 	// 내가 등록한 중고상품 리스트 페이지로
 	@GetMapping("/mylist")
-	public String goMyGoodsView() {
+	public String goMyGoodsView(HttpServletRequest request,
+			 @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			 Model model) {
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		//Town myTown = (Town) request.getSession().getAttribute("townInfo");
+		
+		int listCount = gService.selectMyListCount(loginUser.getUser_id());
+		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
+		System.out.println("로그인 유저꺼 : listCount"+ listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		List<Goods> glist = gService.selectMyList(loginUser.getUser_id(), pi);
+		System.out.println("로그인 유저꺼 : glist"+ glist);
+		model.addAttribute("glist", glist);
+		model.addAttribute("pi", pi);
+		
 		return "goods/myglist";
 	}
 
 	// 중고상품등록 페이지로
 	@GetMapping("/insertView")
-	public ModelAndView goGoodsInsertView(ModelAndView mv) {
+	public ModelAndView goGoodsInsertView(HttpServletRequest request,ModelAndView mv) {
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		List<Gcate> list = gService.selectCate();
 		for(Gcate a :list) {
 			
 			System.out.println(a);
 		}
+		Town secondTown = gService.selectSecondTown(loginUser.getUser_id());
 		mv.addObject("list", list);
+		mv.addObject("secondTown", secondTown);
 		mv.setViewName("goods/goodsinsert");
 		return mv;
 	}
@@ -113,6 +159,11 @@ public class GoodsController {
 				Addfile a = new Addfile();
 				a.setOriginName(fileup[i].getOriginalFilename());
 				a.setChangeName(renameFileName);
+				if(i==0) {
+					a.setFile_level(1);
+				}else {
+					a.setFile_level(0);
+				}
 				list.add(a);
 				System.out.println(renameFileName);
 			}

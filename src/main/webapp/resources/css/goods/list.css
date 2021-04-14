@@ -21,6 +21,10 @@
     margin: auto;
     margin-top: 3%;
 }
+#goodlist td{
+	width : 200px;
+	border : 1px solid red;
+}
 .goodlistimg{
     width: 200px;
     height: 200px;

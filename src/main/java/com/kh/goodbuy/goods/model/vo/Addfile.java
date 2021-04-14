@@ -21,4 +21,5 @@ public class Addfile {
 	private String originName;
 	private String changeName;
 	private String status;
+	private int file_level;	//썸네일용
 }
