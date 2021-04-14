@@ -22,6 +22,7 @@
 		<typeAlias type="com.kh.goodbuy.business.model.vo.Attachment" alias = "Attachment"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.NewsAttachment" alias = "NewsAttachment"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.News" alias = "News"/>
+		<typeAlias type="com.kh.goodbuy.business.model.vo.Review" alias = "Review"/>
 		
 
 		<typeAlias type="com.kh.goodbuy.member.model.vo.Search" alias="Search"/>

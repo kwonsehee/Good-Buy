@@ -11,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- 공통 UI -->
    
-    <link href="${ contextPath }/resources/css/businessCss/myNear.css" rel="stylesheet" type="text/css">
+    <link href="${ contextPath }/resources/css/businessCss/myNear.css?v=1" rel="stylesheet" type="text/css">
  
 </head>
 
@@ -23,13 +23,13 @@
         <!--카테고리 부분 시작-->
         <div id="cateArea">
             <ul id="category">
-                <li><img class="cateimg" src="${contextPath}/resources/images/business/일자리1.png"></li>
-                <li><img class="cateimg" src="${contextPath}/resources/images/business//과외1.png"></li>
-                <li><img class="cateimg" src="${contextPath}/resources/images/business/농수산물1.png"></li>
-                <li><img class="cateimg" src="${contextPath}/resources/images/business/부동산1.png"></li>
-                <li><img class="cateimg" src="${contextPath}/resources/images/business/중고차1.png"></li>
-                <li><img class="cateimg" src="${contextPath}/resources/images/business/전시1.png"></li>
-                <li><img class="cateimg" src="${contextPath}/resources/images/business/지역업체1.png"></li>
+                <li><img class="cateimg" src="${contextPath}/resources/images/business/일자리1.png" onclick="location.href='${contextPath}/business/job/list'"></li>
+                <li><img class="cateimg" src="${contextPath}/resources/images/business//과외1.png" onclick="location.href='${contextPath}/business/study/list'"></li>
+                <li><img class="cateimg" src="${contextPath}/resources/images/business/농수산물1.png" onclick="location.href='${contextPath}/business/fruit/list'"></li>
+                <li><img class="cateimg" src="${contextPath}/resources/images/business/부동산1.png" onclick="location.href='${contextPath}/business/house/list'"></li>
+                <li><img class="cateimg" src="${contextPath}/resources/images/business/중고차1.png" onclick="location.href='${contextPath}/business/car/list'"></li>
+                <li><img class="cateimg" src="${contextPath}/resources/images/business/전시1.png" onclick="location.href='${contextPath}/business/event/list'"></li>
+                <li><img class="cateimg" src="${contextPath}/resources/images/business/지역업체1.png" onclick="location.href='${contextPath}/business/company/list'"></li>
             </ul>
         </div>
         <!--카테고리 부분 끝-->
@@ -37,56 +37,30 @@
         <!--내 근처  시작-->
         <h3 id="nearNews">내 근처 소식</h3>
         <div class="nearArea">
-            <div class="nearList">
-                <img src="${contextPath}/resources/images/business/내근처샘플.png">
-                <p class="title">바이올린1대1맞춤강습해요</p>
-                <pre class="content">정적이고 아름다운 바이올린 눈높이에
- 맞춰 친절히 가르쳐 드릴게요~~</pre>
+        <c:forEach var="n" items="${nList}" >
+            <div class="nearList" onclick="detailList(${n.shopNo})">
+            	<c:if test="${ n.filePath != null }">
+                <img class="thumbnail" src="${contextPath}/resources/${n.filePath}${n.changeName}" >
+                </c:if>
+                <c:if test="${ n.filePath == null }">
+                <img  class="thumbnail" src="${contextPath}/resources/images/business/기본썸네일.png" >
+                </c:if>
+ 
+                <p class="title"> ${n.newsTitle} </p>
+                <p class="content"> ${ n.shopNews } </p>
                 <div class="lastInfo">
                 <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
-                <label class="name">바이바이</label>
-                <label class="address">구월동</label>
+                <label class="name"> ${loginUser.nickname }</label>
+                <label class="address">	${ n.address_3 }</label>
                 </div>
             </div>
-            <div class="nearList">
-                <img src="${contextPath}/resources/images/business/내근처샘플.png">
-                <p class="title">바이올린1대1맞춤강습해요</p>
-                <pre class="content">정적이고 아름다운 바이올린 눈높이에
- 맞춰 친절히 가르쳐 드릴게요~~</pre>
-                <div class="lastInfo">
-                <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
-                <label class="name">바이바이</label>
-                <label class="address">구월동</label>
-                </div>
-            </div>
-            <div class="nearList">
-                <img src="${contextPath}/resources/images/business/내근처샘플.png">
-                <p class="title">바이올린1대1맞춤강습해요</p>
-                <pre class="content">정적이고 아름다운 바이올린 눈높이에
- 맞춰 친절히 가르쳐 드릴게요~~</pre>
-                <div class="lastInfo">
-                <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
-                <label class="name">바이바이</label>
-                <label class="address">구월동</label>
-                </div>
-            </div>
-            <div class="nearList">
-                <img src="${contextPath}/resources/images/business/내근처샘플.png">
-                <p class="title">바이올린1대1맞춤강습해요</p>
-                <pre class="content">정적이고 아름다운 바이올린 눈높이에
- 맞춰 친절히 가르쳐 드릴게요~~</pre>
-                <div class="lastInfo">
-                <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
-                <label class="name">바이바이</label>
-                <label class="address">구월동</label>
-                </div>
-            </div>
+            </c:forEach>
         </div>
         
         
 
         <div class="btnArea">
-        <button id="nearBtn" onclick="location.href='${contextPath}/business/near/list'">내 근처 소식 전체보기</button>
+        <button id="nearBtn" onclick="location.href='${contextPath}/business/company/list'">내 근처 소식 전체보기</button>
         </div>
         <!--내 근처 끝-->
 
@@ -94,68 +68,94 @@
         
         <h3 id="likeShopArea">이웃들의 추천 가게</h3>
         <div id="star">
-        <a>별점순</a>
-        <a>후기순</a>
+        <c:if test="${ color == 0 }">
+        <a class="gradeRanking" onclick="location.href='${contextPath}/business/gradeRanking'" >별점순</a>
+        <a class="reviewRanking" onclick="location.href='${contextPath}/business/reviewRanking'" >후기순</a>
+        </c:if>
+        <c:if test="${ color == 1 }">
+        <a class="gradeRanking" onclick="location.href='${contextPath}/business/gradeRanking'"  style="color:#37BBDA">별점순</a>
+        <a class="reviewRanking" onclick="location.href='${contextPath}/business/reviewRanking'"  >후기순</a>
+        </c:if>
+        <c:if test="${ color == 2 }">
+        <a class="gradeRanking" onclick="location.href='${contextPath}/business/gradeRanking'" >별점순</a>
+        <a class="reviewRanking" onclick="location.href='${contextPath}/business/reviewRanking'" style="color:#37BBDA">후기순</a>
+        </c:if>
         </div>
+       
         <div class="likeArea">
-            <img id="left" src="${contextPath}/resources/images/business/화살표.png">
-            <div class="likeList">
-                <img src="${contextPath}/resources/images/business/추천가게샘플.png">
+            <c:forEach var="b" items="${ bList }">
+            <div class="likeList" onclick="detailList(${b.shopNo})">
+            	<c:if test="${ b.filePath !=null }">
+                <img class="thumbnail2" src="${contextPath}/resources/${b.filePath}${b.changeName}">
+                </c:if>
+                <c:if test="${ b.filePath ==null }">
+                <img class="thumbnail2" src="${contextPath}/resources/images/business/기본썸네일.png">
+                </c:if>
                 <div class="firstLike">
-                    <label class="shopName">휘트니스88</label>
-                    <label class="shopAddress">주안동</label>
+                    <label class="shopName"> ${b.shopName }</label>
+                    <label class="shopAddress">${b.shopAdd }</label>
                 </div>
                 <div class="secondLike">
-                    <p>프리미엄 1:1 개인 트레이닝 센터 FINTNESS...</p>
+                    <p> ${b.shopIntro }</p>
                 </div>
                 <div class="thirdLike">
-                    <label class="reviewCount">후기 1</label>
-                    <label class="likeCount">단골 2</label>
-                    <img src="${contextPath}/resources/images/business/별점.png" height="12px" >
+                    <label class="reviewCount"> 후기${b.reviewCount }</label>
+                    <label class="likeCount">단골${b.faCount }</label>
+                    <c:if test="${b.avgGrade == 5 }">
+                    <img src="${contextPath}/resources/images/business/별점5.png" height="12px" >
+                    </c:if>
+                    <c:if test="${b.avgGrade == 4 }">
+                    <img src="${contextPath}/resources/images/business/별점4.png" height="12px" >
+                    </c:if>
+                    <c:if test="${b.avgGrade == 3 }">
+                    <img src="${contextPath}/resources/images/business/별점3.png" height="12px" >
+                    </c:if>
+                    <c:if test="${b.avgGrade == 2 }">
+                    <img src="${contextPath}/resources/images/business/별점2.png" height="12px" >
+                    </c:if>
+                    <c:if test="${b.avgGrade == 1 }">
+                    <img src="${contextPath}/resources/images/business/별점1.png" height="12px" >
+                    </c:if>
+                    <c:if test="${b.avgGrade == 0 }">
+                    <img src="${contextPath}/resources/images/business/별점0.png" height="12px" >
+                    </c:if>
                 </div>
                 <div class="fourthLike">
-                    <p class="review"><b>익룡님</b> 지금 약 20회 PT 받은 회원입니다!</p>
+                <c:set var="check" value="0"/>
+                <c:forEach var="r" items="${ rList }">
+                <c:if test="${ r.shopNo == b.shopNo }">
+                    <p class="review"><b> ${r.nickName }</b>${ r.content } </p>
+                    <c:set var="check" value="1"/>
+                </c:if>
+                </c:forEach>
+                 <c:if test="${ check==0 }">
+                    <p class="review">후기가 없습니다.</p>
+                </c:if>
                 </div>
+                
             </div>
-            <div class="likeList">
-                <img src="${contextPath}/resources/images/business/추천가게샘플.png">
-                <div class="firstLike">
-                    <label class="shopName">휘트니스88</label>
-                    <label class="shopAddress">주안동</label>
-                </div>
-                <div class="secondLike">
-                    <p>프리미엄 1:1 개인 트레이닝 센터 FINTNESS...</p>
-                </div>
-                <div class="thirdLike">
-                    <label class="reviewCount">후기 1</label>
-                    <label class="likeCount">단골 2</label>
-                    <img src="${contextPath}/resources/images/business/별점.png" height="12px">
-                </div>
-                <div class="fourthLike">
-                    <p class="review"><b>익룡님</b> 지금 약 20회 PT 받은 회원입니다!</p>
-                </div>
-            </div>
-            <div class="likeList">
-                <img src="${contextPath}/resources/images/business/추천가게샘플.png">
-                <div class="firstLike">
-                    <label class="shopName">휘트니스88</label>
-                    <label class="shopAddress">주안동</label>
-                </div>
-                <div class="secondLike">
-                    <p>프리미엄 1:1 개인 트레이닝 센터 FINTNESS...</p>
-                </div>
-                <div class="thirdLike">
-                    <label class="reviewCount">후기 1</label>
-                    <label class="likeCount">단골 2</label>
-                    <img src="${contextPath}/resources/images/business/별점.png" height="12px">
-                </div>
-                <div class="fourthLike">
-                    <p class="review"><b>익룡님</b> 지금 약 20회 PT 받은 회원입니다!</p>
-                </div>
-            </div>
-            <img id="right" src="${contextPath}/resources/images/business/화살표.png">
-            </div>
-        </div>
+            </c:forEach>
+          </div>
+            <div class="plusArea">
+	        	<a>더보기</a>
+	        </div>
+        <script>
+        $(document).ready(function(){
+			size_div = $('.likeList').length;
+			
+			x = 3;
+			$('.likeList:lt('+x+')').addClass('likeListflex');
+			$('.plusArea').click(function(){
+				x= (x+3 <= size_div)? x+3 : size_div;
+				$('.likeList:lt('+x+')').addClass('likeListflex');
+			
+			
+			});
+
+		});
+        
+        </script>
+     
         <div class="btnArea">
         	<c:if test="${ sessionScope.loginUser.is_business eq 'Y' }">
             <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/setting'">비즈 프로필 관리</label></button>
@@ -166,14 +166,13 @@
            
         </div>
 
-        
         <!--이웃들의 추천 가게 끝-->
        
     </section>
     <script>
-    	$(".nearList,.likeList").click(function(){
-    		location.href="${contextPath}/business/detail";
-    	})
+    	function detailList(shopNo){
+    		location.href='${contextPath}/business/detail?shopNo=' + shopNo;
+    	}
     </script>
 
     <jsp:include page="../common/footer.jsp"/>

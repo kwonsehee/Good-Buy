@@ -38,5 +38,15 @@ public class Business {
 	private String userId;			// 아이디
 	private int adCash;				// 광고캐시
 	private String shopTime2;		// 영업마감시간
-	private String shopTime3;
+	private String shopTime3;		// 휴무 요일
+	private int tNo;				// 동네코드
+	private int avgGrade;			// 평균별점
+	private int faCount;			// 단골수
+	private int reviewCount;		// 후기수
+	private String filePath;		
+	private String originName;
+	private String changeName;
+	private String status;
+	private int fNo;
+	private String shopName;
 }

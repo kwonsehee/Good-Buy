@@ -11,16 +11,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class News {
+public class NewsAttachment {
 	private int nNo;
-	private String newsTitle;
-	private String shopNews;
-	private int shopNo;
-	private int tNo;
-	private String address_3;
+	private int fNo;
 	private String filePath;
 	private String originName;
 	private String changeName;
 	private String status;
-	private int fNo;
 }

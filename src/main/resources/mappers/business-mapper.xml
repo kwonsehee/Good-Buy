@@ -17,12 +17,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="adCash" column="AD_CASH"/>
 		<result property="shopTime2" column="SHOP_TIME2"/>
 		<result property="shopTime3" column="SHOP_TIME3"/>
+		<result property="tNo" column="T_NO"/>
+		<result property="avgGrade" column="평균별점"/>
+		<result property="faCount" column="단골수"/>
+		<result property="reviewCount" column="후기수"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="status" column="STATUS"/>
+		<result property="fNo" column="F_NO"/>
+		<result property="shopName" column="SHOP_NAME"/>
+		
 	</resultMap>
 	<resultMap type="Attachment" id="AttachmentResultSet">
 		<id property="shopNo" column="SHOP_NO"/>
-		<result property="fno" column="F_NO"/>
+		<result property="fNo" column="F_NO"/>
 		<result property="filePath" column="FILE_PATH"/>
-		<result property="originNmae" column="ORIGIN_NAME"/>
+		<result property="originName" column="ORIGIN_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="status" column="STATUS"/>
 	</resultMap>
@@ -32,28 +43,119 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="newsTitle" column="NEWS_TITLE"/>
 		<result property="shopNews" column="SHOP_NEWS"/>
 		<result property="shopNo" column="SHOP_NO"/>
+		<result property="tNo" column="T_NO"/>
+		<result property="address_3" column="ADDRESS_3"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="status" column="STATUS"/>
+		<result property="fNo" column="F_NO"/>
+		
+	</resultMap>
+	<resultMap type="NewsAttachment" id="NewsAttachmentResultSet">
+		<id property="nNo" column="N_NO"/>
+		<result property="fNo" column="F_NO"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="status" column="STATUS"/>
 	</resultMap>
 	
+	<resultMap type="Review" id="ReviewResultSet">
+		<id property="shopNo" column="SHOP_NO"/>
+		<result property="reviewNO" column="F_NO"/>
+		<result property="status" column="STATUS"/>
+		<result property="content" column="CONTENT"/>
+		<result property="reviewDate" column="REVIEW_DATE"/>
+		<result property="grade" column="GRADE"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="nickName" column="NICKNAME"/>
+	</resultMap>
 
 
-	<select id="selectbList" parameterType="Member" resultMap="businessResultSet">
-		SELECT
-				SHOP_NO
-			  , SHOP_CATE
-			  , SHOP_ADD
-			  , SHOP_INTRO
-			  , SHOP_TIME1
-			  , TOP_MENU
-			  , PRICE
-			  , MENU_INFO
-			  , SHOP_PHONE
-			  , USER_ID
-			  , AD_CASH
-			  , SHOP_TIME2
-			  , SHOP_TIME3
+	<select id="selectbList" parameterType="Town" resultMap="businessResultSet">
+		SELECT *
 		FROM
-				BUS_INFO
+		(SELECT V.*
+        FROM V_BUS_INFO V
+        JOIN TOWN T ON(T.T_NO = V.T_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		ORDER BY 단골수 DESC NULLS LAST)
+		JOIN AD AD USING(SHOP_NO)
+		WHERE ROWNUM <![CDATA[<=]]> 9
+		AND VIEW_CNT !=0
 	</select>
+	
+	<select id="selectnList" parameterType="Town" resultMap="NewsResultSet">
+		SELECT 
+        		N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , SHOP_NO
+			  , T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , STATUS
+			  , F_NO
+            FROM
+        (
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+        ORDER BY N_NO DESC 
+        ) 
+        JOIN AD AD USING(SHOP_NO)
+		WHERE ROWNUM <![CDATA[<=]]> 4
+		 AND VIEW_CNT !=0
+	</select>
+	
 	<select id="selectfList" resultMap="AttachmentResultSet" >
 		SELECT
 		    SHOP_NO
@@ -68,18 +170,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 JOIN BUS_INFO USING(SHOP_NO)
 	</select>
 	
-	<select id="selectnList" resultMap="NewsResultSet">
-		SELECT
-				N_NO
-			  , NEWS_TITLE
-			  , SHOP_NEWS
-			  , SHOP_NO
-		FROM 
-				NEWS
-		ORDER BY N_NO DESC  
-	</select>
 	
-	<select id="selectnfList" resultMap="AttachmentResultSet" >
+	<select id="selectnfList" resultMap="NewsAttachmentResultSet" >
 		SELECT
 		    N_NO
 		 ,  F_NO
@@ -92,5 +184,448 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 JOIN NEWS_FILE USING(F_NO)
 		 JOIN NEWS USING(N_NO)
 	</select>	
+	
+	<select id="selectrList" resultMap="ReviewResultSet">
+		  SELECT
+			B.SHOP_NO
+			,BR.REVIEW_NO
+			,STATUS
+			,CONTENT
+			,REVIEW_DATE
+			,GRADE
+			,R.USER_ID
+			,NICKNAME
+		FROM REVIEW R
+		JOIN BUS_REVIEW BR ON(BR.REVIEW_NO = R.REVIEW_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = BR.SHOP_NO)
+		JOIN USER_INFO U ON(U.USER_ID = R.USER_ID)
+        WHERE (R.REVIEW_NO,  BR.SHOP_NO) IN ( SELECT MAX(R.REVIEW_NO), SHOP_NO
+                                              FROM REVIEW R
+		JOIN BUS_REVIEW BR ON(BR.REVIEW_NO = R.REVIEW_NO)
+        GROUP BY SHOP_NO)
+	</select>
+	
+	<select id="selectGradebList" parameterType="Town" resultMap="businessResultSet">
+		SELECT *
+		FROM
+		(SELECT V.*
+        FROM V_BUS_INFO V
+        JOIN TOWN T ON(T.T_NO = V.T_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		ORDER BY 평균별점 DESC NULLS LAST)
+		JOIN AD AD USING(SHOP_NO)
+		WHERE ROWNUM <![CDATA[<=]]> 9
+		AND VIEW_CNT !=0
+		 
+	</select>
+	
+	<select id="selectReviewbList" parameterType="Town" resultMap="businessResultSet">
+		SELECT *
+		FROM
+		(SELECT V.*
+        FROM V_BUS_INFO V
+        JOIN TOWN T ON(T.T_NO = V.T_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		ORDER BY 후기수 DESC NULLS LAST)
+		JOIN AD AD USING(SHOP_NO)
+		WHERE ROWNUM <![CDATA[<=]]> 9
+		AND VIEW_CNT !=0
+	</select>
+	
+	<select id="selectJobnList" parameterType="Town" resultMap="NewsResultSet">
+
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , N.SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , A.STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
+		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		AND SHOP_CATE='일자리'
+		AND VIEW_CNT !=0
+        ORDER BY N_NO DESC 
+         
+        
+		
+	</select>
+	
+	<select id="selectFruitnList" parameterType="Town" resultMap="NewsResultSet">
+
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , N.SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , A.STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
+		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		AND SHOP_CATE='농수산물'
+		AND VIEW_CNT !=0
+        ORDER BY N_NO DESC 
+
+	</select>
+	
+	<select id="selectCarnList" parameterType="Town" resultMap="NewsResultSet">
+
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , N.SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , A.STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
+		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		AND SHOP_CATE='중고차'
+		AND VIEW_CNT !=0
+        ORDER BY N_NO DESC 
+
+	</select>
+	
+	<select id="selectHousenList" parameterType="Town" resultMap="NewsResultSet">
+
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , N.SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , A.STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
+		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		AND SHOP_CATE='부동산'
+		AND VIEW_CNT !=0
+        ORDER BY N_NO DESC 
+
+	</select>
+	
+	<select id="selectCompanynList" parameterType="Town" resultMap="NewsResultSet">
+
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , N.SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , A.STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
+		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		AND SHOP_CATE='지역업체'
+		AND VIEW_CNT !=0
+        ORDER BY N_NO DESC 
+
+	</select>
+	
+	<select id="selectEventnList" parameterType="Town" resultMap="NewsResultSet">
+
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , N.SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , A.STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
+		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		AND SHOP_CATE='전시'
+		AND VIEW_CNT !=0
+        ORDER BY N_NO DESC 
+
+	</select>
+	
+	<select id="selectStudynList" parameterType="Town" resultMap="NewsResultSet">
+
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , N.SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , A.STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
+		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		<where>
+			<choose>
+				<when test="area == 1">
+				AND ADDRESS_3 = #{address_3}
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 2">
+				AND ADDRESS_2 = #{address_2}
+				AND ADDRESS_1 = #{address_1}
+				</when>
+				<when test="area == 3">
+				AND ADDRESS_1 = #{address_1}
+				</when>
+			</choose>
+		</where>
+		AND SHOP_CATE='과외'
+		AND VIEW_CNT !=0
+        ORDER BY N_NO DESC 
+         
+	</select>
+	
+	<update id="updateReadCount" parameterType="_int">
+		UPDATE
+			AD
+		SET
+			VIEW_CNT = VIEW_CNT - 1
+		WHERE 
+			SHOP_NO = #{shopNo}
+	</update>
+	
+	<select id="selectDetail" parameterType="_int" resultMap="businessResultSet">
+		SELECT
+				*
+		FROM 
+			 	V_BUS_INFO
+		JOIN AD AD USING(SHOP_NO)
+		WHERE
+			    SHOP_NO = #{shopNo}
+		AND VIEW_CNT !=0
+			    
+	</select>
+	
+	<select id="selectDetailNews" parameterType="_int" resultMap="NewsResultSet">
+		 SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+        JOIN AD AD USING(SHOP_NO)
+        WHERE SHOP_NO = 1
+		 AND VIEW_CNT !=0
+		
+	</select>
+	
+	<select id="selectDetailReview" parameterType="_int" resultMap="ReviewResultSet">
+		 SELECT
+			B.SHOP_NO
+			,BR.REVIEW_NO
+			,STATUS
+			,CONTENT
+			,REVIEW_DATE
+			,GRADE
+			,R.USER_ID
+			,NICKNAME
+		FROM REVIEW R
+		JOIN BUS_REVIEW BR ON(BR.REVIEW_NO = R.REVIEW_NO)
+		JOIN BUS_INFO B ON(B.SHOP_NO = BR.SHOP_NO)
+		JOIN USER_INFO U ON(U.USER_ID = R.USER_ID)
+        WHERE B.SHOP_NO = #{shopNo}
+        ORDER BY R.REVIEW_NO DESC
+	</select>
 
 </mapper>
