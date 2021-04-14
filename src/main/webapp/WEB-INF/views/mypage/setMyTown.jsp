@@ -46,7 +46,7 @@
 				<!-- 두번째 동네 추가되어 있을 때 삭제 버튼 클릭 시 동네 삭제 -->
 				<!-- 두번째 동네 추가되어 있을 때 div 클릭 시 기본동네가 두번째 동네로 바뀌게 -->
 				<c:if test="${ mtlist.size() == 2 }">
-					<div class="setBox secondBox" onclick="changeTownType('${mtlist.get(1)}','${ townInfo.address_2 }','${ townInfo.address_1 }')">
+					<div class="setBox secondBox" onclick="changeTownType('${mtlist.get(0)}','${ townInfo.address_2 }','${ townInfo.address_1 }')">
 					<ul>
 						 <li id="newTownli_2">${  mtlist.get(1) }</li>
 		                 <li id="newTownli_3"><input type="button" value="X" class="Xbtn secondXbtn" onclick="deleteTown('${mtlist.get(1)}')"></li>
@@ -117,8 +117,8 @@
 
             <p id="ppp">선택한 동네의 이웃들만 피드에서 이 게시글을 볼 수 있어요.</p>
             <form class="townAreaForm">
-                <input type="range" name="townArea" id="townArea" min="1" max="4" value="${ townInfo.area }" step="1" onchange="showValue('${ townInfo.address_3 }','${ townInfo.address_2 }','${ townInfo.address_1 }',
-                																										  '${ townInfo.t_no }')">
+                <input type="range" name="townArea" id="townArea" min="1" max="4" value="${ townInfo.area }" step="1" onchange="showValue('${mtlist.get(0)}','${ townInfo.address_2 }','${ townInfo.address_1 }',
+                																										  ,'${ townInfo.area }')">
                 																				 
             </form>
            <div class="nonameDiv">
@@ -135,12 +135,15 @@
 
 
 	<script>
+		
 		function showAlert(){
 			alert("동네는 최소 1개 설정되어야 합니다 :)");
 		}
 		
 		// 동네 하나 삭제하고 남은 동네 하나가 MYTOWN_TYPE = 1로 업데이트 되어야 함
 		function deleteTown(townName){
+			// 이벤트 전파 버블링 방지
+			event.stopPropagation();
 			location.href="${contextPath}/mypage/deleteTown?townName="+townName;
 		}
 		
@@ -150,36 +153,42 @@
 		}
 		
 		// range 움직일 때 마다
-		// 동네 범위 변경 텍스트 동적으로 보여주고(javascript)
 		// 동네 범위 동적으로 바껴야함(Ajax전송)
-		function showValue(address_3,address_2,address_1,t_no) {
-			var val = $("#townArea").val();
+		$(document).on('input change','#townArea',function(){
+			var changeArea = $("#townArea").val();
+			console.log("바꾸고싶은 동네 범위 : " +changeArea);
 
-			if (val == 1) {
-				$("#mytown").html(address_3);
-				$("#mytown").show();
-				$("#townCount").html("내 동네 1개");
-			} else if (val == 2) {
-				$("#mytown").html(address_3);
-				$("#mytown").show();
-				$("#townCount").html("포함  "+address_2);
-			} else if (val == 3) {
-				$("#mytown").html(address_3);
-				$("#mytown").show();
-				$("#townCount").html("포함  "+address_1);
-			} else {
-				$("#mytown").hide();
-				$("#townCount").html("전국");
-			}
-			
 			$.ajax({
 
 			url: "changeArea",
-			data: {t_no : t_no,
-				  area : val},
+			data: {area :changeArea},
+			dataType:"json",
 			type: "get",
-			success: function(data){
-				console.log(data);
+			success: function(townInfo){
+				// 동네 범위 변경 성공 시 
+				// 동네 범위 변경 텍스트 다시 셋팅
+				var area = townInfo.area;
+				var address_1 = townInfo.address_1;
+				var address_2 = townInfo.address_2;
+				var address_3 = townInfo.address_3;
+								
+				 if (area == 1) {
+						$("#mytown").html(address_3);
+						$("#mytown").show();
+						$("#townCount").html("내 동네 1개");
+					} else if (area == 2) {
+						$("#mytown").html(address_3);
+						$("#mytown").show();
+						$("#townCount").html("포함  "+address_2);
+					} else if (area == 3) {
+						$("#mytown").html(address_3);
+						$("#mytown").show();
+						$("#townCount").html("포함  "+address_1);
+					} else {
+						$("#mytown").hide();
+						$("#townCount").html("전국");
+					} 
+				
 			},
 			error: function(e){
 				alert("error code: " + e.status + "\n" + "message: " + e.responseText);
@@ -188,6 +197,26 @@
 			});
 			
 			
+		});
+		
+		// range 움직일 때 마다 동네 범위 변경 텍스트 동적으로 보여주기(javascript)
+		function showValue(address_3,address_2,address_1,area) {
+			if (area == 1) {
+				$("#mytown").html(address_3);
+				$("#mytown").show();
+				$("#townCount").html("내 동네 1개");
+			} else if (area == 2) {
+				$("#mytown").html(address_3);
+				$("#mytown").show();
+				$("#townCount").html("포함  "+address_2);
+			} else if (area == 3) {
+				$("#mytown").html(address_3);
+				$("#mytown").show();
+				$("#townCount").html("포함  "+address_1);
+			} else {
+				$("#mytown").hide();
+				$("#townCount").html("전국");
+			}
 			
 			
 		}
@@ -195,10 +224,9 @@
 		// 동네 div 클릭 시 스타일 바뀔 때(javascript)
 		// 동네 범위 문구 동적으로 바껴야 함(Ajax응답 후)
 		// 동네 타입 MYTOWN_TYPE = 1로 업데이트 되어야 함(Ajax 전송)
-		function changeTownType(townName,address_2,address_1){
+		function changeTownType(address_3,address_2,address_1){
 			var val = $("#townArea").val();
-			console.log(townName);
-			$("#mytown").html(townName);
+			$("#mytown").html(address_3);
 			
 			if(event.target.id == "defaultTown"){
 				$(".firstBox").css("background","#9BDDEC");
@@ -222,29 +250,37 @@
 				
 				url:"changeTownType",
 				type:"get",
-				success: function(area){
-					
+				dataType:"json",
+				success: function(townInfo){
+					var area = townInfo.area;
+					var address_1 = townInfo.address_1;
+					var address_2 = townInfo.address_2;
+					var address_3 = townInfo.address_3;
+					//var t_no = townInfo.t_no;
+					 
 					 if (area == 1) {
-						$("#mytown").html(townName);
+						$("#mytown").html(address_3);
 						$("#mytown").show();
 						$("#townCount").html("내 동네 1개");
 					} else if (area == 2) {
-						$("#mytown").html(townName);
+						$("#mytown").html(address_3);
 						$("#mytown").show();
 						$("#townCount").html("포함  "+address_2);
 					} else if (area == 3) {
-						$("#mytown").html(townName);
+						$("#mytown").html(address_3);
 						$("#mytown").show();
 						$("#townCount").html("포함  "+address_1);
 					} else {
 						$("#mytown").hide();
 						$("#townCount").html("전국");
-					} 
+					}  
+					 
 					
-					$("#townArea").attr("value",area); 
-					 
-					 
-					 
+					// 기본동네 타입 바꾸고 나서 처음 화면 range에 셋팅되어 있던 기본동네 다시 셋팅
+					$("#townArea").attr("value",area);
+					$("#townArea").removeAttr("onchange");	// onchange 속성 지우고 다시 부여
+					$("#townArea").attr("onchange",showValue(address_3,address_2,address_1,area));
+					
 				},
 				error: function(e){
 					alert("error code: " + e.status + "\n" + "message: " + e.responseText);
