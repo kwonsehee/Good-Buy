@@ -1,6 +1,8 @@
 package com.kh.goodbuy.goods.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -87,6 +89,55 @@ public class GoodsDaoImpl implements GoodsDao{
 	public Town selectSecondTown(String user_id) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("goodsMapper.selectSecondTown",user_id);
+	}
+
+	@Override
+	public int selectCateCount(String cate) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.selectCateCount",cate);
+	}
+
+	@Override
+	public List<Goods> selectCateList(PageInfo pi, String cate) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectCateList", cate, rowBounds);
+	}
+
+	@Override
+	public int selectCateCount2(Town myTown, String cate) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("myTown",myTown);
+		map.put("cate", cate);
+		return sqlSession.selectOne("goodsMapper.selectCateCount2",map);
+	}
+
+	@Override
+	public List<Goods> selectCateList2(Town myTown, PageInfo pi, String cate) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("myTown",myTown);
+		map.put("cate", cate);
+		return sqlSession.selectList("goodsMapper.selectCateList2",map, rowBounds);
+	}
+
+	@Override
+	public int selectMyCateListCount(String user_id, String cate) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("cate", cate);
+		return sqlSession.selectOne("goodsMapper.selectMyCateListCount",map);
+	}
+
+	@Override
+	public List<Goods> selectMyCateList(String user_id, PageInfo pi, String cate) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("cate", cate);
+		return sqlSession.selectList("goodsMapper.selectMyCateList",map, rowBounds);
 	}
 
 
