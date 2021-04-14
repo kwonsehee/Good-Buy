@@ -75,7 +75,7 @@
             <a> &lt;&lt;&nbsp; </a>
             </c:if>
             <c:if test="${pi.currentPage > 0}">
-            	<c:url var="start" value="${contextPath }/goods/myglist">
+            	<c:url var="start" value="/goods/myglist">
             		<c:param name="page" value="1"/>
             	</c:url>
            		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
@@ -84,7 +84,7 @@
             <a> &lt;&nbsp; </a>
             </c:if>
             <c:if test="${pi.currentPage > 0 }">
-            	<c:url var="before" value="${contextPath }/goods/myglist">
+            	<c:url var="before" value="/goods/myglist">
             		<c:param name="page" value="${pi.currentPage -1}"/>
             	</c:url>
            		 <a href="${before }"> &lt;&nbsp; </a>
@@ -95,7 +95,7 @@
 					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
 				</c:if>
 				<c:if test="${ p ne pi.currentPage }">
-					<c:url var="pagination" value="${contextPath }/goods/myglist">
+					<c:url var="pagination" value="/goods/myglist">
 						<c:param name="page" value="${ p }" />
 					</c:url>
 					<a href="${ pagination }">${ p }</a> &nbsp;
@@ -105,7 +105,7 @@
             <a> &gt;&nbsp; </a>
             </c:if>
             <c:if test="${pi.currentPage < pi.maxPage }">
-            	<c:url var="after" value="${contextPath }/goods/myglist">
+            	<c:url var="after" value="/goods/myglist">
             		<c:param name="page" value="${pi.currentPage +1}"/>
             	</c:url>
            		 <a href="${ after }"> &gt;&nbsp; </a>
@@ -114,7 +114,7 @@
             <a> &gt;&gt;&nbsp; </a>
             </c:if>
             <c:if test="${pi.currentPage < pi.maxPage  }">
-            	<c:url var="end" value="${contextPath }/goods/myglist">
+            	<c:url var="end" value="/goods/myglist">
             		<c:param name="page" value="${pi.endPage}"/>
             	</c:url>
            		 <a href="${end}"> &gt;&gt;&nbsp; </a>
