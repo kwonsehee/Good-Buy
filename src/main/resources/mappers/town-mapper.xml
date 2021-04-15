@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="address_2" column="ADDRESS_2"/>
 		<result property="address_3" column="ADDRESS_3"/>
 	</resultMap>
+
 	
 	<resultMap type="Town" id="townResultSet2">
 		<id property = "t_no" column ="T_NO"/>
@@ -117,6 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   AND 
 		   		USER_ID = #{user_id}
 	</delete>
+
 	
 	<!-- 로그인 유저의 기본 동네 조회용(세션에 저장) -->
 	<select id="selectUserTown" parameterType="string" resultMap="townResultSet2">

@@ -156,7 +156,6 @@
 		function closeNavi() {
 			$(".sidebar").css("left", "-300px");
 		}
-
 		function showNavi() {
 			$(".sidebar").css("left", "0px");
 		}

@@ -5,14 +5,15 @@
     font-weight: normal;
     font-style: normal;
     }
-    #gbSection{
-        font-family: 'yg-jalnan';
-    }
+	    #gbSection{
+	        font-family: 'yg-jalnan';
+	    }
         .area{
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .first{
             width: 654px;
             height: 757px;
