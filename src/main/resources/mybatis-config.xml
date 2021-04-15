@@ -23,7 +23,7 @@
 		<typeAlias type="com.kh.goodbuy.goods.model.vo.Goods" alias = "Goods"/>
 		<typeAlias type="com.kh.goodbuy.goods.model.vo.Addfile" alias = "Addfile"/>
 		<typeAlias type="com.kh.goodbuy.member.model.vo.Search" alias="Search"/>
-
+		<typeAlias type="com.kh.goodbuy.center.model.vo.QNA" alias="QNA"/>
 		<typeAlias type="com.kh.goodbuy.admin.model.vo.Report" alias="Report"/>
 
 	</typeAliases>
@@ -31,7 +31,7 @@
 	<!-- mappers -->
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
-
+		<mapper resource="mappers/qna-mapper.xml"/>
 		<mapper resource="mappers/town-mapper.xml"/>
 
 		<mapper resource="mappers/business-mapper.xml"/>

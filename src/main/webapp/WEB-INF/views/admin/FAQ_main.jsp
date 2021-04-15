@@ -54,70 +54,25 @@
         <div id="div4">
             
 
-                
+              <c:forEach var="f" items="${ list }">  
               <ul class="mylist">
                 <li class="menu">
-                    <a style="font-size: 30px;">여러개의 계정을 만들 수 있나요?<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
+                    <a style="font-size: 30px;">${ f.qa_title }<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
                     <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">명의자 1명당 1개 계정만 본인인증이 가능합니다<button id="createButton1" style="float:right;" onclick="location.href='${ contextPath }/admin/FAQdetail'">상세</button></li>
+                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">${ f.qa_content }<button id="createButton1" style="float:right;" onclick="selectFAQ(${f.qa_no})">상세</button></li>
                         
                     </ul>
                 </li>
               </ul>
-           
+           	</c:forEach>
             
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px;">상품 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다<button id="createButton1" style="float:right;" onClick="location.href='admin_FAQ_detail.html'">상세</button></li>
-                        
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px;">스르륵 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다<button id="createButton1" style="float:right;" onClick="location.href='admin_FAQ_detail.html'">상세</button></li>
-                        
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px;">판매 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다<button id="createButton1" style="float:right;" onClick="location.href='admin_FAQ_detail.html'">상세</button></li>
-                        
-                    </ul>
-                </li>
-            </ul>
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px;">앙 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다<button id="createButton1" style="float:right;" onClick="location.href='admin_FAQ_detail.html'">상세</button></li>
-                        
-                    </ul>
-                </li>
-            </ul>
+            
         </div>
-
+		<button>작성</button>
 
                 
                 
-                
-                </tbody>
-                </table>
-                
-                </p></article></li></ul>
-
-        </div>
-
-        
+           
     </section>
 
     
@@ -149,7 +104,12 @@
 
 </script>
  <jsp:include page="../common/footer.jsp"/>
-    
+    <script>
+      function selectFAQ(qa_no){
+         location.href='${contextPath}/admin/FAQdetail?qa_no=' + qa_no + '&page=${ pi.currentPage }';
+         // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+      }
+   </script>
 
 </body>
 </html>

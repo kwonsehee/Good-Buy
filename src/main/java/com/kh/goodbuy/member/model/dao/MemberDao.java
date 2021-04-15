@@ -35,6 +35,8 @@ public interface MemberDao {
 
 	public int updateMember(Member loginUser);
 
+	public int updateadminMember(Member m);
+
 	
 
 

@@ -24,7 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.goodbuy.admin.model.service.ReportService;
 import com.kh.goodbuy.admin.model.vo.Report;
 import com.kh.goodbuy.center.model.service.NoticeService;
+import com.kh.goodbuy.center.model.service.QnaService;
 import com.kh.goodbuy.center.model.vo.Notice;
+import com.kh.goodbuy.center.model.vo.QNA;
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
@@ -42,6 +44,8 @@ public class AdminController {
 	private NoticeService nService;
 	@Autowired
 	private ReportService rService;
+	@Autowired
+	private QnaService qService;
 
 	// 관리자 페이지 메인페이지 이동
 	@GetMapping("/join")
@@ -81,7 +85,6 @@ public class AdminController {
 
 		// * 2) DB에 Notice 객체 insert
 		int result = nService.insertNotice(n);
-		System.out.println(result);
 		if (result > 0) {
 			return "redirect:/admin/notice";
 		} else {
@@ -145,7 +148,6 @@ public class AdminController {
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 			List<Report> list = rService.selectReportList(pi);
-			System.out.println(listCount);
 			if (list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
@@ -213,7 +215,6 @@ public class AdminController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		List<Member> list = mService.selectMemberList(pi);
-		System.out.println(listCount);
 		if (list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
@@ -241,7 +242,23 @@ public class AdminController {
 			}
 		}
 	
-	
+	// 회원정보 수정
+		@PostMapping("/updatemember")
+		   public String memberadminUpdate(Member m,
+		                       HttpServletRequest request) {
+		      
+
+		      
+
+		      int result = mService.updateadminmember(m);
+		      System.out.println(m);
+		      if(result > 0) {
+		         return "redirect:/admin/member";
+		      } else {
+		         throw new NoticeException("게시물 수정에 실패하였습니다.");
+		      }
+		      
+		   }
 	
 	// 검색 기능
 	
@@ -261,15 +278,68 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// FAQ 메인페이지 이동
 	@GetMapping("/FAQ")
-	public String FAQrMainView() {
-		return "admin/FAQ_main";
-	}
+		public ModelAndView FAQrMainView(ModelAndView mv) {
+			List<QNA> list = qService.selectFAQList();
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.setViewName("admin/FAQ_main");
+			} else {
+				mv.addObject("msg", "공지사항 목록 조회에 실패하였습니다.");
+				mv.setViewName("common/error_page");
+			}
+			return mv;
 
-	// 회원관리 디테일페이지 이동
+		}
+
+	// FAQ 디테일페이지 이동
 	@GetMapping("/FAQdetail")
-	public String FAQDetailView() {
-		return "admin/FAQ_detail";
+		public String FAQDetailView(@RequestParam int qa_no, Model model) {
+
+			QNA q = qService.selectFAQ(qa_no);
+
+			if (q != null) {
+				model.addAttribute("QNA", q);
+				return "admin/FAQ_detail";
+			} else {
+				model.addAttribute("msg", "공지사항 게시글 보기에 실패했습니다.");
+				return "common/errorpage";
+			}
+		}
+	
+	@PostMapping("/FAQupdate")
+	public String FAQUpdate(@ModelAttribute QNA q, HttpServletRequest request) {
+		
+		
+		int result = qService.updateFAQ(q);
+		
+		
+		if (result > 0) {
+			return "redirect:/admin/FAQ";
+		} else {
+			throw new NoticeException("공지사항 수정에 실패하였습니다.");
+		}
+		
 	}
+	
+	
+	@GetMapping("/FAQdelete")
+	public String FAQDelete(int qa_no, HttpServletRequest request) {
+		
+		QNA q = qService.selectFAQ(qa_no);
+		int result = qService.deleteFAQ(qa_no);
+
+		if (result > 0) {
+			return "redirect:/admin/FAQ";
+		} else {
+			throw new NoticeException("공지사항 삭제에 실패하였습니다.");
+		}
+	}
+	
+	// FAQ 등록 화면이동
+		@GetMapping("/FAQwrite")
+		public String FAQWriteView() {
+			return "admin/FAQ_create";
+		}
 
 	// 통계
 	// -------------------------------------------------------------------------------------------

@@ -165,4 +165,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		USER_ID = #{user_id}
 	</select>
+	<update id="updateadminMember" parameterType="Member">
+      UPDATE
+           USER_INFO
+        SET
+            POINT = #{point}
+          , ADMIN_MEMO = #{admin_memo}
+       WHERE
+            USER_ID = #{user_id}     
+   </update>
 </mapper>
