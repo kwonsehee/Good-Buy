@@ -43,4 +43,10 @@ public class ReportServiceImpl implements ReportService{
 		// TODO Auto-generated method stub
 		return rDao.selectList(pi);
 	}
+
+	@Override
+	public int insertGoodsReport(Report r, int gno, String report_id) {
+		// TODO Auto-generated method stub
+		return rDao.insertGoodsReport(r, gno, report_id);
+	}
 }

@@ -17,9 +17,14 @@
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 </head>
 <body>
-
 	<jsp:include page="../common/menubar.jsp"/>
+	
  <section id="gbSection"style="margin-top: 50px;">
+ <!-- 메세지가 있다면 출력하고 지우기 -->
+   <c:if test="${ !empty msg }">
+   		<script>alert('${ msg }')</script>
+   		<c:remove var="msg" />
+   </c:if>
         <table id="goods_detail">
             <tr>
                 <td>
@@ -178,7 +183,9 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form method="POST" action="${ contextPath }/goods/insert">
+					<form method="POST" action="${ contextPath }/report/goodsinsert">
+					<input type="hidden" name="gno" value="${g.gno }">
+					<input type="hidden" name="report_id" value="${g.user_id }">
 						<table id="report_tb">
 							<tr>
 								<td colspan="2"><img src="${ contextPath }/resources/images/logo.png" width="40%;"
@@ -189,7 +196,7 @@
 								<td colspan="2"><p>상품 신고 사유</p></td>
 							</tr>
 							<tr>
-								<td colspan="2"><select id="reportSelect">
+								<td colspan="2"><select id="retitle" name="retitle">
 										<option>입금완료했는데 상품을 수령하지 못했어요.</option>
 										<option>광고성(상점홍보, 낚시글 도배글)이에요</option>
 										<option>거래 금지 품목을 거래하고 있어요.</option>
@@ -205,7 +212,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2"><textarea> </textarea></td>
+								<td colspan="2"><textarea name="re_content"> </textarea></td>
 
 							</tr>
 							<tr>

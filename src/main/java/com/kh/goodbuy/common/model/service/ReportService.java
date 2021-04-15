@@ -17,4 +17,8 @@ public interface ReportService {
 
 	public List<Report> selectReportList(PageInfo pi);
 
+	//상품신고 
+	public int insertGoodsReport(Report r, int gno, String report_id);
+
+	
 }
