@@ -76,6 +76,16 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateMember(Member loginUser) {
 		return sqlSession.update("memberMapper.updateMember",loginUser);
 	}
+
+
+	@Override
+	public int updateadminMember(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updateadminMember",m);
+	}
+
+	
+
 	
 
 }

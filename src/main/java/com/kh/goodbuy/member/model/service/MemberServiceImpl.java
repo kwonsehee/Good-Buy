@@ -68,6 +68,11 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMember(Member loginUser) {
 		return mDao.updateMember(loginUser);
 	}
+	@Override
+	public int updateadminmember(Member m) {
+		// TODO Auto-generated method stub
+		return mDao.updateadminMember(m);
+	}
 	
 	
 	
