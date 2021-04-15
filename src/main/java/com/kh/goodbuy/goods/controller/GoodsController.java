@@ -140,7 +140,13 @@ public class GoodsController {
 	}
 	// 중고상품detail 페이지로
 	@GetMapping("/detail")
-	public String goGoodsDetailView() {
+	public String goGoodsDetailView(HttpServletRequest request,
+			 @RequestParam(value="gno", required=false) int gno,
+			 Model model) {
+		System.out.println("gno : "+gno);
+		Goods g = gService.Goodsdetail(gno);
+		System.out.println("g : "+g);
+		model.addAttribute("g", g);
 		return "goods/goodsdetail";
 	}
 	// 내 중고상품detail 페이지로

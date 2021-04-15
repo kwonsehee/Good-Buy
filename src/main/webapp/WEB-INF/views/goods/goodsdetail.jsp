@@ -16,7 +16,8 @@
         <table id="goods_detail">
             <tr>
                 <td>
-                    <img src="${ contextPath }/resources/images/filter.png" style="width: 18px;height: 18px;"> 카테고리 : 의류 -> 신발
+                    <img src="${ contextPath }/resources/images/filter.png" style="width: 18px;height: 18px;">
+                     카테고리 : ${g.goodcate.lfilter}-> ${g.goodcate.mfilter}-> ${g.goodcate.sfilter}
                 </td>
                 <td colspan="3" id="selectTown" style="text-align: right;">
                     <span style="font-weight: bold; font-size: 15px;">내 동네</span>
@@ -26,31 +27,28 @@
                </tr>
             <tr>
                 <td rowspan="7">
-                    <img src="${ contextPath }/resources/images/goods.jpeg" style="width: 400px;height: 400px;margin-right: 10px;">
+                    <img src="${ contextPath }/resources/images/goodupload/${g.filelist[0]}" style="width: 400px;height: 400px;margin-right: 10px;">
                 </td>
             </tr>
             <tr>
-                <td colspan="2" id="goodsTitle">뉴발란스신발어쩌구</td>
+                <td colspan="2" id="goodsTitle">${g.gtitle}</td>
                 <td colspan="2" style="text-align: right;">
                     <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo">판매자 정보</a>&nbsp;
                     <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
                 </td>
             </tr>
             <tr>
-                <td colspan="4" id="gprice">230,000원</td>
+                <td colspan="4" id="gprice">${g.gprice}원</td>
             </tr>
 
             <tr>
-                <td colspan="4">상태 : 미개봉</td>
+                <td colspan="4">상태 :${g.gcondition}</td>
             </tr>
             <tr>
-                <td colspan="4">거래지역 : 수원시 우만동 팔달구</td>
+                <td colspan="4">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
             </tr>
             <tr>
-                <td colspan="4" id="goodsContent">새학기 프로모션 행사할때 받은 비츠스튜디오3와이어리스 무광블랙 미개봉입니다. 언제든지 연락주세요 
-                    쿨거래시 머시기머시기 네고머시기합니다. 새학기 프로모션 행사할때 받은 비츠스튜디오3와이어리스 무광블랙 미개봉입니다. 언제든지 연락주세요 
-                    쿨거래시 머시기머시기 네고머시기합니다. 새학기 프로모션 행사할때 받은 비츠스튜디오3와이어리스 무광블랙 미개봉입니다. 언제든지 연락주세요 
-                    쿨거래시 머시기머시기 네고머시기합니다. 
+                <td colspan="4" id="goodsContent">${g.gcomment}
                     </td>
             </tr>
             <tr>
