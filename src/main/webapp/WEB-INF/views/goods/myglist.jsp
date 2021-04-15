@@ -151,8 +151,8 @@
     window.open(url, name, 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top );
  
         }
-        function selectGoods(){
-    		location.href="${contextPath}/goods/mydetail";
+        function selectGoods(gno){
+    		location.href="${contextPath}/goods/mydetail?gno="+gno;
     	}
     </script>
 	<jsp:include page="../common/footer.jsp"/>

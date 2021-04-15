@@ -3,31 +3,60 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="goodsMapper">
-<resultMap type="Gcate" id="cateSet">
-	<id column="L_FILTER" property="topcate"/>
-	<collection property="subcate" ofType="Gcate">
-		<id column="M_FILTER" property="topcate" />
-		<collection property="subcate" ofType="Gcate">
-			<id column="S_FILTER" property="topcate" />
-		</collection>
-	</collection>
 
-</resultMap>
+	<resultMap type="Gcate" id="cateSet">
+		<id column="L_FILTER" property="topcate"/>
+		<collection property="subcate" ofType="Gcate">
+			<id column="M_FILTER" property="topcate" />
+			<collection property="subcate" ofType="Gcate">
+				<id column="S_FILTER" property="topcate" />
+			</collection>
+		</collection>
+	</resultMap>
+	
 	<resultMap type="Town" id="townResultSet">
 		<id property = "t_no" column ="T_NO"/>
 		<result property="address_1" column="ADDRESS_1"/>
 		<result property="address_2" column="ADDRESS_2"/>
 		<result property="address_3" column="ADDRESS_3"/>
 	</resultMap>
-<resultMap type="Goods" id="GoodsResultSet">
-	<id column="G_NO" property="gno"/>
-	<result column="G_TITLE" property="gtitle"/>
-	<result column="G_PRICE" property="gprice"/>
-	<result column="CHANGE_NAME" property="changeName"/>
-	<result column="CREATE_DATE" property="createDate"/>
-	<result column="USER_ID" property="user_id"/>
-
-</resultMap>
+	
+	<resultMap type="Goods" id="GoodsResultSet">
+		<id column="G_NO" property="gno"/>
+		<result column="G_TITLE" property="gtitle"/>
+		<result column="G_PRICE" property="gprice"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="USER_ID" property="user_id"/>
+	</resultMap>
+	<resultMap type="Goods" id="GoodsDetailResult">
+		<id column="G_NO" property="gno"/>
+		<result column="G_TITLE" property="gtitle"/>
+		<result column="G_PRICE" property="gprice"/>
+		<result column="G_CONDITION" property="gcondition"/>
+		<result column="G_COMMENT" property="gcomment"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="USER_ID" property="user_id"/>
+		
+		<association property="goodcate" javaType="Gcate">
+			<result column="L_FILTER" property="lfilter"/>
+			<result column="M_FILTER" property="mfilter"/>
+			<result column="S_FILTER" property="sfilter"/>
+		</association>
+		<association property="town" javaType="Town">
+			<result column="ADDRESS_1" property="address_1"/>
+			<result column="ADDRESS_2" property="address_2"/>
+			<result column="ADDRESS_3" property="address_3"/>
+		</association>
+		
+		<collection property="filelist" ofType="java.lang.String" javaType="java.util.List">
+        	<result column="CHANGE_NAME" />
+   	 </collection>
+	</resultMap>
+	
+	
+	
+	
 	<select id="selectCate" resultMap="cateSet">
 		SELECT
 			   L_FILTER
@@ -352,5 +381,42 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
           AND T.USER_ID = #{user_id}
           AND G.USER_ID = #{user_id}
           AND L_FILTER = #{cate}
+	</select>
+	<select id="Goodsdetail" parameterType="_int" resultMap="GoodsDetailResult">
+		SELECT
+			    G.G_NO G_NO
+			  , G.G_TITLE G_TITLE 
+			  , G.G_CONDITION G_CONDITION
+			  , G.G_PRICE G_PRICE
+			  , G.G_COMMENT G_COMMENT
+			  , A.CHANGE_NAME CHANGE_NAME
+			  , C.L_FILTER L_FILTER
+			  , C.M_FILTER M_FILTER
+			  , C.S_FILTER S_FILTER 
+			  , T.ADDRESS_1 ADDRESS_1
+			  , T.ADDRESS_2 ADDRESS_2
+			  , T.ADDRESS_3 ADDRESS_3
+		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
+		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
+		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
+		 JOIN TOWN T ON(G.G_PLACE = T.T_NO)
+		 WHERE G.G_NO = #{g_no}
+	</select>
+	<select id="GoodsMydetail" parameterType="_int" resultMap="GoodsDetailResult">
+	SELECT
+			    G.G_NO G_NO
+			  , G.G_TITLE G_TITLE 
+			  , G.G_CONDITION G_CONDITION
+			  , G.G_PRICE G_PRICE
+			  , G.G_COMMENT G_COMMENT
+			  , A.CHANGE_NAME CHANGE_NAME
+			  , C.L_FILTER L_FILTER
+			  , C.M_FILTER M_FILTER
+			  , C.S_FILTER S_FILTER 
+		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
+		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
+		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
+	WHERE G.G_NO = #{g_no}
+	
 	</select>
 </mapper>

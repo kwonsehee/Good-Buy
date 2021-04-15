@@ -102,6 +102,16 @@ public class GoodsServiceImpl implements GoodsService{
 		// TODO Auto-generated method stub
 		return gDao.selectMyCateList(user_id, pi, cate);
 	}
+	@Override
+	public Goods Goodsdetail(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.Goodsdetail(gno);
+	}
+	@Override
+	public Goods GoodsMydetail(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.GoodsMydetail(gno);
+	}
 	
 
 }

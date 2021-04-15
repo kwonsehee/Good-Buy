@@ -140,5 +140,17 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectList("goodsMapper.selectMyCateList",map, rowBounds);
 	}
 
+	@Override
+	public Goods Goodsdetail(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.Goodsdetail",gno);
+	}
+
+	@Override
+	public Goods GoodsMydetail(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.GoodsMydetail",gno);
+	}
+
 
 }

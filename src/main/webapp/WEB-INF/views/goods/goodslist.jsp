@@ -141,10 +141,9 @@
     function closeCate(){
         $(".catebar").css("left","-300px");   
     }
-    function selectGoods(){
-		location.href="${contextPath}/goods/detail";
+    function selectGoods(gno){
+		location.href="${contextPath}/goods/detail?gno="+gno;
 	}
-	
     </script>
 	<jsp:include page="../common/footer.jsp"/>
 </body>

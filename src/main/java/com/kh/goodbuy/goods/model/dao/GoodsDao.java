@@ -39,4 +39,8 @@ public interface GoodsDao {
 	public int selectMyCateListCount(String user_id, String cate);
 	//내상품 cate 리스트 셀렉 
 	public List<Goods> selectMyCateList(String user_id, PageInfo pi, String cate);
+	//상품 디테일뷰
+	public Goods Goodsdetail(int gno);
+	//상품 디테일뷰 판매자
+	public Goods GoodsMydetail(int gno);
 }
