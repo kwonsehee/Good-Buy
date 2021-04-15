@@ -34,12 +34,11 @@ public class ReportController {
 		r.setReported_id(loginUser.getUser_id());
 		int result = rService.insertGoodsReport(r, gno, report_id);
 		if(result>0) {
-			System.out.println("신고 성공: " + result);
-			model.addAttribute("msg", "상품을 성공적으로 신고하였습니다.");
+			
+			model.addAttribute("msg", "success");
 		}else {
 			
-			System.out.println("신고 실패: " + result);
-			model.addAttribute("msg", "상품신고에 실패하였습니다.");
+			model.addAttribute("msg", "fail");
 		}
 		model.addAttribute("gno",gno);
 		return "redirect:/goods/detail";

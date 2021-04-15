@@ -22,10 +22,10 @@
 </head>
 <body>
 <!-- 메세지가 있다면 출력하고 지우기 -->
-   <c:if test="${ !empty msg }">
+  <%--  <c:if test="${ !empty msg }">
    		<script>alert('${ msg }')</script>
    		<c:remove var="msg" />
-   </c:if>
+   </c:if> --%>
    
    <header id="gbHeader">
         <div class="nav_container">

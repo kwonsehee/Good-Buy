@@ -49,6 +49,11 @@ public interface MemberService {
 		// 프사 삭제
 		public int deleteUserPhoto(Member loginUser);
 
+		//포인트 업데이트
+		public int updatePoint(String user_id, int user_point, int gno);
+		//안전거래 디비 insert
+		public int insertDeal(String user_id, int amount, int gno);
+
 		
 
 	

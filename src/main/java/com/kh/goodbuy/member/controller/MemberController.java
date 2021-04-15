@@ -307,5 +307,30 @@ public class MemberController {
 		
 		return "redirect:/home";
 	}
-	
+
+	// 결제
+	@GetMapping("payment")
+	public String payment(int amount,int gno,
+		@RequestParam(value="user_point", required=false, defaultValue="0") int user_point,
+		HttpServletRequest request,
+		Model model) {
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		System.out.println("결제오니 ;"+amount +"원 포인트 : "+user_point+"gno : "+gno);
+		int result = 0;
+		//유저 포인트 빼기
+		if(user_point>0) {
+			result = mService.updatePoint(loginUser.getUser_id(), user_point,gno);
+		}
+		//안전거래 디비insert
+		int result1 = mService.insertDeal(loginUser.getUser_id(), amount, gno);
+		
+		if(result>0||result>0) {
+			model.addAttribute("msg", "결제 성공");
+		}else {
+			
+			model.addAttribute("msg", "결제 실패");
+		}
+		model.addAttribute("gno", gno);
+		return "redirect:/goods/detail";
+	}
 }

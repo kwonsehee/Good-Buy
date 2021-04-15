@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +36,8 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/goods")
+
+@SessionAttributes({ "g" })
 public class GoodsController {
 	@Autowired
 	private GoodsService gService;
@@ -297,5 +300,17 @@ public class GoodsController {
 	      }
 	      
 	   }
+	  
+	// 내 중고상품detail 페이지로
+	@GetMapping("/pay")
+	public String goGoodPay(String way,  HttpServletRequest request, Model model) {
+		Goods g = (Goods) request.getSession().getAttribute("g");
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		model.addAttribute("way", way);
+		model.addAttribute("g", g);
+		model.addAttribute("point", loginUser.getPoint());
+		System.out.println("way"+way);
+		return "goods/goodsPay";
+	}
 	   
 }
