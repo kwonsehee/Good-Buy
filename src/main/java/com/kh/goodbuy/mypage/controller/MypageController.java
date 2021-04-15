@@ -1,7 +1,10 @@
 package com.kh.goodbuy.mypage.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.town.model.service.TownService;
@@ -33,8 +38,8 @@ public class MypageController {
 	
 	@Autowired
 	private TownService tService;
-//	@Autowired
-//	private MemberService mService;
+	@Autowired
+	private MemberService mService;
 	
 	
 	// 마이페이지 메인 화면으로
@@ -54,14 +59,7 @@ public class MypageController {
 		
 		return mv;
 	}
-	
-	// 프로필 사진 등록 화면
-	@GetMapping("/profilePhoto")
-	public ModelAndView showPhotoPopup(ModelAndView mv) {
-		mv.setViewName("mypage/setPhotoPopup");
-		return mv;
-	}
-	
+
 	// 팔로잉 팝업창 화면 
 	@GetMapping("/following")
 	public ModelAndView showFollowing(ModelAndView mv) {
@@ -87,6 +85,111 @@ public class MypageController {
 		
 		return mv;
 	}
+	
+	// 프사 등록 - 리네임 
+	@PostMapping("/photoInsert")
+	public String UserPhotoInsert(@ModelAttribute("loginUser") Member loginUser,
+								 Model model,
+								 @RequestParam(value="uploadPhoto") MultipartFile file,
+								 HttpServletRequest request) {
+		
+		// 업로드 파일 서버에 저장
+		// 파일이 첨부되었다면
+		if(!file.getOriginalFilename().equals("")) {
+			// 파일 저장 메소드 별도로 작성 - 리네임명 리턴
+			String renameFileName = saveFile(file, request);
+			
+			// DB에 저장하기 위한 파일명 세팅
+			if(renameFileName != null) {
+				loginUser.setPhoto(renameFileName);
+			}
+		}
+		
+		int result = mService.updateUserPhoto(loginUser);
+		System.out.println("프사 등록 됐니? : " + result);
+		
+		if(result > 0) {
+			// 프사 업데이트된 유저 정보 세션에 저장
+			model.addAttribute("loginUser", loginUser);
+			return "redirect:/mypage/main";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
+	// 프사 파일 저장
+	public String saveFile(MultipartFile file, HttpServletRequest request) {
+		String root= request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root+"/images/userProfilePhoto";
+		File folder = new File(savePath);
+		if(!folder.exists()) folder.mkdir();
+		
+		//파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename();
+		String renameFileName = sdf.format(new Date())+"_"+(int)(Math.random()*100000)+originalFileName.substring(originalFileName.lastIndexOf("."));
+		
+		String renamePath = folder + "/"+renameFileName;//저장하고자 하는 경로 + 파일명
+		
+		try {
+			file.transferTo(new File(renamePath));//=>업로드 된 파일(MultipartFile) 이 rename명으로 서버에 저장
+		} catch (IllegalStateException | IOException e) {
+			System.out.println("파일 업로드 에러 : "+e.getMessage());
+		}
+		
+		return renameFileName;
+	}
+	
+	
+	// 프사 삭제
+	@PostMapping("/deletePhoto")
+	public String deleteUserPhoto(@ModelAttribute("loginUser") Member loginUser,
+								
+								HttpServletRequest request,
+								 Model model) {
+		
+		// 기존 프사가 있다면
+		if(!loginUser.getPhoto().equals("")) {
+			deleteFile(loginUser.getPhoto(),request);
+		}
+		
+		// DB에서 photo컬럼 null로
+		int result = mService.deleteUserPhoto(loginUser);
+		
+		System.out.println("프사 삭제 됐나? " + result);
+		
+		// 로그인 유저 다시 조회 후 세션에 셋팅
+		Member loginUser2 = mService.loginMember(loginUser);
+		
+		if(result > 0) {
+			model.addAttribute("loginUser", loginUser2);
+			return "redirect:/mypage/main";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
+	public void deleteFile(String renameFileName,HttpServletRequest request) {
+		String root= request.getSession().getServletContext().getRealPath("resources");
+		File deleteFile = new File(root+"/images/userProfilePhoto/"+renameFileName);
+		System.out.println("deleteFile메소드 오니? ");
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 포인트 내역 화면
 	@GetMapping("/pointList")
