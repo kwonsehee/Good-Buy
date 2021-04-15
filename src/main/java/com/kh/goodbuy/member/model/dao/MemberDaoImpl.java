@@ -126,6 +126,12 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.insertDealPoint",map);
 	}
 
+	@Override
+	public String selectSellerPhoto(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectSellerPhoto", user_id);
+	}
+
 	
 
 
