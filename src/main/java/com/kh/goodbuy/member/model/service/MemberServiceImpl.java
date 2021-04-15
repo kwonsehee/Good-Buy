@@ -92,6 +92,11 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.insertDeal(user_id, amount, gno);
 	}
+	@Override
+	public String selectSellerPhoto(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectSellerPhoto(user_id);
+	}
 	
 
 	

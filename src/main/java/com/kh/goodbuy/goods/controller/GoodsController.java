@@ -30,6 +30,7 @@ import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
+import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.town.model.vo.Town;
@@ -41,7 +42,8 @@ import com.kh.goodbuy.town.model.vo.Town;
 public class GoodsController {
 	@Autowired
 	private GoodsService gService;
-	
+	@Autowired
+	private MemberService mService;
 	// 중고상품 리스트 페이지로
 	@GetMapping("/list")
 	public String goGoodsView(HttpServletRequest request,
@@ -185,9 +187,17 @@ public class GoodsController {
 	public String gosendmsgView() {
 		return "goods/sendToseller";
 	}
-	// 판매자에게 메세지 보내는 팝업 페이지로
+	// 판매자에게 상품 메세지 보내는 팝업 페이지로
 	@GetMapping("/sendmsgPopup")
-	public String gosendmsgPopupView() {
+	public String gosendmsgPopupView(HttpServletRequest request, Model model) {
+		Goods g = (Goods) request.getSession().getAttribute("g");
+	
+		String sellerPhoto = mService.selectSellerPhoto(g.getUser_id());
+		if(sellerPhoto !=null) {
+			model.addAttribute("sellerPhoto", sellerPhoto);
+			
+		}
+		
 		return "goods/sendmsgPopup";
 	}
 	// 중고상품등록

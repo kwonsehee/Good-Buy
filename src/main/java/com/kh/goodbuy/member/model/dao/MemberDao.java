@@ -46,6 +46,8 @@ public interface MemberDao {
 	public int insertDealPoint(String user_id, int amount, int gno);
 	//안전거래 디비 insert
 	public int insertDeal(String user_id, int amount, int gno);
+	//셀러 사진얻어오기
+	public String selectSellerPhoto(String user_id);
 	
 
 

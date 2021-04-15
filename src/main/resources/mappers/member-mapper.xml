@@ -295,7 +295,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		
 		SELECT *FROM DUAL
 	</insert>
+	<select id="selectSellerPhoto" parameterType="string" resultType="string">
+		SELECT
+			   PHOTO
+		  FROM USER_INFO
+		 WHERE USER_ID = #{user_id}
 	
+	
+	
+	</select>
 	
 
 				
