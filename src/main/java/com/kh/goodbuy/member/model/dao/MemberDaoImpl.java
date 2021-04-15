@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
@@ -79,12 +80,26 @@ public class MemberDaoImpl implements MemberDao {
 
 
 	@Override
+	public int updateUserPhoto(Member loginUser) {
+		return sqlSession.update("memberMapper.updateUserPhoto",loginUser);
+	}
+
+	@Override
+	public int deleteUserPhoto(Member loginUser) {
+		return sqlSession.update("memberMapper.deleteUserPhoto",loginUser);
+	}
+	
+	
+
+
+	@Override
 	public int updateadminMember(Member m) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("memberMapper.updateadminMember",m);
 	}
 
 	
+
 
 	
 

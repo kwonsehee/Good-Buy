@@ -3,7 +3,7 @@ package com.kh.goodbuy.member.model.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
@@ -35,7 +35,12 @@ public interface MemberDao {
 
 	public int updateMember(Member loginUser);
 
+	public int updateUserPhoto(Member loginUser);
+
+	public int deleteUserPhoto(Member loginUser);
+
 	public int updateadminMember(Member m);
+
 
 	
 

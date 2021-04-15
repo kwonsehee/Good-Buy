@@ -85,7 +85,16 @@
                 	   </c:if>
                 	  <!-- 2. 로그인 유저가 있을 때(일반회원)-->
                 	 <c:if test="${ !empty sessionScope.loginUser }">
-                	<li> <img src="${ contextPath }/resources/images/mypage/loopy.jpeg" id="loginUserPhoto"> </li>
+                	<li> 
+                		<!-- 프사 있을 때 -->
+			            <c:if test="${ !empty loginUser.photo }">
+			            <img src="${ contextPath }/resources/images/userProfilePhoto/${loginUser.photo}" id="loginUserPhoto">
+			            </c:if>
+			             <!-- 프사 없을 때 -->
+			            <c:if test="${ empty loginUser.photo }">
+			            <img src="${ contextPath }/resources/images/mypage/unknownUser.png" id="loginUserPhoto">
+			            </c:if>
+                	</li>
                 	<li id="loinUserNickname">${ loginUser.nickname } 님</li>
                 	<li><a href="${ contextPath }/member/logout" id="logoutText">로그아웃</a></li>
                 	</c:if>

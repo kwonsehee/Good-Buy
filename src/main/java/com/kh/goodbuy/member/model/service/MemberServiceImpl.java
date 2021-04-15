@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.dao.MemberDao;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -69,11 +69,21 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateMember(loginUser);
 	}
 	@Override
+
+	public int updateUserPhoto(Member loginUser) {
+		return mDao.updateUserPhoto(loginUser);
+	}
+	@Override
+	public int deleteUserPhoto(Member loginUser) {
+		return mDao.deleteUserPhoto(loginUser);
+	}
+
 	public int updateadminmember(Member m) {
 		// TODO Auto-generated method stub
 		return mDao.updateadminMember(m);
 	}
 	
+
 	
 	
 

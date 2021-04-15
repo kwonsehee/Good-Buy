@@ -187,10 +187,31 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     			PHONE = #{phone}
 		 WHERE 
 		 		USER_ID = #{user_id}
-				
 
 	</update>
 	
+	<update id="updateUserPhoto" parameterType="Member">
+		UPDATE
+				USER_INFO
+		   SET
+		   		PHOTO = #{photo}
+		 WHERE
+		 		USER_ID = #{user_id}
+	</update>
 	
+	<update id="deleteUserPhoto" parameterType="Member">
+		UPDATE
+				USER_INFO
+		   SET
+		   		PHOTO = NULL
+		 WHERE
+		 		USER_ID = #{user_id}
+	
+	</update>
+	
+	
+	
+
+				
 
 </mapper>
