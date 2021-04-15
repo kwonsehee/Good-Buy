@@ -56,6 +56,7 @@
                 </select>
                 <br><br><br><br><br><br><br>
                 <button type="submit" id="submitBtn">수정하기</button>
+                
             </form>         
             <a id="memberLeaveBtn" href="#">탈퇴하기</a>
         </div>
@@ -68,12 +69,6 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
 	<script>
-	/* 선택한 주소값,새비번 보내기 */
- 	function sendNewInfo(){
- 	 	var address_3 = $("select[name=address_3] option:selected").text();
- 	 	console.log(newPwd);
- 	 	//location.href="${contextPath}/member/update?address_3="+address_3;
- 	};
  	
  	// 수정할 때 무조건 기존 비밀번호 입력해야 수정 가능
  	// 기존 비번 로그인유저와 일치하는지 검사(ajax)
@@ -95,8 +90,6 @@
  						//$("#submitBtn").attr("disabled",true);
  						alert("기존 비밀번호를 맞게 입력해주세요!");
  					} 
- 					var newPwd = $(".joinform input[name=userNewPwd2]").val();
- 					location.href="${contextPath}/member/update?newPwd="+newPwd;
  				},
  				error : function(e){
  					alert("error code: " + e.status + "\n" + "message: " + e.responseText);

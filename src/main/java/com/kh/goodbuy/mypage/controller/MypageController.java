@@ -1,8 +1,11 @@
 package com.kh.goodbuy.mypage.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +24,11 @@ import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.town.model.service.TownService;
 import com.kh.goodbuy.town.model.vo.Town;
 
+import net.sf.json.JSONObject;
+
 @Controller
 @RequestMapping("/mypage")
-@SessionAttributes({ "loginUser","townInfo"})
+@SessionAttributes({ "loginUser","townInfo","mtlist"})
 public class MypageController {
 	
 	@Autowired
@@ -36,10 +41,11 @@ public class MypageController {
 	@GetMapping("/main")
 	public ModelAndView showMain(ModelAndView mv, 
 								@ModelAttribute("loginUser") Member loginUser,
-								HttpServletRequest request) {
+								HttpServletRequest request,
+								Model model) {
 		// 마이타운 첫번째, 두번째 동네 리스트로 조회
 		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
-		
+		System.out.println("mtlist : " + mtlist);
 		
 		if(mtlist != null) {
 			mv.addObject("mtlist",mtlist);
@@ -244,19 +250,21 @@ public class MypageController {
 	}
 	
 	// 내동네 바꾸기 
-	@GetMapping("changeTownType")
-	public @ResponseBody String changeTownType(@ModelAttribute("loginUser") Member loginUser,
-												Model model) {
+	@GetMapping("/changeTownType")
+	public @ResponseBody void changeTownType(@ModelAttribute("loginUser") Member loginUser,
+												Model model,
+												HttpServletResponse response) {
+	    response.setContentType("application/json; charset=utf-8");
 		
 		System.out.println("로그인유저 넘어왔나 " + loginUser.getUser_id());
-		// 내동네 기본동네 타입 변경용
+		// 1. 내동네 기본동네 타입 변경
 		// 1 -> 2
-		// 1 -> 2
+		// 2 -> 1
 		int result = tService.changeTownType2(loginUser.getUser_id());
 		
 		System.out.println("동네타입 2->1로 잘 바꼈나? " + result);
 		
-		// 바뀐 동네정보 세션에 다시 담아주기
+		// 2. 바뀐 동네정보 세션에 다시 담아주기
 		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
 		
 		if(townInfo != null) {
@@ -264,39 +272,92 @@ public class MypageController {
 			System.out.println("세션에 저장되는 타운 바뀌나 : " + townInfo);
 		}
 		
-		// ajax통신 성공 시 동적으로 화면 문구 바뀌어야 하므로
-		String area = Integer.toString(townInfo.getArea());
-		return area;
+		// 3. ajax통신 성공 시 range부분도 새롭게 바꿔줘야 하므로 Town 리턴
+		JSONObject sendTown = new JSONObject();
+		sendTown.put("t_no",townInfo.getT_no());
+		sendTown.put("area",townInfo.getArea());
+		sendTown.put("address_1",townInfo.getAddress_1());
+		sendTown.put("address_2",townInfo.getAddress_2());
+		sendTown.put("address_3",townInfo.getAddress_3());
+		
+		
+	    // 4. 전송 
+	      try {
+	         PrintWriter out = response.getWriter();
+	         out.print(sendTown);
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
 		
 	}
 	
+	// 메뉴바에서 내동네 바꾸기
+	@GetMapping("/changeTownType2")
+	public String changeTownType2(@ModelAttribute("loginUser") Member loginUser,
+												Model model,
+												HttpServletResponse response,
+												HttpServletRequest request,
+												String contextPath
+												) {
+		response.setContentType("application/json; charset=utf-8");
+		
+		
+		int result = tService.changeTownType2(loginUser.getUser_id());
+		
+		System.out.println("동네타입 2->1로 잘 바꼈나? " + result);
+		
+		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
+		System.out.println("메뉴바에서 동네 바꾼 후 : " + mtlist);
+		
+		// 세션에 다시 저장
+		model.addAttribute("mtlist", mtlist);
+		
+		
+		System.out.println("contextPath넘어왔나 : " + contextPath);
+		
+		return"redirect:/home";
+	}
+	
 	// 내동네 범위 바꾸기 
-	@GetMapping("changeArea")
-	public @ResponseBody String changeArea(@ModelAttribute("loginUser") Member loginUser,
+	@GetMapping("/changeArea")
+	public @ResponseBody void changeArea(@ModelAttribute("loginUser") Member loginUser,
+											@ModelAttribute("townInfo") Town townInfo,
 											Model model,
-											@RequestParam int t_no,
-											@RequestParam int area) {
+											@RequestParam int area,
+											HttpServletResponse response) {
+		response.setContentType("application/json; charset=utf-8");
 		
-		System.out.println("내동네 범위 바꾸기 잘 넘어왔나 " + loginUser.getUser_id() + t_no + area);
+		System.out.println("내동네 범위 바꾸기 잘 넘어왔나 " + loginUser.getUser_id() +"범위 : " +area);
 		
-		MyTown mt = new MyTown(loginUser.getUser_id(),t_no,area);
+		MyTown mt = new MyTown(loginUser.getUser_id(),townInfo.getT_no(),area);
+		
+		System.out.println("범위 바꾸려는 동네 넘버 : " + townInfo.getT_no());
 		
 		int result = tService.changeArea(mt);
 		
 		// 바뀐 동네 정보 세션에 다시 담아주기
-		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
+		Town townInfo2 = tService.selectUserTown(loginUser.getUser_id());
 		
 		if(townInfo != null) {
-			model.addAttribute("townInfo", townInfo);
-			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo);
+			model.addAttribute("townInfo", townInfo2);
+			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo2);
 		}
-		
-		
-		if(result > 0) {
-			return "Success to change area of town~!";
-		} else {
-			return "Fail to change area of town..";
-		}
+
+		// ajax통신 성공 시 텍스트변경 부분도 새롭게 바꿔줘야 하므로 Town 리턴
+		// 내동네 설정용
+		JSONObject sendTown = new JSONObject();
+		sendTown.put("t_no",townInfo2.getT_no());
+		sendTown.put("area",townInfo2.getArea());
+		sendTown.put("address_1",townInfo2.getAddress_1());
+		sendTown.put("address_2",townInfo2.getAddress_2());
+		sendTown.put("address_3",townInfo2.getAddress_3());
+		// 4. 전송 
+	      try {
+	         PrintWriter out = response.getWriter();
+	         out.print(sendTown);
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
 		
 	}
 	

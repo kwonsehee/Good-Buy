@@ -42,14 +42,59 @@ button {
 }
 
 .li_3 {
-	width: 55%;
+	width: 48%;
 	text-align: center;
 }
 
-.li_4, .li_5, .li_6, .li_7 {
+.li_4, .li_5, .li_6, .li_ {
 	width: 5%;
 	text-align: center;
 }
+
+.userTownli{
+	width:7%;
+	margin-top:37px;
+	cursor: pointer;
+	text-align: center;
+	color:#949999;
+	position:absolute;
+	left:68%;
+}
+
+.userTownli2 img{
+	width:5%;
+	margin-top:50px;
+	margin-left:100px;
+	cursor:pointer;
+	text-align:center;
+	width:12px;
+}
+
+.userTownli p:nth-child(1){
+	font-weight:bold;
+}
+.userTownli p:nth-child(2){
+	display:none;
+	font-size:14px;
+	border-top:2px solid #f1f0f2;
+	border-bottom:2px solid #f1f0f2;
+}
+.userTownli p:nth-last-child(1){
+	display:none;
+	border-bottom:2px solid #f1f0f2;
+	font-size:14px;
+}
+
+.userTownli p:nth-child(2):hover,.userTownli p:nth-last-child(1):hover{
+	color:black;
+	background:#f1f0f2;
+}
+
+.userTownli p{
+	padding:5px 10px 5px 10px;
+	margin:0;
+}
+
 
 #menuicon {
 	width: 30px;
@@ -90,7 +135,7 @@ button {
 }
 
 #searchbox {
-	width: 600px;
+	width: 80%;
 	height: 35px;
 	margin-top: 33px;
 	border: 3px solid #05AAD1;

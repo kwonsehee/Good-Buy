@@ -165,6 +165,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		USER_ID = #{user_id}
 	</select>
+
 	<update id="updateadminMember" parameterType="Member">
       UPDATE
            USER_INFO
@@ -174,4 +175,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
        WHERE
             USER_ID = #{user_id}     
    </update>
+
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE 
+				USER_INFO
+		   SET 
+		   		NICKNAME = #{nickname},
+      			USER_PWD = #{user_pwd},
+   			    EMAIL = #{email},
+    			PHONE = #{phone}
+		 WHERE 
+		 		USER_ID = #{user_id}
+				
+
+	</update>
+	
+	
+
 </mapper>

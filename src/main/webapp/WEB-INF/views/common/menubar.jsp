@@ -38,6 +38,28 @@
                     <input type="text" id="searchbox" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
                     <button type="submit">검색</button>
                 </li>
+                <!-- 내 동네 선택 : 로그인 시에만 나타나야 함  -->
+                <c:if test="${ !empty sessionScope.loginUser }">
+	                <li class="userTownli">
+	                <c:if test="${ mtlist.size() == 1 }">
+	                	<p>${ mtlist.get(0) }</p>
+	                	<p>내 동네 설정</p>
+	           		</c:if>
+	               	<c:if test="${ mtlist.size() == 2 }">
+	                	<p>${ mtlist.get(0) }</p>
+	                	<p>${ mtlist.get(1) }</p>
+	                	<p>내 동네 설정</p> 
+	           		</c:if>
+	           		
+	                </li>
+	                <li class="userTownli2"><img src="${ contextPath }/resources/images/downarrow.png"></li>
+                </c:if>
+                <!-- 로그아웃 시에도 메뉴바 레이아웃 비율 같아야 함 비어있는 li -->
+                <c:if test="${ empty sessionScope.loginUser }">
+	           		 <li class="userTownli"></li>
+	                <li class="userTownli2"><img src="${ contextPath }/resources/images/downarrow.png" style="opacity:0;"></li>
+               </c:if> 
+               
                 <li class="li_4">
                 <!-- 1. 로그인 유저가 없을 때 -->
                 <c:if test="${ empty sessionScope.loginUser }">
@@ -126,19 +148,53 @@
 			</div>
 		</div>
 	</div>
-	
+
+
+
 
 	<script>
-		function loginPopup() {
-			window.open("loginForm.html", "PopupWin", "width=500,height=600");
-		}
 		function closeNavi() {
 			$(".sidebar").css("left", "-300px");
 		}
-
 		function showNavi() {
 			$(".sidebar").css("left", "0px");
 		}
+		
+		
+		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
+		$(document).ready(function(){
+			$(".userTownli2").click(function(){
+				
+				if($(".userTownli p:nth-last-child(1)").css("display") == "none"){
+					$(".userTownli p").slideDown(350);
+				} else{
+					$(".userTownli p:nth-child(2)").slideUp(350);
+					$(".userTownli p:nth-last-child(1)").slideUp(350);
+				}
+			});
+			
+			
+		});
+		
+		/* 메뉴바에서 동네 바꾸기(ajax) */
+		$(".userTownli p:nth-child(2)").click(function(){
+			var townName = event.target.innerText;
+		
+			var contextPath = "${pageContext.request.requestURI}";
+			
+			console.log(contextPath);
+			
+			
+			if(townName =="내 동네 설정"){
+				location.href="${contextPath}/mypage/setMyTown";
+			} else{
+				location.href= "${contextPath}/mypage/changeTownType2?contextPath="+contextPath;
+			}
+			
+		});
+		
+		
+		
 	</script>
     
 	<!-- Optional JavaScript; choose one of the two! -->  

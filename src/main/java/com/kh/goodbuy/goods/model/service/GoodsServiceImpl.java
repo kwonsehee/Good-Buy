@@ -9,6 +9,8 @@ import com.kh.goodbuy.goods.model.dao.GoodsDao;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
+import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.town.model.vo.Town;
 @Service
 public class GoodsServiceImpl implements GoodsService{
 	@Autowired
@@ -35,5 +37,96 @@ public class GoodsServiceImpl implements GoodsService{
 		// TODO Auto-generated method stub
 		return gDao.insertFile(list);
 	}
+	@Override
+	public int selectAllCount() {
+		// TODO Auto-generated method stub
+		return gDao.selectAllCount();
+	}
+	@Override
+	public int selectListCount(Town m) {
+		// TODO Auto-generated method stub
+		return gDao.selectListCount(m);
+	}
+	@Override
+	public List<Goods> selectAllList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return gDao.selectAllList(pi);
+	}
+	@Override
+	public List<Goods> selectList(Town m, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return gDao.selectList(m, pi);
+	}
+	@Override
+	public int selectMyListCount(String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.selectMyListCount(user_id);
+	}
+	@Override
+	public List<Goods> selectMyList(String user_id, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return gDao.selectMyList(user_id, pi);
+	}
+	@Override
+	public Town selectSecondTown(String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.selectSecondTown(user_id);
+	}
+	@Override
+	public int selectCateCount(String cate) {
+		// TODO Auto-generated method stub
+		return gDao.selectCateCount(cate);
+	}
+	@Override
+	public List<Goods> selectCateList(PageInfo pi, String cate) {
+		// TODO Auto-generated method stub
+		return gDao.selectCateList(pi, cate);
+	}
+	@Override
+	public int selectCateCount2(Town myTown, String cate) {
+		// TODO Auto-generated method stub
+		return gDao.selectCateCount2(myTown, cate);
+	}
+	@Override
+	public List<Goods> selectCateList2(Town myTown, PageInfo pi, String cate) {
+		// TODO Auto-generated method stub
+		return gDao.selectCateList2(myTown, pi, cate);
+	}
+	@Override
+	public int selectMyCateListCount(String user_id, String cate) {
+		// TODO Auto-generated method stub
+		return gDao.selectMyCateListCount(user_id, cate);
+	}
+	@Override
+	public List<Goods> selectMyCateList(String user_id, PageInfo pi, String cate) {
+		// TODO Auto-generated method stub
+		return gDao.selectMyCateList(user_id, pi, cate);
+	}
+	@Override
+	public Goods Goodsdetail(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.Goodsdetail(gno);
+	}
+	@Override
+	public Goods GoodsMydetail(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.GoodsMydetail(gno);
+	}
+	@Override
+	public int likeGoods(int gno, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.likeGoods(gno, user_id);
+	}
+	@Override
+	public int deleteLike(int gno, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.deleteLike(gno, user_id);
+	}
+	@Override
+	public int insertLike(int gno, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.insertLike(gno, user_id);
+	}
+	
 
 }

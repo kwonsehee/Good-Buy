@@ -31,7 +31,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "loginUser", "msg", "townInfo" })
+@SessionAttributes({ "loginUser", "msg", "townInfo","mtlist" })
 public class MemberController {
 
 	@Autowired
@@ -52,13 +52,24 @@ public class MemberController {
 		if (loginUser != null && bcryptPasswordEncoder.matches(m.getUser_pwd(), loginUser.getUser_pwd())) {
 			// System.out.println("loginUser : " + loginUser);
 			model.addAttribute("loginUser", loginUser);
+			// 로그인 시 따로 호출하는 메소드
 			saveUserTown(loginUser.getUser_id(), model);
+			saveUserMtlist(loginUser.getUser_id(),model);
 			return "redirect:/home";
 		} else {
 			model.addAttribute("msg", "로그인에 실패하였습니다.");
 			return "redirect:/home";
 		}
 		
+	}
+	
+	// 로그인시 유저의 첫번째,두번째 동네 이름만 가져와서 세션에 저장(메뉴바에 출력용)
+	private void saveUserMtlist(String user_id, Model model) {
+		List<String> mtlist = tService.selectMyTownList(user_id);
+		if(mtlist != null) {
+			model.addAttribute("mtlist", mtlist);
+			System.out.println("멤버 컨트롤러(세션저장) mtlist : " + mtlist);
+		}
 	}
 
 	// 회원가입 페이지로
@@ -160,24 +171,38 @@ public class MemberController {
 								String phone,
 								String address_3,
 								String userNewPwd) {
-		// 새롭게 바꿀 비번 암호화
-		String encPwd = bcryptPasswordEncoder.encode(userNewPwd);
-		loginUser.setUser_pwd(encPwd);
+		
+		// 새롭게 바꿀 비번이 있을 시 암호화 후 셋팅
+		if(!userNewPwd.equals("")) {
+			String encPwd = bcryptPasswordEncoder.encode(userNewPwd);
+			loginUser.setUser_pwd(encPwd);
+		} else {
+			// 비번 안바꿀 시 기존 비밀번호로 셋팅
+			loginUser.setUser_pwd(loginUser.getUser_pwd());
+		}
 		
 		loginUser.setNickname(nickname);
 		loginUser.setEmail(email);
 		loginUser.setPhone(phone);
 		
+		System.out.println("업데이트할 유저 정보" + loginUser);
+		System.out.println("넘어온 address_3" + address_3);
+		
 		// USER_INFO update
 		int result = mService.updateMember(loginUser);
 		
+		System.out.println("유저 정보 업데이트 됐나 : " + result);
+		
 		// MY_TOWN update 
-		// 1) 넘어온 주소값에 해당하는 t_no 조회하기
+		// 넘어온 주소값에 해당하는 t_no 조회하기
 		int t_no = tService.selectTownNo(address_3);
+		//System.out.println("업데이트할 유저 동네 " + t_no);
 		MyTown mt = new MyTown(loginUser.getUser_id(), t_no);
 		
 		// 현재 마이타운 타입만 변경,insert,delete 밖에 없으므로 update따로 만들어야함..ㅎ
 		int result2 = tService.updateMyTown(mt);
+		
+		System.out.println("유저 동네 업네이드 됐나 : " + result2);
 		
 		// 바뀐 동네정보 다시 세션에 담아주기
 		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
@@ -207,6 +232,7 @@ public class MemberController {
 		
 	}
 	
+	// 회원정보 수정 시 기존 비밀번호 일치 해야 바꿔드림
 	@PostMapping("originPwdCheck")
 	public void originPwdCheck(String originPwd, HttpServletResponse response,@ModelAttribute("loginUser") Member m) {
 		
@@ -257,23 +283,20 @@ public class MemberController {
 		return "redirect:/home";
 	}
 	
-	// 로그인 시 로그인 유저의 동네 정보 세션에 저장하기
+	// 로그인 시 로그인 유저의 동네 정보(첫번째 기본동네) 세션에 저장하기
 	public void saveUserTown(String user_id,
 							   Model model
 							 ) {
-		System.out.println(user_id + "  zzzzz");
 		
-		//HttpSession session = request.getSession();
 		Town townInfo = tService.selectUserTown(user_id);
 		 
-		// System.out.println(townInfo);
 		if(townInfo != null) {
 			model.addAttribute("townInfo", townInfo);
-		//	session.setAttribute("townInfo", townInfo);
-			System.out.println("멤버 컨트롤러 townInfo" + townInfo);
+			System.out.println("멤버 컨트롤러(세션저장) townInfo" + townInfo);
 		} 
 		
 	}
+	
 	
 	// 탈퇴하기
 	@GetMapping("/deleteMember")
