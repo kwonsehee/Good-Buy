@@ -24,12 +24,12 @@
                 <button id="cashBtn">충전</button>
             </div>
             <div class="logoArea">
-                <img src="images/광고페이지.png">
+                <img src="${contextPath}/resources/images/logo2.png">
                 <p>진행중인 광고가 없어요</p>
                 <p>비즈 프로필을 광고해 보세요.</p>
             </div>
             <div class="btnArea"> 
-                <button id="createBtn">광고 만들기</button>
+                <button id="createBtn" onclick="location.href='${contextPath}/business/viewCount'">광고 만들기</button>
             </div>
         </div>
     </section>

@@ -1,4 +1,4 @@
-package com.kh.goodbuy.admin.model.vo;
+package com.kh.goodbuy.common.model.vo;
 
 import java.sql.Date;
 

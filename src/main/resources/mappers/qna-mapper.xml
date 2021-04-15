@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="qnaMapper">
+	<resultMap type="QNA" id="qnaResultSet">
+		<id property = "qa_no" column ="QA_NO"/>
+		<result property="qa_title" column="QA_TITLE"/>
+		<result property="qa_content" column="QA_CONTENT"/>
+		<result property="qa_date" column="QA_DATE"/>
+		<result property="qa_modify" column="QA_MODIFY"/>
+		<result property="qa_status" column="QA_STATUS"/>
+		<result property="qa_refno" column="QA_REFNO"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="FAQ" column="FAQ"/>
+	</resultMap>
+	
+	<select id="selectFAQList" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'Y'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	
+	<select id="selectFAQ" parameterType="_int" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		       QA_NO = #{qa_no} 
+	</select>
+	
+	<update id="updateFAQ" parameterType="Notice">
+		UPDATE
+		       QNA
+		   SET
+		       QA_TITLE = #{qa_title}
+		     , QA_CONTENT = #{qa_content}
+		     , QA_MODIFY = SYSDATE
+		 WHERE
+		       QA_NO = #{qa_no}
+	</update>
+	
+	<delete id="deleteFAQ" parameterType="_int">
+		DELETE 
+		  FROM QNA
+		 WHERE 
+		       QA_NO = #{qa_no}
+	</delete>
+	</mapper>

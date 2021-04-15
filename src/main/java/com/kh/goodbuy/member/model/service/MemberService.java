@@ -39,6 +39,9 @@ public interface MemberService {
 		
 		// 회원정보 수정
 		public int updateMember(Member loginUser);
+		
+		// 관리자 
+		public int updateadminmember(Member m);
 
 		// 프사 등록
 		public int updateUserPhoto(Member loginUser);

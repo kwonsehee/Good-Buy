@@ -2,12 +2,14 @@ package com.kh.goodbuy.goods.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,6 +43,7 @@ public class GoodsController {
 	@GetMapping("/list")
 	public String goGoodsView(HttpServletRequest request,
 			 @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			 @RequestParam(value="cate", required=false, defaultValue="null") String cate,
 			 Model model) {
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		Town myTown = (Town) request.getSession().getAttribute("townInfo");
@@ -47,13 +51,31 @@ public class GoodsController {
 		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
 		List<Goods> glist;
 		PageInfo pi;
+		System.out.println("cate : "+cate);
 		if(loginUser==null) {
-			listCount = gService.selectAllCount();
-			System.out.println("로그인 유저 없을때 : listCount"+ listCount);
-			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
-			glist = gService.selectAllList(pi);
-			System.out.println("로그인 유저 없을때 : glist"+ glist);
+			if(!cate.equals("null")) {
+				listCount = gService.selectCateCount(cate);
+				System.out.println("로그인 유저 없을때 cate : listCount"+ listCount);
+				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				glist = gService.selectCateList(pi, cate);
+				System.out.println("로그인 유저 없을때 cate: glist"+ glist);
+			}else {
+				listCount = gService.selectAllCount();
+				System.out.println("로그인 유저 없을때 : listCount"+ listCount);
+				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				glist = gService.selectAllList(pi);
+				System.out.println("로그인 유저 없을때 : glist"+ glist);
+			}
 		}else {
+			if(!cate.equals("null")) {
+				System.out.println("loginUser : "+ loginUser.getUser_id());
+				System.out.println("myTown : "+ myTown);
+				listCount = gService.selectCateCount2(myTown, cate);
+				System.out.println("로그인 유저 있을때 cate: listCount"+ listCount);
+				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				glist = gService.selectCateList2(myTown, pi, cate);
+				System.out.println("로그인 유저 있을때 cate : glist"+ glist);
+			}else {
 			System.out.println("loginUser : "+ loginUser.getUser_id());
 			System.out.println("myTown : "+ myTown);
 			listCount = gService.selectListCount(myTown);
@@ -61,6 +83,7 @@ public class GoodsController {
 			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 			glist = gService.selectList(myTown, pi);
 			System.out.println("로그인 유저 있을때 : glist"+ glist);
+			}
 		}
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
@@ -71,16 +94,32 @@ public class GoodsController {
 	@GetMapping("/mylist")
 	public String goMyGoodsView(HttpServletRequest request,
 			 @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			 @RequestParam(value="cate", required=false, defaultValue="null") String cate,
 			 Model model) {
+		
+		System.out.println("로그인 유저의 상품 cate : "+ cate);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		//Town myTown = (Town) request.getSession().getAttribute("townInfo");
-		
-		int listCount = gService.selectMyListCount(loginUser.getUser_id());
+		int listCount = 0;
 		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
-		System.out.println("로그인 유저꺼 : listCount"+ listCount);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
-		List<Goods> glist = gService.selectMyList(loginUser.getUser_id(), pi);
-		System.out.println("로그인 유저꺼 : glist"+ glist);
+		PageInfo pi;
+		List<Goods> glist;
+		if(!cate.equals("null")) {
+			listCount = gService.selectMyCateListCount(loginUser.getUser_id(), cate);
+			System.out.println("로그인 유저꺼 cate : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectMyCateList(loginUser.getUser_id(), pi, cate);
+			System.out.println("로그인 유저꺼 cate: glist"+ glist);
+			
+		}
+		else{
+			listCount = gService.selectMyListCount(loginUser.getUser_id());
+			System.out.println("로그인 유저꺼 : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectMyList(loginUser.getUser_id(), pi);
+			System.out.println("로그인 유저꺼 : glist"+ glist);
+		}
+		
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
 		
@@ -104,7 +143,22 @@ public class GoodsController {
 	}
 	// 중고상품detail 페이지로
 	@GetMapping("/detail")
-	public String goGoodsDetailView() {
+	public String goGoodsDetailView(HttpServletRequest request,
+			 @RequestParam(value="gno", required=false) int gno,
+			 Model model) {
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		//상품 정보셀렉
+		Goods g = gService.Goodsdetail(gno);
+		if(loginUser!=null) {
+		//찜정보 셀렉
+		int like = gService.likeGoods(gno, loginUser.getUser_id());
+		System.out.println("like : "+like);
+		if(like>0) {
+			String likes = "like";
+			model.addAttribute("likes", likes);
+		}
+		}
+		model.addAttribute("g", g);
 		return "goods/goodsdetail";
 	}
 	// 내 중고상품detail 페이지로
@@ -207,4 +261,41 @@ public class GoodsController {
 		
 		return renameFileName;
 	}
+	 // 1. Stream을 이용한 text 응답
+	  @RequestMapping(value="likegoods", method=RequestMethod.POST)
+	  public void likegoods( int gno, HttpServletResponse response, HttpServletRequest request) {
+	      try {
+	         PrintWriter out = response.getWriter();
+	     	Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+	         int ok = gService.deleteLike(gno, loginUser.getUser_id());
+	         if(ok>0) {
+	            out.write("success");
+	         } else {
+	            out.write("fail");
+	         }
+	         
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+	      
+	   }
+	  // 1. Stream을 이용한 text 응답
+	  @RequestMapping(value="dislikegoods", method=RequestMethod.POST)
+	  public void dislikegoods( int gno, HttpServletResponse response, HttpServletRequest request) {
+	      try {
+	         PrintWriter out = response.getWriter();
+	     	Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+	         int ok = gService.insertLike(gno, loginUser.getUser_id());
+	         if(ok>0) {
+	            out.write("success");
+	         } else {
+	            out.write("fail");
+	         }
+	         
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+	      
+	   }
+	   
 }

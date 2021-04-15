@@ -27,4 +27,26 @@ public interface GoodsDao {
 	public List<Goods> selectMyList(String user_id, PageInfo pi);
 	//insert할때 내 세컨드 동네가져오기
 	public Town selectSecondTown(String user_id);
+	//로그인 안했을때 카테고리 리스트 카운트 
+	public int selectCateCount(String cate);
+	//로그인 안했을때 카테고리 리스트 가져오기
+	public List<Goods> selectCateList(PageInfo pi, String cate);
+	//로그인 했을때 카테고리 카운트
+	public int selectCateCount2(Town myTown, String cate);
+	//로그인 했을때 카테고리 리스트 가져오기
+	public List<Goods> selectCateList2(Town myTown, PageInfo pi, String cate);
+	//내 상품 리스트 cate 카운트
+	public int selectMyCateListCount(String user_id, String cate);
+	//내상품 cate 리스트 셀렉 
+	public List<Goods> selectMyCateList(String user_id, PageInfo pi, String cate);
+	//상품 디테일뷰
+	public Goods Goodsdetail(int gno);
+	//상품 디테일뷰 판매자
+	public Goods GoodsMydetail(int gno);
+	//찜여부
+	public int likeGoods(int gno, String user_id);
+	//찜 삭제
+	public int deleteLike(int gno, String user_id);
+	//찜 하기
+	public int insertLike(int gno, String user_id);
 }

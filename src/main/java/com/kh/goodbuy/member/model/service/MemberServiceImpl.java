@@ -69,6 +69,7 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateMember(loginUser);
 	}
 	@Override
+
 	public int updateUserPhoto(Member loginUser) {
 		return mDao.updateUserPhoto(loginUser);
 	}
@@ -76,6 +77,13 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteUserPhoto(Member loginUser) {
 		return mDao.deleteUserPhoto(loginUser);
 	}
+
+	public int updateadminmember(Member m) {
+		// TODO Auto-generated method stub
+		return mDao.updateadminMember(m);
+	}
+	
+
 	
 	
 

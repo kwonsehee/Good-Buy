@@ -35,13 +35,12 @@ public interface MemberDao {
 
 	public int updateMember(Member loginUser);
 
-	public int insertUserPhoto(String user_id);
-	
-	public int insertUserPhotoFile(Addfile a);
-
 	public int updateUserPhoto(Member loginUser);
 
 	public int deleteUserPhoto(Member loginUser);
+
+	public int updateadminMember(Member m);
+
 
 	
 

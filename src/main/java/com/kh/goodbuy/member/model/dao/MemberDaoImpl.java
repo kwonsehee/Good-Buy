@@ -78,15 +78,6 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.updateMember",loginUser);
 	}
 
-	@Override
-	public int insertUserPhoto(String user_id) {
-		return sqlSession.insert("memberMapper.insertUserPhoto",user_id);
-	}
-
-	@Override
-	public int insertUserPhotoFile(Addfile a) {
-		return sqlSession.insert("memberMapper.insertUserPhotoFile",a);
-	}
 
 	@Override
 	public int updateUserPhoto(Member loginUser) {
@@ -99,6 +90,17 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	
 	
+
+
+	@Override
+	public int updateadminMember(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updateadminMember",m);
+	}
+
+	
+
+
 	
 
 }
