@@ -1,8 +1,8 @@
-package com.kh.goodbuy.admin.model.dao;
+package com.kh.goodbuy.common.model.dao;
 
 import java.util.List;
 
-import com.kh.goodbuy.admin.model.vo.Report;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 public interface ReportDao {

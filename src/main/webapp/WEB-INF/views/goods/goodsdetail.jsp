@@ -178,7 +178,7 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form method="POST" action="reportConfirm.html">
+					<form method="POST" action="${ contextPath }/goods/insert">
 						<table id="report_tb">
 							<tr>
 								<td colspan="2"><img src="${ contextPath }/resources/images/logo.png" width="40%;"
