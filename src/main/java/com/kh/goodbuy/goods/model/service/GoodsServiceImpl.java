@@ -112,6 +112,21 @@ public class GoodsServiceImpl implements GoodsService{
 		// TODO Auto-generated method stub
 		return gDao.GoodsMydetail(gno);
 	}
+	@Override
+	public int likeGoods(int gno, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.likeGoods(gno, user_id);
+	}
+	@Override
+	public int deleteLike(int gno, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.deleteLike(gno, user_id);
+	}
+	@Override
+	public int insertLike(int gno, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.insertLike(gno, user_id);
+	}
 	
 
 }

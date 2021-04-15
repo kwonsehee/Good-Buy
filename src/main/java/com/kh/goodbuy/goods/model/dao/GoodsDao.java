@@ -43,4 +43,10 @@ public interface GoodsDao {
 	public Goods Goodsdetail(int gno);
 	//상품 디테일뷰 판매자
 	public Goods GoodsMydetail(int gno);
+	//찜여부
+	public int likeGoods(int gno, String user_id);
+	//찜 삭제
+	public int deleteLike(int gno, String user_id);
+	//찜 하기
+	public int insertLike(int gno, String user_id);
 }
