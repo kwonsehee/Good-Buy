@@ -419,4 +419,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	WHERE G.G_NO = #{g_no}
 	
 	</select>
+	<select id="likeGoods" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		  FROM LIKE_GOODS
+		 WHERE G_NO = #{gno}
+		   AND USER_ID = #{user_id}
+	</select>
+	<delete id="deleteLike" parameterType="java.util.Map">
+		DELETE FROM LIKE_GOODS
+		 WHERE G_NO = #{gno}
+		   AND USER_ID = #{user_id}
+	</delete>
+	<insert id="insertLike" parameterType="java.util.Map">
+	INSERT INTO LIKE_GOODS
+	(G_NO, USER_ID)
+	VALUES
+	(#{gno}, #{user_id})
+	
+	</insert>
 </mapper>

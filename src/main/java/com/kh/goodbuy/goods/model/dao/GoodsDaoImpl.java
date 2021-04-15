@@ -152,5 +152,29 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectOne("goodsMapper.GoodsMydetail",gno);
 	}
 
+	@Override
+	public int likeGoods(int gno, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("gno", gno);
+		return sqlSession.selectOne("goodsMapper.likeGoods", map);
+	}
+
+	@Override
+	public int deleteLike(int gno, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("gno", gno);
+		return sqlSession.delete("goodsMapper.deleteLike", map);
+	}
+
+	@Override
+	public int insertLike(int gno, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("gno", gno);
+		return sqlSession.insert("goodsMapper.insertLike", map);
+	}
+
 
 }

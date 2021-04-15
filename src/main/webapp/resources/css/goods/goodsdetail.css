@@ -8,6 +8,7 @@
 #goods_detail{
     width: 80%;
     margin: auto;
+/*     border : 1px solid red; */
 }
 #goodsTitle{
     font-size: 28px;
@@ -32,6 +33,13 @@
     height: 150px;
 
 } 
+#likes{
+	  width: 25px;
+    height: 20px;
+    float: left;
+   	margin-left: 12%;
+    margin-top : 10px;
+}
 .btn_small{
     width: 135px;
     height: 40px;
@@ -40,6 +48,7 @@
     border: rgba(55, 187, 218, 0.5);
     margin-left: 18%;
 }
+
 .btn_small img{
     width: 20px;
     height: 20px;
@@ -56,6 +65,7 @@ float: left;
 margin-top : 10px;
 
 }
+
 .reviews{
     position:relative; 
        left: 23%;

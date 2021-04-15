@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,13 @@
 <title>Good-Buy</title>
 <!-- 공통 UI -->
 <link href="${ contextPath }/resources/css/goods/goodsdetail.css" rel="stylesheet" type="text/css">
-
+<!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!--https://sweetalert2.github.io/ 에 다양하게 사용할 수 있는 방법이 나와있다.-->
+<!-- 예를들어 이미지 등을 바꿀 수 있다. 확인 취소버튼을 추가한다거나 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 </head>
 <body>
 
@@ -20,22 +27,18 @@
                      카테고리 : ${g.goodcate.lfilter}-> ${g.goodcate.mfilter}-> ${g.goodcate.sfilter}
                 </td>
                 <td colspan="3" id="selectTown" style="text-align: right;">
-                    <span style="font-weight: bold; font-size: 15px;">내 동네</span>
-                    <span style=" padding-left: 20px;">수원 팔달구 우만동</span>
-                    <img src="${ contextPath }/resources/images/recycle.png" style="width: 25px;height: 25px; ">     
+              	    <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo">판매자 정보</a>&nbsp;
+                    <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
                 </td>
                </tr>
             <tr>
                 <td rowspan="7">
-                    <img src="${ contextPath }/resources/images/goodupload/${g.filelist[0]}" style="width: 400px;height: 400px;margin-right: 10px;">
+                    <img src="${ contextPath }/resources/images/goodupload/${g.filelist[0]}" style="width: 400px;height: 400px;margin-right: 25px;">
                 </td>
             </tr>
             <tr>
-                <td colspan="2" id="goodsTitle">${g.gtitle}</td>
-                <td colspan="2" style="text-align: right;">
-                    <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo">판매자 정보</a>&nbsp;
-                    <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
-                </td>
+                <td colspan="4" id="goodsTitle">${g.gtitle}</td>
+            
             </tr>
             <tr>
                 <td colspan="4" id="gprice">${g.gprice}원</td>
@@ -47,12 +50,35 @@
             <tr>
                 <td colspan="4">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
             </tr>
-            <tr>
-                <td colspan="4" id="goodsContent">${g.gcomment}
+            <tr >
+                <td colspan="4" id="goodsContent">${g.gcomment}${likes}
                     </td>
             </tr>
             <tr>
-                <td><button type="button" class="btn_small"><img src="${ contextPath }/resources/images/heart.png" /><p>&nbsp;&nbsp;찜하기</p></button></td>
+                <td id="like_area">
+                
+                <c:if test="${ empty loginUser }">
+                <button type="button" class="btn_small" onclick="noUser()">
+               	<img src="${ contextPath }/resources/images/heart.png" />
+                <p>&nbsp;&nbsp;찜 하기</p>
+                </button>
+                </c:if>
+                
+                <c:if test="${ !empty likes && !empty loginUser}">
+                <button type="button" class="btn_small" id="likegoods">
+                <img src="${ contextPath }/resources/images/fillHeart1.png" id="likes"/>
+                <p>&nbsp;&nbsp;찜 취소</p>
+                </button>
+                </c:if>
+                
+                <c:if test="${ empty likes && !empty loginUser}">        
+                <button type="button" class="btn_small" id="dislikegoods">
+                <img src="${ contextPath }/resources/images/heart.png" />
+                <p>&nbsp;&nbsp;찜하기</p>
+                </button>
+                </c:if>
+        
+                </td>
                 <td><button type="button" class="btn_small" onclick="sendmsgPopup();"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button></td>
                 <td><button type="button" class="btn_small" data-bs-toggle="modal" data-bs-target="#paymentModal"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;구매하기</p></button></td>    
             </tr>
@@ -195,6 +221,67 @@
 		</div>
 	</div>
 	<script>
+	
+	 $(function(){
+         $(document).on("click","#likegoods",function(){
+        	 var g_no = ${g.gno}
+        	 document.getElementById("like_area").value='';
+       	  
+            $.ajax({
+               url : "likegoods",
+               data : {gno : g_no},
+               type : "post",
+               success : function(data){
+                  if(data == "success"){
+                	  values ="<button type='button' class='btn_small' id='dislikegoods'>" 
+                		  +"<img src='${ contextPath }/resources/images/heart.png'/>"
+                          +"<p>&nbsp;&nbsp;찜하기</p>"
+                	  
+                	  
+                	  $("#like_area").html(values);
+                  }  
+                  else{
+                	  alert("찜하기 취소 실패!");
+                  }
+                     
+               },
+               error : function(e){
+                  alert("error code : " + e.status + "\n"
+                        + "message : "+ e.responseText);
+               }
+            })
+         })
+      })
+       $(function(){
+       	 $(document).on("click","#dislikegoods",function(){
+        	 var g_no = ${g.gno}
+        	 document.getElementById("like_area").value='';
+       	  
+            $.ajax({
+               url : "dislikegoods",
+               data : {gno : g_no},
+               type : "post",
+               success : function(data){
+                  if(data == "success"){
+                	  values ="<button type='button' class='btn_small' id='likegoods'>" 
+                		  +"<img src='${ contextPath }/resources/images/fillHeart1.png' id='likes'/>"
+                          +"<p>&nbsp;&nbsp;찜 취소</p>"
+                      
+             
+                	  $("#like_area").html(values);
+                  }  
+                  else{
+                	  alert("찜하기 실패!");
+                  }
+                     
+               },
+               error : function(e){
+                  alert("error code : " + e.status + "\n"
+                        + "message : "+ e.responseText);
+               }
+            })
+         })
+      })
         function click0(){
             Swal.fire({
   title: '신고내용 접수 완료',
@@ -205,7 +292,16 @@
   imageAlt: 'Custom image',
 });
         }
-
+     function noUser(){
+         Swal.fire({
+title: '중고상품 찜하기',
+html: '<br>찜하기는 로그인시 가능합니다.<br> 로그인시 Good-buy의 다양한 기능을 사용할 수 있습니다.<br>',
+imageUrl: '${ contextPath }/resources/images/logo.png',
+imageWidth: 232,
+imageHeight: 90,
+imageAlt: 'Custom image',
+});
+     }
 		$('#replyWrite textarea').keyup(function(e) {
 			var content = $(this).val();
 			$('#counter').html("(" + content.length + " / 1000)");
