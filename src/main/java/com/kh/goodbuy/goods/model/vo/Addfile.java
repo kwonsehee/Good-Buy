@@ -1,8 +1,6 @@
-package com.kh.goodbuy.town.model.vo;
+package com.kh.goodbuy.goods.model.vo;
 
-import java.sql.Date;
 
-import com.kh.goodbuy.member.model.vo.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -17,10 +15,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class Town {
-	private int t_no;
-	private int area;
-	private String address_1;
-	private String address_2;
-	private String address_3;       
+public class Addfile {
+	private int fno;
+	private String file_path;
+	private String originName;
+	private String changeName;
+	private String status;
+	private int file_level;	//썸네일용
 }

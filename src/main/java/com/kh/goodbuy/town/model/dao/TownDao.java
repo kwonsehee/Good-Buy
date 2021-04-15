@@ -25,5 +25,12 @@ public interface TownDao {
 
 	Town selectUserTown(String user_id);
 
+	int changeTownType(String user_id);
+
+	int changeTownType2(String user_id);
+
+	int changeArea(MyTown mt);
+
+	int updateMyTown(MyTown mt);
 
 }

@@ -1,8 +1,11 @@
 package com.kh.goodbuy.mypage.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,18 +15,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.town.model.service.TownService;
 import com.kh.goodbuy.town.model.vo.Town;
 
+import net.sf.json.JSONObject;
+
 @Controller
 @RequestMapping("/mypage")
-@SessionAttributes({ "loginUser"})
+@SessionAttributes({ "loginUser","townInfo","mtlist"})
 public class MypageController {
 	
 	@Autowired
@@ -36,12 +41,11 @@ public class MypageController {
 	@GetMapping("/main")
 	public ModelAndView showMain(ModelAndView mv, 
 								@ModelAttribute("loginUser") Member loginUser,
-								HttpServletRequest request) {
+								HttpServletRequest request,
+								Model model) {
 		// 마이타운 첫번째, 두번째 동네 리스트로 조회
 		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
-		
-		
-		Town townInfo = (Town) request.getSession().getAttribute("townInfo");
+		System.out.println("mtlist : " + mtlist);
 		
 		if(mtlist != null) {
 			mv.addObject("mtlist",mtlist);
@@ -68,7 +72,19 @@ public class MypageController {
 	// 프로필 수정 화면
 	@GetMapping("/updateMember")
 	public ModelAndView showUpdateForm(ModelAndView mv) {
-		mv.setViewName("mypage/memberUpdateForm");
+		List<Town> tlist1 = tService.selectAllTown1();
+		List<Town> tlist2 = tService.selectAllTown2();
+		List<Town> tlist3 = tService.selectAllTown3();
+		
+		if (tlist1 != null && tlist2 != null && tlist3 != null) {
+			mv.addObject("tlist1", tlist1);
+			mv.addObject("tlist2", tlist2);
+			mv.addObject("tlist3", tlist3);
+			mv.setViewName("mypage/memberUpdateForm");
+		} else {
+			mv.setViewName("mypage/memberUpdateForm");
+		}
+		
 		return mv;
 	}
 	
@@ -153,7 +169,8 @@ public class MypageController {
 	@GetMapping("/setMyTown")
 	public ModelAndView showSetMyTown(ModelAndView mv,
 									  Model model,
-									  @ModelAttribute("loginUser") Member loginUser) {
+									  @ModelAttribute("loginUser") Member loginUser
+									 ) {
 		// 내동네 추가 모달 창에 띄울 전체 주소 리스트
 		List<Town> tlist1 = tService.selectAllTown1();
 		List<Town> tlist2 = tService.selectAllTown2();
@@ -196,8 +213,6 @@ public class MypageController {
 		
 		int insertMyNewtown = tService.insertMyNewTown(mt);
 		
-		//System.out.println("마이타운 객체확인 : " + mt);
-		//System.out.println("마이타운 들어갔나? : " + insertMytown);
 		
 		if(insertMyNewtown > 0) {
 			return "redirect:/mypage/setMyTown";
@@ -207,10 +222,9 @@ public class MypageController {
 		
 	}
 	
-	// 내 동네 삭제 메소드
+	// 내 동네 삭제
 	@GetMapping("/deleteTown")
 	public String deleteTown(@RequestParam String townName,
-							 Model model,
 							 @ModelAttribute("loginUser") Member loginUser) {
 		
 		// 1) 넘어온 주소값에 해당하는 t_no 조회하기
@@ -219,23 +233,132 @@ public class MypageController {
 		// 2) MYTOWN delete 
 		MyTown mt = new MyTown(loginUser.getUser_id(), t_no);
 		
-		System.out.println("로그인유저 아이디 : " + loginUser.getUser_id());
 		// 내 동네 삭제
 		int result = tService.deleteTown(mt);
 		
-		System.out.println("삭제됐나? : " + result);
-		
-		// 동네 하나가 더 남아 있을 때 MYTOWN_TYPE = 1로 변경
+		// 내동네 한개 삭제 시 남은 내동네가 기본 동네로 업데이트 
 		// 1 동네 삭제 시 -> 1로 변경
 		// 2 동네 삭제 시 -> 1로 변경
 		
-		//int result2 = tService.changeTownType(user_id);
+		int result2 = tService.changeTownType(loginUser.getUser_id());
 		
 		if(result > 0) {
 			return "redirect:/mypage/setMyTown?user_id="+loginUser.getUser_id();
 		} else {
 			return "common/errorpage";
 		}
+	}
+	
+	// 내동네 바꾸기 
+	@GetMapping("/changeTownType")
+	public @ResponseBody void changeTownType(@ModelAttribute("loginUser") Member loginUser,
+												Model model,
+												HttpServletResponse response) {
+	    response.setContentType("application/json; charset=utf-8");
+		
+		System.out.println("로그인유저 넘어왔나 " + loginUser.getUser_id());
+		// 1. 내동네 기본동네 타입 변경
+		// 1 -> 2
+		// 2 -> 1
+		int result = tService.changeTownType2(loginUser.getUser_id());
+		
+		System.out.println("동네타입 2->1로 잘 바꼈나? " + result);
+		
+		// 2. 바뀐 동네정보 세션에 다시 담아주기
+		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
+		
+		if(townInfo != null) {
+			model.addAttribute("townInfo", townInfo);
+			System.out.println("세션에 저장되는 타운 바뀌나 : " + townInfo);
+		}
+		
+		// 3. ajax통신 성공 시 range부분도 새롭게 바꿔줘야 하므로 Town 리턴
+		JSONObject sendTown = new JSONObject();
+		sendTown.put("t_no",townInfo.getT_no());
+		sendTown.put("area",townInfo.getArea());
+		sendTown.put("address_1",townInfo.getAddress_1());
+		sendTown.put("address_2",townInfo.getAddress_2());
+		sendTown.put("address_3",townInfo.getAddress_3());
+		
+		
+	    // 4. 전송 
+	      try {
+	         PrintWriter out = response.getWriter();
+	         out.print(sendTown);
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+		
+	}
+	
+	// 메뉴바에서 내동네 바꾸기
+	@GetMapping("/changeTownType2")
+	public String changeTownType2(@ModelAttribute("loginUser") Member loginUser,
+												Model model,
+												HttpServletResponse response,
+												HttpServletRequest request,
+												String contextPath
+												) {
+		response.setContentType("application/json; charset=utf-8");
+		
+		
+		int result = tService.changeTownType2(loginUser.getUser_id());
+		
+		System.out.println("동네타입 2->1로 잘 바꼈나? " + result);
+		
+		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
+		System.out.println("메뉴바에서 동네 바꾼 후 : " + mtlist);
+		
+		// 세션에 다시 저장
+		model.addAttribute("mtlist", mtlist);
+		
+		
+		System.out.println("contextPath넘어왔나 : " + contextPath);
+		
+		return"redirect:/home";
+	}
+	
+	// 내동네 범위 바꾸기 
+	@GetMapping("/changeArea")
+	public @ResponseBody void changeArea(@ModelAttribute("loginUser") Member loginUser,
+											@ModelAttribute("townInfo") Town townInfo,
+											Model model,
+											@RequestParam int area,
+											HttpServletResponse response) {
+		response.setContentType("application/json; charset=utf-8");
+		
+		System.out.println("내동네 범위 바꾸기 잘 넘어왔나 " + loginUser.getUser_id() +"범위 : " +area);
+		
+		MyTown mt = new MyTown(loginUser.getUser_id(),townInfo.getT_no(),area);
+		
+		System.out.println("범위 바꾸려는 동네 넘버 : " + townInfo.getT_no());
+		
+		int result = tService.changeArea(mt);
+		
+		// 바뀐 동네 정보 세션에 다시 담아주기
+		Town townInfo2 = tService.selectUserTown(loginUser.getUser_id());
+		
+		if(townInfo != null) {
+			model.addAttribute("townInfo", townInfo2);
+			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo2);
+		}
+
+		// ajax통신 성공 시 텍스트변경 부분도 새롭게 바꿔줘야 하므로 Town 리턴
+		// 내동네 설정용
+		JSONObject sendTown = new JSONObject();
+		sendTown.put("t_no",townInfo2.getT_no());
+		sendTown.put("area",townInfo2.getArea());
+		sendTown.put("address_1",townInfo2.getAddress_1());
+		sendTown.put("address_2",townInfo2.getAddress_2());
+		sendTown.put("address_3",townInfo2.getAddress_3());
+		// 4. 전송 
+	      try {
+	         PrintWriter out = response.getWriter();
+	         out.print(sendTown);
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+		
 	}
 	
 	

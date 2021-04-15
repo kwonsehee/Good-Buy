@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
-<link href="${ contextPath }/resources/css/mypage/mypageMain.css?vs" rel="stylesheet" type="text/css">
+<link href="${ contextPath }/resources/css/mypage/mypageMain.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>

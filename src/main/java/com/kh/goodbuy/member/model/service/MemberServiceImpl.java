@@ -55,6 +55,20 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.searchList(search);
 	}
+	@Override
+	public Member selectMemberDetail(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectMemberDetail(user_id);
+	}
+	@Override
+	public int userIdCheck(String user_id) {
+		return mDao.userIdCheck(user_id);
+	}
+	@Override
+	public int updateMember(Member loginUser) {
+		return mDao.updateMember(loginUser);
+	}
+	
 	
 	
 

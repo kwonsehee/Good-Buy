@@ -72,5 +72,29 @@ public class TownDaoImpl implements TownDao{
 	}
 
 
+	@Override
+	public int changeTownType(String user_id) {
+		return sqlSession.update("townMapper.changeTownType",user_id);
+	}
+
+
+	@Override
+	public int changeTownType2(String user_id) {
+		return sqlSession.update("townMapper.changeTownType2",user_id);
+	}
+
+
+	@Override
+	public int changeArea(MyTown mt) {
+		return sqlSession.update("townMapper.changeArea",mt);
+	}
+
+
+	@Override
+	public int updateMyTown(MyTown mt) {
+		return sqlSession.update("townMapper.updateMyTown",mt);
+	}
+
+
 
 }

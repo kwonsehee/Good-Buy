@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,14 +19,22 @@
        <table id="goodlist">
            <tr>
             <td>
-                <img src="${ contextPath }/resources/images/filter.png" onclick="showCate();" id="gfilter"> 전체
+             <span id="allCate" onclick="showCate();">
+                <img src="${ contextPath }/resources/images/filter.png"  id="gfilter">
+                전체 </span>
                 <div class="catebar">
                   
                     <button onclick="closeCate()">X</button>
                        
                     <ul>
-                        <li><a href="#">의류</a></li>
-                        <li><a href="#">유아/출산</a></li>
+                       <c:url var="selected0" value="/goods/mylist">
+            				<c:param name="cate" value="여성의류"/>
+            		</c:url>
+           		  	<li><a href="${selected0}"> 여성의류 </a></li>
+   				 	<c:url var="selected1" value="/goods/mylist">
+            				<c:param name="cate" value="패션잡화"/>
+            		</c:url>
+           		  	<li><a href="${selected1}"> 패션잡화 </a></li>
                         <li><a href="#">디지털/가전</a></li>
                         <li><a href="#">도서/티켓/취미/애완</a></li>
                         <li><a href="#">스타굿즈</a></li>
@@ -34,71 +44,92 @@
                     </ul>
                 </div>
             </td>
-            <td colspan="4" id="selectTown" style="text-align: right;">
-                <span style="font-weight: bold; font-size: 15px;">내 동네</span>
-                <span style=" padding-left: 20px;">수원 팔달구 우만동</span>
-                <img src="${ contextPath }/resources/images/filter.png" id="changeTown">     
-            </td>
+             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+           </tr>
+         <tr>
+            	 <c:forEach var="a" items="${ glist }" end="4">
+               <td onclick="selectGoods(${a.gno});"> 
+                   <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg">
+                    <br>
+                    <span>${a.gtitle}</span>
+                    <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a>
+                   
+                    <br>
+                    <span>${a.gprice}원</span>
+                    <span>${a.createDate}</span>
+                </td>
+            </c:forEach>
            </tr>
            <tr>
-               <td ><a href="javascript:selectGoods();"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-               <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-              <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-               <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-               <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-           </tr>
-           <tr>
-            <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                <span>20,000원</span>
-                <span>13시간전</span></td>
-            <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-            <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-            <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
-      <td><a href="내상품상세보기.html"><img src="${ contextPath }/resources/images/goods.jpeg"  class="goodlistimg"></a>
-                    <p>뉴발란스 신발~ <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a></p>
-                    <span>20,000원</span>
-                    <span>13시간전</span></td>
+           <c:forEach var="a" items="${ glist }" begin="5">
+               <td onclick="selectGoods(${a.gno});"> 
+                   <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg">
+                    <br>
+                    <span>${a.gtitle}</span>
+                    <a href="javascript:deletePopup()" style="font-size: 13px; margin-left: 30%; text-decoration: underline;">삭제</a>
+                    <br>
+                    <span>${a.gprice}원</span>
+                    <span>${a.createDate}</span>
+                </td>
+            </c:forEach>
         </tr>
        </table>
        <div style="margin-top: 3%; padding-left: 8%; float: left; text-decoration: underline;"><a href="${ contextPath }/goods/list">전체 상품 보기</a></div>
-       <div id="pageArea">
+   <div id="pageArea">
+       		<c:if test="${pi.currentPage <= 0}">
             <a> &lt;&lt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage > 0}">
+            	<c:url var="start" value="/goods/mylist">
+            		<c:param name="page" value="1"/>
+            	</c:url>
+           		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage <= pi.startPage}">
             <a> &lt;&nbsp; </a>
-            <a>1</a>
-            <a>2</a>
-            <a>3</a>
-            <a>4</a>
-            <a>5</a>
-            <a> &nbsp;&gt; </a>
-            <a> &nbsp;&gt;&gt; </a>
+            </c:if>
+            <c:if test="${pi.currentPage > pi.startPage }">
+            	<c:url var="before" value="/goods/mylist">
+            		<c:param name="page" value="${pi.currentPage -1}"/>
+            	</c:url>
+           		 <a href="${before }"> &lt;&nbsp; </a>
+            </c:if>
+			<!-- 페이지 숫자 -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
+				</c:if>
+				<c:if test="${ p ne pi.currentPage }">
+					<c:url var="pagination" value="/goods/mylist">
+						<c:param name="page" value="${ p }" />
+					</c:url>
+					<a href="${ pagination }">${ p }</a> &nbsp;
+				</c:if>
+			</c:forEach>
+			<c:if test="${pi.currentPage  >= pi.maxPage}">
+            <a> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage }">
+            	<c:url var="after" value="/goods/mylist">
+            		<c:param name="page" value="${pi.currentPage +1}"/>
+            	</c:url>
+           		 <a href="${ after }"> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage >= pi.maxPage }">
+            <a> &gt;&gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage  }">
+            	<c:url var="end" value="/goods/mylist">
+            		<c:param name="page" value="${pi.endPage}"/>
+            	</c:url>
+           		 <a href="${end}"> &gt;&gt;&nbsp; </a>
+            </c:if>
 
-       </div>
-       <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insert'" >중고거래 글쓰기</button>
+		</div>
+       <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insertView'" >중고거래 글쓰기</button>
     </section>
    <script>
    function showCate(){

@@ -23,7 +23,18 @@ public class MyTown {
 	private int area;
 	
 	public MyTown(String user_id, int t_no) {
+		super();
 		this.user_id = user_id;
 		this.t_no = t_no;
 	}
+	
+	// 내 동네 범위 수정용
+	public MyTown(String user_id, int t_no, int area) {
+		super();
+		this.user_id = user_id;
+		this.t_no = t_no;
+		this.area = area;
+	}
+
+	
 }

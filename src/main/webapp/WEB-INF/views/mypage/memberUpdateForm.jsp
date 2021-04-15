@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,28 +21,42 @@
             <h4 id="goodbuy_h2">good-buy Family</h4>
             <h4 id="join_h2">회원 정보 수정</h4>  
 
-            <form method="POST" class="joinform">
+            <form action="${ contextPath }/member/update" method="POST" class="joinform" onsubmit="sendNewInfo();">
                 <p>NICKNAME</p>
-                <input type="text" name="userId" value="곽두팔"><br>
-                <input type="password" name="userPwd" placeholder="PASSWORD"><br>
+                <input type="text" name="nickname" value="${ loginUser.nickname }"><br>
+                <input type="password" name="userPwd" placeholder="PASSWORD" required><br>
                 <input type="password" name="userNewPwd" placeholder="NEW PASSWORD"><br>
                 <input type="password" name="userNewPwd2" placeholder="NEW PASSWORD"><br>
+                <div class="checkPwd-success">비밀번호 일치</div> 
+				<div class="checkPwd-fail">비밀번호 불일치</div>
                 <p>EMAIL</p>
-                <input type="email" name="email" value="anghongmoddi@gmail.com"><br>
+                <input type="email" name="email" value="${ loginUser.email }"><br>
                 <p>PHONE</p>
-                <input type="text" name="phone" value="010-3030-4040"><br>
+                <input type="text" name="phone" value="${ loginUser.phone }"><br>
                 <p>ADDRESS</p> 
-                <select name="town1">
-                    <option>&nbsp;시•도</option>
-                </select>
-                <select name="town2">
-                    <option>&nbsp;구•군</option>
-                </select>
-                <select name="town3">
-                    <option>&nbsp;읍•면•동</option>
+                <select  id="town1" name="address_1">
+					 <option value="address_1">&nbsp;${ townInfo.address_1 }</option>
+						<c:forEach var="town" items="${ tlist1 }">
+							<option>${ town.address_1 }</option>
+						</c:forEach>
+				</select>
+					
+                <select  id="town2" name="address_2">
+                    <option>&nbsp;${ townInfo.address_2 }</option>
+						<c:forEach var="town" items="${ tlist2 }">
+							<option>${ town.address_2 }</option>
+						</c:forEach>
+				</select>
+				
+                <select  id="town3" name="address_3">
+                    <option>&nbsp;${ townInfo.address_3 }</option>
+                    <c:forEach var="town" items="${ tlist3 }">
+						<option>${ town.address_3 }</option>
+					</c:forEach>
                 </select>
                 <br><br><br><br><br><br><br>
-                <button type="submit">수정하기</button>
+                <button type="submit" id="submitBtn">수정하기</button>
+                
             </form>         
             <a id="memberLeaveBtn" href="#">탈퇴하기</a>
         </div>
@@ -52,5 +67,70 @@
 	
 	
 	<jsp:include page="../common/footer.jsp"/>
+	
+	<script>
+ 	
+ 	// 수정할 때 무조건 기존 비밀번호 입력해야 수정 가능
+ 	// 기존 비번 로그인유저와 일치하는지 검사(ajax)
+ 	$(function(){
+ 		$("#submitBtn").click(function(){
+ 			var originPwd = $(".joinform input[name=userPwd]");
+ 			
+ 			$.ajax({
+ 				url: "${contextPath}/member/originPwdCheck",
+ 				type:"post",
+ 				data : {originPwd : originPwd.val()},
+ 				success : function(data){
+ 					console.log(data);
+ 					// 비밀번호 일치 시 수정하기 버튼 활성화 불일치 시 버튼 비활성화 
+ 					 if(data == "success"){
+ 						$("#submitBtn").removeAttr("disabled");
+ 					}else {
+ 						$("#submitBtn").removeAttr("disabled");
+ 						//$("#submitBtn").attr("disabled",true);
+ 						alert("기존 비밀번호를 맞게 입력해주세요!");
+ 					} 
+ 				},
+ 				error : function(e){
+ 					alert("error code: " + e.status + "\n" + "message: " + e.responseText);
+ 				}
+ 			});
+ 		});
+ 	});
+ 	
+ 	// 새로운 pwd 일치여부 검사
+	$(function() {
+		$(".checkPwd-success").hide();
+		$(".checkPwd-fail").hide();
+		$("input").keyup(function() {
+			var pwd1 = $(".joinform input[name=userNewPwd]").val();
+			var pwd2 = $(".joinform input[name=userNewPwd2]").val();
+			if (pwd1 != "" || pwd2 != "") {
+				if (pwd1 == pwd2) {
+					$(".checkPwd-success").show();
+					$(".checkPwd-fail").hide();
+					$("#submitBtn").removeAttr("disabled");
+				} else {
+					$(".checkPwd-success").hide();
+					$(".checkPwd-fail").show();
+					$("#submitBtn").attr("disabled", "disabled");
+				}
+			}
+		});
+	});
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+	</script>
+	
+	
+	
+	
+	
+	
 </body>
 </html>

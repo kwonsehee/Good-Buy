@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="goodsMapper">
+<resultMap type="Gcate" id="cateSet">
+	<id column="L_FILTER" property="topcate"/>
+	<collection property="subcate" ofType="Gcate">
+		<id column="M_FILTER" property="topcate" />
+		<collection property="subcate" ofType="Gcate">
+			<id column="S_FILTER" property="topcate" />
+		</collection>
+	</collection>
+
+</resultMap>
+	<resultMap type="Town" id="townResultSet">
+		<id property = "t_no" column ="T_NO"/>
+		<result property="address_1" column="ADDRESS_1"/>
+		<result property="address_2" column="ADDRESS_2"/>
+		<result property="address_3" column="ADDRESS_3"/>
+	</resultMap>
+<resultMap type="Goods" id="GoodsResultSet">
+	<id column="G_NO" property="gno"/>
+	<result column="G_TITLE" property="gtitle"/>
+	<result column="G_PRICE" property="gprice"/>
+	<result column="CHANGE_NAME" property="changeName"/>
+	<result column="CREATE_DATE" property="createDate"/>
+	<result column="USER_ID" property="user_id"/>
+
+</resultMap>
+	<select id="selectCate" resultMap="cateSet">
+		SELECT
+			   L_FILTER
+			 , M_FILTER
+			 , S_FILTER
+		  FROM
+		  	   GOODS_CATE
+	</select>
+	<select id="selectCateNo" parameterType="Gcate" resultType="_int">
+		SELECT C_NO
+		FROM GOODS_CATE
+		WHERE L_FILTER = #{lfilter}
+		 AND M_FILTER = #{mfilter}
+		 AND S_FILTER = #{sfilter}
+
+	</select>
+	<insert id="insertGoods" parameterType="Goods">
+		INSERT INTO
+		GOODS(
+			G_NO
+		  , G_PLACE
+		  , G_PRICE
+		  , G_CONDITION
+		  , G_COMMENT
+		  , CREATE_DATE
+		  , PULL_DATE
+		  , G_STATUS
+		  , USER_ID
+		  , C_NO
+		  , G_TITLE
+		)
+		VALUES
+		(
+			G_SEQ.NEXTVAL
+		  , (SELECT T_NO FROM MY_TOWN WHERE USER_ID = #{user_id} AND MYTOWN_TYPE=#{gplace})
+		  , #{gprice}
+		  , #{gcondition}
+		  , #{gcomment}
+		  , DEFAULT
+		  , DEFAULT
+		  , DEFAULT
+		  , #{user_id}
+	      , #{cno}
+		  , #{gtitle}
+		)
+	
+	
+	</insert>
+	
+	<insert id="insertFile" parameterType="Addfile">
+	 INSERT ALL
+		INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+          , FILE_LEVEL
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{originName}
+		  , #{changeName}
+          , DEFAULT
+          , #{file_level}
+		 
+		)
+        INTO GOODSFILE
+        (
+            G_NO
+          , F_NO
+        )
+        VALUES
+        (
+            G_SEQ.CURRVAL
+          , F_SEQ.CURRVAL
+        )
+        SELECT * FROM DUAL
+	
+	
+	</insert>
+	<select id="selectAllCount" resultType= "_int">
+		SELECT COUNT(*)
+	      FROM GOODS	
+
+	</select>
+	<select id="selectListCount" parameterType="Town"  resultType= "_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+			   WHERE G.G_PLACE = T.T_NO
+			   AND G.G_NO = GF.G_NO
+			   AND GF.F_NO = F.F_NO
+			   AND F.FILE_LEVEL = 1)
+		WHERE G_STATUS = 'Y'
+		<if test='area lt 4'>
+		AND ADDRESS_1 = #{address_1}
+		</if>
+		<if test='area lt 3'>
+		AND ADDRESS_2 = #{address_2}
+		</if>
+		<if test='area lt 2'>
+		AND ADDRESS_3 =#{address_3}
+		</if>
+	</select>
+	<select id="selectAllList" resultMap="GoodsResultSet">
+		SELECT 
+				G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+	   ORDER BY G_NO DESC
+
+	</select>
+	
+	<select id="selectList" parameterType="Town" resultMap = "GoodsResultSet">
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  	<if test='area lt 4'>
+			AND ADDRESS_1 = #{address_1}
+			</if>
+			<if test='area lt 3'>
+			AND ADDRESS_2 = #{address_2}
+			</if>
+			<if test='area lt 2'>
+			AND ADDRESS_3 =#{address_3}
+			</if>
+	   ORDER BY G_NO DESC
+	</select>
+	<select id="selectMyListCount" parameterType="string"  resultType= "_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G JOIN MY_TOWN T
+			   ON( G.G_PLACE = T.T_NO)
+               WHERE T.MYTOWN_TYPE=1
+               AND T.USER_ID = #{user_id}
+               AND G.USER_ID = #{user_id})
+		WHERE G_STATUS = 'Y'
+	</select>
+	<select id="selectMyList" parameterType="string" resultMap="GoodsResultSet">
+		SELECT
+			   G_PRICE
+			 , G_TITLE
+			 , CREATE_DATE
+             , CHANGE_NAME
+             , G.USER_ID USER_ID
+		 FROM GOODS G, GOODSFILE GF, ADDFILE F
+		WHERE G.G_NO = GF.G_NO
+		  AND GF.F_NO = F.F_NO
+		  AND F.FILE_LEVEL = 1
+		  AND G.USER_ID = #{user_id}
+		  AND G_PLACE = (SELECT T_NO
+                 		   FROM MY_TOWN
+                 		  WHERE MYTOWN_TYPE=1
+                 			AND USER_ID =#{user_id})
+	 ORDER BY
+        	   G.G_NO DESC
+	</select>
+	<select id="selectSecondTown" parameterType="string" resultMap="townResultSet">
+		SELECT 
+			   T_NO
+			 , ADDRESS_1
+			 , ADDRESS_2
+			 , ADDRESS_3
+	   	 FROM TOWN RIGHT JOIN MY_TOWN
+	    USING (T_NO)
+	    WHERE USER_ID=#{user_id}
+	      AND MYTOWN_TYPE  = 2
+	
+	
+	</select>
+	<select id="selectCateCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		  FROM GOODS G, GOODS_CATE C
+		 WHERE  G.C_NO = C.C_NO
+		   AND L_FILTER =#{cate}
+	</select>
+	<select id="selectCateList" parameterType="string" resultMap="GoodsResultSet">
+		SELECT
+			   G.G_NO
+			 , G_TITLE
+			 , G_PRICE
+			 , CHANGE_NAME 
+			 , CREATE_DATE
+			 , USER_ID
+		FROM GOODS G, GOODS_CATE C, GOODSFILE GF, ADDFILE F
+	   WHERE  G.C_NO = C.C_NO
+		 AND G.G_NO = GF.G_NO
+		 AND GF.F_NO = F.F_NO
+		 AND F.FILE_LEVEL = 1
+		 AND L_FILTER = #{cate}
+		 AND G_STATUS = 'Y'
+	  ORDER BY G_NO DESC
+	</select>
+	<select id="selectCateCount2" parameterType="java.util.Map" resultType="_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+			   WHERE G.G_PLACE = T.T_NO
+			   AND G.G_NO = GF.G_NO
+			   AND GF.F_NO = F.F_NO
+			   AND F.FILE_LEVEL = 1)
+		WHERE G_STATUS = 'Y'
+			<if test='area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
+        AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
+	</select>
+	<select id="selectCateList2" parameterType="java.util.Map" resultMap="GoodsResultSet">
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G.C_NO C_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+			<if test='area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
+        AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
+	   ORDER BY G_NO DESC
+	</select>
+	<select id="selectMyCateListCount" parameterType="java.util.Map" resultType="_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, MY_TOWN T , GOODS_CATE C
+			   WHERE G.G_PLACE = T.T_NO
+               AND G.C_NO = C.C_NO
+               AND T.MYTOWN_TYPE=1
+               AND T.USER_ID = #{user_id}
+               AND G.USER_ID = #{user_id}
+               AND L_FILTER = #{cate})
+		WHERE G_STATUS = 'Y'
+	</select>
+	<select id="selectMyCateList" parameterType="java.util.Map" resultMap="GoodsResultSet">
+		SELECT
+			   G.G_NO G_NO 
+			 , G_PRICE
+			 , G_TITLE
+			 , CREATE_DATE
+             , CHANGE_NAME
+             , G.USER_ID USER_ID
+             , G_PLACE 
+		 FROM GOODS G, MY_TOWN T , GOODS_CATE C,  GOODSFILE GF, ADDFILE F
+	    WHERE G.G_PLACE = T.T_NO
+          AND G.C_NO = C.C_NO
+          AND G.G_NO = GF.G_NO
+          AND GF.F_NO = F.F_NO
+          AND T.MYTOWN_TYPE=1
+          AND F.FILE_LEVEL = 1
+          AND T.USER_ID = #{user_id}
+          AND G.USER_ID = #{user_id}
+          AND L_FILTER = #{cate}
+	</select>
+</mapper>

@@ -136,4 +136,54 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		ORDER BY USER_ID ASC
 	</select>
+	<select id="selectMemberDetail" parameterType="string" resultMap="memberResultSet">
+		SELECT
+		     USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+		  FROM
+		       USER_INFO
+		 WHERE
+		       USER_ID = #{user_id} 
+	</select>
+	
+	<select id="userIdCheck" parameterType="string" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		USER_INFO
+		 WHERE
+		 		USER_ID = #{user_id}
+	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE 
+				USER_INFO
+		   SET 
+		   		NICKNAME = #{nickname},
+      			USER_PWD = #{user_pwd},
+   			    EMAIL = #{email},
+    			PHONE = #{phone}
+		 WHERE 
+		 		USER_ID = #{user_id}
+				
+				
+	
+	
+	
+	
+	
+	</update>
+	
+	
 </mapper>

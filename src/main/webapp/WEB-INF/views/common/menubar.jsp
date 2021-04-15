@@ -17,7 +17,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <!-- 공통 UI -->
-<link href="${ contextPath }/resources/css/menustyle.css" rel="stylesheet" type="text/css">
+<link href="${ contextPath }/resources/css/menustyle.css?" rel="stylesheet" type="text/css">
  
 </head>
 <body>
@@ -38,6 +38,28 @@
                     <input type="text" id="searchbox" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
                     <button type="submit">검색</button>
                 </li>
+                <!-- 내 동네 선택 : 로그인 시에만 나타나야 함  -->
+                <c:if test="${ !empty sessionScope.loginUser }">
+	                <li class="userTownli">
+	                <c:if test="${ mtlist.size() == 1 }">
+	                	<p>${ mtlist.get(0) }</p>
+	                	<p>내 동네 설정</p>
+	           		</c:if>
+	               	<c:if test="${ mtlist.size() == 2 }">
+	                	<p>${ mtlist.get(0) }</p>
+	                	<p>${ mtlist.get(1) }</p>
+	                	<p>내 동네 설정</p> 
+	           		</c:if>
+	           		
+	                </li>
+	                <li class="userTownli2"><img src="${ contextPath }/resources/images/downarrow.png"></li>
+                </c:if>
+                <!-- 로그아웃 시에도 메뉴바 레이아웃 비율 같아야 함 비어있는 li -->
+                <c:if test="${ empty sessionScope.loginUser }">
+	           		 <li class="userTownli"></li>
+	                <li class="userTownli2"><img src="${ contextPath }/resources/images/downarrow.png" style="opacity:0;"></li>
+               </c:if> 
+               
                 <li class="li_4">
                 <!-- 1. 로그인 유저가 없을 때 -->
                 <c:if test="${ empty sessionScope.loginUser }">
@@ -45,21 +67,32 @@
                 </c:if>
                 <!-- 2. 로그인 유저가 있을 때(일반회원)-->
                 <c:if test="${ !empty sessionScope.loginUser }">
-                <p>${ loginUser.nickname }님 </p>
-                <p onclick="location.href='${ contextPath }/member/logout'">log out</p>
+                <a href="${ contextPath }/mypage/main"><img src="${ contextPath }/resources/images/person.png" id="person"></a>
                 </c:if>
                 </li>
-                <li class="li_5"><a href="#"><img src="${ contextPath }/resources/images/truck.png" id="truck"></a></li>
+                <li class="li_5"><a href="${ contextPath }/mypage/dealHistoryList"><img src="${ contextPath }/resources/images/truck.png" id="truck"></a></li>
                 <li class="li_6"><a href="#"><img src="${ contextPath }/resources/images/alarm.png" id="alarm"></a></li>
-                <li class="li_7"><a href="#"><img src="${ contextPath }/resources/images/heart.png" id="heart"></a></li>
+                <li class="li_7"><a href="${ contextPath }/mypage/likeGoodsList"><img src="${ contextPath }/resources/images/heart.png" id="heart"></a></li>
             </ul>
 
             <div class="sidebar">
                 <div class="topWrap">
-                    <button onclick="closeNavi()">X</button>
+                <ul class="sidebarUserInfo">
+                	<li> <button onclick="closeNavi()">X</button> </li>
+                	 <!-- 1. 로그인 유저가 없을 때 -->
+                	   <c:if test="${ empty sessionScope.loginUser }">
+                	   <p>로그인을 해주세요  :)</p>
+                	   </c:if>
+                	  <!-- 2. 로그인 유저가 있을 때(일반회원)-->
+                	 <c:if test="${ !empty sessionScope.loginUser }">
+                	<li> <img src="${ contextPath }/resources/images/mypage/loopy.jpeg" id="loginUserPhoto"> </li>
+                	<li id="loinUserNickname">${ loginUser.nickname } 님</li>
+                	<li><a href="${ contextPath }/member/logout" id="logoutText">로그아웃</a></li>
+                	</c:if>
+                </ul>
+                   
                 </div>      
-                <ul>
-
+                <ul class="menuUl">
                     <li><a href="${contextPath }/goods/list">중고거래</a></li>
                     <li><a href="${contextPath }/business/list">내근처</a></li>
                     <li><a href="#">동네생활</a></li>
@@ -67,7 +100,6 @@
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
                     <li><a href="${ contextPath }/mypage/main">마이페이지</a></li>
                     <li><a href="${ contextPath }/admin/join">관리자페이지</a></li>
-                    <li><a href="#">로그아웃</a></li>
                 </ul>
             </div>
         </div>
@@ -116,18 +148,53 @@
 			</div>
 		</div>
 	</div>
-	
+
+
+
 
 	<script>
-		function loginPopup() {
-			window.open("loginForm.html", "PopupWin", "width=500,height=600");
-		}
 		function closeNavi() {
 			$(".sidebar").css("left", "-300px");
 		}
 		function showNavi() {
 			$(".sidebar").css("left", "0px");
 		}
+		
+		
+		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
+		$(document).ready(function(){
+			$(".userTownli2").click(function(){
+				
+				if($(".userTownli p:nth-last-child(1)").css("display") == "none"){
+					$(".userTownli p").slideDown(350);
+				} else{
+					$(".userTownli p:nth-child(2)").slideUp(350);
+					$(".userTownli p:nth-last-child(1)").slideUp(350);
+				}
+			});
+			
+			
+		});
+		
+		/* 메뉴바에서 동네 바꾸기(ajax) */
+		$(".userTownli p:nth-child(2)").click(function(){
+			var townName = event.target.innerText;
+		
+			var contextPath = "${pageContext.request.requestURI}";
+			
+			console.log(contextPath);
+			
+			
+			if(townName =="내 동네 설정"){
+				location.href="${contextPath}/mypage/setMyTown";
+			} else{
+				location.href= "${contextPath}/mypage/changeTownType2?contextPath="+contextPath;
+			}
+			
+		});
+		
+		
+		
 	</script>
     
 	<!-- Optional JavaScript; choose one of the two! -->  
