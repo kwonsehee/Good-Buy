@@ -23,9 +23,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.goods.model.service.GoodsService;
+import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.town.model.service.TownService;
 import com.kh.goodbuy.town.model.vo.Town;
 
@@ -40,7 +44,8 @@ public class MypageController {
 	private TownService tService;
 	@Autowired
 	private MemberService mService;
-	
+	@Autowired
+	private GoodsService gService;
 	
 	// 마이페이지 메인 화면으로
 	@GetMapping("/main")
@@ -118,7 +123,7 @@ public class MypageController {
 		
 	}
 	
-	// 프사 파일 저장
+	// 프사 실제 파일 저장
 	public String saveFile(MultipartFile file, HttpServletRequest request) {
 		String root= request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root+"/images/userProfilePhoto";
@@ -171,6 +176,7 @@ public class MypageController {
 		
 	}
 	
+	// 프사 실제 파일 삭제
 	public void deleteFile(String renameFileName,HttpServletRequest request) {
 		String root= request.getSession().getServletContext().getRealPath("resources");
 		File deleteFile = new File(root+"/images/userProfilePhoto/"+renameFileName);
@@ -184,13 +190,6 @@ public class MypageController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	// 포인트 내역 화면
 	@GetMapping("/pointList")
 	public ModelAndView showPointList(ModelAndView mv) {
@@ -200,10 +199,38 @@ public class MypageController {
 	
 	// 판매 내역 화면(판매중)
 	@GetMapping("/sellingList")
-	public ModelAndView showSellingList(ModelAndView mv) {
+	public ModelAndView showSellingList(ModelAndView mv,
+										@ModelAttribute("loginUser") Member loginUser, 
+										Model model,
+										@RequestParam(value="page", required=false, defaultValue="1") int currentPage){
+									
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		
+		List<Goods> sellingList;
+		
+		
+		listCount = gService.selectMyListCount(loginUser.getUser_id());
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		sellingList = gService.selectMySellingList(loginUser.getUser_id(), pi);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("sellingList", sellingList);
+		
+		
+		
+		
+		
 		mv.setViewName("mypage/sellingList");
 		return mv;
 	}
+	
+	
+	
+	
+	
+	
 	
 	// 판매 내역 화면(숨김)
 	@GetMapping("/hiddenList")
