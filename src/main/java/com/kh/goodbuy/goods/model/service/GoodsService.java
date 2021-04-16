@@ -51,4 +51,5 @@ public interface GoodsService {
 	public int insertLike(int gno, String user_id);
 	//마이페이지 판매내역조회
 	public List<Goods> selectMySellingList(String user_id, PageInfo pi);
+
 }

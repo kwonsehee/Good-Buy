@@ -16,5 +16,7 @@ public interface ReportDao {
 	public int selectListCount();
 
 	public List<Report> selectList(PageInfo pi);
+	//상품신고 
+	public int insertGoodsReport(Report r, int gno, String report_id);
 
 }

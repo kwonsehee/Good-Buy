@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,16 +30,20 @@ import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
+import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/goods")
+
+@SessionAttributes({ "g" })
 public class GoodsController {
 	@Autowired
 	private GoodsService gService;
-	
+	@Autowired
+	private MemberService mService;
 	// 중고상품 리스트 페이지로
 	@GetMapping("/list")
 	public String goGoodsView(HttpServletRequest request,
@@ -182,9 +187,17 @@ public class GoodsController {
 	public String gosendmsgView() {
 		return "goods/sendToseller";
 	}
-	// 판매자에게 메세지 보내는 팝업 페이지로
+	// 판매자에게 상품 메세지 보내는 팝업 페이지로
 	@GetMapping("/sendmsgPopup")
-	public String gosendmsgPopupView() {
+	public String gosendmsgPopupView(HttpServletRequest request, Model model) {
+		Goods g = (Goods) request.getSession().getAttribute("g");
+	
+		String sellerPhoto = mService.selectSellerPhoto(g.getUser_id());
+		if(sellerPhoto !=null) {
+			model.addAttribute("sellerPhoto", sellerPhoto);
+			
+		}
+		
 		return "goods/sendmsgPopup";
 	}
 	// 중고상품등록
@@ -297,5 +310,17 @@ public class GoodsController {
 	      }
 	      
 	   }
+	  
+	// 내 중고상품detail 페이지로
+	@GetMapping("/pay")
+	public String goGoodPay(String way,  HttpServletRequest request, Model model) {
+		Goods g = (Goods) request.getSession().getAttribute("g");
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		model.addAttribute("way", way);
+		model.addAttribute("g", g);
+		model.addAttribute("point", loginUser.getPoint());
+		System.out.println("way"+way);
+		return "goods/goodsPay";
+	}
 	   
 }

@@ -82,6 +82,21 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.updateadminMember(m);
 	}
+	@Override
+	public int updatePoint(String user_id, int user_point, int gno) {
+		mDao.updatePoint(user_id, user_point);
+		return mDao.insertDealPoint(user_id, user_point, gno);
+	}
+	@Override
+	public int insertDeal(String user_id, int amount, int gno) {
+		// TODO Auto-generated method stub
+		return mDao.insertDeal(user_id, amount, gno);
+	}
+	@Override
+	public String selectSellerPhoto(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectSellerPhoto(user_id);
+	}
 	
 
 	

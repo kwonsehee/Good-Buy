@@ -22,10 +22,10 @@
 </head>
 <body>
 <!-- 메세지가 있다면 출력하고 지우기 -->
-   <c:if test="${ !empty msg }">
+  <%--  <c:if test="${ !empty msg }">
    		<script>alert('${ msg }')</script>
    		<c:remove var="msg" />
-   </c:if>
+   </c:if> --%>
    
    <header id="gbHeader">
         <div class="nav_container">
@@ -156,6 +156,7 @@
 
 					</div>
 					<div class="modal-footer">
+					
 						<a href="${ contextPath }/member/find" id="find_id_pwd">아이디/비밀번호 찾기</a>
 						<!-- 새 창 띄우기-->
 

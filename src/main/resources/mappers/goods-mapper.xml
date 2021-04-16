@@ -51,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<resultMap type="Goods" id="GoodsDetailResult">
 		<id column="G_NO" property="gno"/>
+		<result column="USER_ID" property="user_id"/>
 		<result column="G_TITLE" property="gtitle"/>
 		<result column="G_PRICE" property="gprice"/>
 		<result column="G_CONDITION" property="gcondition"/>
@@ -451,7 +452,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	<select id="Goodsdetail" parameterType="_int" resultMap="GoodsDetailResult">
 		SELECT
-			    G.G_NO G_NO
+				G.USER_ID USER_ID
+			  , G.G_NO G_NO
 			  , G.G_TITLE G_TITLE 
 			  , G.G_CONDITION G_CONDITION
 			  , G.G_PRICE G_PRICE

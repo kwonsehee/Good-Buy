@@ -10,16 +10,71 @@
 <link href="${ contextPath }/resources/css/goods/goodsdetail.css" rel="stylesheet" type="text/css">
 <!--sweetalert2-->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<!--https://sweetalert2.github.io/ 에 다양하게 사용할 수 있는 방법이 나와있다.-->
-<!-- 예를들어 이미지 등을 바꿀 수 있다. 확인 취소버튼을 추가한다거나 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 </head>
 <body>
-
 	<jsp:include page="../common/menubar.jsp"/>
+	
  <section id="gbSection"style="margin-top: 50px;">
+ <!-- 메세지가 있다면 출력하고 지우기 -->
+   <c:if test="${ !empty msg && msg.equals('success')}">
+   		<script>
+            swal.fire({
+  title: '신고내용 접수 완료',
+  html: '<br>소중한 신고 감사드립니다.<br>좋은 Good-buy가 될 수 있도록 노력하겠습니다.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   </c:if>
+     <c:if test="${ !empty msg && msg.equals('fail')}">
+   		<script>
+            swal.fire({
+  title: '신고내용 접수 실패',
+  html: '<br>사용에 불편을 드려서 죄송합니다. <br>좋은 Good-buy가 될 수 있도록 노력하겠습니다.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   </c:if>
+    <c:if test="${ !empty msg && msg.equals('결제 성공')}">
+   		<script>
+            swal.fire({
+  title: '상품 결제 성공',
+  html: '<br>고객님이 상품을 받을 경우 결제가 완료 됩니다. <br>일주일간 상품을 받지 못할경우 환불됩니다.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   </c:if>
+   <c:if test="${ !empty msg && msg.equals('결제 실패')}">
+   		<script>
+            swal.fire({
+  title: '상품 결제 실패',
+  html: '<br>사용에 불편을 드려서 죄송합니다. <br>좋은 Good-buy가 될 수 있도록 노력하겠습니다.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   </c:if>
         <table id="goods_detail">
             <tr>
                 <td>
@@ -28,7 +83,12 @@
                 </td>
                 <td colspan="3" id="selectTown" style="text-align: right;">
               	    <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo">판매자 정보</a>&nbsp;
+                    <c:if test="${ !empty loginUser }">
                     <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
+                   	</c:if>
+                   	<c:if test="${ empty loginUser }">
+                    <a class="btn_gray" onclick="noUser()">신고하기</a>
+                    </c:if>
                 </td>
                </tr>
             <tr>
@@ -79,8 +139,23 @@
                 </c:if>
         
                 </td>
-                <td><button type="button" class="btn_small" onclick="sendmsgPopup();"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button></td>
-                <td><button type="button" class="btn_small" data-bs-toggle="modal" data-bs-target="#paymentModal"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;구매하기</p></button></td>    
+                <td>
+                <c:if test="${ empty loginUser }">
+                     <button type="button" class="btn_small"  onclick="noUser()"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button>
+                </c:if>
+                <c:if test="${ !empty loginUser }">
+                     <button type="button" class="btn_small" onclick="sendmsgPopup();"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button>
+                
+                </c:if>
+           		</td>
+                <td>
+                 <c:if test="${ empty loginUser }">
+                    <button type="button" class="btn_small"  onclick="noUser()"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;구매하기</p></button>
+                </c:if>
+                <c:if test="${ !empty loginUser }">
+                    <button type="button" class="btn_small" data-bs-toggle="modal" data-bs-target="#paymentModal"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;구매하기</p></button>
+                </c:if>
+                </td>    
             </tr>
         </table>
         <div id="replySection">
@@ -153,11 +228,10 @@
 									달성시 지급받으실 수 있습니다.
 								</td>
 							</tr>
+				
 							<tr>
-							<td><button type="submit" id="gsubmit"
-									onclick="pointPopup()">포인트결제</button></td>
-							<td><button type="reset" id="greset"
-									onclick="window.close();">일반결제</button></td>
+							<td><button type="button" id="gsubmit" onclick="goPayment('point')">포인트결제</button></td>
+							<td><button type="button" id="greset" onclick="goPayment('pay')">일반결제</button></td>
 							</tr>
 					
 					</table>
@@ -178,7 +252,9 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form method="POST" action="${ contextPath }/goods/insert">
+					<form method="POST" action="${ contextPath }/report/goodsinsert">
+					<input type="hidden" name="gno" value="${g.gno }">
+					<input type="hidden" name="report_id" value="${g.user_id }">
 						<table id="report_tb">
 							<tr>
 								<td colspan="2"><img src="${ contextPath }/resources/images/logo.png" width="40%;"
@@ -189,7 +265,7 @@
 								<td colspan="2"><p>상품 신고 사유</p></td>
 							</tr>
 							<tr>
-								<td colspan="2"><select id="reportSelect">
+								<td colspan="2"><select id="retitle" name="retitle">
 										<option>입금완료했는데 상품을 수령하지 못했어요.</option>
 										<option>광고성(상점홍보, 낚시글 도배글)이에요</option>
 										<option>거래 금지 품목을 거래하고 있어요.</option>
@@ -205,7 +281,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2"><textarea> </textarea></td>
+								<td colspan="2"><textarea name="re_content"> </textarea></td>
 
 							</tr>
 							<tr>
@@ -282,26 +358,20 @@
             })
          })
       })
-        function click0(){
-            Swal.fire({
-  title: '신고내용 접수 완료',
-  html: '<br>소중한 신고 감사드립니다.<br>좋은 Good-buy가 될 수 있도록 노력하겠습니다.<br>',
-  imageUrl: 'images/logo.png',
-  imageWidth: 232,
-  imageHeight: 90,
-  imageAlt: 'Custom image',
-});
-        }
+        
      function noUser(){
          Swal.fire({
-title: '중고상품 찜하기',
-html: '<br>찜하기는 로그인시 가능합니다.<br> 로그인시 Good-buy의 다양한 기능을 사용할 수 있습니다.<br>',
+title: '로그인 필요',
+html: '<br>해당 기능은 로그인시 가능합니다.<br> 로그인시 Good-buy의 다양한 기능을 사용할 수 있습니다.<br>',
 imageUrl: '${ contextPath }/resources/images/logo.png',
 imageWidth: 232,
 imageHeight: 90,
 imageAlt: 'Custom image',
+}).then(function(){
+	$('#loginModal').modal("show");
 });
      }
+   
 		$('#replyWrite textarea').keyup(function(e) {
 			var content = $(this).val();
 			$('#counter').html("(" + content.length + " / 1000)");
@@ -328,6 +398,10 @@ imageAlt: 'Custom image',
 					+ ', left=' + _left + ', top=' + _top);
 
 		}
+		function goPayment(way){
+			location.href='${contextPath }/goods/pay?way='+way;
+		}
+		
 	</script>
      	<jsp:include page="../common/footer.jsp"/>
 </body>
