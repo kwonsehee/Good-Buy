@@ -87,7 +87,7 @@
                     <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
                    	</c:if>
                    	<c:if test="${ empty loginUser }">
-                    <a class="btn_gray" onclick="noUserReport()">신고하기</a>
+                    <a class="btn_gray" onclick="noUser()">신고하기</a>
                     </c:if>
                 </td>
                </tr>
@@ -141,7 +141,7 @@
                 </td>
                 <td>
                 <c:if test="${ empty loginUser }">
-                     <button type="button" class="btn_small" onclick="sendmsgPopup();"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button>
+                     <button type="button" class="btn_small"  onclick="noUser()"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button>
                 </c:if>
                 <c:if test="${ !empty loginUser }">
                      <button type="button" class="btn_small" onclick="sendmsgPopup();"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button>
@@ -150,7 +150,8 @@
            		</td>
                 <td>
                  <c:if test="${ empty loginUser }">
-                    <button type="button" class="btn_small" data-bs-toggle="modal" data-bs-target="#paymentModal"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;구매하기</p></button>        </c:if>
+                    <button type="button" class="btn_small"  onclick="noUser()"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;구매하기</p></button>
+                </c:if>
                 <c:if test="${ !empty loginUser }">
                     <button type="button" class="btn_small" data-bs-toggle="modal" data-bs-target="#paymentModal"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;구매하기</p></button>
                 </c:if>
@@ -360,24 +361,17 @@
         
      function noUser(){
          Swal.fire({
-title: '중고상품 찜하기',
-html: '<br>찜하기는 로그인시 가능합니다.<br> 로그인시 Good-buy의 다양한 기능을 사용할 수 있습니다.<br>',
+title: '로그인 필요',
+html: '<br>해당 기능은 로그인시 가능합니다.<br> 로그인시 Good-buy의 다양한 기능을 사용할 수 있습니다.<br>',
 imageUrl: '${ contextPath }/resources/images/logo.png',
 imageWidth: 232,
 imageHeight: 90,
 imageAlt: 'Custom image',
+}).then(function(){
+	$('#loginModal').modal("show");
 });
      }
-     function noUserReport(){
-         Swal.fire({
-title: '신고하기',
-html: '<br>신고하기는 로그인시 가능합니다.<br> 로그인시 Good-buy의 다양한 기능을 사용할 수 있습니다.<br>',
-imageUrl: '${ contextPath }/resources/images/logo.png',
-imageWidth: 232,
-imageHeight: 90,
-imageAlt: 'Custom image',
-});
-     }
+   
 		$('#replyWrite textarea').keyup(function(e) {
 			var content = $(this).val();
 			$('#counter').html("(" + content.length + " / 1000)");
