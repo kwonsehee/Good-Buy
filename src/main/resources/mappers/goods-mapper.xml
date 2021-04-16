@@ -55,7 +55,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
    	 </collection>
 	</resultMap>
 	
-	
+	<resultMap id="replyResultSet" type="Reply">
+      <id property="rno" column="R_NO"/>
+      <result property="rcontent" column="RCONTENT"/>
+      <result property="ref_rid" column="REF_RID"/>
+      <result property="user_id" column="USER_ID"/>
+      <result property="createDate" column="CREATE_DATE"/>
+      
+   </resultMap>
 	
 	
 	<select id="selectCate" resultMap="cateSet">
@@ -439,4 +446,65 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	(#{gno}, #{user_id})
 	
 	</insert>
+	<insert id="insertReply" parameterType="java.util.Map">
+		INSERT ALL
+		INTO REPLY
+		(
+		  R_NO
+		, RCONTENT
+		, CREATE_DATE
+		, R_STATUS
+		, USER_ID
+		)
+		VALUES
+		( 
+  		   R_SEQ.NEXTVAL
+		, #{r.rcontent}
+		, DEFAULT
+		, DEFAULT
+		, #{r.user_id}
+		)
+		INTO GOODS_REPLY
+		(
+		  G_NO
+		, R_NO
+		)
+		VALUES
+		(
+		  #{g.gno}
+		, R_SEQ.CURRVAL
+		)
+		INTO ALARM
+		(
+  		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 8
+		, #{g.user_id}
+		, DEFAULT
+		, R_SEQ.CURRVAL
+		)
+		SELECT *FROM DUAL
+	</insert>
+	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT 
+			    R.R_NO R_NO
+			  , RCONTENT
+			  , TO_CHAR(CREATE_DATE,'YYYY.MM.DD HH24:MI' ) CREATE_DATE
+			  , USER_ID
+			  , R.REF_RID REF_RID
+		 FROM REPLY R JOIN GOODS_REPLY G
+		   ON(R.R_NO = G.R_NO)
+		WHERE G.G_NO = #{g.getGno()}
+		  AND R_STATUS = 'Y'
+	 ORDER BY
+			  R.R_NO DESC
+
+	</select>
 </mapper>

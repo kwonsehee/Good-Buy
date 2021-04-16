@@ -2,6 +2,7 @@ package com.kh.goodbuy.goods.model.dao;
 
 import java.util.List;
 
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -49,4 +50,8 @@ public interface GoodsDao {
 	public int deleteLike(int gno, String user_id);
 	//찜 하기
 	public int insertLike(int gno, String user_id);
+	//댓글 insert
+	public int insertReply(Reply r, Goods g);
+	//댓글 select
+	public List<Reply> selectReplyList(Goods g);
 }
