@@ -176,5 +176,12 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.insert("goodsMapper.insertLike", map);
 	}
 
+	@Override
+	public List<Goods> selectMySellingList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectMySellingList", user_id, rowBounds);
+	}
+
 
 }

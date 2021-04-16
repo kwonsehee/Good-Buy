@@ -34,5 +34,8 @@ public class Goods {
 	private List<String> filelist;
 	private Town town;
 	private Gcate goodcate;
+	private int like_cnt;
+	private int rep_cnt;
+	private String address_3;
 	
 }

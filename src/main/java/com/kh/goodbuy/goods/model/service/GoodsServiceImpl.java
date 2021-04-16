@@ -127,6 +127,10 @@ public class GoodsServiceImpl implements GoodsService{
 		// TODO Auto-generated method stub
 		return gDao.insertLike(gno, user_id);
 	}
+	@Override
+	public List<Goods> selectMySellingList(String user_id, PageInfo pi) {
+		return gDao.selectMySellingList(user_id, pi);
+	}
 	
 
 }
