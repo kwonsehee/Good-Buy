@@ -285,12 +285,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  PID
 		, G_NO
 		, USER_ID
+		, DEAL_PAYMENT
 		)
 		VALUES
 		(
 		  PAY_SEQ.CURRVAL
 		 , #{gno}
 		,  #{user_id}
+		, DEFAULT
 		)
 		
 		SELECT *FROM DUAL
@@ -300,9 +302,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			   PHOTO
 		  FROM USER_INFO
 		 WHERE USER_ID = #{user_id}
-	
-	
-	
 	</select>
 	
 

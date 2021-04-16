@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.dao.GoodsDao;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
@@ -128,8 +129,19 @@ public class GoodsServiceImpl implements GoodsService{
 		return gDao.insertLike(gno, user_id);
 	}
 	@Override
+	public List<Reply> insertReply(Reply r, Goods g) {
+		gDao.insertReply(r, g);
+		return gDao.selectReplyList(g);
+	}
+	@Override
+	public List<Reply> selectReplyList(Goods g) {
+		// TODO Auto-generated method stub
+		return gDao.selectReplyList(g);
+  }
+  @Override
 	public List<Goods> selectMySellingList(String user_id, PageInfo pi) {
 		return gDao.selectMySellingList(user_id, pi);
+
 	}
 	
 

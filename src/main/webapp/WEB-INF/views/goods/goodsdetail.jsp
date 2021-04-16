@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +16,8 @@
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 </head>
 <body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 	<jsp:include page="../common/menubar.jsp"/>
 	
  <section id="gbSection"style="margin-top: 50px;">
@@ -66,6 +69,24 @@
             swal.fire({
   title: '상품 결제 실패',
   html: '<br>사용에 불편을 드려서 죄송합니다. <br>좋은 Good-buy가 될 수 있도록 노력하겠습니다.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   </c:if>
+     <c:if test="${ !empty msg && msg.equals('replysuccess')}">
+		<%-- <c:if test="${msg.equals('replysuccess' }">
+			<c:param name="popup_title">댓글작성</c:param>
+			<c:param name="popup_content"><br>게시글에 댓글작성을 완료하였습니다. <br>판매자의 답변이 도착하면 알림으로 알려드리겠습니다.<br></c:param>
+		</c:if> --%>
+   		<script>
+            swal.fire({
+  title: "댓글작성" ,
+  html: '<br>게시글에 댓글작성을 완료하였습니다. <br>판매자의 답변이 도착하면 알림으로 알려드리겠습니다.<br>' ,
   imageUrl: '${ contextPath }/resources/images/logo.png',
   imageWidth: 232,
   imageHeight: 90,
@@ -160,50 +181,86 @@
         </table>
         <div id="replySection">
             <p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
-            <table>
+            <table id="replyTable">
+            <c:if test="${ !empty rlist }">
+            	<c:forEach var="r" items="${ rlist }">
                 <tr>
-                    <td>동춘동피바다</td>
-                    <td colspan="2">2021.03.08 02:12</td>
+                    <td colspan="2">${r.user_id } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.createDate }</td>
+                    
                 </tr>
                 <tr>
-                    <td colspan="2">1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?</td>
+                    <td style="width:950px;">${r.rcontent }</td>
                     <td class="reviews"><img src="${ contextPath }/resources/images/reply.png" style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
                 </tr>
-                <tr>
-                    <td style="padding-left: 80px;">나는 판매자</td>
-                    <td colspan="2">2021.03.08 02:12</td>
-                </tr>
-                <tr>
-                    <td colspan="3"><img src="${ contextPath }/resources/images/right-arrow.png" style="width: 20px; padding-right: 10px;">안됩니다. </td>
-   
-                    
-                </tr>
-                <tr>
-                    <td>동춘동피바다</td>
-                    <td colspan="2">2021.03.08 02:12</td>
-                </tr>
-                <tr>
-                    <td colspan="2">1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?</td>
-                    <td class="reviews"><img src="${ contextPath }/resources/images/reply.png"  style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
-                </tr>
-                <tr>
-                    <td style="padding-left: 80px;">나는 판매자</td>
-                    <td colspan="2">2021.03.08 02:12</td>
-                </tr>
-                <tr>
-                    <td colspan="3"><img src="${ contextPath }/resources/images/right-arrow.png" style="width: 20px; padding-right: 10px;">안됩니다. </td>
-   
-                    
-                </tr>
+             </c:forEach>
+             </c:if>
+   			<c:if test="${ empty rlist }">
+   				<tr><td colspan="3">작성된 댓글이 없습니다.</tr>
+   			</c:if>
+                
+                
             </table>
-            <form method="POST">
+           
             <div id="replyWrite">
-                <p>데세헤</p>
-                <textarea placeholder="댓글을 작성하시려면 로그인을 해주세요"></textarea>
-                <span id="counter">0 / 1000</span>
+              
+                <c:if test="${ empty loginUser }">
+                     <textarea  name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요" onclick="noUser()"></textarea>
+                
+
+                </c:if>
+                <c:if test="${ !empty loginUser }">
+                  <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
+                     <textarea id="replyContent" name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요"></textarea>
+                
+                </c:if>
+            
+                <p id="counter" class="reply_left">(0 / 1000)</p>
+               
                 <button type="submit" id="writeBtn">등록하기</button>
+             
+               <script>
+             
+   $("#writeBtn").on("click", function(){
+	   
+	   var rcontent = $("#replyContent").val();
+	   
+	   $.ajax({
+		   url : "${contextPath}/goods/insertReply",
+		   data : {rcontent : rcontent},
+		  type : "post",
+		  dataType : "json",
+		  success : function(data){
+			  console.log(data);//해당 게시글에 작성된 댓글리스트 받아오기
+			 //-> <tbody> 안에 data 의 댓글 리스트를 형식에 맞게 세팅 
+			     
+			  tableBody = $("#replyTable");
+              tableBody.html("");
+              
+              for(var i in data){
+            	
+              	   var a = "<tr> <td colspan='2'>";
+              	   a+=data[i].user_id;
+              	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+              	   a+=data[i].createDate;
+              	   a+="</td></tr><tr><td style='width:950px;'>";
+              	   a+=data[i].rcontent;
+              	   a+="</td><td class='reviews'><img src='${ contextPath }/resources/images/reply.png' style='width : 20px;'><span style='font-size: 1.3em;'>&nbsp;1</span></td></tr>"
+              		  
+              	 
+              	   tableBody.append(a);
+              	   
+                 }
+            
+            //-> 댓글 작성 <textarea> 비워주기
+			  $("#replyContent").val("");
+		  }
+		  
+	   });
+   });
+   </script>
             </div>
-            </form>
+           
         </div>
     </section>
 	<!-- 안전거래 Modal -->

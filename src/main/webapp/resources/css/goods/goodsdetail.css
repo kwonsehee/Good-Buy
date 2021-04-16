@@ -92,13 +92,16 @@ margin-top : 10px;
    padding-bottom: 2%;
 }
 #replyWrite textarea{
-	width: 100%;
+	width: 102%;
 	height: 90px;
 	resize: none;
 	background: none;
 	border: 1px solid #75757552;
-   
+   	margin-left : -2%;
     /* display: inline-block; */
+}
+.reply_left{
+	margin-left : -15px;
 }
 #writeBtn{ 
     margin-left: 93%; 

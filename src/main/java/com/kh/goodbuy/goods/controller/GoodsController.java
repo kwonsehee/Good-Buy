@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Addfile;
@@ -163,7 +168,9 @@ public class GoodsController {
 			model.addAttribute("likes", likes);
 		}
 		}
+		List<Reply>rlist = gService.selectReplyList(g);
 		model.addAttribute("g", g);
+		model.addAttribute("rlist", rlist);
 		return "goods/goodsdetail";
 	}
 	// 내 중고상품detail 페이지로
@@ -322,5 +329,27 @@ public class GoodsController {
 		System.out.println("way"+way);
 		return "goods/goodsPay";
 	}
-	   
+
+	
+	//댓글 작성
+	@PostMapping(value="/insertReply", produces ="application/json; charset= utf-8")
+	public @ResponseBody String insertReply(Reply r, HttpSession session,HttpServletRequest request) {
+		Goods g = (Goods) request.getSession().getAttribute("g");
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+	
+		r.setRno(g.getGno());
+		r.setUser_id(loginUser.getUser_id());
+		
+		//Service, Dao, board-mapper.xml 코드 추가
+		//Service - > 댓글insert 후 댓글 select
+		List<Reply>rlist = gService.insertReply(r, g);
+		//날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+		Gson gson = new GsonBuilder()
+						.setDateFormat("yyyy-MM-dd")
+						.create();
+				
+		//응답 작성
+		return gson.toJson(rlist);
+	
+	}
 }
