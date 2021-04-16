@@ -50,8 +50,13 @@ public interface GoodsDao {
 	public int deleteLike(int gno, String user_id);
 	//찜 하기
 	public int insertLike(int gno, String user_id);
+
 	//댓글 insert
 	public int insertReply(Reply r, Goods g);
 	//댓글 select
 	public List<Reply> selectReplyList(Goods g);
+
+	// 마이페이지 판매내역
+	public List<Goods> selectMySellingList(String user_id, PageInfo pi);
+
 }

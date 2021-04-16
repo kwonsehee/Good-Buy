@@ -137,6 +137,11 @@ public class GoodsServiceImpl implements GoodsService{
 	public List<Reply> selectReplyList(Goods g) {
 		// TODO Auto-generated method stub
 		return gDao.selectReplyList(g);
+  }
+  @Override
+	public List<Goods> selectMySellingList(String user_id, PageInfo pi) {
+		return gDao.selectMySellingList(user_id, pi);
+
 	}
 	
 

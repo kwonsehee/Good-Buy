@@ -178,6 +178,7 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
+
 	public int insertReply(Reply r, Goods g) {
 		Map<String, Object> map = new HashMap <String, Object>();
 		map.put("r",r);
@@ -189,6 +190,14 @@ public class GoodsDaoImpl implements GoodsDao{
 	public List<Reply> selectReplyList(Goods g) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("goodsMapper.selectReplyList", g.getGno());
+  }
+  
+	@Override
+	public List<Goods> selectMySellingList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectMySellingList", user_id, rowBounds);
+
 	}
 
 
