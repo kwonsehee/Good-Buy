@@ -26,4 +26,7 @@ public class QNA {
 		private Integer qa_refno;
 		private String user_id;
 		private String FAQ;
+		private String qa_answer;
+		private String file_path;
+		
 }

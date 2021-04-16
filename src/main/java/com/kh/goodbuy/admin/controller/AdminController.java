@@ -335,6 +335,21 @@ public class AdminController {
 		public String FAQWriteView() {
 			return "admin/FAQ_create";
 		}
+		
+		// FAQ 작성버튼
+		@PostMapping("/FAQwriteB")
+		public String FAQCreateView(@ModelAttribute QNA q, HttpServletRequest request) {
+			System.out.println("공지사항 작성 내용 : " + q);
+
+			// * 2) DB에 Notice 객체 insert
+			int result = qService.insertFAQ(q);
+			if (result > 0) {
+				return "redirect:/admin/FAQ";
+			} else {
+				throw new NoticeException("공지사항 등록에 실패하였습니다.");
+			}
+
+		}
 
 	// 통계
 	// -------------------------------------------------------------------------------------------

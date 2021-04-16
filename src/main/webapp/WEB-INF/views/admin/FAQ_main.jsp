@@ -68,7 +68,7 @@
             
             
         </div>
-		<button>작성</button>
+		<button  onclick="location.href='${ contextPath }/admin/FAQwrite'">작성</button>
 
                 
                 

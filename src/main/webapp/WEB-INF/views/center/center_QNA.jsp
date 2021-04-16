@@ -54,15 +54,24 @@
             
 
               <table id="table1"> 
+              
             <tr style="background-color: #F1FCFF;">
-                <th>제목</th><th>이름</th><th>문의 접수 번호</th><th>업데이트</th><th>상태</th>
+                <th>제목</th><th>아이디</th><th>문의 접수 번호</th><th>작성일</th><th>상태</th>
               </tr>
-            </thead>
-            <tbody>
-              <tr id="tr_hover1" onclick="location.href='${ contextPath }/center/QNA_A'">
-                <th>굿바이 마켓에서 물건을 판매하고싶은데..</th><th>김수민</th><th>654246524</th><th>2021/03/27</th><th>해결</th>
-            </tr>
 
+            <tbody>
+            <c:forEach var="q" items="${ list }">  
+              <tr id="tr_hover1" onclick="selectQNA(${q.qa_no})">
+              <c:choose>
+              <c:when test="${ q.qa_status == 'Y' }">
+                <th>${ q.qa_title }</th><th>${ q.user_id }</th><th>${ q.qa_no }</th><th>${ q.qa_date }</th><th>답변 대기</th>
+                </c:when>
+                <c:when test="${ q.qa_status == 'N' }">
+                <th>${ q.qa_title }</th><th>${ q.user_id }</th><th>${ q.qa_no }</th><th>${ q.qa_date }</th><th>답변 완료</th>
+                </c:when>
+                </c:choose>
+            </tr>
+			</c:forEach>
             
               
             </table> 
@@ -104,6 +113,11 @@
     });
 
 </script>
+<script>
+      function selectQNA(qa_no){
+         location.href='${contextPath}/center/QNA_A?qa_no=' + qa_no + '&page=${ pi.currentPage }';
+      }
+   </script>
 <jsp:include page="../common/footer.jsp" />
 
 
