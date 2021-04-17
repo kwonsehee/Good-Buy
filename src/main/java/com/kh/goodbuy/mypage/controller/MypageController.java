@@ -203,14 +203,12 @@ public class MypageController {
 										@ModelAttribute("loginUser") Member loginUser, 
 										Model model,
 										@RequestParam(value="page", required=false, defaultValue="1") int currentPage){
-									
 		int listCount = 0;
 		int boardLimit = 5;
 		PageInfo pi;
 		
 		List<Goods> sellingList;
-		
-		
+		// where절에 gstatus 상관없이 모두 셀렉
 		listCount = gService.selectMyListCount(loginUser.getUser_id());
 		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		sellingList = gService.selectMySellingList(loginUser.getUser_id(), pi);
@@ -218,23 +216,53 @@ public class MypageController {
 		mv.addObject("pi", pi);
 		mv.addObject("sellingList", sellingList);
 		
-		
-		
-		
-		
 		mv.setViewName("mypage/sellingList");
+		
 		return mv;
 	}
 	
-	
-	
-	
-	
-	
+	// 마이페이지 판매내역
+	// 판매중 -> 숨김 상태 변경
+	// 숨김 -> 판매중 상태 변경
+	@GetMapping("/changeGoodsStatus")
+	public String changeGoodsStatus(int gno,String status,@ModelAttribute("loginUser")Member loginUser) {
+		
+		System.out.println("gno + status 넘어왔니~? " + gno + status);
+		
+		Goods g = new Goods(gno,loginUser.getUser_id());
+
+		int result = gService.changeGoodsStatus(g,status);
+		
+		if(result > 0) {
+		}else {
+			return "common/errorpage";
+		}
+		
+		return "redirect:/mypage/sellingList";
+	}
+
 	
 	// 판매 내역 화면(숨김)
 	@GetMapping("/hiddenList")
-	public ModelAndView showhiddenList(ModelAndView mv) {
+	public ModelAndView showhiddenList(ModelAndView mv,
+										@ModelAttribute("loginUser") Member loginUser, 
+										Model model,
+										@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		
+		List<Goods> hiddenList;
+		// where절에 gstatus 상관없이 모두 셀렉
+		listCount = gService.selectMyHiddenListCount(loginUser.getUser_id());
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		hiddenList = gService.selectMyHiddenList(loginUser.getUser_id(), pi);
+
+		System.out.println("hiddenList : " + hiddenList);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("hiddenList", hiddenList);
+		
 		mv.setViewName("mypage/hiddenList");
 		return mv;
 	}

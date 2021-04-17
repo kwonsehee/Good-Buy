@@ -57,6 +57,12 @@ public interface GoodsService {
 	public List<Reply> selectReplyList(Goods g);
 	//마이페이지 판매내역조회
 	public List<Goods> selectMySellingList(String user_id, PageInfo pi);
+	// 유저의 중고상품 판매중 -> 숨김처리 / 숨김 -> 판매중
+	public int changeGoodsStatus(Goods g, String status);
+	//마이페이지 판매내역조회 숨김 리스트 카운트
+	public int selectMyHiddenListCount(String user_id);
+	// 숨김리스트 조회
+	public List<Goods> selectMyHiddenList(String user_id, PageInfo pi);
 
 
 }

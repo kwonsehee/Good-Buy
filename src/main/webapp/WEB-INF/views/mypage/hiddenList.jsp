@@ -19,34 +19,31 @@
             <li><a id="hidden" href="${contextPath}/mypage/hiddenList">숨김</a></li>
         </ul>
 		<!-- 리스트 있을 때 -->
-		<c:if test="${ sellingList != null }">
+		<c:if test="${ hiddenList != null }">
         <div class="listWrap">
-            <c:forEach var="slist" items="${ sellingList }">
-        <!-- gstatus 상태가 숨김중이라면 -->
-          <c:if test="${ slist.gstatus.equals('H') }"> 
-            <div class="eachListWrap">
+            <c:forEach var="slist" items="${ hiddenList }">
+            <div class="eachListWrap"  onclick="selectGoods(${slist.gno})" style="cursor:pointer;">
                 <img src="${ contextPath }/resources/images/goodupload/${slist.changeName}" class="gPhoto">
                 <p class="gtitle">${ slist.gtitle }</p>
                 <ul>
-                    <li class="town">길동</li>
+                    <li class="town">${ slist.address_3 }</li>
                     <li class="dot">•</li>
                     <li class="createDate">${ slist.createDate }</li>
                 </ul>
-                <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu()">
-                <div class="gStatus"><p class="statusText">판매중</p></div>
+                <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${slist.gno})">
+                <div class="gStatus"><p class="statusText">숨김</p></div>
                 <p class="gprice">${ slist.gprice }</p>
                 <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
-                <p class="replyCount">1</p>
+                <p class="replyCount">${ slist.rep_cnt }</p>
                 <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
-                <p class="likeCount">1</p>
+                <p class="likeCount">${ slist.like_cnt }</p>
             </div>
-		 </c:if> 
         </c:forEach>
         </div>
 		</c:if>
 		
 		<!-- 리스트 없을 때 -->
-		<c:if test="${ sellingList == null }">
+		<c:if test="${ hiddenList.size() == 0 }">
 		 <div class="listWrap">
 			 <div id="textWrap">
 				<h2 id="NullListText">리스트가 없습니다 :(</h2>
@@ -55,16 +52,14 @@
 		</c:if>
 		
 		
-		
-		
 		<!-- 리스트 있을때만 페이징 나타나게하기 -->
-		<c:if test="${ sellingList != null }">
+		<c:if test="${ hiddenList.size() != 0 }">
          <div id="pageArea">
            <c:if test="${pi.currentPage <= 0}">
             <a> &lt;&lt;&nbsp; </a>
             </c:if>
              <c:if test="${pi.currentPage > 0}">
-            	<c:url var="start" value="/mypage/sellingList">
+            	<c:url var="start" value="/mypage/hiddenList">
             		<c:param name="page" value="1"/>
             	</c:url>
            		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
@@ -73,7 +68,7 @@
             <a> &lt;&nbsp; </a>
             </c:if>
              <c:if test="${pi.currentPage > pi.startPage }">
-            	<c:url var="before" value="/mypage/sellingList">
+            	<c:url var="before" value="/mypage/hiddenList">
             		<c:param name="page" value="${pi.currentPage -1}"/>
             	</c:url>
            		 <a href="${before }"> &lt;&nbsp; </a>
@@ -84,7 +79,7 @@
 					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
 				</c:if>
 				<c:if test="${ p ne pi.currentPage }">
-					<c:url var="pagination" value="/mypage/sellingList">
+					<c:url var="pagination" value="/mypage/hiddenList">
 						<c:param name="page" value="${ p }" />
 					</c:url>
 					<a href="${ pagination }">${ p }</a> &nbsp;
@@ -94,7 +89,7 @@
             <a> &gt;&nbsp; </a>
             </c:if>
             <c:if test="${pi.currentPage < pi.maxPage }">
-            	<c:url var="after" value="/mypage/sellingList">
+            	<c:url var="after" value="/mypage/hiddenList">
             		<c:param name="page" value="${pi.currentPage +1}"/>
             	</c:url>
            		 <a href="${ after }"> &gt;&nbsp; </a>
@@ -103,7 +98,7 @@
             <a> &gt;&gt;&nbsp; </a>
             </c:if>
             <c:if test="${pi.currentPage < pi.maxPage  }">
-            	<c:url var="end" value="/mypage/sellingList">
+            	<c:url var="end" value="/mypage/hiddenList">
             		<c:param name="page" value="${pi.endPage}"/>
             	</c:url>
            		 <a href="${end}"> &gt;&gt;&nbsp; </a>
@@ -122,15 +117,59 @@
 	
 	
 	<jsp:include page="../common/footer.jsp"/>
-	
-	
-	<!-- more 버튼 클릭 시 -->
-	 <script>
-       function showMenu(){
-            $(".subMenu").css("display","block");
+
+
+
+	<script>
+	 <!-- more 버튼 클릭 시 -->
+     function showMenu(gno){
+  	// 이벤트 전파 버블링 방지
+		  event.stopPropagation();
+          $(".subMenu").slideDown(200);
+          goUpdateGoods(gno);
+          changeStatus(gno);
+          goDeleteGoods(gno);
+          console.log(gno);
+     }
+     
+     /* gbSection클릭 시 more메뉴 닫힘 */
+     $("#gbSection").on('click',function(){
+  	   $(".subMenu").slideUp(200);
+     });
+     
+       
+   	   // 상품 디테일뷰
+       function selectGoods(gno){
+   		location.href="${contextPath}/goods/detail?gno="+gno;
+   	   }
+    
+       // 상품 수정폼으로 이동
+       function goUpdateGoods(gno){
+    	   $(".subMenu a:nth-child(1)").on('click',function(){
+    		   console.log(gno);
+    		  /*  location.href=""; */
+    	   });
        }
+       
+       // 상품 숨김상태로 전환
+       function changeStatus(gno){
+    	   $(".subMenu a:nth-child(2)").on('click',function(){
+    		   console.log(gno);
+    		   location.href="${contextPath}/mypage/changeGoodsStatus?gno="+gno+"&status=hidden";
+    	   });
+       }
+       
+       // 상품 삭제
+      function goDeleteGoods(gno){
+    	   $(".subMenu a:nth-last-child(1)").on('click',function(){
+    		   console.log(gno);
+    		  /*  location.href=""; */
+    	   });
+      }
+    
+    
     </script>
-    
-    
+
+
 </body>
 </html>
