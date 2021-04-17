@@ -200,5 +200,24 @@ public class GoodsDaoImpl implements GoodsDao{
 
 	}
 
+	@Override
+	public int changeGoodsStatus(Goods g,String status) {
+		System.out.println("지금 상품 상태 뭐니~ " + status);
+		if(status.equals("selling"))
+			return sqlSession.update("goodsMapper.changeGoodsStatus",g);
+		else
+			return sqlSession.update("goodsMapper.changeGoodsStatus2",g);
+	}
 
+	@Override
+	public int selectMyHiddenListCount(String user_id) {
+		return sqlSession.selectOne("goodsMapper.selectMyHiddenListCount",user_id);
+	}
+
+	@Override
+	public List<Goods> selectMyHiddenList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectMyHiddenList", user_id, rowBounds);
+	}
 }

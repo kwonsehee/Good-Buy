@@ -31,7 +31,7 @@
         <div class="nav_container">
             <ul class="common_ul">
                 <li class="li_1">
-                    <img src="${ contextPath }/resources/images/menu.png" id="menuicon" onclick="showNavi()">
+                   <div><img src="${ contextPath }/resources/images/menu.png" id="menuicon" onclick="showNavi()"></div> 
                 </li>
                 <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
@@ -208,6 +208,15 @@
 				location.href= "${contextPath}/mypage/changeTownType2?contextPath="+contextPath;
 			}
 			
+		});
+		
+		// 메뉴 아이콘 hover 효과
+		$("#menuicon").mouseenter(function(){
+			$(".li_1 div").css({"background":"#e9eef0","border-radius":"50px"});
+		});
+		
+		$("#menuicon").mouseleave(function(){
+			$(".li_1 div").css({"background":"#fff"});
 		});
 		
 	</script>

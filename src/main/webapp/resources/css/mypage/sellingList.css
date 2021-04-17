@@ -168,6 +168,9 @@
 	background: #F9F9F9;
 	text-align: center;
 	display: none;
+    position: absolute;
+    top: 320px;
+    left: 83%;
 }
 
 .subMenu a {
@@ -175,7 +178,7 @@
 	color: #222;
 	display: block;
 	padding-top: 20px;
-	padding-bottom: 15px;
+	padding-bottom: 10px;
 }
 
 .subMenu a:nth-child(3) {
