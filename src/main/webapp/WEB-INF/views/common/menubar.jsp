@@ -181,16 +181,26 @@
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
 		$(document).ready(function(){
 			$(".userTownli2").click(function(){
-				
 				if($(".userTownli p:nth-last-child(1)").css("display") == "none"){
 					$(".userTownli p").slideDown(350);
-				} else{
+				}else{
 					$(".userTownli p:nth-child(2)").slideUp(350);
 					$(".userTownli p:nth-last-child(1)").slideUp(350);
 				}
 			});
 			
 			
+			$("#gbSection").click(function(){
+				/* 섹션 부분 누르면 메뉴바 내동네 리스트 닫힘 */
+				if($(".userTownli p:nth-last-child(1)").css("display") != "none"){
+					$(".userTownli p:nth-child(2)").slideUp(350);
+					$(".userTownli p:nth-last-child(1)").slideUp(350);
+				}
+				/* 섹션 부분 누르면 사이드바 닫힘 */
+				if($(".sidebar").css("left") == "0px"){
+					$(".sidebar").css("left", "-300px");
+				}
+			});
 		});
 		
 		/* 메뉴바에서 동네 바꾸기(ajax) */
