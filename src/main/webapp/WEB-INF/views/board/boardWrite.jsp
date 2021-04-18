@@ -190,13 +190,16 @@ $(document).ready(function() {
 		<br> 
 		
 		<div style="width: 60%; margin: auto;">
-	<form method="post" action="${contextPath }/board/write">
+	<form method="post" action="${contextPath }/board/insert">
 		<input type="text" name="writer" style="width: 20%;" placeholder="작성자"/><br>
 		<input type="text" name="title" style="width: 40%;" placeholder="제목"/>
 		<br><br> 
 		<textarea id="summernote" name="content"></textarea>
-		<input id="subBtn" type="button" value="글 작성" style="float: right;" onclick="goWrite(this.form)"/>
+<button type="submit" style="float: right;">
+글쓰기</button>
+		
 	</form>
+ 
 </div>
 		
 		

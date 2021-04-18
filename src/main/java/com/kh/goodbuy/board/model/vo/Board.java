@@ -23,10 +23,12 @@ public class Board {
 	private Date bcreatedate; 
 	private int bcate; 
 	private String userid;
-	public String getSeq() {
-	
-		return null;
+	public String Board() {
+		// TODO Auto-generated method stub
+		return "board/boardList";
 	}
+	
+	
 	
 	} 
 	

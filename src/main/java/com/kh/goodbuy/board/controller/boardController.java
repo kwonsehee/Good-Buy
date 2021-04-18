@@ -24,10 +24,11 @@ import com.kh.goodbuy.board.model.vo.Board;
 	public class boardController {
 	
 		
-		@PostMapping("write")
+		@PostMapping("insert")
 		public String write(Board vo) {
 			BoardService.insertBoard(vo);
-			return "redirect:/goodbuy/board/list?seq="+ vo.getSeq();
+			return "redirect:/goodbuy/board/list?seq="+ vo.Board();
+			
 		}
 		
 	/*@Autowired 

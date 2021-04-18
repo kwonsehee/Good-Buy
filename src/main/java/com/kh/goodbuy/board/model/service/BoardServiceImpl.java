@@ -17,11 +17,12 @@ public abstract class BoardServiceImpl implements BoardService {
 	@PostMapping("write")
 	public String write(Board vo) {
 		BoardService.insertBoard(vo);
-		return "redirect: /detail?seq="+ vo.getSeq();
+		return "redirect: /list?seq="+ vo.Board();
 	}
 	/*
 	@Autowired 
 	private BoardDao bDao;
+
 
 	@Override
 	public int selectListCount() {

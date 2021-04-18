@@ -10,7 +10,7 @@ import com.kh.goodbuy.board.model.vo.Board;
 
 public interface BoardService {
  
-	// 게시물 작성
+
 
 	public List<Board> viewAll();
 	/*

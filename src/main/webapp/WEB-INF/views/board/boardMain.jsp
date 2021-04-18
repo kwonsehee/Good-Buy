@@ -6,6 +6,11 @@
 <meta charset="UTF-8">
  <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
 
+
+
+
+
+
    
     <link href="${contextPath }/resources/css/board/boardMain.css" rel="stylesheet" type="text/css">
 

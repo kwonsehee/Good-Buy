@@ -7,7 +7,7 @@ import com.kh.goodbuy.board.model.vo.Board;
 
 public interface BoardDao {
 /*	public int selectListCount(); 
-	 //2.페이징 처리 된 게시글 목록 조회 
+	 //2.페이징 처리 된 게시글 목록 
 	
 	   public List<Board> selectList(PageInfo pi);
 	   
