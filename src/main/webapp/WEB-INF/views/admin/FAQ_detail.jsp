@@ -45,7 +45,7 @@
 				<a id="a4" href="${ contextPath }/admin/member">회원관리</a>
 			</button>
 			<button id="button1">
-				<a id="a5" href="${ contextPath }/admin/FAQ">FAQ</a>
+				<a id="a5" href="${ contextPath }/admin/FAQ">FAQ/문의</a>
 			</button>
 			<button id="button1">
 				<a id="a6" href="${ contextPath }/admin/stats">통계</a>

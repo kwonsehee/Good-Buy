@@ -10,19 +10,19 @@
     <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- 공통 UI -->
-    <link href="${ contextPath }/resources/css/admin/admin_notice_detail.css?" rel="stylesheet" type="text/css">
+    <link href="${ contextPath }/resources/css/admin/admin_QNA_detail.css?" rel="stylesheet" type="text/css">
   <style>
       
       
   </style>
 </head>
 <body>
-   <jsp:include page="../common/menubar.jsp"/>
+    <jsp:include page="../common/menubar.jsp"/>
 
     <section id="gbSection">
 
 
-       <div id="div1" >
+        <div id="div1" >
        <h1><a href="${ contextPath }/admin/join" id="head1" style="color : black;">관리자 페이지</a></h1>
         </div>
 
@@ -39,37 +39,35 @@
 
 	
         <div id="div3">
-        <form action="${ contextPath }/admin/update" id="writeForm" method="post">
-            <label style="font-weight : bold; font-size: 20px;">글제목</label>
-            <input type="text" id="notice_title" name="nt_title" style="border-right: white; border-left: white; border-top: white;" size="100px" 
-            value="${ notice.nt_title }"><br>
-           
-	        <div id="textareadiv">
-	            <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">글 내용</label>
-	            <textarea id="notice_content" name="nt_content" >${ notice.nt_content }</textarea>
-			<br>
-			
-        <input type="hidden" name="nt_no" value="${ notice.nt_no }"/>
-            
-            
-        </div>
-        
-	<button id="createButton" type="submit" style="float:left; text-align:center">
-               	 수 정
-            </button>
-            
-	</form> 
-	<button id="createButton" style="float:left;" onclick="location.href='${ contextPath }/admin/delete?nt_no=${ notice.nt_no }'">
-               	 삭 제
-            </button>
-            
-        </div>
-	
+        <form action="${ contextPath }/admin/QNAAwrite" id="writeForm" method="post">
+            <label style="font-weight : bold; font-size: 20px;">문의 제목</label><br>
+            <input type="text" id="notice_title" name="qa_title"  size="100px" 
+            value="${ QNA.qa_title }" readonly><br>
+            <label style="font-weight : bold; font-size: 20px;">작성자</label><br>
+            <input type="text" id="notice_title" name="user_id" value="${ QNA.user_id }"  size="100px" readonly>
+             <input type="hidden" name="qa_no" value="${ QNA.qa_no }" />
 
+	        <div id="textareadiv">
+	            <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">문의 내용</label><br>
+	            <textarea id="notice_content" name="qa_content" readonly>${ QNA.qa_content }</textarea><br>
+			
+        		<label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">답변 내용</label><br>
+	            <textarea id="notice_content" name="qa_answer" ></textarea>
+            
+            
+        </div>
         
+	<button id="createButton" type="submit">
+               	 답 변
+            </button>
+	</form> 
+	
+	
+	</div>       
+            
     </section>
 
-     <jsp:include page="../common/footer.jsp"/>
+    <jsp:include page="../common/footer.jsp"/>
 
 
 </body>

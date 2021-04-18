@@ -127,7 +127,12 @@
     });
 
 </script>
-
+<script>
+      function selectQNAQList(user_id){
+         location.href='${contextPath}/center/QNA?user_id=' + user_id + '&page=${ pi.currentPage }';
+         // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+      }
+      </script>
 
 <jsp:include page="../common/footer.jsp" />
 

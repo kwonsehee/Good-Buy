@@ -273,10 +273,19 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// FAQ 메인페이지 이동
 	@GetMapping("/FAQ")
-		public ModelAndView FAQrMainView(ModelAndView mv) {
+		public ModelAndView FAQrMainView(ModelAndView mv, @RequestParam(value="cate", required=false, defaultValue="null") String cate) {
 			List<QNA> list = qService.selectFAQList();
+			List<QNA> list2 = qService.selectQNAList();
+			List<QNA> list21 = qService.selectQNAList1();
+			List<QNA> list22 = qService.selectQNAList2();
+			List<QNA> list23 = qService.selectQNAList3();
+			System.out.println(cate);
 			if (list != null) {
 				mv.addObject("list", list);
+				mv.addObject("list2", list2);
+				mv.addObject("list21", list21);
+				mv.addObject("list22", list22);
+				mv.addObject("list23", list23);
 				mv.setViewName("admin/FAQ_main");
 			} else {
 				mv.addObject("msg", "공지사항 목록 조회에 실패하였습니다.");
@@ -301,12 +310,41 @@ public class AdminController {
 			}
 		}
 	
+	@GetMapping("/QNAdetail")
+	public String QNADetailView(@RequestParam int qa_no, Model model) {
+
+		QNA q = qService.selectQNA(qa_no);
+
+		if (q != null) {
+			model.addAttribute("QNA", q);
+			return "admin/QNA_detail";
+		} else {
+			model.addAttribute("msg", "공지사항 게시글 보기에 실패했습니다.");
+			return "common/errorpage";
+		}
+	}
+	
 	@PostMapping("/FAQupdate")
 	public String FAQUpdate(@ModelAttribute QNA q, HttpServletRequest request) {
 		
 		
 		int result = qService.updateFAQ(q);
 		
+		
+		if (result > 0) {
+			return "redirect:/admin/FAQ";
+		} else {
+			throw new NoticeException("공지사항 수정에 실패하였습니다.");
+		}
+		
+	}
+	
+	@PostMapping("/QNAAwrite")
+	public String QNAUpdate(@ModelAttribute QNA q, HttpServletRequest request) {
+		
+		
+		int result = qService.updateQNAA(q);
+		System.out.println(q);
 		
 		if (result > 0) {
 			return "redirect:/admin/FAQ";

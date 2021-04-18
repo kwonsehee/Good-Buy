@@ -31,21 +31,16 @@
             <button id="button1"><a id="a2" href="${ contextPath }/admin/report">신고</a></button>
             <button id="button1"><a id="a3" href="${ contextPath }/admin/product">상품관리</a></button>
             <button id="button1"><a id="a4" href="${ contextPath }/admin/member">회원관리</a></button>
-            <button id="button1"><a id="a5" href="${ contextPath }/admin/FAQ">FAQ</a></button>
+            <button id="button1"><a id="a5" href="${ contextPath }/admin/FAQ">FAQ/문의</a></button>
             <button id="button1"><a id="a6" href="${ contextPath }/admin/stats">통계</a></button>
 
         </div>
 
-
+		<div id="div2-1">
+		<p style="bolder:">FAQ</p>
+		</div>
+		
         <div id="div3">
-            <select name='value' id="option1">
-                <option value='1'  selected>카테고리</option>
-                <option value='2'>상점/상품</option>
-                <option value='3'>회원 정보</option>
-                <option value='4'>똑똑한 거래 팁</option>
-                <option value='5'>제재 정책</option>
-              </select>
-
         </div>
 
 
@@ -68,8 +63,49 @@
             
             
         </div>
-		<button  onclick="location.href='${ contextPath }/admin/FAQwrite'">작성</button>
+		<div id="div4-1">
+		<button  id="createButton1" onclick="location.href='${ contextPath }/admin/FAQwrite'">작성</button>
+		</div>
+                
+                
+                
+                <div id="div2-1">
+		<p style="bolder:">문의</p>
+		</div>
+		
+        <div id="div3">
+            <select name='sendOption' id="option1">
+                <option value='0' selected >전체</option>
+                <option value='1' >계정 및 보안</option>
+                <option value='2'>불건전 사용자</option>
+                <option value='3'>결제 및 상점</option>
+              </select>
 
+        </div>
+
+
+
+
+        <div id="div4">
+            
+
+              <c:forEach var="q" items="${ list2 }">  
+              <ul class="mylist">
+                <li class="menu">
+                    <a style="font-size: 30px;">${ q.qa_title }<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
+                    <ul class="hide">
+                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">${ q.qa_content }<button id="createButton1" style="float:right;" onclick="selectQNA(${q.qa_no})">상세</button></li>
+                        
+                    </ul>
+                </li>
+              </ul>
+           	</c:forEach>
+                
+            </div>
+                
+                
+                
+                
                 
                 
            
@@ -109,6 +145,16 @@
          location.href='${contextPath}/admin/FAQdetail?qa_no=' + qa_no + '&page=${ pi.currentPage }';
          // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
       }
+      
+      function selectQNA(qa_no){
+          location.href='${contextPath}/admin/QNAdetail?qa_no=' + qa_no + '&page=${ pi.currentPage }';
+          // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+       }
+     // 
+      //function ${
+   	 //	var cate = $("select[name=sendOption] option:selected").text();
+   	 //	location.href="${contextPath}/admin/FAQ?sendOption?="+sendOption;
+   //	};
    </script>
 
 </body>

@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+     
+      #div1{
+        font-family: 'Nanum Myeongjo', serif;
+        text-align: center;
+        padding-top: 40px;
+      }
+      #div2{
+        font-family: 'Nanum Myeongjo', serif;
+        text-align: center;
+      }
+      #button1 {
+        font-family: 'Nanum Myeongjo', serif;
+          font-size: 15px;
+          margin: 20px;
+          border: 0;
+          outline: 0;
+          background-color: white;
+          color : gray;
+      }
+      a:visited {color:black}
+      #a1{
+          color: gray;
+      }
+      #a2{
+          color: gray;
+      }
+      #a3{
+          color: gray;
+      }
+      #a4{
+          color: gray;
+      }
+      #a5{
+          font-weight: bold;
+      }
+      #a6{
+          color: gray;
+      }
+
+      #div3{
+          text-align: center;
+        font-family: 'Nanum Myeongjo', serif;
+          padding-top : 60px;
+          padding-left: 10%;
+          padding-right: 10%;
+          margin-bottom: 50px;
+      }
+      
+  #tr_hover1:hover{
+      background-color: rgb(182, 228, 255);
+  }
+  #tr_hover2:hover{
+      background-color: rgb(182, 228, 255);
+  }
+  #img1{
+      width: 20px;
+  }
+
+  #div5{
+      font-weight: bold;
+    font-family: 'Nanum Myeongjo', serif;
+      text-align: center;
+  }
+  #div4{
+      vertical-align: top;
+      padding-left: 80%;
+  }
+  #createButton{
+      font-weight: bold;
+    font-family: 'Nanum Myeongjo', serif;
+      text-align: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 20px;
+      padding-right: 20px;
+      border: 0;
+        outline: 0;
+        background: black;
+        border-radius: 20px;
+        color:white;
+     margin-top: 20px;
+     margin-left: 50px;
+
+
+  }
+  #notice_title{
+
+    text-align: center;
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  #textareadiv{
+          text-align: center;
+        font-family: 'Nanum Myeongjo', serif;
+          padding-top : 60px;
+          padding-left: 10%;
+          padding-right: 10%;
+          padding-bottom : 5%;
+      }
+      textarea {
+        border: black 2px solid;
+        font-family: 'Nanum Myeongjo', serif;
+        font-size: 20px;
+        width: 1100px;
+        height: 200px;
+        resize: none;
+      }
+      #label2{
+          vertical-align: top;
+
+ 
+      }
