@@ -32,8 +32,10 @@
 		<typeAlias type="com.kh.goodbuy.member.model.vo.Search" alias="Search"/>
 		<typeAlias type="com.kh.goodbuy.center.model.vo.QNA" alias="QNA"/>
 		<typeAlias type="com.kh.goodbuy.common.model.vo.Report" alias="Report"/>
+
 		<typeAlias type="com.kh.goodbuy.common.model.vo.Messenger" alias="Messenger"/>
 		<typeAlias type="com.kh.goodbuy.common.model.vo.Reply" alias="Reply"/>
+
 
 	</typeAliases>
 	

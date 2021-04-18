@@ -13,6 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="qa_refno" column="QA_REFNO"/>
 		<result property="user_id" column="USER_ID"/>
 		<result property="FAQ" column="FAQ"/>
+		<result property="qa_answer" column="QA_ANSWER"/>
+		<result property="file_path" column="FILE_PATH"/>
+		
 	</resultMap>
 	
 	<select id="selectFAQList" resultMap="qnaResultSet">
@@ -51,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		       QA_NO = #{qa_no} 
 	</select>
 	
-	<update id="updateFAQ" parameterType="Notice">
+	<update id="updateFAQ" parameterType="QNA">
 		UPDATE
 		       QNA
 		   SET
@@ -68,4 +71,91 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE 
 		       QA_NO = #{qa_no}
 	</delete>
+	
+	<insert id="insertQNA" parameterType="QNA">
+		INSERT
+			INTO QNA
+			(
+			    QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		     , FILE_PATH
+			)
+			VALUES
+			(
+				SEQ_QA_NO.NEXTVAL
+			  , #{qa_title}
+			  , #{qa_content}
+			  , SYSDATE
+			  , 'Y'
+			  , #{qa_refno}
+			  , #{user_id}
+			  , 'N'
+			  , #{file_path}
+			)
+	
+	</insert>
+	
+	<select id="selectQNAList" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	
+	<select id="selectQNA" parameterType="_int" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		     , QA_ANSWER
+		  FROM
+		       QNA
+		  WHERE
+		       QA_NO = #{qa_no} 
+	</select>
+	
+	<insert id="insertFAQ" parameterType="QNA">
+		INSERT
+			INTO QNA
+			(
+			    QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , USER_ID
+		     , FAQ
+			)
+			VALUES
+			(
+				SEQ_QA_NO.NEXTVAL
+			  , #{qa_title}
+			  , #{qa_content}
+			  , #{user_id}
+			  , 'Y'
+			)
+	
+	</insert>
 	</mapper>

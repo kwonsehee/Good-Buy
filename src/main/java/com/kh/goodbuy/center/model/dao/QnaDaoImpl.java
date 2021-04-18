@@ -36,4 +36,28 @@ public class QnaDaoImpl implements QnaDao{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("qnaMapper.deleteFAQ", qa_no);
 	}
+
+	@Override
+	public int insertQNA(QNA q) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("qnaMapper.insertQNA", q);
+	}
+
+	@Override
+	public List<QNA> selectQNAList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("qnaMapper.selectQNAList");
+	}
+
+	@Override
+	public QNA selectQNA(int qa_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("qnaMapper.selectQNA", qa_no);
+	}
+
+	@Override
+	public int insertFAQ(QNA q) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("qnaMapper.insertFAQ", q);
+	}
 }

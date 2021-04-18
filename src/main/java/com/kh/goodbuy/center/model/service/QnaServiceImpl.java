@@ -37,4 +37,28 @@ public class QnaServiceImpl implements QnaService{
 		// TODO Auto-generated method stub
 		return qDao.deleteFAQ(qa_no);
 	}
+
+	@Override
+	public int insertQNA(QNA q) {
+		// TODO Auto-generated method stub
+		return qDao.insertQNA(q);
+	}
+
+	@Override
+	public List<QNA> selectQNAList() {
+		// TODO Auto-generated method stub
+		return qDao.selectQNAList();
+	}
+
+	@Override
+	public QNA selectQNA(int qa_no) {
+		// TODO Auto-generated method stub
+		return qDao.selectQNA(qa_no);
+	}
+
+	@Override
+	public int insertFAQ(QNA q) {
+		// TODO Auto-generated method stub
+		return qDao.insertFAQ(q);
+	}
 }

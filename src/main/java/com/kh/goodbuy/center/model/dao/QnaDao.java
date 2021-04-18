@@ -14,4 +14,12 @@ public interface QnaDao {
 
 	public int deleteFAQ(int qa_no);
 
+	public int insertQNA(QNA q);
+
+	public List<QNA> selectQNAList();
+
+	public QNA selectQNA(int qa_no);
+
+	public int insertFAQ(QNA q);
+
 }

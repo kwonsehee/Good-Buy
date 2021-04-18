@@ -55,7 +55,7 @@
 
 		<form action="${ contextPath }/admin/FAQupdate" id="writeForm" method="post">
 		<div id="div3">
-			<label style="font-weight: bold; font-size: 20px;">공지사항 제목</label> <input
+			<label style="font-weight: bold; font-size: 20px;">FAQ 제목</label> <input
 				type="text" id="notice_title" name="qa_title"
 				style="border-right: white; border-left: white; border-top: white;"
 				size="100px" value="${ QNA.qa_title }">
@@ -64,7 +64,7 @@
 
 		<div id="textareadiv">
 			<label id="label2"
-				style="font-weight: bold; font-size: 20px; text-align: top;">공지사항
+				style="font-weight: bold; font-size: 20px; text-align: top;">FAQ
 				내용</label>
 			<textarea id="notice_content" name="qa_content">${ QNA.qa_content }</textarea>
 			<br>
