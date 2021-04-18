@@ -16,10 +16,21 @@
 	padding-left: 25px !important; 
 	margin-right: 10% !important;
 }
+#allCate{
+	padding-left: 5px  !important; 
+	font-size : 16px !important; 
+}
+#allCate:hover, #gfilter:hover{
+	cursor : pointer;
+}
 #goodlist{
     width: 90%;
     margin: auto;
     margin-top: 3%;
+}
+#goodlist td{
+	width : 200px;
+	border : 1px solid red;
 }
 .goodlistimg{
     width: 200px;
@@ -53,6 +64,9 @@
     color: #9a9999;
     margin-left: 31%; 
     display: inline-block;
+}
+#pageArea a{
+	color:#949999;
 }
 #pageArea a:hover{
     color:  #05aad1;

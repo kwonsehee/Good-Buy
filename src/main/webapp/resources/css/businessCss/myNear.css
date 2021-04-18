@@ -71,7 +71,7 @@
         padding-bottom: 20px;
         padding-top: 20px;
     }
-    #category > li{
+    #category  li{
         list-style-type: none;
     float: left;
     width: 400px;
@@ -136,6 +136,19 @@
     .likeList{
         
         border-radius: 10%;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin : 20px 50px 30px 50px;  
+        width: 322px;
+        height: auto;
+        box-sizing: border-box;
+        box-shadow: 0px 6px 5px 0px rgb(0 0 0 / 10%);
+    }
+     .likeListflex{
+        
+        border-radius: 10%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -152,10 +165,27 @@
     margin-right: 60px;
 
     }
-     #star >a{
-         margin: 10px;
-        float: right;
-    } 
+	
+	.gradeRanking{
+		margin: 10px;
+	    float: right;
+	    cursor: pointer;
+	    color: #9A9999;
+	}
+	.reviewRanking{
+		margin: 10px;
+	    float: right;
+	    cursor: pointer;
+	    color: #9A9999;
+	}
+	.gradeRanking:hover{
+		color: #0a58ca;
+	
+	}
+	.reviewRanking:hover{
+		color: #0a58ca;
+		
+	}
    
     .secondLike >p{
         padding: 0;
@@ -216,12 +246,9 @@
    }
    #businessBtn > img{
     margin-right: 5px;
-    margin-top: 5px;
+  
    }
-   #businessBtn > label{
-    position: relative;
-    top: -15%;
-   }
+  
    .title{
        font-size: 14px;
        font-weight: bolder;
@@ -241,3 +268,22 @@
        font-size: 10px;
        color: #9A9999;
    }
+   .thumbnail{
+   	width : 251px;
+   	height : 175px;
+   }
+    .thumbnail2{
+   	width : 322px;
+   	height : 174px;
+   	border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+   }
+   .plusArea{
+   	 margin: 10px;
+     padding: 10px;
+     text-align: center;
+   }
+   .plusArea >a{
+   	cursor : pointer;
+   }
+  

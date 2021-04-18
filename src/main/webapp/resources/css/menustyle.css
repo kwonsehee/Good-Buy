@@ -32,8 +32,17 @@ button {
 
 .li_1 {
 	width: 5%;
+	height:47px;
 	text-align: center;
-	margin-top:50px;
+	margin-top: 34px;
+    padding-top: 8px;
+}
+
+.li_1 div{
+	width: 45px;
+	height:45px;
+	barder-radius:50px;
+	transition: .2s all ease-in-out;
 }
 
 .li_2 {
@@ -42,18 +51,64 @@ button {
 }
 
 .li_3 {
-	width: 55%;
+	width: 48%;
 	text-align: center;
 }
 
-.li_4, .li_5, .li_6, .li_7 {
+.li_4, .li_5, .li_6, .li_ {
 	width: 5%;
 	text-align: center;
 }
 
+.userTownli{
+	width:7%;
+	margin-top:37px;
+	cursor: pointer;
+	text-align: center;
+	color:#949999;
+	position:absolute;
+	left:68%;
+}
+
+.userTownli2 img{
+	width:5%;
+	margin-top:50px;
+	margin-left:100px;
+	cursor:pointer;
+	text-align:center;
+	width:12px;
+}
+
+.userTownli p:nth-child(1){
+	font-weight:bold;
+}
+.userTownli p:nth-child(2){
+	display:none;
+	font-size:14px;
+	border-top:2px solid #f1f0f2;
+	border-bottom:2px solid #f1f0f2;
+}
+.userTownli p:nth-last-child(1){
+	display:none;
+	border-bottom:2px solid #f1f0f2;
+	font-size:14px;
+}
+
+.userTownli p:nth-child(2):hover,.userTownli p:nth-last-child(1):hover{
+	color:black;
+	background:#f1f0f2;
+}
+
+.userTownli p{
+	padding:5px 10px 5px 10px;
+	margin:0;
+}
+
+
 #menuicon {
 	width: 30px;
 	cursor: pointer;
+	margin-top:7px;
 }
 
 #mainLogo {
@@ -90,7 +145,7 @@ button {
 }
 
 #searchbox {
-	width: 600px;
+	width: 80%;
 	height: 35px;
 	margin-top: 33px;
 	border: 3px solid #05AAD1;
@@ -164,19 +219,23 @@ button {
 
 .sidebarUserInfo li:nth-child(1){
 	width:10%;
+	text-align: right;
 }
 .sidebarUserInfo li:nth-child(2){
 	width:20%;
+	text-align: right;
 }
 .sidebarUserInfo li:nth-child(3){
-	width:48%;
+	width:45%;
     text-align: center;
 }
 
 
 #loginUserPhoto{
-	width:50px;
+	width:55px;
+	height: 55px;
 	border-radius:100px;
+	border:4px solid #fff;
 }
 
 #loinUserNickname{
@@ -207,10 +266,12 @@ button {
 .menuUl li a {
 	text-decoration: none;
 	color: #222;
+	padding-bottom:5px;
 }
 
 .menuUl li a:hover {
-	color: #05AAD1;
+	color: #7b7e7f;
+	border-bottom:3px solid #05AAD1;
 }
 
 .menuUl li:nth-child(1){

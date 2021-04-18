@@ -51,27 +51,31 @@
 
 
         <div id="div4">
-            <p style="font-size: 40px; font-family: 'Nanum Myeongjo', serif;  font-weight: bold; ">굿바이 마켓에서 물건을 판매하고싶은데..</p>
+        <c:choose>
+        <c:when test="${ empty qna.qa_answer}">
+            <p style="font-size: 40px; font-family: 'Nanum Myeongjo', serif;  font-weight: bold; ">${ qna.qa_title }</p>
 
-            <p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif;   color:rgb(104, 101, 101);">굿바이 마켓에서 물건을 판매하고싶은데 어떻게 하면 되는지 모르겠어요~</p>
+            <p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif;   color:rgb(104, 101, 101);">>${ qna.qa_content }</p>
+            <hr>
+            <p style="font-size: 40px; font-family: 'Nanum Myeongjo', serif;  font-weight: bold;">답변 대기중</p>
+            </c:when>
+        <c:otherwise>
+            <p style="font-size: 40px; font-family: 'Nanum Myeongjo', serif;  font-weight: bold; ">${ qna.qa_title }</p>
+
+            <p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif;   color:rgb(104, 101, 101);">${ qna.qa_content }</p>
             <hr>
             <p style="font-size: 40px; font-family: 'Nanum Myeongjo', serif;  font-weight: bold;">굿바이 운영자</p>
-            <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif;  ">2021/03/28</p>
-            <p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif;  ">안녕하세요. 굿바이 중고거래 문의 답변내용입니다.<br> [ 굿바이 마켓에서 물건을 판매하고싶은데.. ]<br>라는 내용의 문의를 주셨는데요, <br>해결안해줘</p>
-            <button id="createButton2" onClick="location.href='admin_membercenter_QNA_Q.html'" style="margin-bottom: 30px;">목록</button>
+            <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif;  ">${ qna.qa_modify }</p>
+            <p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif;  ">안녕하세요. 굿바이 중고거래 문의 답변내용입니다.<br>${ qna.qa_answer }</p>
+        </c:otherwise>
+        </c:choose>
+            <button id="createButton2" onclick="location.href='${ contextPath }/center/QNA'" style="margin-bottom: 30px;">목록</button>
         </div>
 
 
                 
                 
-                
-                </tbody>
-                </table>
-                
-                </p></article></li></ul>
-
-        </div>
-
+               
         
     </section>
 

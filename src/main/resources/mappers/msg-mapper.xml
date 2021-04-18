@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="msgMapper">
+	<insert id="insertMsg" parameterType="java.util.Map">
+		INSERT ALL
+		INTO MESSENGER
+		(
+		   M_NO
+		, CREATE_DATE
+		, RECEIVER
+		, M_CONTENT
+		, G_NO
+		, CALLER
+		)
+		VALUES
+		(
+		  M_SEQ.NEXTVAL
+		, DEFAULT
+		, #{g.user_id}
+		, #{mcontent}
+		, #{g.gno}
+		, #{caller}
+		)
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(	
+		  A_SEQ.NEXTVAL
+		, 7
+		, #{g.user_id}
+		, DEFAULT
+		, M_SEQ.CURRVAL
+		)
+
+		SELECT *FROM DUAL
+	
+	
+	
+	</insert>
+	
+</mapper>

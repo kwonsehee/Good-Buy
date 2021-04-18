@@ -19,19 +19,33 @@
 		<typeAlias type="com.kh.goodbuy.member.model.vo.MyTown" alias = "MyTown"/>
 		<typeAlias type="com.kh.goodbuy.center.model.vo.Notice" alias = "Notice"/>
 		<typeAlias type="com.kh.goodbuy.business.model.vo.Business" alias = "Business"/>
+
+		<typeAlias type="com.kh.goodbuy.business.model.vo.Attachment" alias = "Attachment"/>
+		<typeAlias type="com.kh.goodbuy.business.model.vo.NewsAttachment" alias = "NewsAttachment"/>
+		<typeAlias type="com.kh.goodbuy.business.model.vo.News" alias = "News"/>
+		<typeAlias type="com.kh.goodbuy.business.model.vo.Review" alias = "Review"/>
+
+
 		<typeAlias type="com.kh.goodbuy.goods.model.vo.Gcate" alias = "Gcate"/>
 		<typeAlias type="com.kh.goodbuy.goods.model.vo.Goods" alias = "Goods"/>
 		<typeAlias type="com.kh.goodbuy.goods.model.vo.Addfile" alias = "Addfile"/>
 		<typeAlias type="com.kh.goodbuy.member.model.vo.Search" alias="Search"/>
+
 		<typeAlias type="com.kh.goodbuy.admin.model.vo.Report" alias="Report"/>
-        <typeAlias type="com.kh.goodbuy.board.model.vo.Board" alias="Board"/>
+     <typeAlias type="com.kh.goodbuy.board.model.vo.Board" alias="Board"/>
+
+		<typeAlias type="com.kh.goodbuy.center.model.vo.QNA" alias="QNA"/>
+
+		<typeAlias type="com.kh.goodbuy.common.model.vo.Messenger" alias="Messenger"/>
+		<typeAlias type="com.kh.goodbuy.common.model.vo.Reply" alias="Reply"/>
+
 
 	</typeAliases>
 	
 	<!-- mappers -->
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
-
+		<mapper resource="mappers/qna-mapper.xml"/>
 		<mapper resource="mappers/town-mapper.xml"/>
 
 		<mapper resource="mappers/business-mapper.xml"/>
@@ -44,7 +58,11 @@
 		
 
 		<mapper resource="mappers/notice-mapper.xml"/>
+
 		<mapper resource="mappers/board-mapper.xml"/>
+
+		<mapper resource="mappers/msg-mapper.xml"/>
+
 
 	</mappers>
 	

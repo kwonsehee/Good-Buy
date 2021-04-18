@@ -57,12 +57,13 @@
 
         </div>
         <div id="div5">
-            
+            <form action="${ contextPath }/admin/updatemember" id="writeForm"
+			method="post">
             <div id="div5_1">
             
                 <table>
                     <tr height="80">
-                        <td>아이디</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
+                        <td>아이디</td><td><input type="text" id="label1" name="user_id" style="border-right: white; border-left: white; border-top: white;" size="30px" 
             value="${ member.user_id }" readonly></td>
                     </tr>
                     <tr height="80">
@@ -71,19 +72,15 @@
                     </tr>
                     <tr height="80">
                         <td>휴대전화</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-            value="010-2231-9173" readonly></td>
+            value="${ member.phone }" readonly></td>
                     </tr>
                     <tr height="80">
                         <td>이메일</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-            value="compu9173@naver.com" readonly></td>
+            value="${ member.email }" readonly></td>
                     </tr>
                     <tr height="80">
-                        <td>주소</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-            value="경기도 남양주시" readonly></td>
-                    </tr>
-                    <tr height="80">
-                        <td>관리자 메모</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-            value="거지" ></td>
+                        <td>관리자 메모</td><td><input type="text" id="label1" name="admin_memo" style="border-right: white; border-left: white; border-top: white;" size="30px" 
+            value="${ member.admin_memo }" ></td>
                     </tr>
                     
                 </table>
@@ -92,24 +89,32 @@
               <table>
                 <tr height="80">
                     <td>비밀번호</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-        value="sumin1234" readonly></td>
+        value="${ member.user_pwd }" readonly></td>
                 </tr>
+                <c:choose>
+              <c:when test="${ member.is_business == 'N' }">
                 <tr height="80">
-                  <td>회원등급</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
+                  <td>회원등급</td><td><input type="text" id="label1" name="is_business" style="border-right: white; border-left: white; border-top: white;" size="30px" 
       value="일반"></td>
               </tr>
+              </c:when>
+              <c:when test="${ member.is_business  == 'Y' }">
+                <tr height="80">
+                  <td>회원등급</td><td><input type="text" id="label1" name="is_business" style="border-right: white; border-left: white; border-top: white;" size="30px" 
+      value="비즈니스"></td>
+              </tr>
+              </c:when>
+              </c:choose>
+            
               <tr height="80">
-                <td>포인트</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-    value="1000"></td>
+                <td>포인트</td><td><input type="text" id="label1" name="point" style="border-right: white; border-left: white; border-top: white;" size="30px" 
+    		value="${ member.point }"></td>
             </tr>
-            <tr height="80">
-              <td>회원 정지 상태</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-  value="X"></td>
-          </tr>
                 </table>
-                <button id="createButton1" onClick="location.href='admin_member.html'">확인</button>
-                <button id="createButton1" onClick="location.href='admin_member.html'">목록</button>
+                <button id="createButton1">확인</button>
+                <button id="createButton1" type="button" onclick="location.href='${ contextPath }/admin/member'">목록</button>
             </div>
+            </form>
         </div>
         
     </section>

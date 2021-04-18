@@ -1,8 +1,14 @@
 package com.kh.goodbuy.mypage.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,32 +20,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.goods.model.service.GoodsService;
+import com.kh.goodbuy.goods.model.vo.Goods;
+import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.town.model.service.TownService;
 import com.kh.goodbuy.town.model.vo.Town;
 
+import net.sf.json.JSONObject;
+
 @Controller
 @RequestMapping("/mypage")
-@SessionAttributes({ "loginUser","townInfo"})
+@SessionAttributes({ "loginUser","townInfo","mtlist"})
 public class MypageController {
 	
 	@Autowired
 	private TownService tService;
-//	@Autowired
-//	private MemberService mService;
-	
+	@Autowired
+	private MemberService mService;
+	@Autowired
+	private GoodsService gService;
 	
 	// 마이페이지 메인 화면으로
 	@GetMapping("/main")
 	public ModelAndView showMain(ModelAndView mv, 
 								@ModelAttribute("loginUser") Member loginUser,
-								HttpServletRequest request) {
+								HttpServletRequest request,
+								Model model) {
 		// 마이타운 첫번째, 두번째 동네 리스트로 조회
 		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
-		
+		System.out.println("mtlist : " + mtlist);
 		
 		if(mtlist != null) {
 			mv.addObject("mtlist",mtlist);
@@ -48,14 +64,7 @@ public class MypageController {
 		
 		return mv;
 	}
-	
-	// 프로필 사진 등록 화면
-	@GetMapping("/profilePhoto")
-	public ModelAndView showPhotoPopup(ModelAndView mv) {
-		mv.setViewName("mypage/setPhotoPopup");
-		return mv;
-	}
-	
+
 	// 팔로잉 팝업창 화면 
 	@GetMapping("/following")
 	public ModelAndView showFollowing(ModelAndView mv) {
@@ -82,6 +91,105 @@ public class MypageController {
 		return mv;
 	}
 	
+	// 프사 등록 - 리네임 
+	@PostMapping("/photoInsert")
+	public String UserPhotoInsert(@ModelAttribute("loginUser") Member loginUser,
+								 Model model,
+								 @RequestParam(value="uploadPhoto") MultipartFile file,
+								 HttpServletRequest request) {
+		
+		// 업로드 파일 서버에 저장
+		// 파일이 첨부되었다면
+		if(!file.getOriginalFilename().equals("")) {
+			// 파일 저장 메소드 별도로 작성 - 리네임명 리턴
+			String renameFileName = saveFile(file, request);
+			
+			// DB에 저장하기 위한 파일명 세팅
+			if(renameFileName != null) {
+				loginUser.setPhoto(renameFileName);
+			}
+		}
+		
+		int result = mService.updateUserPhoto(loginUser);
+		System.out.println("프사 등록 됐니? : " + result);
+		
+		if(result > 0) {
+			// 프사 업데이트된 유저 정보 세션에 저장
+			model.addAttribute("loginUser", loginUser);
+			return "redirect:/mypage/main";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
+	// 프사 실제 파일 저장
+	public String saveFile(MultipartFile file, HttpServletRequest request) {
+		String root= request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root+"/images/userProfilePhoto";
+		File folder = new File(savePath);
+		if(!folder.exists()) folder.mkdir();
+		
+		//파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename();
+		String renameFileName = sdf.format(new Date())+"_"+(int)(Math.random()*100000)+originalFileName.substring(originalFileName.lastIndexOf("."));
+		
+		String renamePath = folder + "/"+renameFileName;//저장하고자 하는 경로 + 파일명
+		
+		try {
+			file.transferTo(new File(renamePath));//=>업로드 된 파일(MultipartFile) 이 rename명으로 서버에 저장
+		} catch (IllegalStateException | IOException e) {
+			System.out.println("파일 업로드 에러 : "+e.getMessage());
+		}
+		
+		return renameFileName;
+	}
+	
+	
+	// 프사 삭제
+	@PostMapping("/deletePhoto")
+	public String deleteUserPhoto(@ModelAttribute("loginUser") Member loginUser,
+								
+								HttpServletRequest request,
+								 Model model) {
+		
+		// 기존 프사가 있다면
+		if(!loginUser.getPhoto().equals("")) {
+			deleteFile(loginUser.getPhoto(),request);
+		}
+		
+		// DB에서 photo컬럼 null로
+		int result = mService.deleteUserPhoto(loginUser);
+		
+		System.out.println("프사 삭제 됐나? " + result);
+		
+		// 로그인 유저 다시 조회 후 세션에 셋팅
+		Member loginUser2 = mService.loginMember(loginUser);
+		
+		if(result > 0) {
+			model.addAttribute("loginUser", loginUser2);
+			return "redirect:/mypage/main";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
+	// 프사 실제 파일 삭제
+	public void deleteFile(String renameFileName,HttpServletRequest request) {
+		String root= request.getSession().getServletContext().getRealPath("resources");
+		File deleteFile = new File(root+"/images/userProfilePhoto/"+renameFileName);
+		System.out.println("deleteFile메소드 오니? ");
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+		}
+		
+	}
+	
+	
+	
+	
 	// 포인트 내역 화면
 	@GetMapping("/pointList")
 	public ModelAndView showPointList(ModelAndView mv) {
@@ -91,14 +199,70 @@ public class MypageController {
 	
 	// 판매 내역 화면(판매중)
 	@GetMapping("/sellingList")
-	public ModelAndView showSellingList(ModelAndView mv) {
+	public ModelAndView showSellingList(ModelAndView mv,
+										@ModelAttribute("loginUser") Member loginUser, 
+										Model model,
+										@RequestParam(value="page", required=false, defaultValue="1") int currentPage){
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		
+		List<Goods> sellingList;
+		// where절에 gstatus 상관없이 모두 셀렉
+		listCount = gService.selectMyListCount(loginUser.getUser_id());
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		sellingList = gService.selectMySellingList(loginUser.getUser_id(), pi);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("sellingList", sellingList);
+		
 		mv.setViewName("mypage/sellingList");
+		
 		return mv;
 	}
 	
+	// 마이페이지 판매내역
+	// 판매중 -> 숨김 상태 변경
+	// 숨김 -> 판매중 상태 변경
+	@GetMapping("/changeGoodsStatus")
+	public String changeGoodsStatus(int gno,String status,@ModelAttribute("loginUser")Member loginUser) {
+		
+		System.out.println("gno + status 넘어왔니~? " + gno + status);
+		
+		Goods g = new Goods(gno,loginUser.getUser_id());
+
+		int result = gService.changeGoodsStatus(g,status);
+		
+		if(result > 0) {
+		}else {
+			return "common/errorpage";
+		}
+		
+		return "redirect:/mypage/sellingList";
+	}
+
+	
 	// 판매 내역 화면(숨김)
 	@GetMapping("/hiddenList")
-	public ModelAndView showhiddenList(ModelAndView mv) {
+	public ModelAndView showhiddenList(ModelAndView mv,
+										@ModelAttribute("loginUser") Member loginUser, 
+										Model model,
+										@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		
+		List<Goods> hiddenList;
+		// where절에 gstatus 상관없이 모두 셀렉
+		listCount = gService.selectMyHiddenListCount(loginUser.getUser_id());
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		hiddenList = gService.selectMyHiddenList(loginUser.getUser_id(), pi);
+
+		System.out.println("hiddenList : " + hiddenList);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("hiddenList", hiddenList);
+		
 		mv.setViewName("mypage/hiddenList");
 		return mv;
 	}
@@ -244,19 +408,21 @@ public class MypageController {
 	}
 	
 	// 내동네 바꾸기 
-	@GetMapping("changeTownType")
-	public @ResponseBody String changeTownType(@ModelAttribute("loginUser") Member loginUser,
-												Model model) {
+	@GetMapping("/changeTownType")
+	public @ResponseBody void changeTownType(@ModelAttribute("loginUser") Member loginUser,
+												Model model,
+												HttpServletResponse response) {
+	    response.setContentType("application/json; charset=utf-8");
 		
 		System.out.println("로그인유저 넘어왔나 " + loginUser.getUser_id());
-		// 내동네 기본동네 타입 변경용
+		// 1. 내동네 기본동네 타입 변경
 		// 1 -> 2
-		// 1 -> 2
+		// 2 -> 1
 		int result = tService.changeTownType2(loginUser.getUser_id());
 		
 		System.out.println("동네타입 2->1로 잘 바꼈나? " + result);
 		
-		// 바뀐 동네정보 세션에 다시 담아주기
+		// 2. 바뀐 동네정보 세션에 다시 담아주기
 		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
 		
 		if(townInfo != null) {
@@ -264,39 +430,92 @@ public class MypageController {
 			System.out.println("세션에 저장되는 타운 바뀌나 : " + townInfo);
 		}
 		
-		// ajax통신 성공 시 동적으로 화면 문구 바뀌어야 하므로
-		String area = Integer.toString(townInfo.getArea());
-		return area;
+		// 3. ajax통신 성공 시 range부분도 새롭게 바꿔줘야 하므로 Town 리턴
+		JSONObject sendTown = new JSONObject();
+		sendTown.put("t_no",townInfo.getT_no());
+		sendTown.put("area",townInfo.getArea());
+		sendTown.put("address_1",townInfo.getAddress_1());
+		sendTown.put("address_2",townInfo.getAddress_2());
+		sendTown.put("address_3",townInfo.getAddress_3());
+		
+		
+	    // 4. 전송 
+	      try {
+	         PrintWriter out = response.getWriter();
+	         out.print(sendTown);
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
 		
 	}
 	
+	// 메뉴바에서 내동네 바꾸기
+	@GetMapping("/changeTownType2")
+	public String changeTownType2(@ModelAttribute("loginUser") Member loginUser,
+												Model model,
+												HttpServletResponse response,
+												HttpServletRequest request,
+												String contextPath
+												) {
+		response.setContentType("application/json; charset=utf-8");
+		
+		
+		int result = tService.changeTownType2(loginUser.getUser_id());
+		
+		System.out.println("동네타입 2->1로 잘 바꼈나? " + result);
+		
+		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
+		System.out.println("메뉴바에서 동네 바꾼 후 : " + mtlist);
+		
+		// 세션에 다시 저장
+		model.addAttribute("mtlist", mtlist);
+		
+		
+		System.out.println("contextPath넘어왔나 : " + contextPath);
+		
+		return"redirect:/home";
+	}
+	
 	// 내동네 범위 바꾸기 
-	@GetMapping("changeArea")
-	public @ResponseBody String changeArea(@ModelAttribute("loginUser") Member loginUser,
+	@GetMapping("/changeArea")
+	public @ResponseBody void changeArea(@ModelAttribute("loginUser") Member loginUser,
+											@ModelAttribute("townInfo") Town townInfo,
 											Model model,
-											@RequestParam int t_no,
-											@RequestParam int area) {
+											@RequestParam int area,
+											HttpServletResponse response) {
+		response.setContentType("application/json; charset=utf-8");
 		
-		System.out.println("내동네 범위 바꾸기 잘 넘어왔나 " + loginUser.getUser_id() + t_no + area);
+		System.out.println("내동네 범위 바꾸기 잘 넘어왔나 " + loginUser.getUser_id() +"범위 : " +area);
 		
-		MyTown mt = new MyTown(loginUser.getUser_id(),t_no,area);
+		MyTown mt = new MyTown(loginUser.getUser_id(),townInfo.getT_no(),area);
+		
+		System.out.println("범위 바꾸려는 동네 넘버 : " + townInfo.getT_no());
 		
 		int result = tService.changeArea(mt);
 		
 		// 바뀐 동네 정보 세션에 다시 담아주기
-		Town townInfo = tService.selectUserTown(loginUser.getUser_id());
+		Town townInfo2 = tService.selectUserTown(loginUser.getUser_id());
 		
 		if(townInfo != null) {
-			model.addAttribute("townInfo", townInfo);
-			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo);
+			model.addAttribute("townInfo", townInfo2);
+			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo2);
 		}
-		
-		
-		if(result > 0) {
-			return "Success to change area of town~!";
-		} else {
-			return "Fail to change area of town..";
-		}
+
+		// ajax통신 성공 시 텍스트변경 부분도 새롭게 바꿔줘야 하므로 Town 리턴
+		// 내동네 설정용
+		JSONObject sendTown = new JSONObject();
+		sendTown.put("t_no",townInfo2.getT_no());
+		sendTown.put("area",townInfo2.getArea());
+		sendTown.put("address_1",townInfo2.getAddress_1());
+		sendTown.put("address_2",townInfo2.getAddress_2());
+		sendTown.put("address_3",townInfo2.getAddress_3());
+		// 4. 전송 
+	      try {
+	         PrintWriter out = response.getWriter();
+	         out.print(sendTown);
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
 		
 	}
 	

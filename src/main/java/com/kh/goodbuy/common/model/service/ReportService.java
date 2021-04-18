@@ -1,8 +1,8 @@
-package com.kh.goodbuy.admin.model.service;
+package com.kh.goodbuy.common.model.service;
 
 import java.util.List;
 
-import com.kh.goodbuy.admin.model.vo.Report;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 public interface ReportService {
@@ -17,4 +17,8 @@ public interface ReportService {
 
 	public List<Report> selectReportList(PageInfo pi);
 
+	//상품신고 
+	public int insertGoodsReport(Report r, int gno, String report_id);
+
+	
 }

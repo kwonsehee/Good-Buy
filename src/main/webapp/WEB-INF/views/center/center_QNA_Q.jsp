@@ -46,27 +46,31 @@
 
         </div>
         <div id="div3_1">
+        <form action="${ contextPath }/center/write" id="writeForm" method="post" enctype="multipart/form-data">
             <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif; padding-top: 60px; font-weight: bold;">문의 유형 선택하기</p>
-            <select name='value' id="option1" style="font-size: 30px; width: 700px; text-align: center; font-family: 'Nanum Myeongjo', serif;" >
-                <option value='0'  selected>문의 유형</option>
+            <select name='qa_refno' id="option1" style="font-size: 30px; width: 700px; text-align: center; font-family: 'Nanum Myeongjo', serif;" >
+                <option selected>문의 유형</option>
                 <option value='1'  >계정 및 보안</option>
                 <option value='2'>불건전 사용자 신고</option>
                 <option value='3'>결제 및 상점 문의</option>
               </select>
-
+				 <input type="hidden" name="user_id" value="${ loginUser.user_id }"/>
               <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif; padding-top: 60px; font-weight: bold;">제목</p>
-              <input type="text" style="width: 700px; height: 50px;">
+              <input type="text" style="width: 700px; height: 50px;" name="qa_title">
               
 
               <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif; padding-top: 60px; font-weight: bold;">설명</p>
-              <input type="text" style="width: 700px; height: 300px;">
+              <input type="text" style="width: 700px; height: 300px;" name="qa_content">
 
               <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif; padding-top: 60px; font-weight: bold;">첨부 파일</p>
-              <button id="createButton2" onClick="location.href='admin_membercenter_QNA_Q.html'">첨부하기</button><br>
+              <input  type="file" name="uploadFile">
+              <br>
+              
               <div id="buttondiv" style="text-align:center; padding-right:10%;">
-              <button id="greset" onClick="location.href='admin_membercenter_QNA.html'" style="margin-top: 50px; margin-right:5%;">취소</button>
-              <button id="gsubmit" onClick="location.href='admin_membercenter_QNA.html'" style="margin-top: 50px;">등록</button>
+              <button id="greset" type="button" onClick="${ contextPath }/center/QNA" style="margin-top: 50px; margin-right:5%;">취소</button>
+              <button id="gsubmit" style="margin-top: 50px;">등록</button>
             </div>
+            </form>
         </div>
 
 

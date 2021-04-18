@@ -165,4 +165,146 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		USER_ID = #{user_id}
 	</select>
+
+	<update id="updateadminMember" parameterType="Member">
+      UPDATE
+           USER_INFO
+        SET
+            POINT = #{point}
+          , ADMIN_MEMO = #{admin_memo}
+       WHERE
+            USER_ID = #{user_id}     
+   </update>
+
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE 
+				USER_INFO
+		   SET 
+		   		NICKNAME = #{nickname},
+      			USER_PWD = #{user_pwd},
+   			    EMAIL = #{email},
+    			PHONE = #{phone}
+		 WHERE 
+		 		USER_ID = #{user_id}
+
+	</update>
+	
+	<update id="updateUserPhoto" parameterType="Member">
+		UPDATE
+				USER_INFO
+		   SET
+		   		PHOTO = #{photo}
+		 WHERE
+		 		USER_ID = #{user_id}
+	</update>
+	
+	<update id="deleteUserPhoto" parameterType="Member">
+		UPDATE
+				USER_INFO
+		   SET
+		   		PHOTO = NULL
+		 WHERE
+		 		USER_ID = #{user_id}
+	
+	</update>
+	
+	<update id="updatePoint" parameterType="java.util.Map">
+		UPDATE
+				USER_INFO
+		   SET
+		   		POINT = POINT-#{user_point}
+		 WHERE
+		 		USER_ID = #{user_id}
+	
+	</update>
+	<insert id="insertDeal" parameterType="java.util.Map">
+		INSERT ALL
+		INTO PAYMENT
+		(
+ 		  PID
+		, PAYMENT
+		, PAY_DATE
+		, PAY_WAY
+		)
+		VALUES
+		(
+		  PAY_SEQ.NEXTVAL
+		, #{amount}
+		, DEFAULT
+		, 1
+		)
+		INTO DEAL_PAYMENT
+		(
+		  PID
+		, G_NO
+		, USER_ID
+		)
+		VALUES
+		(
+		  PAY_SEQ.CURRVAL
+		 , #{gno}
+		,  #{user_id}
+		)
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 10
+		, (SELECT USER_ID FROM GOODS WHERE G_NO = #{gno})
+		, DEFAULT
+		, #{gno}
+		)
+		SELECT *FROM DUAL
+	</insert>
+	<insert id="insertDealPoint" parameterType="java.util.Map">
+		INSERT ALL
+		INTO PAYMENT
+		(
+ 		  PID
+		, PAYMENT
+		, PAY_DATE
+		, PAY_WAY
+		)
+		VALUES
+		(
+		  PAY_SEQ.NEXTVAL
+		, #{amount}
+		, DEFAULT
+		, 2
+		)
+		INTO DEAL_PAYMENT
+		(
+		  PID
+		, G_NO
+		, USER_ID
+		, DEAL_PAYMENT
+		)
+		VALUES
+		(
+		  PAY_SEQ.CURRVAL
+		 , #{gno}
+		,  #{user_id}
+		, DEFAULT
+		)
+		
+		SELECT *FROM DUAL
+	</insert>
+	<select id="selectSellerPhoto" parameterType="string" resultType="string">
+		SELECT
+			   PHOTO
+		  FROM USER_INFO
+		 WHERE USER_ID = #{user_id}
+	</select>
+	
+
+				
+
 </mapper>

@@ -1,4 +1,4 @@
-package com.kh.goodbuy.admin.controller;
+package com.kh.goodbuy.admin.model.exception;
 
 public class NoticeException extends RuntimeException{
 	public NoticeException() {}

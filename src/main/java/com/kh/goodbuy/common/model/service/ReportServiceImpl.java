@@ -1,13 +1,12 @@
-package com.kh.goodbuy.admin.model.service;
+package com.kh.goodbuy.common.model.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.goodbuy.admin.model.dao.ReportDao;
-import com.kh.goodbuy.admin.model.vo.Report;
-import com.kh.goodbuy.center.model.dao.NoticeDao;
+import com.kh.goodbuy.common.model.dao.ReportDao;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 @Service
@@ -43,5 +42,11 @@ public class ReportServiceImpl implements ReportService{
 	public List<Report> selectReportList(PageInfo pi) {
 		// TODO Auto-generated method stub
 		return rDao.selectList(pi);
+	}
+
+	@Override
+	public int insertGoodsReport(Report r, int gno, String report_id) {
+		// TODO Auto-generated method stub
+		return rDao.insertGoodsReport(r, gno, report_id);
 	}
 }

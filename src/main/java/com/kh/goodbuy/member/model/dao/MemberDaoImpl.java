@@ -1,13 +1,16 @@
 package com.kh.goodbuy.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
@@ -77,7 +80,60 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.updateMember",loginUser);
 	}
 
+
+	@Override
+	public int updateUserPhoto(Member loginUser) {
+		return sqlSession.update("memberMapper.updateUserPhoto",loginUser);
+	}
+
+	@Override
+	public int deleteUserPhoto(Member loginUser) {
+		return sqlSession.update("memberMapper.deleteUserPhoto",loginUser);
+	}
 	
+	
+
+
+	@Override
+	public int updateadminMember(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updateadminMember",m);
+	}
+
+	@Override
+	public int updatePoint(String user_id, int user_point) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("user_point", user_point);
+		return sqlSession.update("memberMapper.updatePoint",map);
+	}
+
+	@Override
+	public int insertDeal(String user_id, int amount, int gno) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("amount", amount);
+		map.put("gno", gno);
+		return sqlSession.update("memberMapper.insertDeal",map);
+	}
+
+	@Override
+	public int insertDealPoint(String user_id, int amount, int gno) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("amount", amount);
+		map.put("gno", gno);
+		return sqlSession.update("memberMapper.insertDealPoint",map);
+	}
+
+	@Override
+	public String selectSellerPhoto(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectSellerPhoto", user_id);
+	}
+
+	
+
 
 	
 

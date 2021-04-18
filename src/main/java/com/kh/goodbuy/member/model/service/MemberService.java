@@ -3,7 +3,7 @@ package com.kh.goodbuy.member.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
@@ -39,8 +39,22 @@ public interface MemberService {
 		
 		// 회원정보 수정
 		public int updateMember(Member loginUser);
-
 		
+		// 관리자 
+		public int updateadminmember(Member m);
+
+		// 프사 등록
+		public int updateUserPhoto(Member loginUser);
+		
+		// 프사 삭제
+		public int deleteUserPhoto(Member loginUser);
+
+		//포인트 업데이트
+		public int updatePoint(String user_id, int user_point, int gno);
+		//안전거래 디비 insert
+		public int insertDeal(String user_id, int amount, int gno);
+		//셀러 사진얻어오기
+		public String selectSellerPhoto(String user_id);
 
 	
 

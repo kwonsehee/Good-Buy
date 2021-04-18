@@ -52,15 +52,17 @@
             
 
                 
-            <ul class="mylist">
+            <c:forEach var="f" items="${ list }">  
+              <ul class="mylist">
                 <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">여러개의 계정을 만들 수 있나요?<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
+                    <a style="font-size: 30px; font-weight: bolder;">${ f.qa_title }<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
                     <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">명의자 1명당 1개 계정만 본인인증이 가능합니다</li>
+                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">${ f.qa_content }</li>
                         
                     </ul>
                 </li>
               </ul>
+           	</c:forEach>
            
             
             <ul class="mylist">

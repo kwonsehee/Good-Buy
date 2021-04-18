@@ -53,27 +53,27 @@
 
 		</div>
 
-
+		<form action="${ contextPath }/admin/FAQupdate" id="writeForm" method="post">
 		<div id="div3">
-			<label style="font-weight: bold; font-size: 20px;">공지사항 제목</label> <input
-				type="text" id="notice_title" name="notice_title"
+			<label style="font-weight: bold; font-size: 20px;">FAQ 제목</label> <input
+				type="text" id="notice_title" name="qa_title"
 				style="border-right: white; border-left: white; border-top: white;"
-				size="100px" value="여러개의 계정을 만들 수 있나요?">
+				size="100px" value="${ QNA.qa_title }">
 		</div>
 
 
 		<div id="textareadiv">
 			<label id="label2"
-				style="font-weight: bold; font-size: 20px; text-align: top;">공지사항
+				style="font-weight: bold; font-size: 20px; text-align: top;">FAQ
 				내용</label>
-			<textarea id="notice_content" name="notice_content">명의자 1명당 1개 계정만 본인인증이 가능합니다</textarea>
+			<textarea id="notice_content" name="qa_content">${ QNA.qa_content }</textarea>
 			<br>
-
+			<input type="hidden" name="qa_no" value="${ QNA.qa_no }"/>
 			<button id="createButton">수 정</button>
-			<button id="createButton">삭 제</button>
+			<button id="createButton" type="button" onclick="location.href='${ contextPath}/admin/FAQdelete?qa_no=${ QNA.qa_no }'">삭 제</button>
 
 		</div>
-
+	</form>
 	</section>
 
 
