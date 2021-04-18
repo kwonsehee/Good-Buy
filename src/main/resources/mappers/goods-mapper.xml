@@ -23,14 +23,35 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<resultMap type="Goods" id="GoodsResultSet">
 		<id column="G_NO" property="gno"/>
+		<result column="G_PLACE" property="gplace"/>
 		<result column="G_TITLE" property="gtitle"/>
 		<result column="G_PRICE" property="gprice"/>
 		<result column="CHANGE_NAME" property="changeName"/>
 		<result column="CREATE_DATE" property="createDate"/>
+		<result column="PULL_DATE" property="pullDate"/>
+		<result column="G_STATUS" property="gstatus"/>
 		<result column="USER_ID" property="user_id"/>
 	</resultMap>
+	
+	<resultMap type="Goods" id="GoodsResultSet2">
+		<id column="GNO" property="gno"/>
+		<result column="G_PLACE" property="gplace"/>
+		<result column="G_PRICE" property="gprice"/>
+		<result column="G_TITLE" property="gtitle"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="PULL_DATE" property="pullDate"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="G_STATUS" property="gstatus"/>
+		<result column="USER_ID" property="user_id"/>
+		<result column="LIKE_CNT" property="like_cnt"/>
+		<result column="REP_CNT" property="rep_cnt"/>
+		<result column="ADDRESS_3" property="address_3"/>
+	</resultMap>
+	
+	
 	<resultMap type="Goods" id="GoodsDetailResult">
 		<id column="G_NO" property="gno"/>
+		<result column="USER_ID" property="user_id"/>
 		<result column="G_TITLE" property="gtitle"/>
 		<result column="G_PRICE" property="gprice"/>
 		<result column="G_CONDITION" property="gcondition"/>
@@ -54,7 +75,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
    	 </collection>
 	</resultMap>
 	
-	
+	<resultMap id="replyResultSet" type="Reply">
+      <id property="rno" column="R_NO"/>
+      <result property="rcontent" column="RCONTENT"/>
+      <result property="ref_rid" column="REF_RID"/>
+      <result property="user_id" column="USER_ID"/>
+      <result property="createDate" column="CREATE_DATE"/>
+      
+   </resultMap>
 	
 	
 	<select id="selectCate" resultMap="cateSet">
@@ -236,11 +264,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE G_STATUS = 'Y'
 	</select>
 	<select id="selectMyList" parameterType="string" resultMap="GoodsResultSet">
-		SELECT
-			   G_PRICE
+		SELECT 
+			   G.G_NO
+			 , G_PLACE
+			 , G_PRICE
 			 , G_TITLE
 			 , CREATE_DATE
+			 , PULL_DATE
              , CHANGE_NAME
+             , G_STATUS
              , G.USER_ID USER_ID
 		 FROM GOODS G, GOODSFILE GF, ADDFILE F
 		WHERE G.G_NO = GF.G_NO
@@ -254,6 +286,100 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 ORDER BY
         	   G.G_NO DESC
 	</select>
+	
+	<!-- 마이페이지 - 판매내역 조회 -->
+	<select id="selectMySellingList" parameterType="string" resultMap="GoodsResultSet2">
+	SELECT C.*,ADDRESS_3
+	  FROM
+			(SELECT B.*, COUNT(GR.R_NO) REP_CNT
+			 FROM
+				 (SELECT  A.*, COUNT(LG.USER_ID) LIKE_CNT
+				  FROM
+				   	  (SELECT 
+							   G.G_NO GNO
+							 , G_PLACE
+							 , G_PRICE
+							 , G_TITLE
+							 , CREATE_DATE
+							 , PULL_DATE
+				             , CHANGE_NAME
+				             , G_STATUS
+				             , G.USER_ID USER_ID            
+						FROM 
+							   GOODS G, GOODSFILE GF, ADDFILE F
+						WHERE G.G_NO = GF.G_NO
+						  AND GF.F_NO = F.F_NO     
+						  AND F.FILE_LEVEL = 1
+						  AND G.USER_ID = #{user_id}
+						  AND G_PLACE = (SELECT T_NO
+				                 		   FROM MY_TOWN
+				                 		  WHERE MYTOWN_TYPE=1
+				                 			AND USER_ID = #{user_id}))A 
+					                            
+				  LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
+				  GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+				  PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
+					
+			 LEFT JOIN GOODS_REPLY GR ON B.GNO = GR.G_NO
+			 GROUP BY B.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+			 PULL_DATE, CHANGE_NAME, G_STATUS, B.LIKE_CNT, B.USER_ID)C
+	 JOIN TOWN ON(T_NO = G_PLACE)
+	 WHERE G_STATUS = 'Y'
+	</select>
+	
+	<select id="selectMyHiddenListCount" parameterType="string"  resultType= "_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G JOIN MY_TOWN T
+			   ON( G.G_PLACE = T.T_NO)
+               WHERE T.MYTOWN_TYPE=1
+               AND T.USER_ID = #{user_id}
+               AND G.USER_ID = #{user_id})
+        WHERE
+        	   G_STATUS = 'H'
+       
+	</select>
+	<select id="selectMyHiddenList" parameterType="string" resultMap="GoodsResultSet2">
+	SELECT C.*,ADDRESS_3
+	  FROM
+			(SELECT B.*, COUNT(GR.R_NO) REP_CNT
+			 FROM
+				 (SELECT  A.*, COUNT(LG.USER_ID) LIKE_CNT
+				  FROM
+				   	  (SELECT 
+							   G.G_NO GNO
+							 , G_PLACE
+							 , G_PRICE
+							 , G_TITLE
+							 , CREATE_DATE
+							 , PULL_DATE
+				             , CHANGE_NAME
+				             , G_STATUS
+				             , G.USER_ID USER_ID            
+						FROM 
+							   GOODS G, GOODSFILE GF, ADDFILE F
+						WHERE G.G_NO = GF.G_NO
+						  AND GF.F_NO = F.F_NO     
+						  AND F.FILE_LEVEL = 1
+						  AND G.USER_ID = #{user_id}
+						  AND G_PLACE = (SELECT T_NO
+				                 		   FROM MY_TOWN
+				                 		  WHERE MYTOWN_TYPE=1
+				                 			AND USER_ID = #{user_id}))A 
+					                            
+				  LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
+				  GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+				  PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
+					
+			 LEFT JOIN GOODS_REPLY GR ON B.GNO = GR.G_NO
+			 GROUP BY B.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+			 PULL_DATE, CHANGE_NAME, G_STATUS, B.LIKE_CNT, B.USER_ID)C
+	 JOIN TOWN ON(T_NO = G_PLACE)
+	 WHERE G_STATUS = 'H'
+	</select>
+	
+	
 	<select id="selectSecondTown" parameterType="string" resultMap="townResultSet">
 		SELECT 
 			   T_NO
@@ -384,7 +510,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	<select id="Goodsdetail" parameterType="_int" resultMap="GoodsDetailResult">
 		SELECT
-			    G.G_NO G_NO
+				G.USER_ID USER_ID
+			  , G.G_NO G_NO
 			  , G.G_TITLE G_TITLE 
 			  , G.G_CONDITION G_CONDITION
 			  , G.G_PRICE G_PRICE
@@ -437,4 +564,89 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	(#{gno}, #{user_id})
 	
 	</insert>
+
+	<insert id="insertReply" parameterType="java.util.Map">
+		INSERT ALL
+		INTO REPLY
+		(
+		  R_NO
+		, RCONTENT
+		, CREATE_DATE
+		, R_STATUS
+		, USER_ID
+		)
+		VALUES
+		( 
+  		   R_SEQ.NEXTVAL
+		, #{r.rcontent}
+		, DEFAULT
+		, DEFAULT
+		, #{r.user_id}
+		)
+		INTO GOODS_REPLY
+		(
+		  G_NO
+		, R_NO
+		)
+		VALUES
+		(
+		  #{g.gno}
+		, R_SEQ.CURRVAL
+		)
+		INTO ALARM
+		(
+  		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 8
+		, #{g.user_id}
+		, DEFAULT
+		, R_SEQ.CURRVAL
+		)
+		SELECT *FROM DUAL
+	</insert>
+	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT 
+			    R.R_NO R_NO
+			  , RCONTENT
+			  , TO_CHAR(CREATE_DATE,'YYYY.MM.DD HH24:MI' ) CREATE_DATE
+			  , USER_ID
+			  , R.REF_RID REF_RID
+		 FROM REPLY R JOIN GOODS_REPLY G
+		   ON(R.R_NO = G.R_NO)
+		WHERE G.G_NO = #{g.getGno()}
+		  AND R_STATUS = 'Y'
+	 ORDER BY
+			  R.R_NO DESC
+
+	</select>
+	
+	<update id="changeGoodsStatus" parameterType="Goods">
+		UPDATE 
+				GOODS
+		   SET 
+		   		G_STATUS = 'H'
+		 WHERE 
+		 		USER_ID = #{user_id}
+		   AND 
+		   		G_NO = #{gno}
+	</update>
+	
+	<update id="changeGoodsStatus2" parameterType="Goods">
+		UPDATE 
+				GOODS
+		   SET 
+		   		G_STATUS = 'Y'
+		 WHERE 
+		 		USER_ID = #{user_id}
+		   AND 
+		   		G_NO = #{gno}
+	</update>  
+	
 </mapper>

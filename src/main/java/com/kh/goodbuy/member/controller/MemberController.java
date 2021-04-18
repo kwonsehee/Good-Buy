@@ -43,11 +43,14 @@ public class MemberController {
 
 	// 3_2. 일반 로그인 컨트롤러 (DB select)
 	@PostMapping("/login") // 일반 로그인 post 방식
-	public String userLogin(@ModelAttribute Member m, Model model) {
+	public String userLogin(@ModelAttribute Member m, Model model,HttpServletRequest request) {
 //		   System.out.println("m" + m);
 
 		Member loginUser = mService.loginMember(m);
-		
+		 String referer = request.getHeader("Referer");
+	     request.getSession().setAttribute("redirectURI", referer);
+		System.out.println("이전페이지 :"+referer);
+		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
 		// 일반 로그인이까 암호화 필요 o
 		if (loginUser != null && bcryptPasswordEncoder.matches(m.getUser_pwd(), loginUser.getUser_pwd())) {
 			// System.out.println("loginUser : " + loginUser);
@@ -55,7 +58,10 @@ public class MemberController {
 			// 로그인 시 따로 호출하는 메소드
 			saveUserTown(loginUser.getUser_id(), model);
 			saveUserMtlist(loginUser.getUser_id(),model);
-			return "redirect:/home";
+			
+			// 뒤로 갈 히스토리가 있는 경우 및 우리 시스템에서 링크를 통해 유입된 경우
+
+			return "redirect:"+referer;
 		} else {
 			model.addAttribute("msg", "로그인에 실패하였습니다.");
 			return "redirect:/home";
@@ -277,10 +283,14 @@ public class MemberController {
 
 	// 로그아웃 컨트롤러 (세션 만료)
 	@GetMapping("/logout")
-	public String logout(SessionStatus status) {
+	public String logout(SessionStatus status, HttpServletRequest request) {
 
 		status.setComplete();
-		return "redirect:/home";
+		String referer = request.getHeader("Referer");
+	    request.getSession().setAttribute("redirectURI", referer);
+		System.out.println("이전페이지 :"+referer);
+		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
+		return "redirect:"+referer;
 	}
 	
 	// 로그인 시 로그인 유저의 동네 정보(첫번째 기본동네) 세션에 저장하기
@@ -307,5 +317,30 @@ public class MemberController {
 		
 		return "redirect:/home";
 	}
-	
+
+	// 결제
+	@GetMapping("payment")
+	public String payment(int amount,int gno,
+		@RequestParam(value="user_point", required=false, defaultValue="0") int user_point,
+		HttpServletRequest request,
+		Model model) {
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		System.out.println("결제오니 ;"+amount +"원 포인트 : "+user_point+"gno : "+gno);
+		int result = 0;
+		//유저 포인트 빼기
+		if(user_point>0) {
+			result = mService.updatePoint(loginUser.getUser_id(), user_point,gno);
+		}
+		//안전거래 디비insert
+		int result1 = mService.insertDeal(loginUser.getUser_id(), amount, gno);
+		
+		if(result>0||result>0) {
+			model.addAttribute("msg", "결제 성공");
+		}else {
+			
+			model.addAttribute("msg", "결제 실패");
+		}
+		model.addAttribute("gno", gno);
+		return "redirect:/goods/detail";
+	}
 }

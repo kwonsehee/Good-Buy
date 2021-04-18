@@ -104,8 +104,9 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="titleWrap">
-						<span class="circle"></span> <span class="welcome">프로필 사진</span> <span
-							class="circle"></span>
+						<span class="circle"></span> 
+						<span class="welcome">프로필 사진</span> 
+						<span class="circle"></span>
 					</div>
 				</div>
 				
@@ -127,10 +128,14 @@
 					<button type="submit" id="fileBtn">등록하기</button>
 					</form>
 					<form action="${ contextPath }/mypage/deletePhoto" method="post" enctype="multipart/form-data">
+					<c:if test="${ !empty loginUser.photo }">
 					<button type="submit" id="deleteBtn">X</button>
+					</c:if>
+					<c:if test="${ empty loginUser.photo }">
+					<button type="submit" id="deleteBtn" disabled>X</button>
+					</c:if>
 					</form>
 				</div>
-
 			</div>
 		</div>
 	</div>

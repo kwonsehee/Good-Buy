@@ -1,6 +1,8 @@
 package com.kh.goodbuy.common.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -44,5 +46,14 @@ public class ReportDaoImpl implements ReportDao{
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("reportMapper.selectList", null, rowBounds);
+	}
+
+	@Override
+	public int insertGoodsReport(Report r, int gno, String reported_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("r",r);
+		map.put("gno", gno);
+		map.put("reported_id", reported_id);
+		return sqlSession.insert("reportMapper.insertGoodsReport", map);
 	}
 }

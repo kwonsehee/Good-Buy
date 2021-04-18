@@ -72,5 +72,47 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
              RE_NO ASC 
    </select>
 	
+	<insert id="insertGoodsReport" parameterType="java.util.Map">
+		INSERT ALL
+		INTO REPORT
+		(
+		   RE_NO
+		 , RETITLE
+		 , REPORTED_ID
+		 , RE_CONTENT
+		 , CREATE_DATE
+		 , RE_STATUS
+		 , RE_RESULT)
+		VALUES
+		(
+		  REPORT_SEQ.NEXTVAL
+		, #{r.retitle}
+		, #{r.reported_id}
+		, #{r.re_content}
+		, DEFAULT
+		, DEFAULT
+		, DEFAULT
+		)
+		INTO GOODS_REPORT
+		VALUES
+		(#{gno},REPORT_SEQ.CURRVAL)
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 1
+		, #{reported_id}
+		, DEFAULT
+		, #{gno}
+		)
+		SELECT * FROM DUAL
+	</insert>
 	
 </mapper>

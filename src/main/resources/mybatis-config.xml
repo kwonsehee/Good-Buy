@@ -33,6 +33,10 @@
 		<typeAlias type="com.kh.goodbuy.center.model.vo.QNA" alias="QNA"/>
 		<typeAlias type="com.kh.goodbuy.common.model.vo.Report" alias="Report"/>
 
+		<typeAlias type="com.kh.goodbuy.common.model.vo.Messenger" alias="Messenger"/>
+		<typeAlias type="com.kh.goodbuy.common.model.vo.Reply" alias="Reply"/>
+
+
 	</typeAliases>
 	
 	<!-- mappers -->
@@ -51,6 +55,7 @@
 		
 
 		<mapper resource="mappers/notice-mapper.xml"/>
+		<mapper resource="mappers/msg-mapper.xml"/>
 
 	</mappers>
 	

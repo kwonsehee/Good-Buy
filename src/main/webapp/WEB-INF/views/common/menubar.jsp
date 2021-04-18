@@ -22,16 +22,16 @@
 </head>
 <body>
 <!-- 메세지가 있다면 출력하고 지우기 -->
-   <c:if test="${ !empty msg }">
+  <%--  <c:if test="${ !empty msg }">
    		<script>alert('${ msg }')</script>
    		<c:remove var="msg" />
-   </c:if>
+   </c:if> --%>
    
    <header id="gbHeader">
         <div class="nav_container">
             <ul class="common_ul">
                 <li class="li_1">
-                    <img src="${ contextPath }/resources/images/menu.png" id="menuicon" onclick="showNavi()">
+                   <div><img src="${ contextPath }/resources/images/menu.png" id="menuicon" onclick="showNavi()"></div> 
                 </li>
                 <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
@@ -107,7 +107,14 @@
                     <li><a href="#">동네생활</a></li>
                     <li><a href="#">공지사항</a></li>
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
+                   
+                     <c:if test="${ !empty sessionScope.loginUser }">
                     <li><a href="${ contextPath }/mypage/main">마이페이지</a></li>
+                    </c:if>
+                    <c:if test="${ empty sessionScope.loginUser }">
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">마이페이지</a></li>
+                    </c:if>
+                    
                     <li><a href="${ contextPath }/admin/join">관리자페이지</a></li>
                 </ul>
             </div>
@@ -149,6 +156,7 @@
 
 					</div>
 					<div class="modal-footer">
+					
 						<a href="${ contextPath }/member/find" id="find_id_pwd">아이디/비밀번호 찾기</a>
 						<!-- 새 창 띄우기-->
 
@@ -173,16 +181,26 @@
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
 		$(document).ready(function(){
 			$(".userTownli2").click(function(){
-				
 				if($(".userTownli p:nth-last-child(1)").css("display") == "none"){
 					$(".userTownli p").slideDown(350);
-				} else{
+				}else{
 					$(".userTownli p:nth-child(2)").slideUp(350);
 					$(".userTownli p:nth-last-child(1)").slideUp(350);
 				}
 			});
 			
 			
+			$("#gbSection").click(function(){
+				/* 섹션 부분 누르면 메뉴바 내동네 리스트 닫힘 */
+				if($(".userTownli p:nth-last-child(1)").css("display") != "none"){
+					$(".userTownli p:nth-child(2)").slideUp(350);
+					$(".userTownli p:nth-last-child(1)").slideUp(350);
+				}
+				/* 섹션 부분 누르면 사이드바 닫힘 */
+				if($(".sidebar").css("left") == "0px"){
+					$(".sidebar").css("left", "-300px");
+				}
+			});
 		});
 		
 		/* 메뉴바에서 동네 바꾸기(ajax) */
@@ -202,7 +220,14 @@
 			
 		});
 		
+		// 메뉴 아이콘 hover 효과
+		$("#menuicon").mouseenter(function(){
+			$(".li_1 div").css({"background":"#e9eef0","border-radius":"50px"});
+		});
 		
+		$("#menuicon").mouseleave(function(){
+			$(".li_1 div").css({"background":"#fff"});
+		});
 		
 	</script>
     

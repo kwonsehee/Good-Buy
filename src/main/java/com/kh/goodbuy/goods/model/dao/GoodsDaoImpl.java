@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -176,5 +177,47 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.insert("goodsMapper.insertLike", map);
 	}
 
+	@Override
 
+	public int insertReply(Reply r, Goods g) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("r",r);
+		map.put("g", g);
+		return sqlSession.insert("goodsMapper.insertReply", map);
+	}
+
+	@Override
+	public List<Reply> selectReplyList(Goods g) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("goodsMapper.selectReplyList", g.getGno());
+  }
+  
+	@Override
+	public List<Goods> selectMySellingList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectMySellingList", user_id, rowBounds);
+
+	}
+
+	@Override
+	public int changeGoodsStatus(Goods g,String status) {
+		System.out.println("지금 상품 상태 뭐니~ " + status);
+		if(status.equals("selling"))
+			return sqlSession.update("goodsMapper.changeGoodsStatus",g);
+		else
+			return sqlSession.update("goodsMapper.changeGoodsStatus2",g);
+	}
+
+	@Override
+	public int selectMyHiddenListCount(String user_id) {
+		return sqlSession.selectOne("goodsMapper.selectMyHiddenListCount",user_id);
+	}
+
+	@Override
+	public List<Goods> selectMyHiddenList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectMyHiddenList", user_id, rowBounds);
+	}
 }

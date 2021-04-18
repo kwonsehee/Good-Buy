@@ -19,6 +19,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class Goods {
+	
 	private Integer gno;
 	private Integer gplace;
 	private Integer gprice;
@@ -34,5 +35,17 @@ public class Goods {
 	private List<String> filelist;
 	private Town town;
 	private Gcate goodcate;
+	private int like_cnt;
+	private int rep_cnt;
+	private String address_3;
+	
+	
+	public Goods(Integer gno, String user_id) {
+		super();
+		this.gno = gno;
+		this.user_id = user_id;
+	}
+	
+	
 	
 }

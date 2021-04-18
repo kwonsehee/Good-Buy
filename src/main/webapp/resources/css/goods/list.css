@@ -65,6 +65,9 @@
     margin-left: 31%; 
     display: inline-block;
 }
+#pageArea a{
+	color:#949999;
+}
 #pageArea a:hover{
     color:  #05aad1;
     cursor: pointer;
