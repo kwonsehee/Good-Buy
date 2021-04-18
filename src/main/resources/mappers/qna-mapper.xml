@@ -158,4 +158,88 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			)
 	
 	</insert>
+	
+	<update id="updateQNAA" parameterType="QNA">
+		UPDATE
+		       QNA
+		   SET
+		       QA_TITLE = #{qa_title}
+		     , QA_CONTENT = #{qa_content}
+		     , QA_MODIFY = SYSDATE
+		     , QA_STATUS = 'N'
+		     , QA_ANSWER = #{qa_answer}
+		 WHERE
+		       QA_NO = #{qa_no}
+	</update>
+	
+	<select id="selectQNAQList" parameterType="string" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		 WHERE
+		       USER_ID = #{user_id} AND FAQ = 'N' 
+	</select>
+	<select id="selectQNAList1" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N' AND QA_REFNO = '1'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	<select id="selectQNAList2" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N' AND QA_REFNO = '2'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	<select id="selectQNAList3" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N' AND QA_REFNO = '3'
+      ORDER BY
+               QA_NO DESC
+	</select>
 	</mapper>

@@ -34,7 +34,7 @@
             <button id="button1"><a id="a2" href="${ contextPath }/admin/report">신고</a></button>
             <button id="button1"><a id="a3" href="${ contextPath }/admin/product">상품관리</a></button>
             <button id="button1"><a id="a4" href="${ contextPath }/admin/member">회원관리</a></button>
-            <button id="button1"><a id="a5" href="${ contextPath }/admin/FAQ">FAQ</a></button>
+            <button id="button1"><a id="a5" href="${ contextPath }/admin/FAQ">FAQ/문의</a></button>
             <button id="button1"><a id="a6" href="${ contextPath }/admin/stats">통계</a></button>
 
         </div>

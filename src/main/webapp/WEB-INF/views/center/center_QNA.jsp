@@ -117,6 +117,7 @@
       function selectQNA(qa_no){
          location.href='${contextPath}/center/QNA_A?qa_no=' + qa_no + '&page=${ pi.currentPage }';
       }
+      
    </script>
 <jsp:include page="../common/footer.jsp" />
 

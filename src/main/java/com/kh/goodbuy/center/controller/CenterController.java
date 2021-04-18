@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import com.kh.goodbuy.center.model.service.NoticeService;
 import com.kh.goodbuy.center.model.service.QnaService;
 import com.kh.goodbuy.center.model.vo.Notice;
 import com.kh.goodbuy.center.model.vo.QNA;
+import com.kh.goodbuy.member.model.vo.Member;
 
 
 
@@ -64,8 +66,11 @@ public class CenterController {
 		       return mv;
 	}
 	@GetMapping("/QNA")
-		public ModelAndView CenterQNAView(ModelAndView mv) {
-		       List<QNA> list = qService.selectQNAList();
+		public ModelAndView CenterQNAView(ModelAndView mv, HttpSession session) {
+				Member loginUser = (Member)session.getAttribute("loginUser");
+				String user_id= loginUser.getUser_id();
+		       List<QNA> list = qService.selectQNAQList(user_id);
+		       System.out.println("list : " + list);
 		       if(list != null) {
 		          mv.addObject("list", list);
 		          mv.setViewName("center/center_QNA");

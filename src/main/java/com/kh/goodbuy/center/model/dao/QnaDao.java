@@ -22,4 +22,14 @@ public interface QnaDao {
 
 	public int insertFAQ(QNA q);
 
+	public int updateQNAA(QNA q);
+
+	public List<QNA> selectQNAQList(String user_id);
+
+	public List<QNA> selectQNAList1();
+
+	public List<QNA> selectQNAList2();
+
+	public List<QNA> selectQNAList3();
+
 }
