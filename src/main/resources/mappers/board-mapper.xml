@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+
+
+<mapper namespace="boardMapper">
+<!-- 게시판 insert -->
+<insert id="insertBoard" parameterType="com.kh.goodbuy.board.model.vo.Board">
+
+	<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+		SELECT BOARD_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+	INSERT INTO BOARD (seq, writer, title, content)
+				VALUES (#{seq}, #{writer}, #{title}, #{content})
+</insert>
+<!-- 전체 내용 조회 -->
+<select id="viewAll" resultType="com.kh.goodbuy.board.model.vo.Board">
+  SELECT * FROM board ORDER BY SEQ DESC
+</select>
+
+
+<!--  
+<resultMap id="boardResultSet" type="Board">
+  <id property="bno" column="BNO"/>
+  
+  <result property="bstatus" column="B_STATUS"/>
+   <result property="btitle" column="B_TITLE"/>
+    <result property="bhistory" column="B_HISTORY"/>
+     <result property="bmodifydate" column="B_MODIFY_DATE"/>
+      <result property="bcreatedate" column="B_CREATE_DATE"/>
+       <result property="bcate" column="B_CATE"/>
+        <result property="userid" column="USER_ID"/>
+   </resultMap>
+ 
+   
+
+
+
+
+
+
+
+<select id="selectListCount" resultType="_int">
+
+SELECT 
+       COUNT(*)
+ FROM   
+       TOWN_BOARD
+  WHERE 
+       B_STATUS='Y'
+
+</select>
+
+<select id="selectList">
+SELECT 
+     B_NO
+    ,B_STATUS
+    ,B_TITLE
+    ,B_HISTORY
+    ,B_MODIFY_DATE
+    ,B_CREATE_DATE
+    ,B_CATE
+    ,USER_ID
+   FROM 
+       TOWN_BOARD
+    WHERE 
+        B_STATUS ='Y'
+    ORDER BY
+       B_NO DESC
+
+</select>
+ 
+ -->
+ 
+
+
+
+	
+</mapper>
