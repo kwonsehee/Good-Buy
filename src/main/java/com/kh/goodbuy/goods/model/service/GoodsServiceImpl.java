@@ -155,6 +155,22 @@ public class GoodsServiceImpl implements GoodsService{
 	public List<Goods> selectMyHiddenList(String user_id, PageInfo pi) {
 		return gDao.selectMyHiddenList(user_id, pi);
 	}
+	@Override
+	public int deleteGoods(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.deleteGoods(gno);
+	}
+	@Override
+	public int hideGoods(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.hideGoods(gno);
+	}
+	
+	@Override
+	public int payUpPoint(Integer gno, String user_id) {
+		int result = gDao.upGoods(user_id);
+		return gDao.payUpPoint(gno);
+	}
 	
 
 }

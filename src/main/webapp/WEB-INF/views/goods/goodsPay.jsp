@@ -66,7 +66,10 @@
     height: 38px;
     width: 80px;
     margin-left: 20px;
-    
+
+}
+.cursor {
+cursor : pointer !important;
 }
 .left_area{
     text-align: left;
@@ -106,7 +109,7 @@
                 <p id="point_area">포인트</p>
                   <div>
                         <input type="text" id="input_area"placeholder="포인트 입력"/>
-                        <button type="button" id="point_btn">전액사용</button>    <br> <br>
+                        <button type="button" id="point_btn" class="cursor">전액사용</button>    <br> <br>
                         <span style="color : #9a9999; font-size: 15px;">사용 가능한 포인트</span>&nbsp;&nbsp;
                         <span id="point"style="font-weight: bolder;">${point }P</span>  <br><br>
                         <span style="color : #9a9999; font-size: 14px;">
@@ -129,18 +132,28 @@
                     </c:if>
                 </div>
                 
-                <button type="button" id="payBtn"><span id="total_money">${g.gprice+fees}</span>원 결제하기</button>
+                <button type="button" id="payBtn" class="cursor"><span id="total_money">${g.gprice+fees}</span>원 결제하기</button>
         
                 
              </div>
         <script>
         var total;
             $("#point_btn").click(function(){
-            	var point1 = ${point};
-			$('#input_area').val(point1);
-			$('#used_point').html("-"+point1+ "원");
-			 total=${g.gprice+fees}
-			total -=point1;
+            var point1 = ${point};
+            var fee = ${fees};
+            total=${g.gprice+fees};
+            if(point1>=fee){
+            	$('#input_area').val(fee);
+    			$('#used_point').html("-"+fee+ "원");
+    			 
+    			total -=fee;
+            }else{
+            	$('#input_area').val(point1);
+    			$('#used_point').html("-"+point1+ "원");
+    			 
+    			total -=point1;
+            }
+			
 			$('#total_money').html(total);
 		});
             $('#input_area').keyup(function(e) {
