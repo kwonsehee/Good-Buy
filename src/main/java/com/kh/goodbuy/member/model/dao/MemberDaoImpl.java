@@ -132,6 +132,11 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectOne("memberMapper.selectSellerPhoto", user_id);
 	}
 
+	@Override
+	public int deleteMember(String user_id) {
+		return sqlSession.update("memberMapper.deleteMember",user_id);
+	}
+
 	
 
 

@@ -218,31 +218,13 @@ public class MemberController {
 			System.out.println("세션에 저장되는 타운 바뀌나 : " + townInfo);
 		}
 		
-		// --------여기까지 함
-		// 멤버매퍼랑 타운매퍼 작성하기
-//		
-//		// 마이페이지에 존재하는 수정 된 필드 값만 loginUser에 세팅 되므로
-//		// 수정 페이지에서 다루지 않은 필드 값은 loginUser 안에 존재하지 않음
-//		// 추후 사용해야 할 다른 필드값이 있다면 update 후 다시 select 해서 loginUser에 설정하는 로직 필요
-//		
-//		
-//		
-//		if(result > 0) {
-//			rd.addFlashAttribute("msg", "수정이 성공적으로 되었습니다 :)");
-//			return "redirect:/home";
-//		} else {
-//			model.addAttribute("msg","회원정보 수정에 실패하였습니다.");
-//			return "common/errorpage";
-//		}
 		return"redirect:/mypage/updateMember";
 		
 	}
 	
-	// 회원정보 수정 시 기존 비밀번호 일치 해야 바꿔드림
+	// 회원정보 수정 시 / 탈퇴 시 기존 비밀번호 일치 해야 바꿔드림
 	@PostMapping("originPwdCheck")
 	public void originPwdCheck(String originPwd, HttpServletResponse response,@ModelAttribute("loginUser") Member m) {
-		
-		// System.out.println("기존 비밀번호 넘어왔나 " + originPwd);
 		
 		PrintWriter out;
 			
@@ -310,12 +292,19 @@ public class MemberController {
 	
 	// 탈퇴하기
 	@GetMapping("/deleteMember")
-	public String deleteMember(RedirectAttributes rd) {
+	public String deleteMember(String user_id,SessionStatus status) {
 		
+		int result2 = mService.deleteMember(user_id);
 		
-		rd.addAttribute("msg", "탈퇴가 성공적으로 되었습니다. 다음에 또 이용해주세요 :)");
+		System.out.println("탈퇴유저 삭제됨? " + result2);
 		
-		return "redirect:/home";
+		if(result2 > 0) {
+			// 로그아웃 시키기(세션만료)
+			status.setComplete();
+			return "redirect:/home";
+		}else {
+			return "common/errorpage"; 
+		}
 	}
 
 	// 결제

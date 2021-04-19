@@ -84,16 +84,10 @@
 								
 								<select id="town2" name="address_2">
 				                   <option value="address_2" >&nbsp;구•군</option>
-				                    <c:forEach var="town" items="${ tlist2 }">
-				                    <option>${ town.address_2 }</option>
-				                    </c:forEach>
 				                </select>
                 
 				                <select id="town3" name="address_3">
 				                    <option value="address_3" >&nbsp;읍•면•동</option>
-				                    <c:forEach var="town" items="${ tlist3 }">
-				                    	<option>${ town.address_3 }</option>
-				                    </c:forEach>
 				                </select>
 								<br>
 								<button type="submit">등록</button>
