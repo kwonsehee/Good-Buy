@@ -232,7 +232,7 @@ public class GoodsDaoImpl implements GoodsDao{
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("goodsMapper.selectMyLikeGoodsList", user_id, rowBounds);
-
+	}
 	public int deleteGoods(int gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("goodsMapper.deleteGoods", gno);

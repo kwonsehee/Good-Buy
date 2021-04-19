@@ -655,7 +655,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		UPDATE GOODS SET G_STATUS = 'N'
 		WHERE G_NO  = #{gno}
 	
-
+	</update>
 	<select id="selectMyLikeGoodsCount" resultType="_int">
 	SELECT 
 			COUNT(*)
@@ -708,7 +708,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 
-	</update>
+	
 	<update id="hideGoods" parameterType="_int">
 		UPDATE GOODS SET G_STATUS = 'H'
 		WHERE G_NO  = #{gno}

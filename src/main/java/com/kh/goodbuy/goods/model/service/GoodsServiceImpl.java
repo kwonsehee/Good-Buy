@@ -163,7 +163,7 @@ public class GoodsServiceImpl implements GoodsService{
 	@Override
 	public List<Goods> selectMyLikeGoodsList(String user_id, PageInfo pi) {
 		return gDao.selectMyLikeGoodsList(user_id,pi);
-
+	}
 	public int deleteGoods(int gno) {
 		// TODO Auto-generated method stub
 		return gDao.deleteGoods(gno);
