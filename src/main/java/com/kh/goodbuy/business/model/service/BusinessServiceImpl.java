@@ -11,6 +11,7 @@ import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.town.model.vo.Town;
 
 @Service
@@ -18,11 +19,7 @@ public class BusinessServiceImpl implements BusinessService{
 	@Autowired
 	private BusinessDao bDao;
 
-	@Override
-	public int infoInsert(Business bus) {
-		
-		return 0;
-	}
+
 
 
 	@Override
@@ -132,7 +129,7 @@ public class BusinessServiceImpl implements BusinessService{
 
 
 	@Override
-	public News selectDetailNews(int shopNo) {
+	public List<News> selectDetailNews(int shopNo) {
 		
 		return bDao.selectDetailNews(shopNo);
 	}
@@ -143,6 +140,81 @@ public class BusinessServiceImpl implements BusinessService{
 	
 		return bDao.selectDetailReview(shopNo);
 	}
+
+
+	@Override
+	public Business selectBusinessInfo(String userId) {
+		
+		return bDao.selectBusinessInfo(userId);
+	}
+
+
+
+
+	@Override
+	public int infoInsert(Business b, Addfile a) {
+		int result = bDao.infoInsert(b);
+		if(result > 0) {
+			return bDao.fileInsert(a);
+				
+		}else {
+			return 0;
+		}
+	}
+
+
+
+
+	@Override
+	public int updateBstatus(String userId) {
+		
+		return bDao.updateBstatus(userId);
+	}
+
+
+
+
+	@Override
+	public int newsInsert(News n, Addfile a) {
+		int result = bDao.newsInsert(n);
+		if(result > 0) {
+			return bDao.newsFileInsert(a);
+		}else {
+			return 0;
+		}
+	
+	}
+
+
+
+
+	@Override
+	public int selectshopNo(String userId) {
+		
+		return bDao.selectshopNo(userId);
+	}
+
+
+
+
+	@Override
+	public List<News> selectNews(int shopNo) {
+		
+		return bDao.selectNews(shopNo);
+	}
+
+
+
+
+	/*
+	 * @Override public int infoupdate(Business b, Addfile a) {
+	 * 
+	 * return bDao.updateInfo(); }
+	 */
+
+
+
+
 
 
 

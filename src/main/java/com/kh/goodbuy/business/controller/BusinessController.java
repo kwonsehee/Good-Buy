@@ -1,8 +1,13 @@
 package com.kh.goodbuy.business.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -14,15 +19,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.goodbuy.business.model.service.BusinessService;
-import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
-import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.town.model.vo.Town;
 
@@ -42,19 +50,19 @@ public class BusinessController {
 
 		List<Business> bList = bService.selectbList(townInfo);
 		List<News> nList = bService.selectnList(townInfo);		
-		List<Attachment> fList = bService.selectfList();
-		List<NewsAttachment> nfList = bService.selectnfList();
+		//List<Attachment> fList = bService.selectfList();
+		//List<NewsAttachment> nfList = bService.selectnfList();
 		List<Review> rList = bService.selectrList();
 		mv.addObject("color",0);
 		mv.addObject("bList",bList);
 		mv.addObject("nList",nList);
-		mv.addObject("fList",fList);
-		mv.addObject("nfList",nfList);
+		//mv.addObject("fList",fList);
+		//mv.addObject("nfList",nfList);
 		mv.addObject("rList",rList);
 		System.out.println(bList);
 		System.out.println(nList);
-		System.out.println(fList);
-		System.out.println(nfList);
+	//	System.out.println(fList);
+		//System.out.println(nfList);
 		System.out.println(townInfo);
 		System.out.println(rList);
 		mv.setViewName("business/myNear");
@@ -107,25 +115,159 @@ public class BusinessController {
 	      }
 		 
 		 Business b = bService.selectDetail(shopNo, !flagshopNo);
-		 News n = bService.selectDetailNews(shopNo);
+		 List<News> nList= bService.selectDetailNews(shopNo);
 		 List<Review> rList = bService.selectDetailReview(shopNo);
 		 model.addAttribute("business",b);
-		 model.addAttribute("news",n);
+		 model.addAttribute("news",nList);
 		 model.addAttribute("rList",rList);
 		 System.out.println("b: " +b);
-		 System.out.println("n: " +n);
+		 System.out.println("n: " +nList);
 		 System.out.println("rList : " + rList);
 		 
 		return "business/businessDetail";
 	}
 	
 	// 비즈니스 설정페이지
-	@GetMapping("/setting")
-	public String BusinessSetting() {
+	@GetMapping("/change")
+	public String BusinessSetting(Model model, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId= loginUser.getUser_id();
 		
-		return "business/businessSetting";
+		Business b = bService.selectBusinessInfo(userId);
+		int shopNo = bService.selectshopNo(userId);
+		List<News> nList = bService.selectNews(shopNo);
+		model.addAttribute("b",b);
+		model.addAttribute("nList",nList);
+		System.out.println("여기"+nList);
+		
+		
+		return "business/businessChange";
 	}
 	
+	@PostMapping("/insert")
+	public String BusinessInsert(@ModelAttribute Business b, MultipartFile file, @ModelAttribute Addfile a,
+								Model model,
+								HttpServletRequest request,
+								HttpSession session) {
+		
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			String userId= loginUser.getUser_id();
+			Town townInfo = (Town)session.getAttribute("townInfo");
+			int tNo = townInfo.getT_no();
+			
+	
+			
+			   // 업로드 파일 서버에 저장
+		      // 파일이 첨부 되었다면
+		      if(!file.getOriginalFilename().equals("")) {
+		         // 파일 저장 메소드 별도로 작성 - 리네임 리턴 
+		         String renameFileName = saveFile(file, request);
+		         // DB에 저장하기 위한 파일명 세팅
+		         if(renameFileName != null) {
+		            a.setOriginName(file.getOriginalFilename());
+		            a.setChangeName(renameFileName);
+		            a.setFile_level(1);
+		           
+		         }
+		         
+		      }
+		     
+			 b.setUserId(userId);
+	         b.setTNo(tNo);
+	         int result = bService.infoInsert(b,a);
+	         
+	         if(result > 0) {
+	        	 int result2 = bService.updateBstatus(userId);
+	        	 model.addAttribute("loginUser", loginUser);
+	        	 return "redirect:/business/list";
+	         }else {
+	        	 System.out.println("실패");
+	         }
+	         return "redirect:/business/list";
+	}
+	
+	/*
+	 * @PostMapping("/update") public String businessUpdate(@ModelAttribute Business
+	 * b, MultipartFile file, @ModelAttribute Addfile a, HttpServletRequest request,
+	 * HttpSession session) { Member loginUser =
+	 * (Member)session.getAttribute("loginUser"); String userId=
+	 * loginUser.getUser_id(); Town townInfo =
+	 * (Town)session.getAttribute("townInfo"); int tNo = townInfo.getT_no();
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
+	
+	@PostMapping("/news/insert")
+	public String newsInsert(@ModelAttribute News n ,MultipartFile file, @ModelAttribute Addfile a,
+			HttpServletRequest request,
+			HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId= loginUser.getUser_id();
+		Town townInfo = (Town)session.getAttribute("townInfo");
+		int tNo = townInfo.getT_no();
+		
+		 // 업로드 파일 서버에 저장
+	      // 파일이 첨부 되었다면
+	      if(!file.getOriginalFilename().equals("")) {
+	         // 파일 저장 메소드 별도로 작성 - 리네임 리턴 
+	         String renameFileName = saveFile(file, request);
+	         // DB에 저장하기 위한 파일명 세팅
+	         if(renameFileName != null) {
+	            a.setOriginName(file.getOriginalFilename());
+	            a.setChangeName(renameFileName);
+	            a.setFile_level(1);
+	           
+	         }
+	         
+	      }
+	      int shopNo = bService.selectshopNo(userId);
+		 n.setShopNo(shopNo);
+		 n.setTNo(tNo);
+       int result = bService.newsInsert(n,a);
+       
+       if(result > 0) {
+
+      	 return "redirect:/business/change";
+       }else {
+      	 System.out.println("실패");
+       }
+       return "redirect:/business/change";
+	}
+	
+	public String saveFile(MultipartFile file, HttpServletRequest request) {
+	      String root = request.getSession().getServletContext().getRealPath("resources");
+	      String savePath = root + "/images/goodupload";
+	      File folder = new File(savePath); // 메모리상에서 객체 파일 만들기 
+	      if(!folder.exists()) folder.mkdir(); // -> 해당 경로가 존재하지 않는다면 디렉토리 생성
+	      
+	      // 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
+	      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	      String originalFileName = file.getOriginalFilename();
+	      String renameFileName = sdf.format(new Date()) + "_"
+	                     + (int)(Math.random() * 100000)
+	                     + originalFileName.substring(originalFileName.lastIndexOf("."));
+	      
+	      String renamePath = folder + "\\" + renameFileName; // 저장하고자하는 경로 + 파일명
+	      
+	      try {
+	         file.transferTo(new File(renamePath));
+	         // => 업로드 된 파일 (MultipartFile) 이 rename명으로 서버에 저장
+	      } catch (IllegalStateException | IOException e) {
+	         System.out.println("파일 업로드 에러 : " + e.getMessage());
+	      }
+	      
+	      return renameFileName;
+	   }
+	
+	@GetMapping("create")
+	public String BusinessCreate() {
+		return "business/businessSetting";
+	}
+
 	// 광고하기 페이지
 	@GetMapping("/ad")
 	public String adPage() {
@@ -144,17 +286,23 @@ public class BusinessController {
 		return "business/reviewWrite";
 	}
 	
-	// 정보 관리 팝업 페이지
-	@GetMapping("infoSet")
-	public String infoSet(Business bus) {
-		
-		int result = bService.infoInsert(bus);
-		return "business/businessSetting";
-	}
+	/*
+	 * // 정보 관리 팝업 페이지
+	 * 
+	 * @PostMapping("infoSet") public String infoSet(@ModelAttribute Business b,
+	 * HttpServletRequest request) {
+	 * 
+	 * System.out.println(b);
+	 * 
+	 * int result = bService.infoInsert(b);
+	 * 
+	 * return "business/businessSetting"; }
+	 */
 	
 	// 가격설정 팝업 페이지
 	@GetMapping("priceSet")
 	public String priceSet() {
+		
 		return "business/priceSet";
 	}
 	
@@ -164,10 +312,7 @@ public class BusinessController {
 		return "business/viewCount";
 	}
 	
-	@GetMapping("create")
-	public String businessStartPage() {
-		return "business/businessInfo";
-	}
+
 	
 	// 별점순 
 	@GetMapping("gradeRanking")

@@ -29,14 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="shopName" column="SHOP_NAME"/>
 		
 	</resultMap>
-	<resultMap type="Attachment" id="AttachmentResultSet">
+	<!-- <resultMap type="Attachment" id="AttachmentResultSet">
 		<id property="shopNo" column="SHOP_NO"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="filePath" column="FILE_PATH"/>
 		<result property="originName" column="ORIGIN_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="status" column="STATUS"/>
-	</resultMap>
+	</resultMap> -->
 	
 	<resultMap type="News" id="NewsResultSet">
 		<id property="nNo" column="N_NO"/>
@@ -52,14 +52,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="fNo" column="F_NO"/>
 		
 	</resultMap>
-	<resultMap type="NewsAttachment" id="NewsAttachmentResultSet">
+	
+	
+	
+
+	<!-- <resultMap type="NewsAttachment" id="NewsAttachmentResultSet">
 		<id property="nNo" column="N_NO"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="filePath" column="FILE_PATH"/>
 		<result property="originName" column="ORIGIN_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="status" column="STATUS"/>
-	</resultMap>
+	</resultMap> -->
 	
 	<resultMap type="Review" id="ReviewResultSet">
 		<id property="shopNo" column="SHOP_NO"/>
@@ -156,7 +160,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 AND VIEW_CNT !=0
 	</select>
 	
-	<select id="selectfList" resultMap="AttachmentResultSet" >
+	<!-- <select id="selectfList" resultMap="AttachmentResultSet" >
 		SELECT
 		    SHOP_NO
 		 ,  F_NO
@@ -183,7 +187,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 	ADDFILE
 		 JOIN NEWS_FILE USING(F_NO)
 		 JOIN NEWS USING(N_NO)
-	</select>	
+	</select>	 -->
 	
 	<select id="selectrList" resultMap="ReviewResultSet">
 		  SELECT
@@ -605,7 +609,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
         JOIN AD AD USING(SHOP_NO)
-        WHERE SHOP_NO = 1
+        WHERE SHOP_NO = #{shopNo}
 		 AND VIEW_CNT !=0
 		
 	</select>
@@ -626,6 +630,203 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		JOIN USER_INFO U ON(U.USER_ID = R.USER_ID)
         WHERE B.SHOP_NO = #{shopNo}
         ORDER BY R.REVIEW_NO DESC
+	</select>
+	
+	<select id="selectBusinessInfo" parameterType="string" resultMap="businessResultSet">
+		SELECT
+				*
+		FROM 
+			 	V_BUS_INFO
+		WHERE
+			    USER_ID = #{userId}
+			    
+	</select>
+	
+	<insert id="infoInsert" parameterType="Business">
+		INSERT
+		INTO BUS_INFO
+		(
+			SHOP_NO
+		  , SHOP_CATE
+		  , SHOP_ADD
+		  , SHOP_INTRO
+		  , SHOP_TIME1
+		  , TOP_MENU
+		  , MENU_INFO
+		  , SHOP_PHONE
+		  , USER_ID
+		  , AD_CASH
+		  , SHOP_TIME2
+		  , SHOP_TIME3
+		  , T_NO
+		  , SHOP_NAME
+		  
+		)
+		VALUES
+		(
+			SEQ_SHOPNO.NEXTVAL
+		  , #{shopCate}
+		  , #{shopAdd}
+		  , #{shopIntro}
+		  , #{shopTime1}
+		  , #{topMenu}
+		  , #{menuInfo}
+		  , #{shopPhone}
+		  , #{userId}
+		  , DEFAULT
+		  , #{shopTime2}
+		  , #{shopTime3}
+		  , #{tNo}
+		  , #{shopName}
+		)
+		
+	</insert>
+	
+	<insert id="fileInsert" parameterType="Addfile">
+	  INSERT ALL
+		INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+          , FILE_LEVEL
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{originName}
+		  , #{changeName}
+          , DEFAULT
+          , #{file_level}
+		 
+		)
+        INTO BUS_FILE
+        (
+            SHOP_NO
+          , F_NO
+        )
+        VALUES
+        (
+            SEQ_SHOPNO.CURRVAL
+          , F_SEQ.CURRVAL
+        )
+        SELECT * FROM DUAL
+	
+	
+	</insert>
+	
+	<update id="updateBstatus" parameterType="string">
+		UPDATE
+			USER_INFO
+		SET
+			IS_BUSINESS = 'Y'
+		WHERE 
+			USER_ID = #{userId}
+	</update>
+	
+	<insert id="newsInsert" parameterType="News">
+		INSERT
+		INTO NEWS
+		(
+			N_NO
+		  , NEWS_TITLE
+		  , SHOP_NEWS
+		  , SHOP_NO
+		  , T_NO
+		  
+		  
+		)
+		VALUES
+		(
+			SEQ_NNO.NEXTVAL
+		  , #{newsTitle}
+		  , #{shopNews}
+		  , #{shopNo}
+		  , #{tNo}
+		  
+		)
+		
+	</insert>
+	
+	<insert id="newsFileInsert" parameterType="Addfile">
+	  INSERT ALL
+		INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+          , FILE_LEVEL
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{originName}
+		  , #{changeName}
+          , DEFAULT
+          , #{file_level}
+		 
+		)
+        INTO NEWS_FILE
+        (
+            N_NO
+          , F_NO
+        )
+        VALUES
+        (
+            SEQ_NNO.CURRVAL
+          , F_SEQ.CURRVAL
+        )
+        SELECT * FROM DUAL
+	
+	
+	</insert>
+	
+	<select id="selectshopNo" parameterType="string" resultType="_int">
+		SELECT
+		    SHOP_NO
+		FROM USER_INFO
+		JOIN BUS_INFO USING(USER_ID)
+		WHERE USER_ID = #{userId}
+	</select>
+	
+	<select id="selectNews" parameterType="_int" resultMap="NewsResultSet">
+		SELECT 
+        		N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , SHOP_NO
+			  , T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , STATUS
+			  , F_NO
+            FROM
+        (
+        SELECT  
+				N.N_NO
+			  , NEWS_TITLE
+			  , SHOP_NEWS
+			  , SHOP_NO
+			  , N.T_NO
+			  , ADDRESS_3
+			  , FILE_PATH
+			  , ORIGIN_NAME
+			  , CHANGE_NAME
+			  , STATUS
+			  , NF.F_NO
+		FROM 
+				NEWS N
+		JOIN TOWN T ON(T.T_NO = N.T_NO)
+		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
+		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+        WHERE SHOP_NO = #{shopNo}
+        ORDER BY N_NO DESC 
+        ) 
+        JOIN AD AD USING(SHOP_NO)
+		WHERE ROWNUM <![CDATA[<=]]> 5
+		 AND VIEW_CNT !=0
 	</select>
 
 </mapper>

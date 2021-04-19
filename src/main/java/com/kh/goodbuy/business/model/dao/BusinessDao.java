@@ -7,6 +7,7 @@ import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.town.model.vo.Town;
 
 public interface BusinessDao {
@@ -43,9 +44,25 @@ public interface BusinessDao {
 
 	public Business selectDetail(int shopNo);
 
-	public News selectDetailNews(int shopNo);
+	public List<News> selectDetailNews(int shopNo);
 
 	public List<Review> selectDetailReview(int shopNo);
+
+	public int infoInsert(Business b);
+
+	public Business selectBusinessInfo(String userId);
+
+	public int fileInsert(Addfile a);
+
+	public int updateBstatus(String userId);
+
+	public int newsInsert(News n);
+
+	public int newsFileInsert(Addfile a);
+
+	public int selectshopNo(String userId);
+
+	public List<News> selectNews(int shopNo);
 
 
 	
