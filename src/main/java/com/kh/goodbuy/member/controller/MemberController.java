@@ -286,11 +286,8 @@ public class MemberController {
 	public String logout(SessionStatus status, HttpServletRequest request) {
 
 		status.setComplete();
-		String referer = request.getHeader("Referer");
-	    request.getSession().setAttribute("redirectURI", referer);
-		System.out.println("이전페이지 :"+referer);
-		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
-		return "redirect:"+referer;
+		
+		return "redirect:/home";
 	}
 	
 	// 로그인 시 로그인 유저의 동네 정보(첫번째 기본동네) 세션에 저장하기

@@ -64,5 +64,14 @@ public interface GoodsDao {
 	public int selectMyHiddenListCount(String user_id);
 	// 숨김리스트 조회
 	public List<Goods> selectMyHiddenList(String user_id, PageInfo pi);
+	//상품 삭제 
+	public int deleteGoods(int gno);
+	//상품숨김
+	public int hideGoods(int gno);
+	//끌올 포인트 결제
+	public int payUpPoint(Integer gno);
+	//상품 끌올하기
+	public int upGoods(String  user_id);
+
 
 }

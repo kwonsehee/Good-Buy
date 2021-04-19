@@ -27,10 +27,11 @@
     width: 90%;
     margin: auto;
     margin-top: 3%;
+    
 }
 #goodlist td{
 	width : 200px;
-	border : 1px solid red;
+	/* border : 1px solid red; */
 }
 .goodlistimg{
     width: 200px;
@@ -59,6 +60,13 @@
     
 
 }
+.deleteBtn{
+	font-size: 13px; 
+	margin-left: 30%; 
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 #pageArea{
     margin-top: 3%;
     color: #9a9999;
@@ -128,3 +136,52 @@
 
 
 /* .caetbar ul li:nth-child(1){margin-top:10px;} */
+/*삭제모달*/
+#delete_tb,#delete_tb tr, #delete_tb td {
+  /* border: 1px solid red; */
+}
+#delete_tb{
+    padding-top: 50px;
+    margin: auto;
+    width: 80%;
+    height: 480px;
+}
+#delete_tb p{
+    opacity: 0.95;
+  font-size: 25px;
+  font-weight: bold;
+}
+#delete_tb tr{
+  text-align: center;
+  padding-top: 10%;
+  margin-bottom: 10%;
+}
+#delete_tb tr:nth-child(3){
+    font-size: 14px;
+    color:#555353;
+    font-weight: lighter;
+}
+
+#greset{
+      
+    width: 120px;
+      height: 35px;
+      border-radius: 27px;
+      font-size: 16px;
+      border: solid 1px #000000;
+      background-color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    #gsubmit{
+   
+  width: 120px;
+      height: 35px;
+      border-radius: 27px;
+      font-size: 16px;
+      background-color: #000000;
+      border: 0px;
+    color : white;
+    font-size: 16px;
+    font-weight: bold;
+    }

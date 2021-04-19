@@ -43,7 +43,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 @Controller
 @RequestMapping("/goods")
 
-@SessionAttributes({ "g" })
+@SessionAttributes({ "g", "msg" })
 public class GoodsController {
 	@Autowired
 	private GoodsService gService;
@@ -175,7 +175,13 @@ public class GoodsController {
 	}
 	// 내 중고상품detail 페이지로
 	@GetMapping("/mydetail")
-	public String goGoodsmyDetailView() {
+	public String goGoodsmyDetailView(@RequestParam(value="gno", required=false) int gno,
+			 Model model) {
+		//상품 정보셀렉
+		Goods g = gService.Goodsdetail(gno);
+		List<Reply>rlist = gService.selectReplyList(g);
+		model.addAttribute("g", g);
+		model.addAttribute("rlist", rlist);
 		return "goods/mygoodsdetail";
 	}
 	// 판매자 정보 페이지로
@@ -318,7 +324,7 @@ public class GoodsController {
 	      
 	   }
 	  
-	// 내 중고상품detail 페이지로
+	// 내 중고상품결제 페이지로
 	@GetMapping("/pay")
 	public String goGoodPay(String way,  HttpServletRequest request, Model model) {
 		Goods g = (Goods) request.getSession().getAttribute("g");
@@ -352,6 +358,47 @@ public class GoodsController {
 		return gson.toJson(rlist);
 	
 	}
-	
-	
+	// 상품 수정페이지로
+	@GetMapping("/editView")
+	public String goeditView() {
+		return "goods/goodsedit";
+	}
+	// 상품삭제 
+	@GetMapping("/delete")
+	public String goodsDelete(int gno) {
+//		System.out.println(gno);
+		int result = gService.deleteGoods(gno);
+		return "redirect:/goods/mylist";
+	}
+	//상품숨김
+	@GetMapping("/hide")
+	public String goodsHide(int gno, Model model) {
+//		System.out.println(gno);
+		int result = gService.hideGoods(gno);
+		if(result>0) {
+			model.addAttribute("msg","hideSuccess");
+			
+			
+		}else {
+			model.addAttribute("msg","hideFail");
+			
+		}
+		return "redirect:/goods/mylist";
+	}
+	  
+	// 내 중고상품결제 페이지로
+	@GetMapping("/uppay")
+	public String goGoodUpPay( HttpServletRequest request, Model model) {
+		Goods g = (Goods) request.getSession().getAttribute("g");
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		
+		int result = gService.payUpPoint(g.getGno(), loginUser.getUser_id());
+		if(result>0) {
+			model.addAttribute("msg", "끌올성공");
+		}else {
+			
+			model.addAttribute("msg", "끌올실패");
+		}
+		return "goods/mygoodsdetail";
+	}
 }
