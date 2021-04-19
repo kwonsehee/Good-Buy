@@ -155,6 +155,14 @@ public class GoodsServiceImpl implements GoodsService{
 	public List<Goods> selectMyHiddenList(String user_id, PageInfo pi) {
 		return gDao.selectMyHiddenList(user_id, pi);
 	}
+	@Override
+	public int selectMyLikeGoodsCount(String user_id) {
+		return gDao.selectMyLikeGoodsCount(user_id);
+	}
+	@Override
+	public List<Goods> selectMyLikeGoodsList(String user_id, PageInfo pi) {
+		return gDao.selectMyLikeGoodsList(user_id,pi);
+	}
 	
 
 }

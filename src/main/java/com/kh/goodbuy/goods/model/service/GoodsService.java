@@ -63,6 +63,10 @@ public interface GoodsService {
 	public int selectMyHiddenListCount(String user_id);
 	// 숨김리스트 조회
 	public List<Goods> selectMyHiddenList(String user_id, PageInfo pi);
+	// 내가 찜한 중고상품 리스트 카운트
+	public int selectMyLikeGoodsCount(String user_id);
+	// 내가 찜한 중고상품 리스트 조회 
+	public List<Goods> selectMyLikeGoodsList(String user_id, PageInfo pi);
 
 
 }

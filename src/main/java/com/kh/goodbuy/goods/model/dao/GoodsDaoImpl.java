@@ -220,4 +220,16 @@ public class GoodsDaoImpl implements GoodsDao{
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("goodsMapper.selectMyHiddenList", user_id, rowBounds);
 	}
+
+	@Override
+	public int selectMyLikeGoodsCount(String user_id) {
+		return sqlSession.selectOne("goodsMapper.selectMyLikeGoodsCount", user_id);
+	}
+
+	@Override
+	public List<Goods> selectMyLikeGoodsList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectMyLikeGoodsList", user_id, rowBounds);
+	}
 }

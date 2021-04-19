@@ -150,7 +150,6 @@ public class MypageController {
 	// 프사 삭제
 	@PostMapping("/deletePhoto")
 	public String deleteUserPhoto(@ModelAttribute("loginUser") Member loginUser,
-								
 								HttpServletRequest request,
 								 Model model) {
 		
@@ -184,10 +183,7 @@ public class MypageController {
 		if(deleteFile.exists()) {
 			deleteFile.delete();
 		}
-		
 	}
-	
-	
 	
 	
 	// 포인트 내역 화면
@@ -253,7 +249,6 @@ public class MypageController {
 		PageInfo pi;
 		
 		List<Goods> hiddenList;
-		// where절에 gstatus 상관없이 모두 셀렉
 		listCount = gService.selectMyHiddenListCount(loginUser.getUser_id());
 		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		hiddenList = gService.selectMyHiddenList(loginUser.getUser_id(), pi);
@@ -276,10 +271,48 @@ public class MypageController {
 	
 	// 관심목록 - 중고매물 화면
 	@GetMapping("/likeGoodsList")
-	public ModelAndView showLikeGoodsList(ModelAndView mv) {
+	public ModelAndView showLikeGoodsList(ModelAndView mv,
+											@ModelAttribute("g") Goods g, 
+											@ModelAttribute("loginUser") Member loginUser,
+											@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		
+		List<Goods> likeList;
+		listCount = gService.selectMyLikeGoodsCount(loginUser.getUser_id());
+		System.out.println("내가 찜한 상품 카운트  : " + listCount);
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		likeList = gService.selectMyLikeGoodsList(loginUser.getUser_id(),pi);
+		
+		System.out.println("찜상품 리스트 : " +likeList);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("likeList", likeList);
+		
 		mv.setViewName("mypage/likeGoodsList");
 		return mv;
 	}
+	// 관심목록 - 중고매물 찜취소
+	@GetMapping("/cancelLikeOfGoods")
+	public String cancelLikeOfGoods(@ModelAttribute("loginUser") Member loginUser,int gno) {
+		
+		System.out.println("찜취소 gno넘어오니 : " + gno);
+		
+		int ok = gService.deleteLike(gno, loginUser.getUser_id());
+		
+		if(ok > 0) {
+			return "redirect:/mypage/likeGoodsList";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
+	
+	
+	
 	
 	// 관심목록 - 지역업체 화면
 	@GetMapping("/likeShopList")
