@@ -222,6 +222,7 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
+
 	public int selectMyLikeGoodsCount(String user_id) {
 		return sqlSession.selectOne("goodsMapper.selectMyLikeGoodsCount", user_id);
 	}
@@ -231,5 +232,28 @@ public class GoodsDaoImpl implements GoodsDao{
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("goodsMapper.selectMyLikeGoodsList", user_id, rowBounds);
+
+	public int deleteGoods(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.deleteGoods", gno);
+	}
+
+	@Override
+	public int hideGoods(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.hideGoods", gno);
+	}
+
+	@Override
+	public int payUpPoint(Integer gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.payUpPoint", gno);
+	}
+
+	@Override
+	public int upGoods(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.upGoods", user_id);
+
 	}
 }

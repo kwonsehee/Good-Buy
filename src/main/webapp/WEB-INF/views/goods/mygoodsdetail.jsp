@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,97 +21,144 @@
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
  <section id="gbSection" style="margin-top: 50px;">
-        <table id="goods_detail">
+ <!-- 메세지가 있다면 출력하고 지우기 -->
+   <c:if test="${ !empty msg && msg.equals('끌올성공')}">
+   		<script>
+            swal.fire({
+  title: '끌어올리기 성공',
+  html: '<br>끌어올리기에 성공하였습니다.<br>상품이 가장 위에 있는 것을 확인 할 수 있습니다.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   		</c:if>
+        <table id="goods_detail" style="border :1px solid red;">
             <tr>
                 <td>
-                    <img src="${ contextPath }/resources/images/filter.png" style="width: 18px;height: 18px;"> 카테고리 : 의류 -> 신발
+                    <img src="${ contextPath }/resources/images/filter.png" style="width: 18px;height: 18px;"> 
+                    카테고리 : ${g.goodcate.lfilter}-> ${g.goodcate.mfilter}-> ${g.goodcate.sfilter}
                 </td>
-                <td colspan="4" id="selectTown" style="text-align: right;">
+                <%-- <td colspan="4" id="selectTown" style="text-align: right;">
                     <span style="font-weight: bold; font-size: 15px;">내 동네</span>
                     <span style=" padding-left: 20px;">수원 팔달구 우만동</span>
                     <img src="${ contextPath }/resources/images/recycle.png" style="width: 25px;height: 25px;">     
-                </td>
+                </td> --%>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><a class="btn_gray" onclick="href='${ contextPath }/goods/editView'">수정하기</a></td>
                </tr>
             <tr>
                 <td rowspan="7">
-                    <img src="${ contextPath }/resources/images/goods.jpeg" style="width: 400px;height: 400px;margin-right: 10px;">
+                    <img src="${ contextPath }/resources/images/goodupload/${g.filelist[0]}" style="width: 400px;height: 400px;margin-right: 10px;">
                 </td>
             </tr>
             <tr>
-                <td colspan="2" id="goodsTitle">뉴발란스신발어쩌구</td>
+                <td colspan="2" id="goodsTitle">${g.gtitle}</td>
                 <td colspan="2" style="text-align: right;">
                 </td>
             </tr>
             <tr>
-                <td colspan="4" id="gprice">230,000원</td>
+                <td colspan="4" id="gprice">${g.gprice}원</td>
             </tr>
 
             <tr>
-                <td colspan="4">상태 : 미개봉</td>
+                <td colspan="4">상태 :${g.gcondition}</td>
             </tr>
             <tr>
-                <td colspan="4">거래지역 : 수원시 우만동 팔달구</td>
+                <td colspan="4">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
             </tr>
             <tr>
-                <td colspan="4" id="goodsContent">새학기 프로모션 행사할때 받은 비츠스튜디오3와이어리스 무광블랙 미개봉입니다. 언제든지 연락주세요 
-                    쿨거래시 머시기머시기 네고머시기합니다. 새학기 프로모션 행사할때 받은 비츠스튜디오3와이어리스 무광블랙 미개봉입니다. 언제든지 연락주세요 
-                    쿨거래시 머시기머시기 네고머시기합니다. 새학기 프로모션 행사할때 받은 비츠스튜디오3와이어리스 무광블랙 미개봉입니다. 언제든지 연락주세요 
-                    쿨거래시 머시기머시기 네고머시기합니다. 
+                <td colspan="4" id="goodsContent">${g.gcomment}
                     </td>
             </tr>
             <tr>
                 <td><button type="button" class="btn_small"><img src="${ contextPath }/resources/images/heart.png" /><p>&nbsp;&nbsp;찜&nbsp;+12</p></button></td>
                 <td><button type="button" class="btn_small"data-bs-toggle="modal" data-bs-target="#upgoodsModal"><img src="${ contextPath }/resources/images/up-arrow.png"/><p>끌어올리기</p></button></td>
-                <td><button type="button" class="btn_small" onclick="hideBtn()"><img src="${ contextPath }/resources/images/private.png" /><p>상품숨기기</p></button></td>    
+                <td><button type="button" class="btn_small" onclick="hideBtn();"><img src="${ contextPath }/resources/images/private.png" /><p>상품숨기기</p></button></td>    
                 <td><button type="button" class="btn_small" onclick="soldOutBtn()"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;판매완료</p></button></td>    
             </tr>
         </table>
-        <div id="replySection">
+             <div id="replySection">
             <p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
-            <table>
+            <table id="replyTable">
+            <c:if test="${ !empty rlist }">
+            	<c:forEach var="r" items="${ rlist }">
                 <tr>
-                    <td>동춘동피바다</td>
-                    <td colspan="2">2021.03.08 02:12</td>
+                    <td colspan="2">${r.user_id } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.createDate }</td>
+                    
                 </tr>
                 <tr>
-                    <td colspan="2">1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?</td>
+                    <td style="width:950px;">${r.rcontent }</td>
                     <td class="reviews"><img src="${ contextPath }/resources/images/reply.png" style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
                 </tr>
-                <tr>
-                    <td style="padding-left: 80px;">나는 판매자</td>
-                    <td colspan="2">2021.03.08 02:12</td>
-                </tr>
-                <tr>
-                    <td colspan="3"><img src="${ contextPath }/resources/images/right-arrow.png" style="width: 20px; padding-right: 10px;">안됩니다. </td>
-   
-                    
-                </tr>
-                <tr>
-                    <td>동춘동피바다</td>
-                    <td colspan="2">2021.03.08 02:12</td>
-                </tr>
-                <tr>
-                    <td colspan="2">1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?1만원 네고 가능할까요~?</td>
-                    <td class="reviews"><img src="${ contextPath }/resources/images/reply.png"  style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
-                </tr>
-                <tr>
-                    <td style="padding-left: 80px;">나는 판매자</td>
-                    <td colspan="2">2021.03.08 02:12</td>
-                </tr>
-                <tr>
-                    <td colspan="3"><img src="${ contextPath }/resources/images/right-arrow.png" style="width: 20px; padding-right: 10px;">안됩니다. </td>
-   
-                    
-                </tr>
+             </c:forEach>
+             </c:if>
+   			<c:if test="${ empty rlist }">
+   				<tr><td colspan="3">작성된 댓글이 없습니다.</tr>
+   			</c:if>
+                
+                
             </table>
-            <form action="">
+           
             <div id="replyWrite">
-                <p>데세헤</p>
-                <textarea placeholder="댓글을 작성하시려면 로그인을 해주세요"></textarea>
-                <span id="counter">0 / 1000</span>
+              
+                
+                  <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
+                     <textarea id="replyContent" name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요"></textarea>
+            
+            
+                <p id="counter" class="reply_left">(0 / 1000)</p>
+               
                 <button type="submit" id="writeBtn">등록하기</button>
+             
+               <script>
+             
+   $("#writeBtn").on("click", function(){
+	   
+	   var rcontent = $("#replyContent").val();
+	   
+	   $.ajax({
+		   url : "${contextPath}/goods/insertReply",
+		   data : {rcontent : rcontent},
+		  type : "post",
+		  dataType : "json",
+		  success : function(data){
+			  console.log(data);//해당 게시글에 작성된 댓글리스트 받아오기
+			 //-> <tbody> 안에 data 의 댓글 리스트를 형식에 맞게 세팅 
+			     
+			  tableBody = $("#replyTable");
+              tableBody.html("");
+              
+              for(var i in data){
+            	
+              	   var a = "<tr> <td colspan='2'>";
+              	   a+=data[i].user_id;
+              	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+              	   a+=data[i].createDate;
+              	   a+="</td></tr><tr><td style='width:950px;'>";
+              	   a+=data[i].rcontent;
+              	   a+="</td><td class='reviews'><img src='${ contextPath }/resources/images/reply.png' style='width : 20px;'><span style='font-size: 1.3em;'>&nbsp;1</span></td></tr>"
+              		  
+              	 
+              	   tableBody.append(a);
+              	   
+                 }
+            
+            //-> 댓글 작성 <textarea> 비워주기
+			  $("#replyContent").val("");
+		  }
+		  
+	   });
+   });
+   </script>
             </div>
-            </form>
+           
         </div>
     </section>
 	<!-- 끌어올리 Modal -->
@@ -119,7 +167,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form method="POST" action="reportConfirm.html">
+	
 						<table id="upGoods_tb">
 							
 								<tr>
@@ -128,7 +176,7 @@
 
 								</tr>
 								<tr>
-									<td colspan="2"><p>‘비츠 스튜디오3...’ 상품을 끌어올리시겠습니까?</p></td>
+									<td colspan="2"><p>‘${g.gtitle}’ 상품을 끌어올리시겠습니까?</p></td>
 								</tr>
 								<tr>
 									<td colspan="2">상품을 끌어올리면 가장 상단에 상품이 위치하게 되며<br>
@@ -137,10 +185,10 @@
 								</tr>
 								<tr>
 								<td><button type="reset" id="greset"data-bs-dismiss="modal">아니요</button></td>
-								<td><button type="submit" id="gsubmit">네,결제할게요.</button></td>
+								<td><button type="submit" id="gsubmit" onclick="goPayment();">네,결제할게요.</button></td>
 								</tr>
 						</table>
-					</form>
+					
 
 				</div>
 
@@ -160,16 +208,18 @@
 		    }
 		 });
        
-        function hideBtn(){
+         function hideBtn(){
             Swal.fire({
-  title: '숨김처리 완료',
-  html: '<br>해당 상품이 숨김 처리 되었습니다.<br>마이페이지를 통해 숨김처리 상품을 관리할 수 있습니다.<br>',
+  title: '숨김처리',
+  html: "<br>'${g.gtitle}' 상품을 숨김 처리 하시겠습니까?<br>숨김처리된 상품은 마이페이지를 통해 관리할 수 있습니다.<br>",
   imageUrl: '${ contextPath }/resources/images/logo.png',
   imageWidth: 232,
   imageHeight: 90,
   imageAlt: 'Custom image',
-});
-        }
+}).then(function(){
+	location.href='${contextPath}/goods/hide?gno='+${g.gno};
+});	
+        } 
         function soldOutBtn(){
             Swal.fire({
   title: '판매 완료',
@@ -180,6 +230,24 @@
   imageAlt: 'Custom image',
 });
         }
+    	function goPayment(){
+    		if(${loginUser.point}>=500){
+    			
+			location.href='${contextPath }/goods/uppay';
+    		}else{
+    			 Swal.fire({
+    				  title: '포인트 부족',
+    				  html: '<br>포인트가 부족합니다.<br>포인트는 댓글작성시 받으실 수 있습니다.<br>',
+    				  imageUrl: '${ contextPath }/resources/images/logo.png',
+    				  imageWidth: 232,
+    				  imageHeight: 90,
+    				  imageAlt: 'Custom image',
+    				}).then(function(){
+    					$('#upgoodsModal').modal('hide');
+    				});	
+    		}
+		}
+		
     </script>
      	<jsp:include page="../common/footer.jsp"/>
 </body>

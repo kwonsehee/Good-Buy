@@ -132,7 +132,7 @@
                 <td colspan="4">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
             </tr>
             <tr >
-                <td colspan="4" id="goodsContent">${g.gcomment}${likes}
+                <td colspan="4" id="goodsContent">${g.gcomment}
                     </td>
             </tr>
             <tr>

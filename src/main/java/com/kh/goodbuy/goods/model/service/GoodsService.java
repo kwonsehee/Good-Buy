@@ -67,6 +67,13 @@ public interface GoodsService {
 	public int selectMyLikeGoodsCount(String user_id);
 	// 내가 찜한 중고상품 리스트 조회 
 	public List<Goods> selectMyLikeGoodsList(String user_id, PageInfo pi);
+	//상품 삭제 
+	public int deleteGoods(int gno);
+	//상품숨김
+	public int hideGoods(int gno);
+	//끌올 포인트 결제
+	public int payUpPoint(Integer gno, String string);
+
 
 
 }
