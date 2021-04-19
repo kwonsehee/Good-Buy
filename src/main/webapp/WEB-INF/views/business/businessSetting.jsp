@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,53 +17,60 @@
     
 	<jsp:include page="../common/menubar.jsp"/>
     <section id="gbSection">
+       <form action="${ contextPath }/business/insert" method="post" id="insertForm" enctype="multipart/form-data">
         <div class="area">
+    		
+
             <div class="photoArea">
-            	<form action="${ contextPath }/business/photoInsert" method="post" id="photoInsertForm" enctype="multipart/form-data">
                 <img id="photoPlus"src="${contextPath}/resources/images/business/사진추가샘플.png">
-                <input id="profilePhoto" type="file" name="profilePhoto" >
-                </form>
-                <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
-                <div id="nameArea">
-                <label id="name">가게명</label>
-                </div>
-               
-                <button id="likeBtn">단골0</button>
-                <img id="adImg" src="${contextPath}/resources/images/business/메가폰.png" width="50px" height="50px" onclick="location.href='${contextPath}/business/ad'">
-                <label id="adLabel">광고하기</label>
-                <img id="line" src="${contextPath}/resources/images/business/선.png" >
-                <img id="pen" src="${contextPath}/resources/images/business/연필.png" width="50px" height="50px" >
-                <label id="newsLabel">소식발행</label>
+                <input id="profilePhoto" type="file" name="file" >  
             </div>
+            
             <div class="infoArea">
-                <label id="infoLabel">정보</label>
-               <div id="infoPlusArea">
-                   <label id="infoPlus" >+ 소개 문구 등록</label>
-               </div>
-                <div id="addressArea">
-                    <img id="addressImg"src="${contextPath}/resources/images/business/주소.png" width="30px" height="30px">
-                    <label id="shopAddress">주소를 추가해 주세요.</label>
-                </div>
-                <div id="timeArea">
-                    <img id="clockImg" src="${contextPath}/resources/images/business/시계.png" width="30px" height="30px">
-                    <label id="shopTime">영업시간을 추가해 주세요.</label>
-                </div>
-                <div id="infoBtnArea">
-                <button id="infoBtn" data-bs-toggle="modal" data-bs-target="#infoSetModal">정보 관리하기</button>
-                 </div>
+				<h4>카테고리</h4><br>
+				<select id="category" name="shopCate" required>
+				  <option value="일자리">일자리</option>
+				                    <option value="과외">과외/클래스</option>
+				                    <option value="농수산물">농수산물</option>
+				                    <option value="부동산">부동산</option>
+				                    <option value="중고차">중고차</option>
+				                    <option value="전시">전시/행사</option>
+				                    <option value="지역업체">지역업체</option>
+                				</select><br><br>
+  								<h4>가게명</h4><br>
+								<input type="text" id="nameInput" name="shopName" placeholder="가게명을 입력해 주세요." required ><br><br>
+								<h4>주소</h4><br>
+								<input type="text" id="addressInput" name="shopAdd" placeholder="주소를 입력해 주세요." required ><br><br>
+								<h4>전화번호</h4><br>
+								<input type="text" id="phoneInput" name="shopPhone" placeholder="고객이 연락할 수 있는 번호를 적어주세요."  required><br><br>
+								<h4>소개 문구</h4><br>
+								<textarea name="shopIntro" id="infoInput" style="resize: none;" placeholder="상품/서비스를 소개하는 문구를 작성해 주세요." required></textarea><br><br>
+								<h4>영업 시간</h4><br>
+								<div>
+								<input type="text" id="timeInput1" name="shopTime1" placeholder="09:00"  required>~
+								
+               					<input type="text" id="timeInput2" name="shopTime2" placeholder="21:00"  required><br>
+								<input type="text" id="timeInput3" name="shopTime3" placeholder="휴무요일을 적어주세요. (예: 매주 화요일 휴무)" required><br>
+								</div>
+			
             </div>
-            <div class="priceArea">
-                <label id="priceLabel">가격</label>
-                <label id="pricePlusLabel">가격을 추가해 주세요.</label>
-                <div id="priceBtnArea">
-                <button id="priceBtn" data-bs-toggle="modal" data-bs-target="#priceSetModal" >가격 설정하기</button>
-                </div>
+            <div class="priceArea">		
+				<h4>대표 메뉴</h4><br>
+				<input type="text" id="topMenu" name="topMenu" placeholder="대표 메뉴를 입력하세요. (예: 커피)"  required><br><br>
+				<h4>추가 설명</h4><br>
+				<textarea name="menuInfo" id="menuInfo" style="resize: none;" placeholder="다른 메뉴와 설명이 필요하다면 적어주세요." required></textarea><br>
+				
             </div>
         </div>
+        
         <div id="btnArea">
-        <button id="finalBtn" onclick="location.href='${contextPath}/business/list'">완료</button>
+        <button id="finalBtn" onclick="location.href='${contextPath}/business/insert'">완료</button>
         </div>
-    <!-- 정보관리 Modal -->
+             </form>
+        
+
+        
+    <%-- <!-- 정보관리 Modal -->
 	<div class="modal fade" id="infoSetModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -77,28 +85,27 @@
 						<div class="infoSetformWrap">
 							<form action="${ contextPath }/business/infoSet" method="post" id="infoSetForm">
 								<h3>카테고리</h3><br>
-								<select id="category">
-				                    <option>일자리</option>
-				                    <option>과외/클래스</option>
-				                    <option>농수산물</option>
-				                    <option>부동산</option>
-				                    <option>중고차</option>
-				                    <option>전시/행사</option>
-				                    <option>지역업체</option>
+								<select id="category" name="shopCate">
+				                    <option value="일자리">일자리</option>
+				                    <option value="과외">과외/클래스</option>
+				                    <option value="농수산물">농수산물</option>
+				                    <option value="부동산">부동산</option>
+				                    <option value="중고차">중고차</option>
+				                    <option value="전시">전시/행사</option>
+				                    <option value="지역업체">지역업체</option>
                 				</select><br><br>
-                				<h3>상세 업종</h3><br>
-								<input type="text" id="detailInput" placeholder="예) 카페, 한식전문점, 옷수선, 반찬가게등" ><br><br>
+  
 								<h3>주소</h3><br>
-								<input type="text" id="addressInput" placeholder="주소를 입력해 주세요." ><br><br>
+								<input type="text" id="addressInput" name="shopAdd" placeholder="주소를 입력해 주세요." ><br><br>
 								<h3>전화번호</h3><br>
-								<input type="text" id="phoneInput" placeholder="고객이 연락할 수 있는 번호를 적어주세요." ><br><br>
+								<input type="text" id="phoneInput" name="shopPhone" placeholder="고객이 연락할 수 있는 번호를 적어주세요." ><br><br>
 								<h3>소개 문구</h3><br>
-								<textarea name="infoInput" id="infoInput" style="resize: none;" placeholder="상품/서비스를 소개하는 문구를 작성해 주세요."></textarea><br><br>
+								<textarea name="shopIntro" id="infoInput" style="resize: none;" placeholder="상품/서비스를 소개하는 문구를 작성해 주세요."></textarea><br><br>
 								<h3>영업 시간</h3><br>
-								<input type="text" id="timeInput1" placeholder="시작" >
+								<input type="text" id="timeInput1" name="shopTime1" placeholder="시작" >
 								<label id="line2">~</label>
-               					<input type="text" id="timeInput2" placeholder="종료" ><br>
-								<input type="text" id="timeInput3" placeholder="휴무요일을 적어주세요."><br>
+               					<input type="text" id="timeInput2" name="shopTime2" placeholder="종료" ><br>
+								<input type="text" id="timeInput3" name="shopTime3" placeholder="휴무요일을 적어주세요."><br>
 								<button type="submit" class="sucessBtn" style="font-weight: bold;">완료</button>
 							</form>
 						</div>
@@ -128,9 +135,7 @@
 						<div class="priceSetformWrap">
 							<form action="${ contextPath }/business/infoSet" method="post" id="priceSetForm">
 								<h3>대표 메뉴</h3><br>
-								<input type="text" id="topMenu" placeholder="대표 메뉴를 입력하세요. (예: 커피)" ><br><br>
-								<h3>가격</h3><br>
-								<input type="text" id="priceInput" placeholder="가격을 입력하세요." ><br><br>
+								<input type="text" id="topMenu" name="topMenu" placeholder="대표 메뉴를 입력하세요. (예: 커피)" ><br><br>
 								<h3>추가 설명</h3><br>
 								<textarea name="menuInfo" id="menuInfo" style="resize: none;" placeholder="다른 메뉴와 설명이 필요하다면 적어주세요."></textarea><br>
 								<button type="submit" class="sucessBtn"style="font-weight: bold;">완료</button>
@@ -144,7 +149,7 @@
 					</div>
 			</div>
 		</div>
-	</div>
+	</div> --%>
 	
        
     </section>
@@ -190,7 +195,7 @@
 							var size;
 							
 							switch(element.name){
-							case "profilePhoto" :
+							case "file" :
 								selector = "#photoPlus";
 								size = {width:"654px", height:"316px" };
 								break;

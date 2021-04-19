@@ -40,7 +40,7 @@
         <c:forEach var="n" items="${nList}" >
             <div class="nearList" onclick="detailList(${n.shopNo})">
             	<c:if test="${ n.filePath != null }">
-                <img class="thumbnail" src="${contextPath}/resources/${n.filePath}${n.changeName}" >
+                <img class="thumbnail" src="${contextPath}/resources/images/goodupload/${n.changeName}" >
                 </c:if>
                 <c:if test="${ n.filePath == null }">
                 <img  class="thumbnail" src="${contextPath}/resources/images/business/기본썸네일.png" >
@@ -86,7 +86,7 @@
             <c:forEach var="b" items="${ bList }">
             <div class="likeList" onclick="detailList(${b.shopNo})">
             	<c:if test="${ b.filePath !=null }">
-                <img class="thumbnail2" src="${contextPath}/resources/${b.filePath}${b.changeName}">
+                <img class="thumbnail2" src="${contextPath}/resources/images/goodupload/${b.changeName}">
                 </c:if>
                 <c:if test="${ b.filePath ==null }">
                 <img class="thumbnail2" src="${contextPath}/resources/images/business/기본썸네일.png">
@@ -158,7 +158,7 @@
      
         <div class="btnArea">
         	<c:if test="${ sessionScope.loginUser.is_business eq 'Y' }">
-            <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/setting'">비즈 프로필 관리</label></button>
+            <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/change'">비즈 프로필 관리</label></button>
             </c:if>
             <c:if test="${ sessionScope.loginUser.is_business eq 'N'}">
             <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/create'">비즈 프로필 생성</label></button>

@@ -49,4 +49,5 @@ public class Business {
 	private String status;
 	private int fNo;
 	private String shopName;
+	private int fileLevel;
 }

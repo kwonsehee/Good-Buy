@@ -42,3 +42,12 @@
             letter-spacing: 2px;
             margin-bottom: 30px;
             font-family: 'yg-jalnan';
+          }
+          
+         #newsPhoto{
+        	display:none;
+        }
+        #newsThumbnail{
+        	width:486px;
+        	height:200px;
+        }

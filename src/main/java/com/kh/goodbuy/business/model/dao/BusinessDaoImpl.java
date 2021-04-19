@@ -1,7 +1,7 @@
 package com.kh.goodbuy.business.model.dao;
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.town.model.vo.Town;
 @Repository
 public class BusinessDaoImpl implements BusinessDao {
@@ -117,15 +118,64 @@ public class BusinessDaoImpl implements BusinessDao {
 	}
 
 	@Override
-	public News selectDetailNews(int shopNo) {
+	public List<News> selectDetailNews(int shopNo) {
 		
-		return sqlSession.selectOne("businessMapper.selectDetailNews",shopNo);
+		return sqlSession.selectList("businessMapper.selectDetailNews",shopNo);
 	}
 
 	@Override
 	public List<Review> selectDetailReview(int shopNo) {
 		
 		return sqlSession.selectList("businessMapper.selectDetailReview",shopNo);
+	}
+
+	@Override
+	public Business selectBusinessInfo(String userId) {
+		
+		return sqlSession.selectOne("businessMapper.selectBusinessInfo",userId);
+	}
+
+	@Override
+	public int infoInsert(Business b) {
+		
+		
+		return sqlSession.insert("businessMapper.infoInsert",b);
+	}
+
+	@Override
+	public int fileInsert(Addfile a) {
+		
+		return sqlSession.insert("businessMapper.fileInsert",a);
+	}
+
+	@Override
+	public int updateBstatus(String userId) {
+		
+		return sqlSession.update("businessMapper.updateBstatus",userId);
+	}
+
+	@Override
+	public int newsInsert(News n) {
+		
+		return sqlSession.insert("businessMapper.newsInsert",n);
+	}
+
+	@Override
+	public int newsFileInsert(Addfile a) {
+		
+		return sqlSession.insert("businessMapper.newsFileInsert",a);
+	}
+
+	@Override
+	public int selectshopNo(String userId) {
+		
+		return sqlSession.selectOne("businessMapper.selectshopNo",userId);
+	}
+
+	@Override
+	public List<News> selectNews(int shopNo) {
+		
+		return sqlSession.selectList("businessMapper.selectNews",shopNo);
 	}
 
 	

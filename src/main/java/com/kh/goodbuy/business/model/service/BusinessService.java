@@ -2,16 +2,18 @@ package com.kh.goodbuy.business.model.service;
 
 import java.util.List;
 
+
 import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.town.model.vo.Town;
 
 public interface BusinessService {
 
-	public int infoInsert(Business bus);
+	public int infoInsert(Business b, Addfile a);
 
 	public List<Business> selectbList(Town townInfo);
 
@@ -43,9 +45,21 @@ public interface BusinessService {
 
 	public Business selectDetail(int shopNo, boolean flag);
 
-	public News selectDetailNews(int shopNo);
+	public List<News> selectDetailNews(int shopNo);
 
 	public List<Review> selectDetailReview(int shopNo);
+
+	public Business selectBusinessInfo(String userId);
+
+	public int updateBstatus(String userId);
+
+	public int newsInsert(News n, Addfile a);
+
+	public int selectshopNo(String userId);
+
+	public List<News> selectNews(int shopNo);
+
+	/* public int infoupdate(Business b, Addfile a); */
 
 	
 

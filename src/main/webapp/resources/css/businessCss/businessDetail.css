@@ -36,6 +36,14 @@
             width: 655px;
             height: auto;
             border: 1px solid #e0e0e0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        .newsAreaflex{
+            width: 655px;
+            height: auto;
+            border: 1px solid #e0e0e0;
             display: flex;
             flex-direction: column;
             align-items: center;

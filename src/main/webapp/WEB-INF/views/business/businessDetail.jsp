@@ -49,19 +49,38 @@
                 <label id="titleMenu">대표 메뉴 : ${ business.topMenu }</label>
                 <p id="menuInfo"> ${ business.menuInfo } </p>
             </div>
+            <c:if test="${ !empty news  }">
+            <c:forEach var="n" items="${ news }">
             <div class="newsArea">
                 <label id="newsLabel">소식</label>
-                <c:if test="${ news.filePath != null }">
-                <img id="newsPhoto" src="${contextPath}/resources/${news.filePath}${news.changeName}">
+                <c:if test="${ n.changeName != null }">
+                <img id="newsPhoto" src="${contextPath}/resources/images/goodupload/${n.changeName}">
                 </c:if>
-                <c:if test="${ news.filePath == null }">
+                <c:if test="${ n.changeName == null }">
                 <img id="newsPhoto" src="${contextPath}/resources/images/business/기본썸네일.png">
                 </c:if>
                 <img id="oneBtn"src="${contextPath}/resources/images/business/원버튼.png">
-                <label id="newsTitle">${news.newsTitle }</label>
-                <p id="newsInfo">${news.shopNews }</p>
+                <label id="newsTitle">${n.newsTitle }</label>
+                <p id="newsInfo">${n.shopNews }</p>
             </div>
-            
+            </c:forEach>
+            </c:if>
+             <script>
+			        $(document).ready(function(){
+						size_div = $('.newsArea').length;
+						
+						x = 1;
+						$('.newsArea:lt('+x+')').addClass('newsAreaflex');
+						$('#oneBtn').click(function(){
+							x= (x+1 <= size_div)? x+1 : size_div;
+							$('.newsArea:lt('+x+')').addClass('newsAreaflex');
+						
+						
+						});
+			
+					});
+        
+        	  </script>
             
             <div class="reviewArea">
                 <c:if test="${business.reviewCount != 0 }">
