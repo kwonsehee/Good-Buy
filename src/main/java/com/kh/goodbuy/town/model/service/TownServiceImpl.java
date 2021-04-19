@@ -80,7 +80,7 @@ public class TownServiceImpl implements TownService {
 	public int updateMyTown(MyTown mt) {
 		return tDao.updateMyTown(mt);
 	}
-	
+
 	
 
 	

@@ -97,6 +97,10 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.selectSellerPhoto(user_id);
 	}
+	@Override
+	public int deleteMember(String user_id) {
+		return	mDao.deleteMember(user_id);
+	}
 	
 
 	

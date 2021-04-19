@@ -164,6 +164,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		USER_INFO
 		 WHERE
 		 		USER_ID = #{user_id}
+		   AND
+		   		USTATUS = 'Y'
 	</select>
 
 	<update id="updateadminMember" parameterType="Member">
@@ -304,6 +306,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE USER_ID = #{user_id}
 	</select>
 	
+	<update id="deleteMember" parameterType="string">
+	UPDATE 
+			USER_INFO 
+	   SET 
+	   		USTATUS = 'N'
+	 WHERE 
+	 		USER_ID = #{user_id}
+	</update>
 
 				
 

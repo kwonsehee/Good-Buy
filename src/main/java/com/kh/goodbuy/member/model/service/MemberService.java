@@ -55,6 +55,8 @@ public interface MemberService {
 		public int insertDeal(String user_id, int amount, int gno);
 		//셀러 사진얻어오기
 		public String selectSellerPhoto(String user_id);
+		// 회원탈퇴
+		public int deleteMember(String user_id);
 
 	
 
