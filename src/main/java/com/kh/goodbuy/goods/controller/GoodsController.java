@@ -151,6 +151,7 @@ public class GoodsController {
 		mv.setViewName("goods/goodsinsert");
 		return mv;
 	}
+	
 	// 중고상품detail 페이지로
 	@GetMapping("/detail")
 	public String goGoodsDetailView(HttpServletRequest request,

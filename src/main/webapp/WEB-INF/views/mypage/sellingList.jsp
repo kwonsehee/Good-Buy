@@ -25,7 +25,7 @@
         <c:forEach var="slist" items="${ sellingList }">
             <div class="eachListWrap" onclick="selectGoods(${slist.gno})" style="cursor:pointer;" >
                 <img src="${ contextPath }/resources/images/goodupload/${slist.changeName}" class="gPhoto">
-                <p class="gtitle">${ slist.gtitle } ${ slist.gstatus }</p>
+                <p class="gtitle">${ slist.gtitle }</p>
                 <ul>
                     <li class="town">${ slist.address_3 }</li>
                     <li class="dot">•</li>
