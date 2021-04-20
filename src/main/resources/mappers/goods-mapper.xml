@@ -60,11 +60,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result column="USER_ID" property="user_id"/>
 		
 		<association property="goodcate" javaType="Gcate">
+			
 			<result column="L_FILTER" property="lfilter"/>
 			<result column="M_FILTER" property="mfilter"/>
 			<result column="S_FILTER" property="sfilter"/>
 		</association>
 		<association property="town" javaType="Town">
+			<result column="T_NO" property="t_no"/>
+
 			<result column="ADDRESS_1" property="address_1"/>
 			<result column="ADDRESS_2" property="address_2"/>
 			<result column="ADDRESS_3" property="address_3"/>
@@ -258,8 +261,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 FROM (SELECT *
 			   FROM GOODS G JOIN MY_TOWN T
 			   ON( G.G_PLACE = T.T_NO)
-               WHERE T.MYTOWN_TYPE=1
-               AND T.USER_ID = #{user_id}
+               WHERE T.USER_ID = #{user_id}
                AND G.USER_ID = #{user_id})
 		WHERE G_STATUS = 'Y'
 	</select>
@@ -278,12 +280,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE G.G_NO = GF.G_NO
 		  AND GF.F_NO = F.F_NO
 		  AND F.FILE_LEVEL = 1
-		  AND G.USER_ID = #{user_id}
+		  AND G.USER_ID =#{user_id}
 		  AND G_STATUS = 'Y'
-		  AND G_PLACE = (SELECT T_NO
+		  AND G_PLACE IN (SELECT T_NO
                  		   FROM MY_TOWN
-                 		  WHERE MYTOWN_TYPE=1
-                 			AND USER_ID =#{user_id})
+                 		  WHERE USER_ID =#{user_id})
 	 ORDER BY
         	   G.CREATE_DATE DESC
 	</select>
@@ -523,6 +524,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , C.L_FILTER L_FILTER
 			  , C.M_FILTER M_FILTER
 			  , C.S_FILTER S_FILTER 
+			  , T.T_NO T_NO
 			  , T.ADDRESS_1 ADDRESS_1
 			  , T.ADDRESS_2 ADDRESS_2
 			  , T.ADDRESS_3 ADDRESS_3
@@ -704,11 +706,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</select>
 	
-	
-	
-	
-
-	
 	<update id="hideGoods" parameterType="_int">
 		UPDATE GOODS SET G_STATUS = 'H'
 		WHERE G_NO  = #{gno}
@@ -727,6 +724,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</update>
 
+	<select id="selectLike" parameterType="_int" resultType="string">
+	SELECT USER_ID
+	  FROM LIKE_GOODS
+     WHERE G_NO =#{gno}
+	</select>
+	<update id="updateGoods" parameterType="Goods">
+		UPDATE GOODS
+		  SET G_PLACE = (SELECT T_NO FROM MY_TOWN WHERE USER_ID = #{user_id} AND MYTOWN_TYPE=#{gplace})
+			, G_PRICE = #{gprice}
+			, G_CONDITION = #{gcondition}
+			, G_COMMENT = #{gcomment}
+			, C_NO = 2
+			, G_TITLE = #{gtitle}
+			WHERE G_NO = #{gno}
+	
+	</update>
 </mapper>
 
 

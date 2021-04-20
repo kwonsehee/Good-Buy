@@ -141,10 +141,10 @@ public class GoodsController {
 	public ModelAndView goGoodsInsertView(HttpServletRequest request,ModelAndView mv) {
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		List<Gcate> list = gService.selectCate();
-		for(Gcate a :list) {
-			
-			System.out.println(a);
-		}
+//		for(Gcate a :list) {
+//			
+//			System.out.println(a);
+//		}
 		Town secondTown = gService.selectSecondTown(loginUser.getUser_id());
 		mv.addObject("list", list);
 		mv.addObject("secondTown", secondTown);
@@ -175,14 +175,20 @@ public class GoodsController {
 		return "goods/goodsdetail";
 	}
 	// 내 중고상품detail 페이지로
-	@GetMapping("/mydetail")
+	@GetMapping("/`")
 	public String goGoodsmyDetailView(@RequestParam(value="gno", required=false) int gno,
 			 Model model) {
 		//상품 정보셀렉
 		Goods g = gService.Goodsdetail(gno);
+		//댓글 정보 셀렉 
 		List<Reply>rlist = gService.selectReplyList(g);
+		//좋아요 갯수 셀렉
+		List<String>likelist = gService.selectLikeGoods(gno);
 		model.addAttribute("g", g);
+		System.out.println(g);
 		model.addAttribute("rlist", rlist);
+		model.addAttribute("likelist", likelist);
+		System.out.println(likelist);
 		return "goods/mygoodsdetail";
 	}
 	// 판매자 정보 페이지로
@@ -359,10 +365,18 @@ public class GoodsController {
 		return gson.toJson(rlist);
 	
 	}
+	
+	
 	// 상품 수정페이지로
 	@GetMapping("/editView")
-	public String goeditView() {
-		return "goods/goodsedit";
+	public ModelAndView goeditView(HttpServletRequest request,ModelAndView mv) {
+		List<Gcate> list = gService.selectCate();
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		Town secondTown = gService.selectSecondTown(loginUser.getUser_id());
+		mv.addObject("list", list);
+		mv.addObject("secondTown", secondTown);
+		mv.setViewName("goods/goodsedit");
+		return mv;
 	}
 	// 상품삭제 
 	@GetMapping("/delete")
@@ -401,5 +415,58 @@ public class GoodsController {
 			model.addAttribute("msg", "끌올실패");
 		}
 		return "goods/mygoodsdetail";
+	}
+
+	// 중고상품등록
+	@PostMapping("/edit")
+	public String GoodsEdit(@ModelAttribute Goods g, MultipartFile[] fileup, @ModelAttribute Gcate c,
+			HttpServletRequest request, Model model) {
+		List<Addfile> list = new ArrayList<Addfile>();
+
+		// 업로드 파일 서버에 저장
+		// 파일이 첨부되었다면
+		for (int i = 0; i < fileup.length; i++) {
+			System.out.println("================== file start ==================");
+			System.out.println("파일 이름: " + fileup[i].getName());
+			System.out.println("파일 실제 이름: " + fileup[i].getOriginalFilename());
+			System.out.println("파일 크기: " + fileup[i].getSize());
+			System.out.println("content type: " + fileup[i].getContentType());
+			System.out.println("================== file   END ==================");
+
+			if (!fileup[i].getOriginalFilename().equals("")) {
+				System.out.println("여기오니?");
+				// 파일 저장 메소드 별도로 작성 - 리네임명 리턴
+				String renameFileName = saveFile(fileup[i], request);
+				// DB에 저장하기 위한 파일명 세팅
+				if (renameFileName != null) {
+					Addfile a = new Addfile();
+					a.setOriginName(fileup[i].getOriginalFilename());
+					a.setChangeName(renameFileName);
+					if (i == 0) {
+						a.setFile_level(1);
+					} else {
+						a.setFile_level(0);
+					}
+					list.add(a);
+					System.out.println(renameFileName);
+				}
+			}
+		}
+		// int ok = gService.insertFile(list);
+
+		int cno = gService.selectCateNo(c);
+		g.setCno(cno);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		g.setUser_id(loginUser.getUser_id());
+		System.out.println(g);
+
+		int result = gService.updateGoods(g, list);
+		if (result > 0) {
+			model.addAttribute("gno", g.getGno());
+			return "redirect:/goods/mydetail";
+		} else {
+			throw new GoodsExcpetion("게시글 수정에 실패하였습니다.");
+		}
+
 	}
 }

@@ -73,6 +73,10 @@ public interface GoodsService {
 	public int hideGoods(int gno);
 	//끌올 포인트 결제
 	public int payUpPoint(Integer gno, String string);
+	//좋아요한사람
+	public List<String> selectLikeGoods(int gno);
+	//상품수정
+	public int updateGoods(Goods g, List<Addfile> list);
 
 
 
