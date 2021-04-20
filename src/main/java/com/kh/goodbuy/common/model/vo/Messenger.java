@@ -22,4 +22,10 @@ public class Messenger {
 	private String mcontent;
 	private int gno;
 	private String caller;
+	private String nickname;
+	private String gtitle;
+	private String changeName;
+	private String gprice;
+	private String address_3;
+	private String photo;
 }

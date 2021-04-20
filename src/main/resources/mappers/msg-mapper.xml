@@ -3,6 +3,26 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="msgMapper">
+
+	<resultMap type="Messenger" id="MsgResultSet">
+		<id property="mno" column="M_NO" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="receiver" column="RECEIVER" />
+		<result property="mcontent" column="M_CONTENT" />
+		<result property="gno" column="G_NO" />
+		<result property="caller" column="CALLER" />
+		<result property="nickname" column="NICKNAME" />
+		<result property="gtitle" column="G_TITLE" />
+		<result property="changeName" column="CHANGE_NAME" />
+		<result property="gprice" column="G_PRICE" />
+		<result property="address_3" column="ADDRESS_3" />
+		<result property="photo" column="PHOTO" />
+	</resultMap>
+
+
+
+
+
 	<insert id="insertMsg" parameterType="java.util.Map">
 		INSERT ALL
 		INTO MESSENGER
@@ -42,8 +62,73 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 		SELECT *FROM DUAL
 	
-	
-	
 	</insert>
+	
+	<select id="selectMsgCount" parameterType="string" resultType="_int">
+		SELECT 
+				COUNT(M_NO)
+		  FROM 
+		  		MESSENGER
+		 WHERE 
+		 		RECEIVER = #{user_id}
+	</select>
+	
+	<select id="selectMsgList" parameterType="string" resultMap="MsgResultSet">
+		SELECT 
+				M_NO,
+          		M.CREATE_DATE,
+          		RECEIVER,
+	          	M_CONTENT,
+	          	G.G_NO,
+	          	CALLER,
+	          	NICKNAME,
+	          	G_TITLE,
+	          	CHANGE_NAME,
+	          	G_PRICE,
+	          	ADDRESS_3,
+	          	PHOTO
+          FROM 
+          		MESSENGER M, 
+          		GOODS G,
+          		GOODSFILE GF,
+          		ADDFILE F, 
+          		TOWN T,
+          		USER_INFO U
+         WHERE 
+         		M.G_NO = G.G_NO
+           AND 
+           		G.G_NO = GF.G_NO
+           AND 
+           		GF.F_NO = F.F_NO
+           AND 
+          		G.G_PLACE = T.T_NO
+           AND 
+          		U.USER_ID = M.CALLER
+           AND 
+          		F.FILE_LEVEL = 1
+           AND 
+          		RECEIVER = #{user_id}
+      ORDER BY 
+           		CREATE_DATE DESC
+	
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

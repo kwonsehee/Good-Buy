@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.common.model.service.MessengerService;
+import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.service.MemberService;
@@ -46,6 +48,8 @@ public class MypageController {
 	private MemberService mService;
 	@Autowired
 	private GoodsService gService;
+	@Autowired
+	private MessengerService msgService;
 	
 	// 마이페이지 메인 화면으로
 	@GetMapping("/main")
@@ -347,7 +351,24 @@ public class MypageController {
 	
 	// 내 쪽지함 화면
 	@GetMapping("/msgList")
-	public ModelAndView showMsgList(ModelAndView mv) {
+	public ModelAndView showMsgList(ModelAndView mv,
+									@ModelAttribute("loginUser") Member loginUser,
+									@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+				
+		int listCount = 0;
+		int boardLimit = 10;
+		PageInfo pi;
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Messenger> mlist;
+		listCount = msgService.selectMsgCount(loginUser.getUser_id());
+		System.out.println("쪽지 갯수  : " + listCount);
+		mlist = msgService.selectMsgList(loginUser.getUser_id(),pi);
+		System.out.println("쪽지 리스트  : "+mlist);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("mlist", mlist);
+		
 		mv.setViewName("mypage/msgList");
 		return mv;
 	}
@@ -572,7 +593,15 @@ public class MypageController {
 	
 	// 키워드 알림 설정 화면
 	@GetMapping("/setKeyword")
-	public ModelAndView showSetKeyword(ModelAndView mv) {
+	public ModelAndView showSetKeyword(ModelAndView mv,String key,@ModelAttribute("loginUser") Member loginUser) {
+		
+		System.out.println("키워드 넘어오니  : " + key);
+		
+		
+		
+		
+		
+		
 		mv.setViewName("mypage/setKeyword");
 		return mv;
 	}
