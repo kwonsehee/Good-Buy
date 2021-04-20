@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,71 +15,108 @@
         <img src="${ contextPath }/resources/images/mypage/left-arrow.png" id ="backBtn" onclick="location.href='${ contextPath }/mypage/main'">
         <h1 class="title_h1">내 쪽지함</h1>
 
+
+		<!-- 리스트 있을 때 -->
+		<c:if test="${ mlist != null }">
         <div class="listWrap">
+         <c:forEach var="list" items="${ mlist }">
             <div class="eachListWrap" onclick="sendReply()">
-                <img src="${ contextPath }/resources/images/mypage/profile1.jpeg" class="profilePhoto">
-                
+            	<!-- 프사 있을 때 -->
+            	<c:if test="${ !empty list.photo }">
+                <img src="${ contextPath }/resources/images/userProfilePhoto/${list.photo}" class="profilePhoto">
+               </c:if> 
+                <!-- 프사 없을 때 -->
+	            <c:if test="${ empty list.photo }">
+	            <img src="${ contextPath }/resources/images/mypage/unknownUser.png" class="profilePhoto">
+	            </c:if>
+               
                 <ul>
-                    <li class="nickname">계란도른자</li>
-                    <li class="town">길동</li>
+                    <li class="nickname">${list.nickname}</li>
+                    <li class="town">${ list.address_3 }</li>
                     <li class="dot">•</li>
-                    <li class="createDate">Yesterday</li>
+                    <li class="createDate">${ list.createDate }</li>
                 </ul>
                 <div class="mcontentWrap">
-                    <p class="mcontent">아 다행이네요! 저도 감사합니다 코로나 조심하세요ㅎㅎ</p>
+                    <p class="mcontent">${ list.mcontent }</p>
                 </div>
                 
-                <img src="${ contextPath }/resources/images/mypage/ex1.jpeg" class="gPhoto">
-               
+                <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto">
             </div>
-
-            <div class="eachListWrap" onclick="sendReply()">
-                <img src="${ contextPath }/resources/images/mypage/profile4.jpeg" class="profilePhoto">
-                <ul>
-                    <li class="nickname">카드값줘체리</li>
-                    <li class="town">둔촌동</li>
-                    <li class="dot">•</li>
-                    <li class="createDate">3days ago</li>
-                </ul>
-                <div class="mcontentWrap">
-                    <p class="mcontent">아뇨 아직 판매 안되었습니다</p>
-                </div>
-                
-                <img src="${ contextPath }/resources/images/mypage/ex2.jpeg" class="gPhoto">
-               
-               
-            </div>
-
-            <div class="eachListWrap" onclick="sendReply()">
-                <img src="${ contextPath }/resources/images/mypage/unknownUser.png" class="profilePhoto">
-                <ul>
-                    <li class="nickname">조선왕조실룩샐룩</li>
-                    <li class="town">강동구 암사동</li>
-                    <li class="dot">•</li>
-                    <li class="createDate">2월 22일</li>
-                </ul>
-                <div class="mcontentWrap">
-                    <p class="mcontent">네 감사합니다 새해 복 많이 받으세용~^^</p>
-                </div>
-                
-                <img src="${ contextPath }/resources/images/mypage/ex3.jpeg" class="gPhoto">
-                
-               
-            </div>
-            <div class="eachListWrap" onclick="sendReply()">
-                <img src="${ contextPath }/resources/images/mypage/profile3.jpeg" class="profilePhoto">
-                <ul>
-                    <li class="nickname">폭행몬스터</li>
-                    <li class="town">송파구 오금동</li>
-                    <li class="dot">•</li>
-                    <li class="createDate">2월 16일</li>
-                </ul>
-                <div class="mcontentWrap">
-                    <p class="mcontent">앗..네 알겠습니다</p>
-                </div>      
-                <img src="${ contextPath }/resources/images/mypage/ex1.jpeg" class="gPhoto">         
-            </div>
+         </c:forEach>
         </div>
+        </c:if>
+        
+        <!-- 리스트 없을 때 -->
+		<c:if test="${ mlist.size() == 0 }">
+		 <div class="listWrap">
+			 <div id="textWrap">
+				<h2 id="NullListText">리스트가 없습니다 :(</h2>
+			 </div>
+		 </div>
+		</c:if>
+        
+        
+        <!-- 리스트 있을때만 페이징 나타나게하기 -->
+		<c:if test="${ mlist.size() != 0 }">
+        <div id="pageArea">
+           <c:if test="${pi.currentPage <= 0}">
+            <a> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > 0}">
+            	<c:url var="start" value="/mypage/msgList">
+            		<c:param name="page" value="1"/>
+            	</c:url>
+           		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage <= pi.startPage}">
+            <a> &lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > pi.startPage }">
+            	<c:url var="before" value="/mypage/msgList">
+            		<c:param name="page" value="${pi.currentPage -1}"/>
+            	</c:url>
+           		 <a href="${before }"> &lt;&nbsp; </a>
+            </c:if>
+           <!-- 페이지 숫자 -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
+				</c:if>
+				<c:if test="${ p ne pi.currentPage }">
+					<c:url var="pagination" value="/mypage/msgList">
+						<c:param name="page" value="${ p }" />
+					</c:url>
+					<a href="${ pagination }">${ p }</a> &nbsp;
+				</c:if>
+			</c:forEach>
+			<c:if test="${pi.currentPage  >= pi.maxPage}">
+            <a> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage }">
+            	<c:url var="after" value="/mypage/msgList">
+            		<c:param name="page" value="${pi.currentPage +1}"/>
+            	</c:url>
+           		 <a href="${ after }"> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage >= pi.maxPage }">
+            <a> &gt;&gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage  }">
+            	<c:url var="end" value="/mypage/msgList">
+            		<c:param name="page" value="${pi.endPage}"/>
+            	</c:url>
+           		 <a href="${end}"> &gt;&gt;&nbsp; </a>
+            </c:if>
+           
+        </div>
+        
+        </c:if>
+        
+        
+        
+        
+        
+        
     </section>
 	
 	<jsp:include page="../common/footer.jsp"/>

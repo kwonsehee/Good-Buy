@@ -16,7 +16,7 @@
 
         <div class="inputWrap">
             <input type="text" id="keywordInput" placeholder="키워드를 입력해주세요. (예:자전거)" style=" color:#05AAD1;">
-            <button id="keyBtn" onclick="add()">등록</button>
+            <button id="keyBtn" onclick="add();">등록</button>
         </div>
        <a onclick="showPopup()" class="popupText">혹시 키워드 알림이 오지 않나요?</a>
        
@@ -65,6 +65,10 @@
                 $("#keyCount").html("20");
                 $(".eachKeywordWrap:nth-last-child(1)").remove();
             }
+            
+            console.log(keyword);
+            
+            location.href="${contextPath}/mypage/setKeyword?key="+keyword;
        }
 
        // 키워드 X 클릭 -> 취소
@@ -74,6 +78,7 @@
            keyCount = $(".eachKeywordWrap").length;
            $("#keyCount").html(keyCount);
        }
+       
     </script>
 </body>
 </html>
