@@ -258,6 +258,13 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
+
+	public List<Goods> selectGoodsList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectGoodsList", null, rowBounds);
+  }
+  @Override
 	public List<String> selectLikeGoods(int gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("goodsMapper.selectLike", gno);
@@ -279,5 +286,6 @@ public class GoodsDaoImpl implements GoodsDao{
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("goodsMapper.selectMyDealList",user_id, rowBounds);
+
 	}
 }

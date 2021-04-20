@@ -181,6 +181,12 @@ public class GoodsServiceImpl implements GoodsService{
 
 	}
 	@Override
+	public List<Goods> selectGoodsList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return gDao.selectGoodsList(pi);
+  }
+  
+	@Override
 	public List<String> selectLikeGoods(int gno) {
 		// TODO Auto-generated method stub
 		return gDao.selectLikeGoods(gno);
@@ -197,6 +203,7 @@ public class GoodsServiceImpl implements GoodsService{
 	@Override
 	public List<Goods> selectMyDealList(String user_id, PageInfo pi) {
 		return gDao.selectMyDealList(user_id, pi);
+
 	}
 	
 

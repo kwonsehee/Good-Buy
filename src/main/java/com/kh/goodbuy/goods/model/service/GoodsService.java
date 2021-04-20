@@ -73,6 +73,11 @@ public interface GoodsService {
 	public int hideGoods(int gno);
 	//끌올 포인트 결제
 	public int payUpPoint(Integer gno, String string);
+
+	
+	// 관리자
+	public List<Goods> selectGoodsList(PageInfo pi);
+
 	//좋아요한사람
 	public List<String> selectLikeGoods(int gno);
 	//상품수정
@@ -81,6 +86,7 @@ public interface GoodsService {
 	public int selectMyDealListCount(String user_id);
 	// 안전거래내역 리스트 출력
 	public List<Goods> selectMyDealList(String user_id, PageInfo pi);
+
 
 
 

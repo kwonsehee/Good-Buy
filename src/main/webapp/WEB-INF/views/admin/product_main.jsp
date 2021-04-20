@@ -48,31 +48,78 @@
             <table id="table1">
                 <thead>
                   <tr style="background-color: #F1FCFF;">
-                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>지역</th><th></th>
+                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th></th>
                   </tr>
                 </thead>
                 <tbody>
+                <c:forEach var="g" items="${ list }">
+               
+            
                   <tr id="tr_hover1" onclick="location.href='${ contextPath }/admin/productdetail'">
-                    <th><img src="${ contextPath }/resources/images/admin/닌텐.png" id="src1"></th><th>닌텐도</th><th>400,000</th><th>2021/03/06</th><th>김수민</th><th>경기</th><th></th>
-                  </tr>
-                  <tr id="tr_hover2" onclick="location.href='${ contextPath }/admin/productdetail'">
-                    <th><img src="images/에어.png" id="src1"></th><th>에어팟</th><th>100,000</th><th>2021/03/06</th><th>정희준</th><th>인천</th><th><button id="createButton1">상품 정지</button></th>
-                  </tr>
-                  <tr id="tr_hover2" onclick="location.href='${ contextPath }/admin/productdetail'">
-                    <th><img src="images/아이패드.jpg" id="src1"></th><th>아이패드</th><th>700,000</th><th>2021/03/07</th><th>권세희</th><th>인천</th><th><button id="createButton1">신고 처리</button></th>
-                  </tr>
-                  <tr id="tr_hover2" onclick="location.href='${ contextPath }/admin/productdetail'">
-                    <th><img src="images/무스패딩.jpg" id="src1"></th><th>무스너클 패딩</th><th>400,000</th><th>2021/03/07</th><th>윤세홍</th><th>경기</th><th></th>
+                    <th><img src="${ contextPath }/resources/images/goodupload/${g.changeName}" id="src1"></th><th>${ g.gtitle }</th><th>${ g.gprice }</th><th>${ g.createDate }</th><th>${ g.user_id }</th><th></th>
                   </tr>
                   
+                  
+                
+                  </c:forEach>
                   
                 </tbody>
               </table>
 
         </div>
         <div id="div5">
-            <p><<&nbsp; <&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; >&nbsp;>></p>
+         
+        <div id="pageArea">
+           <c:if test="${pi.currentPage <= 0}">
+            <a> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > 0}">
+            	<c:url var="start" value="/admin/product">
+            		<c:param name="page" value="1"/>
+            	</c:url>
+           		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage <= pi.startPage}">
+            <a> &lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > pi.startPage }">
+            	<c:url var="before" value="/admin/product">
+            		<c:param name="page" value="${pi.currentPage -1}"/>
+            	</c:url>
+           		 <a href="${before }"> &lt;&nbsp; </a>
+            </c:if>
+           <!-- 페이지 숫자 -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
+				</c:if>
+				<c:if test="${ p ne pi.currentPage }">
+					<c:url var="pagination" value="/admin/product">
+						<c:param name="page" value="${ p }" />
+					</c:url>
+					<a href="${ pagination }">${ p }</a> &nbsp;
+				</c:if>
+			</c:forEach>
+			<c:if test="${pi.currentPage  >= pi.maxPage}">
+            <a> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage }">
+            	<c:url var="after" value="/admin/product">
+            		<c:param name="page" value="${pi.currentPage +1}"/>
+            	</c:url>
+           		 <a href="${ after }"> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage >= pi.maxPage }">
+            <a> &gt;&gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage  }">
+            	<c:url var="end" value="/admin/product">
+            		<c:param name="page" value="${pi.endPage}"/>
+            	</c:url>
+           		 <a href="${end}"> &gt;&gt;&nbsp; </a>
+            </c:if>
  
+         </div>
          </div>
     </section>
 

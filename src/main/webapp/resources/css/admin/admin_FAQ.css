@@ -73,11 +73,12 @@
       padding-right:10%;
   }
 
-  #div4{
+  #div3-1{
     font-family: 'Nanum Myeongjo', serif;
       padding-top: 30px;
       padding-left: 10%;
       padding-right:10%;
+      padding-bottom: 2%;
   }
   .menu a{cursor:pointer;}
   .menu .hide{display:none;}
@@ -94,8 +95,30 @@ ul.mylist li{
     border-top: 1px solid black;
     
 }
-#div4{
+#div3-1{
     padding-bottom: 2%;
+}
+#div4{
+	 padding-bottom: 2%;
+    font-family: 'Nanum Myeongjo', serif;
+      padding-top: 30px;
+      padding-left: 10%;
+      padding-right:10%;
+	
+}
+#div5{
+    padding-bottom: 2%;
+    font-family: 'Nanum Myeongjo', serif;
+      padding-top: 30px;
+      padding-left: 10%;
+      padding-right:10%;
+}
+#div6{
+    padding-bottom: 2%;
+    font-family: 'Nanum Myeongjo', serif;
+      padding-top: 30px;
+      padding-left: 10%;
+      padding-right:10%;
 }
 #div4-1{
     padding-bottom: 2%;
