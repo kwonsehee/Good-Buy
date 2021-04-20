@@ -70,6 +70,9 @@
                     <span>${a.createDate}</span>
                 </td>
             </c:forEach>
+             <c:if test="${glist.size()< 5 }">
+            <td style="height : 220px;"></td>
+            </c:if>
         </tr>
        </table>
        <div style="margin-top: 3%; padding-left: 8%; float: left; text-decoration: underline;">

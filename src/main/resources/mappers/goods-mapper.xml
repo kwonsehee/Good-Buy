@@ -215,7 +215,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         		  AND GF.F_NO = F.F_NO
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
-	   ORDER BY G.CREATE_DATE DESC
+	   ORDER BY CREATE_DATE DESC
 
 	</select>
 	
