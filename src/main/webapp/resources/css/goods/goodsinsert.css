@@ -23,6 +23,7 @@
     font-weight:normal;
     text-align: left;
     padding-left: 6%;
+    width : 250px;
 }
 
 #gtitle{
@@ -146,4 +147,36 @@ width: 171px;
 color : white;
 margin-left: 10%;
 margin-top: 2.5%;
+}
+
+/*photo*/
+#photo_area{
+	/* border : 1px solid red !important; */
+	width: 1300px;
+    height: 200px;
+     display: inline-block;
+    
+}
+#photo_area div
+{
+	/* border : 1px solid black !important;  */
+	display: inline;
+	width: 18%;
+    height: 190px;
+}
+#photo_area div img
+{
+	margin-top : -200px;
+	width: 200px;
+    height: 190px;
+    margin:auto; 
+    
+}
+.button-delete-file{
+	cursor : pointer;
+	
+}
+.photo_img{
+	width: 150px;height: 150px;margin-left:20px;
+ border:0;
 }

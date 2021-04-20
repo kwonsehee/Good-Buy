@@ -168,21 +168,19 @@
                     이미지
                 </th>
                <td colspan="3">
+               
                 	<p>*가장 앞에 있는 사진은 중고상품 리스트에서 보여질 사진입니다.</p>
-                <!-- 	 <div id="imginput" style="border : 1px solid red;" class="dropzone-area"> -->
-                	 <div id="preview" style="border : 1px solid red;">
-                	<%--  <label for="btn_upload">
-                   	 <img  src="${ contextPath }/resources/images/insertimg.png" style="width: 150px;height: 150px;"/>
-                   	 </label>
-                   	 <div id="preview">
-                   	 
-                   	 </div> --%>
-                   	<%--  <button type="button" id="addItemBtn" onclick="uploadFile()" > <img  src="${ contextPath }/resources/images/insertimg.png" style="width: 150px;height: 150px;"/></button>
-          			 --%>
-                    </div>
-					
-              		<button type="button" id='button-add-file' > <img  src="${ contextPath }/resources/images/insertimg.png" /></button>
-                   
+                	<div id="photo_area" >
+		<div id="photo_input1">
+	<img src='${ contextPath }/resources/images/insertimg.png' class="photo_img" onclick="document.getElementById('file1').click();"> 
+	<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event);" >
+	</div>
+		<c:forEach var="f" items="${ g.filelist }">
+           <div id="photo_input"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></div>
+        </c:forEach>
+		
+	</div>
+ 					
                 </td>
             </tr>
 

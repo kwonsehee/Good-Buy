@@ -175,7 +175,7 @@ public class GoodsController {
 		return "goods/goodsdetail";
 	}
 	// 내 중고상품detail 페이지로
-	@GetMapping("/`")
+	@GetMapping("/mydetail")
 	public String goGoodsmyDetailView(@RequestParam(value="gno", required=false) int gno,
 			 Model model) {
 		//상품 정보셀렉

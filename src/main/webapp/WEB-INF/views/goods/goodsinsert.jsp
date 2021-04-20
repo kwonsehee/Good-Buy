@@ -8,9 +8,6 @@
 <title>Good-Buy</title>
 
 <link href="${ contextPath }/resources/css/goods/goodsinsert.css" rel="stylesheet" type="text/css">
-<!-- 드랍존 -->
-<script src="${ contextPath }/resources/css/dropzon/min/dropzone.min.js"></script>
-<link rel="stylesheet" href="${ contextPath }/resources/css/dropzon/min/dropzone.min.css" />
 
 <style>
 .gcate input[type="button"]{
@@ -141,25 +138,121 @@
                 </th>
                <td colspan="3">
                 	<p>*가장 앞에 있는 사진은 중고상품 리스트에서 보여질 사진입니다.</p>
-                <!-- 	 <div id="imginput" style="border : 1px solid red;" class="dropzone-area"> -->
+                <%--	 <div id="imginput" style="border : 1px solid red;" class="dropzone-area"> 
                 	 <div id="preview" style="border : 1px solid red;">
                 	<%--  <label for="btn_upload">
                    	 <img  src="${ contextPath }/resources/images/insertimg.png" style="width: 150px;height: 150px;"/>
                    	 </label>
                    	 <div id="preview">
                    	 
-                   	 </div> --%>
-                   	<%--  <button type="button" id="addItemBtn" onclick="uploadFile()" > <img  src="${ contextPath }/resources/images/insertimg.png" style="width: 150px;height: 150px;"/></button>
-          			 --%>
+                   	 </div> 
+                     <button type="button" id="addItemBtn" onclick="uploadFile()" > <img  src="${ contextPath }/resources/images/insertimg.png" style="width: 150px;height: 150px;"/></button>
                     </div>
 					
               		<button type="button" id='button-add-file' > <img  src="${ contextPath }/resources/images/insertimg.png" /></button>
+          			 --%>
+          			 <!-- 대표사진 -->
+    
+    
+	<div id="photo_area" >
+		<div id="photo_input1">
+	<img src='${ contextPath }/resources/images/insertimg.png' class="photo_img" onclick="document.getElementById('file1').click();"> 
+	<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event);" >
+	</div>
+		<div id="photo_input2"></div>
+		<div id="photo_input3"></div>
+		<div id="photo_input4"></div>
+		<div id="photo_input5"></div>
+	</div>
+	
                    
                 </td>
             </tr>
 
 
         </table>
+        <script>
+      
+        function setThumbnail(event) { 
+        	var reader = new FileReader(); 
+        	reader.onload = function(event) { 
+        	var img = document.createElement("img"); 
+        	img.setAttribute("src", event.target.result); 
+        	$(".photo_img").remove();
+        	document.querySelector("div#photo_input1").append(img);
+        	$("#photo_input1").append("<button class='button-delete-file'>삭제</button>");
+        	var img2 = $("#photo_input2");
+        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(2);'>" 
+        	+"<input type='file' id='file2' name='fileup' style='display:none;' onchange='setThumbnail2(event);' >";
+        	img2.append(a);
+        	}; 
+        	reader.readAsDataURL(event.target.files[0]);
+        }
+        function imgclick(name){
+        	document.getElementById('file'+name).click();
+        }
+        function setThumbnail2(event) { 
+        	var reader = new FileReader(); 
+        	reader.onload = function(event) { 
+        	var img = document.createElement("img"); 
+        	img.setAttribute("src", event.target.result); 
+        	$(".photo_img").remove();
+        	document.querySelector("div#photo_input2").appendChild(img);
+        	$("#photo_input2").append("<button class='button-delete-file'>삭제</button>");
+        	
+        	var img2 = $("#photo_input3");
+        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(3);'>" 
+        	+"<input type='file'id='file3' name='fileup' style='display:none;'onchange='setThumbnail3(event);' >";
+        	
+        	img2.append(a);
+        	}; 
+        	reader.readAsDataURL(event.target.files[0]);
+        }
+        function setThumbnail3(event) { 
+        	var reader = new FileReader(); 
+        	reader.onload = function(event) { 
+        	var img = document.createElement("img"); 
+        	img.setAttribute("src", event.target.result); 
+        	$(".photo_img").remove();
+        	document.querySelector("div#photo_input3").appendChild(img);
+        	$("#photo_input3").append("<button class='button-delete-file'>삭제</button>");
+        	
+        	var img2 = $("#photo_input4");
+        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(4);'>" 
+        	+"<input type='file' id='file4' name='fileup' style='display:none;'onchange='setThumbnail4(event);' >";
+        	
+        	img2.append(a);
+        	}; 
+        	reader.readAsDataURL(event.target.files[0]);
+        }
+        function setThumbnail4(event) { 
+        	var reader = new FileReader(); 
+        	reader.onload = function(event) { 
+        	var img = document.createElement("img"); 
+        	img.setAttribute("src", event.target.result); 
+        	$(".photo_img").remove();
+        	document.querySelector("div#photo_input4").appendChild(img);
+        	$("#photo_input4").append("<button class='button-delete-file'>삭제</button>");
+        	var img2 = $("#photo_input5");
+        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(5);'>" 
+        	+"<input type='file' id='file5' name='fileup' style='display:none;'onchange='setThumbnail5(event);' >";
+        	
+        	img2.append(a);
+        	}; 
+        	reader.readAsDataURL(event.target.files[0]);
+        }
+        function setThumbnail5(event) { 
+        	var reader = new FileReader(); 
+        	reader.onload = function(event) { 
+        	var img = document.createElement("img"); 
+        	img.setAttribute("src", event.target.result); 
+        	$(".photo_img").remove();
+        	document.querySelector("div#photo_input5").appendChild(img);
+        	$("#photo_input5").append("<button class='button-delete-file'>삭제</button>");
+        	}; 
+        	reader.readAsDataURL(event.target.files[0]);
+        }
+   </script>
 <script>
 $(function(){
 	$('#button-add-file').click(addFileForm);
@@ -226,58 +319,8 @@ function addFileForm() {
               }
 		
         </script>
-			<script>
-			$(function(){
-				//input type="file"태그에 파일이 첨부될때 동작하는 이벤트
-				$("[type=file]").change(function(){
-					loadImg(this);
-				});
-			});
-			function loadImg(element){
-				//element를 판별해서 알맞은 위치에 preview표현하기
-				/* console.log(element.name); */
-				
-				//input type="file" 엘리먼트에 첨부파일 속성, 첨부파일이 잘 존재하는지 확인
-				if(element.files && element.files[0]){
-					//파일을 읽어들일 FileReader 객체 생성
-					var reader = new FileReader();
-					
-					//파일 읽기가 다 완료 되었을 때 실행되는 메소드
-					reader.onload =function(e){
-						var selector;
-						var size;
-						
-						switch(element.name){
-						case "thumbnailImg":
-							selector = "#thumbnail";
-							 size = {width : "550px", height : "300px", border: "solid 1px #dadada"};
 
-							break;
-						case "contentImg1":
-							selector = "#content1";
-							
-							size = {width : "250px", height : "150px", border: "solid 1px #dadada"};
-							break;
-						case "contentImg2":
-							selector = "#content2";
-							 size = {width : "250px", height : "150px", border: "solid 1px #dadada"};
-
-							break;
-							
-						}
-						$(selector).attr("src",e.target.result).css(size);
-						console.log(e);
-						console.log(e.target);
-						console.log(e.target.result);
-					}
-					//파일 읽기 하는 메소드
-					reader.readAsDataURL(element.files[0]);
-
-					
-				}
-			}
-			</script>
-        <button type="reset" id="greset" onclick="${ contextPath }/goods/list">취소</button>
+        <button type="reset" id="greset" >취소</button>
         <button type="submit" id="gsubmit" >등록하기</button>
     </form>
     </section>
