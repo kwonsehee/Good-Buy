@@ -29,7 +29,7 @@
         <table id="insert_goods">
             <tr>
                 <th>
-                    제목${g.gtitle}
+                    제목
                 </th>
                 <td colspan="3">
                     <input type="text" id="gtitle"name="gtitle" value="${g.gtitle}" required>
@@ -83,9 +83,10 @@
         		<th>선택한 카테고리</th>
         		<td>
         		<div  style="margin-top : 10px; margin-bottom:10px;">
-        			<span id="selectedCate1" ></span><span id="nbsp1"></span>
-        			<span id="selectedCate2" > </span><span id="nbsp2"></span>
-        			<span id="selectedCate3" ></span>
+        	
+        			<span id="selectedCate1" >${g.goodcate.lfilter }</span><span id="nbsp1"></span>
+        			<span id="selectedCate2" >${g.goodcate.mfilter } </span><span id="nbsp2"></span>
+        			<span id="selectedCate3" >${g.goodcate.sfilter }</span>
         		</div>
         		</td>
         	</tr>
@@ -94,11 +95,19 @@
                     거래지역
                 </th>
                 <td colspan="3">
+             
                     <select id="deal_town" name="gplace" required>
                         <option disabled selected value="">내 동네 선택</option>
-                        <option value="1">${townInfo.address_1 } &nbsp;${townInfo.address_2 } &nbsp;${townInfo.address_3 } </option>
+                        <c:if test="${ g.town.t_no==townInfo.t_no }">
+                        <option value="1" selected>${townInfo.address_1 } &nbsp;${townInfo.address_2 } &nbsp;${townInfo.address_3 } </option>
+                        </c:if>
                         <c:if test="${ !empty secondTown}">
                         <option value="2">${secondTown.address_1 }&nbsp;${secondTown.address_2 }&nbsp;${secondTown.address_3 }</option>
+
+                        <c:if test="${ g.town.t_no!=townInfo.t_no }">
+                        <option value="2" selected>${secondTown.address_1 }&nbsp;${secondTown.address_2 }&nbsp;${secondTown.address_3 }</option>
+						</c:if>
+
 						</c:if>
                         <option value="0">직거래 불가</option>
                     </select>
@@ -118,9 +127,30 @@
                     상품 상태
                 </th>
                 <td colspan="3" id="godds_condition">
-                    <div><label for="미개봉">미개봉&nbsp;</label><input type="checkbox" value="미개봉"name="gcondition"onclick="oneCheckbox(this)" > </div>
-                    <div><label for="거의 새것">거의 새것&nbsp;</label><input type="checkbox" value="거의 새것"name="gcondition"onclick="oneCheckbox(this)"> </div>
-                    <div><label for="사용감있음">사용감있음&nbsp;</label><input type="checkbox" value="사용감있음"name="gcondition"onclick="oneCheckbox(this)" > </div>
+                    <div><label for="미개봉">미개봉&nbsp;</label>
+                     <c:if test="${ g.gcondition.equals('미개봉') }">
+                    <input type="checkbox" value="미개봉"name="gcondition"onclick="oneCheckbox(this)" checked>
+                    </c:if>
+                     <c:if test="${ !g.gcondition.equals('미개봉') }">
+                    <input type="checkbox" value="미개봉"name="gcondition"onclick="oneCheckbox(this)">
+                     </c:if>
+                     </div>
+                    <div><label for="거의 새것">거의 새것&nbsp;</label>
+                     <c:if test="${ g.gcondition.equals('거의 새것') }">
+                    <input type="checkbox" value="거의 새것"name="gcondition"onclick="oneCheckbox(this)" checked> 
+                    </c:if>
+                     <c:if test="${ !g.gcondition.equals('거의 새것') }">
+                    <input type="checkbox" value="거의 새것"name="gcondition"onclick="oneCheckbox(this)"> 
+                    </c:if>
+                    </div>
+                    <div><label for="사용감있음">사용감있음&nbsp;</label>
+                    <c:if test="${ g.gcondition.equals('사용감있음') }">
+                    <input type="checkbox" value="사용감있음"name="gcondition"onclick="oneCheckbox(this)" checked> 
+                    </c:if>
+                     <c:if test="${ !g.gcondition.equals('사용감있음') }">
+                    <input type="checkbox" value="사용감있음"name="gcondition"onclick="oneCheckbox(this)" > 
+                    </c:if>
+                    </div>
                 </td>
             </tr>
            
@@ -129,7 +159,7 @@
                     설명
                 </th>
                 <td colspan="3">
-                    <textarea style="resize: none;" id="gcontent" placeholder="상품 설명을 입력해주세요" name="gcomment" ${g.gcomment} required></textarea><br>
+                    <textarea style="resize: none;" id="gcontent" placeholder="상품 설명을 입력해주세요" name="gcomment" required>${g.gcomment} </textarea><br>
                     <span style="margin-left:85%;">0/1000</span>
                 </td>
             </tr>
@@ -138,21 +168,19 @@
                     이미지
                 </th>
                <td colspan="3">
+               
                 	<p>*가장 앞에 있는 사진은 중고상품 리스트에서 보여질 사진입니다.</p>
-                <!-- 	 <div id="imginput" style="border : 1px solid red;" class="dropzone-area"> -->
-                	 <div id="preview" style="border : 1px solid red;">
-                	<%--  <label for="btn_upload">
-                   	 <img  src="${ contextPath }/resources/images/insertimg.png" style="width: 150px;height: 150px;"/>
-                   	 </label>
-                   	 <div id="preview">
-                   	 
-                   	 </div> --%>
-                   	<%--  <button type="button" id="addItemBtn" onclick="uploadFile()" > <img  src="${ contextPath }/resources/images/insertimg.png" style="width: 150px;height: 150px;"/></button>
-          			 --%>
-                    </div>
-					
-              		<button type="button" id='button-add-file' > <img  src="${ contextPath }/resources/images/insertimg.png" /></button>
-                   
+                	<div id="photo_area" >
+		<div id="photo_input1">
+	<img src='${ contextPath }/resources/images/insertimg.png' class="photo_img" onclick="document.getElementById('file1').click();"> 
+	<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event);" >
+	</div>
+		<c:forEach var="f" items="${ g.filelist }">
+           <div id="photo_input"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></div>
+        </c:forEach>
+		
+	</div>
+ 					
                 </td>
             </tr>
 

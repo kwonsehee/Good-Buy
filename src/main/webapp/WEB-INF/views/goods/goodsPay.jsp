@@ -212,7 +212,14 @@ cursor : pointer !important;
         	        if ( rsp.success ) {
         	            var msg = '결제가 완료되었습니다!';
         	            msg += '결제 금액 : ' + rsp.paid_amount;
+        	            if(${way.equals('point')}){
+        	            	
         	            location.href = '${contextPath}/member/payment?amount='+amount+'&user_point='+user_point+'&gno='+${g.gno};
+        	            }else{
+        	            	
+        	            location.href = '${contextPath}/member/payment?amount='+amount+'&gno='+${g.gno};
+        	            }
+        	            
         	        } else {
         	            var msg = '결제에 실패하였습니다. 다시 시도해주세요.';
         	        }

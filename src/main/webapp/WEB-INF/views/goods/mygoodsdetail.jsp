@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,38 +50,47 @@
                 </td> --%>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td><a class="btn_gray" onclick="href='${ contextPath }/goods/editView'">수정하기</a></td>
+                <td style="text-align: right; padding-right:7%;"><a class="btn_gray" onclick="href='${ contextPath }/goods/editView'">수정하기</a></td>
                </tr>
             <tr>
                 <td rowspan="7">
-                    <img src="${ contextPath }/resources/images/goodupload/${g.filelist[0]}" style="width: 400px;height: 400px;margin-right: 10px;">
+                   <div class="slider">
+                <img src="${ contextPath }/resources/images/left.png" id="back">
+                
+                <ul>
+                <c:forEach var="f" items="${ g.filelist }">
+                   <li  class="item"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></li>
+                </c:forEach>
+                
+                </ul>
+                <img src="${ contextPath }/resources/images/left.png" id="next">
+		
+                </div>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" id="goodsTitle">${g.gtitle}</td>
-                <td colspan="2" style="text-align: right;">
-                </td>
+                <td colspan="3" id="goodsTitle">${g.gtitle}</td>
+                
             </tr>
             <tr>
-                <td colspan="4" id="gprice">${g.gprice}원</td>
+                <td colspan="3" id="gprice">${g.gprice}원</td>
             </tr>
 
             <tr>
-                <td colspan="4">상태 :${g.gcondition}</td>
+                <td colspan="3">상태 :${g.gcondition}</td>
             </tr>
             <tr>
-                <td colspan="4">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
+                <td colspan="3">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
             </tr>
             <tr>
-                <td colspan="4" id="goodsContent">${g.gcomment}
+                <td colspan="3" id="goodsContent">${g.gcomment}
                     </td>
             </tr>
             <tr>
-                <td><button type="button" class="btn_small"><img src="${ contextPath }/resources/images/heart.png" /><p>&nbsp;&nbsp;찜&nbsp;+12</p></button></td>
+                <td><button type="button" class="btn_small" data-bs-toggle="modal" data-bs-target="#likeModal" ><img src="${ contextPath }/resources/images/heart.png" /><p>&nbsp;&nbsp;찜&nbsp;+${fn:length(likelist)}</p></button></td>
                 <td><button type="button" class="btn_small"data-bs-toggle="modal" data-bs-target="#upgoodsModal"><img src="${ contextPath }/resources/images/up-arrow.png"/><p>끌어올리기</p></button></td>
                 <td><button type="button" class="btn_small" onclick="hideBtn();"><img src="${ contextPath }/resources/images/private.png" /><p>상품숨기기</p></button></td>    
-                <td><button type="button" class="btn_small" onclick="soldOutBtn()"><img src="${ contextPath }/resources/images/shoppingbag.png" /><p>&nbsp;판매완료</p></button></td>    
+               
             </tr>
         </table>
              <div id="replySection">
@@ -157,6 +167,34 @@
 	   });
    });
    </script>
+     <script>
+					
+						var imgs;
+						var img_count;
+						var img_position = 1;
+						imgs = $(".slider ul");
+						img_count = imgs.children().length;
+						console.log(img_count);
+						//button clickc
+						$('#back').click(function(){
+							if(1<img_position){
+								imgs.animate({
+									left : '+=400px'
+								});
+								img_position--;
+							}
+						});
+						$('#next').click(function(){
+							if(img_count-1>img_position){
+								imgs.animate({
+									left : '-=400px'
+								});
+								img_position++;
+							}
+						});
+					
+				
+				</script>
             </div>
            
         </div>
@@ -192,6 +230,42 @@
 
 				</div>
 
+			</div>
+		</div>
+	</div>
+	<!-- 끌어올리 Modal -->
+	<div class="modal fade" id="likeModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+					<div class="titleWrap">
+						<span class="circle"></span> <span class="welcome">like goods!</span>
+						<span class="circle"></span>
+					</div>
+				</div>
+				<div class="modal-body">
+	
+					<div  style="overflow:scroll; height:150px;">
+						 <c:if test="${ !empty likelist }">
+            	<c:forEach var="r" items="${ likelist }">
+             
+                   ${r } <br>
+             </c:forEach>
+             </c:if>
+   			<c:if test="${ empty likelist }">
+   			<img src="${ contextPath }/resources/images/logo.png" width="40%;" style="margin: auto;">
+   				아직 해당 상품을 찜한사람이 없습니다.
+   			</c:if>
+					
+					</div>
+					
+
+				</div>
+			<div class="modal-footer">
+					
+						<button type="button" id="closeBtn" data-bs-dismiss="modal">닫기</button>
+					</div>
 			</div>
 		</div>
 	</div>

@@ -35,6 +35,7 @@
 
 .gPhoto {
 	width: 120px;
+	height:120px;
 	border-radius: 10px;
 	position: absolute;
 	left: 10px;
@@ -88,56 +89,51 @@
 	font-size: 16px;
 }
 
-.replyIcon {
-	position: absolute;
-	width: 20px;
-	top: 113px;
-	left: 85%;
+.reviewBtn{
+    color: #949999;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    top: 113px;
+    left: 88%;
 }
 
-.heartIcon {
-	position: absolute;
-	width: 20px;
-	top: 113px;
-	left: 92%;
+.reviewBtn:hover{
+	color: #949999;
 }
 
-.replyCount {
-	position: absolute;
-	top: 110px;
-	font-size: 16px;
-	left: 88%;
+
+#pageArea{
+    margin-top: 3%;
+    color: #9a9999;
+    margin-left: 50%;
+    transform: translate(-50%);
+    display: inline-block;
+    margin-bottom:100px;
 }
 
-.likeCount {
-	position: absolute;
-	top: 110px;
-	font-size: 16px;
-	left: 96%;
+#pageArea a{
+	color:#949999;
 }
 
-.pagingArea ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	width: 500px;
-	height: 30px;
-	margin-left: 50%;
-	margin-top: 40px;
-	transform: translate(-50%);
-	margin-bottom: 100px;
+#pageArea a:hover{
+    color:  #05aad1;
+    cursor: pointer;
 }
 
-.pagingArea ul li {
-	float: left;
-	margin-right: 10px;
+#textWrap{
+	width:400px;
+	height:100px;
+	border-top:1px solid #ccd1d3;
+	border-bottom:1px solid #ccd1d3;
+	margin-top:100px;
+	margin-bottom:300px;
+	text-align:center;
+	margin-left:50%;
+	transform:translate(-50%);
 }
 
-.pagingArea ul li:nth-child(1) {
-	margin-left: 30%;
-	transform: translate(-30%);
-}
-
-.pagingArea ul li a {
-	color: #9A9999;
+#NullListText{
+	color:#ccd1d3;
+	line-height:100px;
 }

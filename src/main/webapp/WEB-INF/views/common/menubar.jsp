@@ -188,6 +188,14 @@
 					$(".userTownli p:nth-last-child(1)").slideUp(350);
 				}
 			});
+			$(".userTownli").click(function(){
+				if($(".userTownli p:nth-last-child(1)").css("display") == "none"){
+					$(".userTownli p").slideDown(350);
+				}else{
+					$(".userTownli p:nth-child(2)").slideUp(350);
+					$(".userTownli p:nth-last-child(1)").slideUp(350);
+				}
+			});
 			
 			
 			$("#gbSection").click(function(){
