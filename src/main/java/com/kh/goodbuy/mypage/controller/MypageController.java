@@ -264,7 +264,25 @@ public class MypageController {
 	
 	// 안전거래 내역 화면
 	@GetMapping("/dealHistoryList")
-	public ModelAndView showDealList(ModelAndView mv) {
+	public ModelAndView showDealList(ModelAndView mv,
+									@ModelAttribute("loginUser") Member loginUser,
+									@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		
+		List<Goods> dealList;
+		listCount = gService.selectMyDealListCount(loginUser.getUser_id());
+		System.out.println("내가 결제한 상품 카운트  : " + listCount);
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		dealList = gService.selectMyDealList(loginUser.getUser_id(),pi);
+		
+		System.out.println("거래내역 리스트 : " + dealList);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("dealList", dealList);
+		
 		mv.setViewName("mypage/dealHistoryList");
 		return mv;
 	}
@@ -272,7 +290,6 @@ public class MypageController {
 	// 관심목록 - 중고매물 화면
 	@GetMapping("/likeGoodsList")
 	public ModelAndView showLikeGoodsList(ModelAndView mv,
-											@ModelAttribute("g") Goods g, 
 											@ModelAttribute("loginUser") Member loginUser,
 											@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
 		int listCount = 0;

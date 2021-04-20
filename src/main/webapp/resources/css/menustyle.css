@@ -28,6 +28,7 @@ button {
 .common_ul li {
 	float: left;
 	list-style: none;
+	/* border: 1px solid black; */
 }
 
 .li_1 {
@@ -68,6 +69,10 @@ button {
 	color:#949999;
 	position:absolute;
 	left:68%;
+	border:2px solid red;
+}
+.userTownli2{
+	border:2px solid red;
 }
 
 .userTownli2 img{

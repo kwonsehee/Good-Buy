@@ -190,6 +190,14 @@ public class GoodsServiceImpl implements GoodsService{
 		// TODO Auto-generated method stub
 		return gDao.updateGoods(g);
 	}
+	@Override
+	public int selectMyDealListCount(String user_id) {
+		return gDao.selectMyDealListCount(user_id);
+	}
+	@Override
+	public List<Goods> selectMyDealList(String user_id, PageInfo pi) {
+		return gDao.selectMyDealList(user_id, pi);
+	}
 	
 
 }

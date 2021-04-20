@@ -38,6 +38,7 @@ public class Goods {
 	private int like_cnt;
 	private int rep_cnt;
 	private String address_3;
+	private Date dealDate;
 	
 	
 	public Goods(Integer gno, String user_id) {
