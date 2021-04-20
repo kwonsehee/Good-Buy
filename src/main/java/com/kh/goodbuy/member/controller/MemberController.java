@@ -320,7 +320,7 @@ public class MemberController {
 		//안전거래 디비insert
 		int result1 = mService.insertDeal(loginUser.getUser_id(), amount, gno);
 		
-		if(result>0||result>0) {
+		if(result>0||result1>0) {
 			model.addAttribute("msg", "결제 성공");
 		}else {
 			

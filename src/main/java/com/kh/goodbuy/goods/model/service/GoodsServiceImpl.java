@@ -180,6 +180,16 @@ public class GoodsServiceImpl implements GoodsService{
 		return gDao.payUpPoint(gno);
 
 	}
+	@Override
+	public List<String> selectLikeGoods(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.selectLikeGoods(gno);
+	}
+	@Override
+	public int updateGoods(Goods g, List<Addfile> list) {
+		// TODO Auto-generated method stub
+		return gDao.updateGoods(g);
+	}
 	
 
 }

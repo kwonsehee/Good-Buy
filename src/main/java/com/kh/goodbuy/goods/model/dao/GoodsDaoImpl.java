@@ -256,4 +256,16 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.upGoods", user_id);
 
 	}
+
+	@Override
+	public List<String> selectLikeGoods(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("goodsMapper.selectLike", gno);
+	}
+
+	@Override
+	public int updateGoods(Goods g) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateGoods", g);
+	}
 }
