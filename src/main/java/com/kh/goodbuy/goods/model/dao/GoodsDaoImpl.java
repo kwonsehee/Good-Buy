@@ -268,4 +268,16 @@ public class GoodsDaoImpl implements GoodsDao{
 		// TODO Auto-generated method stub
 		return sqlSession.update("goodsMapper.updateGoods", g);
 	}
+
+	@Override
+	public int selectMyDealListCount(String user_id) {
+		return sqlSession.selectOne("goodsMapper.selectMyDealListCount",user_id);
+	}
+
+	@Override
+	public List<Goods> selectMyDealList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectMyDealList",user_id, rowBounds);
+	}
 }
