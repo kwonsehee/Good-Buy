@@ -160,7 +160,7 @@ cursor : pointer !important;
     			var content = $(this).val();
     			var point2 = ${point};
     			var point3 = ${fees};
-    			var total=${g.gprice+fees}
+    			var total=${g.gprice+fees};
     			
     			$('#used_point').html("-"+content+ "원");
     			total-=content;

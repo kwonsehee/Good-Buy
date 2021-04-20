@@ -76,6 +76,8 @@ public interface GoodsDao {
 	public int payUpPoint(Integer gno);
 	//상품 끌올하기
 	public int upGoods(String  user_id);
+	//관리자
+	public List<Goods> selectGoodsList(PageInfo pi);
 
 
 }

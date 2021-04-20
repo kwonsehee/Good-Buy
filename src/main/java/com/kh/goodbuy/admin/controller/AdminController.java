@@ -22,6 +22,8 @@ import com.kh.goodbuy.center.model.vo.QNA;
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.ReportService;
 import com.kh.goodbuy.common.model.vo.Report;
+import com.kh.goodbuy.goods.model.service.GoodsService;
+import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
@@ -40,6 +42,8 @@ public class AdminController {
 	private ReportService rService;
 	@Autowired
 	private QnaService qService;
+	@Autowired
+	private GoodsService gService;
 
 	// 관리자 페이지 메인페이지 이동
 	@GetMapping("/join")
@@ -188,8 +192,26 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// 상품관리 메인페이지 이동
 	@GetMapping("/product")
-	public String ProductMainView() {
-		return "admin/product_main";
+
+		public ModelAndView ProductMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+			
+			int listCount = mService.selectListCount();
+			List<Goods> glist;
+			int boardLimit = 7;	// 한 페이지 보여질 게시글 개수
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			List<Goods> list = gService.selectGoodsList(pi);
+			if (list != null) {
+				mv.addObject("list", list);
+				
+				mv.addObject("pi", pi);
+				mv.setViewName("admin/product_main");
+			} else {
+				mv.addObject("msg", "회원 목록 조회에 실패하였습니다.");
+				mv.setViewName("common/error_page");
+			}
+			return mv;
+
+	
 	}
 
 	// 상품관리 디테일 페이지 이동

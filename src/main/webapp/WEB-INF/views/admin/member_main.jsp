@@ -82,47 +82,65 @@
                   
                   
                 </tbody>
-                <!-- 페이징 처리 -->
+                
             
-				<tr>
-					<td colspan="6">
-					
-					<c:if test="${ pi.currentPage >= 0 }">
-						<c:url var="before" value="/admin/member">
-							<c:param name="page" value="${ pi.currentPage -1 }" />
-						</c:url>
-						<a href="${ before }">[이전]</a> &nbsp;
-					</c:if>
-					<!-- 페이지 숫자 -->
-					<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-						<c:if test="${ p eq pi.currentPage }">
-							<font color="red" size="4"><b>[${ p }]</b></font> &nbsp;
-						</c:if>
-						<c:if test="${ p ne pi.currentPage }">
-							<c:url var="pagination" value="/admin/member">
-								<c:param name="page" value="${ p }"/>
-							</c:url>
-							<a href="${ pagination }">${ p }</a> &nbsp;
-						</c:if>
-					</c:forEach>
-					<!-- [다음] -->
-					<c:if test="${ pi.currentPage >= pi.maxPage }">
-						[다음]
-					</c:if>
-					<c:if test="${ pi.currentPage < pi.maxPage }">
-						<c:url var="after" value="/admin/member">
-							<c:param name="page" value="${ pi.currentPage + 1 }" />
-						</c:url>
-						<a href="${ after }">[다음]</a>
-					</c:if>
-					</td> 
-				</tr>
+				
               </table>
 
 
         </div>
         <div id="div5">
-            
+            <div id="pageArea">
+           <c:if test="${pi.currentPage <= 0}">
+            <a> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > 0}">
+            	<c:url var="start" value="/admin/member">
+            		<c:param name="page" value="1"/>
+            	</c:url>
+           		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage <= pi.startPage}">
+            <a> &lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > pi.startPage }">
+            	<c:url var="before" value="/admin/member">
+            		<c:param name="page" value="${pi.currentPage -1}"/>
+            	</c:url>
+           		 <a href="${before }"> &lt;&nbsp; </a>
+            </c:if>
+           <!-- 페이지 숫자 -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
+				</c:if>
+				<c:if test="${ p ne pi.currentPage }">
+					<c:url var="pagination" value="/admin/member">
+						<c:param name="page" value="${ p }" />
+					</c:url>
+					<a href="${ pagination }">${ p }</a> &nbsp;
+				</c:if>
+			</c:forEach>
+			<c:if test="${pi.currentPage  >= pi.maxPage}">
+            <a> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage }">
+            	<c:url var="after" value="/admin/member">
+            		<c:param name="page" value="${pi.currentPage +1}"/>
+            	</c:url>
+           		 <a href="${ after }"> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage >= pi.maxPage }">
+            <a> &gt;&gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage  }">
+            	<c:url var="end" value="/admin/member">
+            		<c:param name="page" value="${pi.endPage}"/>
+            	</c:url>
+           		 <a href="${end}"> &gt;&gt;&nbsp; </a>
+            </c:if>
+ 
+         </div>
 
          </div>
     </section>

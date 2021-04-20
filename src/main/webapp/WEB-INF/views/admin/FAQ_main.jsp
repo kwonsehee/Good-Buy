@@ -12,7 +12,7 @@
     <!-- 공통 UI -->
    <link href="${ contextPath }/resources/css/admin/admin_FAQ.css?" rel="stylesheet" type="text/css">
   <style>
-      
+    
   </style>
 </head>
 <body>
@@ -46,7 +46,7 @@
 
 
 
-        <div id="div4">
+        <div id="div3-1">
             
 
               <c:forEach var="f" items="${ list }">  
@@ -74,11 +74,11 @@
 		</div>
 		
         <div id="div3">
-            <select name='sendOption' id="option1">
-                <option value='0' selected >전체</option>
-                <option value='1' >계정 및 보안</option>
-                <option value='2'>불건전 사용자</option>
-                <option value='3'>결제 및 상점</option>
+            <select name='sendOption' id="sendOption">
+                
+                <option id="4">계정 및 보안</option>
+                <option id="5">불건전 사용자</option>
+                <option id="6">결제 및 상점</option>
               </select>
 
         </div>
@@ -89,7 +89,7 @@
         <div id="div4">
             
 
-              <c:forEach var="q" items="${ list2 }">  
+              <c:forEach var="q" items="${ list21 }">  
               <ul class="mylist">
                 <li class="menu">
                     <a style="font-size: 30px;">${ q.qa_title }<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
@@ -102,11 +102,40 @@
            	</c:forEach>
                 
             </div>
+            
+            <div id="div5">
+            
+
+              <c:forEach var="q" items="${ list22 }">  
+              <ul class="mylist">
+                <li class="menu">
+                    <a style="font-size: 30px;">${ q.qa_title }두 번째카테<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
+                    <ul class="hide">
+                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">${ q.qa_content }<button id="createButton1" style="float:right;" onclick="selectQNA(${q.qa_no})">상세</button></li>
+                        
+                    </ul>
+                </li>
+              </ul>
+           	</c:forEach>
                 
+            </div>
+            
+            <div id="div6">
+            
+
+              <c:forEach var="q" items="${ list23 }">  
+              <ul class="mylist">
+                <li class="menu">
+                    <a style="font-size: 30px;">${ q.qa_title }<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
+                    <ul class="hide">
+                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">${ q.qa_content }<button id="createButton1" style="float:right;" onclick="selectQNA(${q.qa_no})">상세</button></li>
+                        
+                    </ul>
+                </li>
+              </ul>
+           	</c:forEach>
                 
-                
-                
-                
+            </div>
                 
            
     </section>
@@ -137,7 +166,8 @@
             }
         });
     });
-
+    
+	
 </script>
  <jsp:include page="../common/footer.jsp"/>
     <script>
@@ -150,12 +180,18 @@
           location.href='${contextPath}/admin/QNAdetail?qa_no=' + qa_no + '&page=${ pi.currentPage }';
           // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
        }
-     // 
-      //function ${
-   	 //	var cate = $("select[name=sendOption] option:selected").text();
-   	 //	location.href="${contextPath}/admin/FAQ?sendOption?="+sendOption;
-   //	};
+      
+     $("#div5, #div6").hide();
+     $("#sendOption").change(function() {
+    	 $("#div4, #div5, #div6").hide();
+    	$('#div' + $(this).find('option:selected').attr('id')).show(); 
+     });
+     
+    
+     
    </script>
+   
+
 
 </body>
 </html>

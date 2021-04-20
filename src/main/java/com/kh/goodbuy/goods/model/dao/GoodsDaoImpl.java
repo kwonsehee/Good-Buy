@@ -256,4 +256,11 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.upGoods", user_id);
 
 	}
+
+	@Override
+	public List<Goods> selectGoodsList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectGoodsList", null, rowBounds);
+	}
 }

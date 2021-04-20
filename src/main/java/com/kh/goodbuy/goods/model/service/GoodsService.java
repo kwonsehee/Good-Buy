@@ -73,6 +73,9 @@ public interface GoodsService {
 	public int hideGoods(int gno);
 	//끌올 포인트 결제
 	public int payUpPoint(Integer gno, String string);
+	
+	// 관리자
+	public List<Goods> selectGoodsList(PageInfo pi);
 
 
 

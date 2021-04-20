@@ -180,6 +180,11 @@ public class GoodsServiceImpl implements GoodsService{
 		return gDao.payUpPoint(gno);
 
 	}
+	@Override
+	public List<Goods> selectGoodsList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return gDao.selectGoodsList(pi);
+	}
 	
 
 }
