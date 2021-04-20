@@ -113,8 +113,20 @@
                 </td>
                </tr>
             <tr>
-                <td rowspan="7">
-                    <img src="${ contextPath }/resources/images/goodupload/${g.filelist[0]}" style="width: 400px;height: 400px;margin-right: 25px;">
+                <td rowspan="7" >
+                <div class="slider">
+                <img src="${ contextPath }/resources/images/left.png" id="back">
+                
+                <ul>
+                <c:forEach var="f" items="${ g.filelist }">
+                   <li  class="item"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></li>
+                </c:forEach>
+                
+                </ul>
+                <img src="${ contextPath }/resources/images/left.png" id="next">
+		
+                </div>
+               
                 </td>
             </tr>
             <tr>
@@ -217,6 +229,36 @@
                 <p id="counter" class="reply_left">(0 / 1000)</p>
                
                 <button type="submit" id="writeBtn">등록하기</button>
+             <script>
+					
+						var imgs;
+						var img_count;
+						var img_position = 1;
+						imgs = $(".slider ul");
+						img_count = imgs.children().length;
+						console.log(img_count);
+						//button clickc
+						$('#back').click(function(){
+							if(1<img_position){
+								imgs.animate({
+									left : '+=400px'
+								});
+								img_position--;
+							}
+						});
+						$('#next').click(function(){
+							if(img_count-1>img_position){
+								imgs.animate({
+									left : '-=400px'
+								});
+								img_position++;
+							}
+						});
+					
+				
+				</script>
+
+
              
                <script>
              

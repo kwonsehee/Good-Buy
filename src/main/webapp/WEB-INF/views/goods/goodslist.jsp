@@ -80,9 +80,7 @@
        		 <c:if test="${ !empty sessionScope.loginUser }">
        		<a href="${ contextPath }/goods/mylist">내 상품 모아보기</a>
        		</c:if>
-       		 <c:if test="${ empty sessionScope.loginUser }">
-       		<a href="${ contextPath }/goods/mylist">팝업띄우기</a>
-       		</c:if>
+       		
        </div>
        <div id="pageArea">
        		<c:if test="${pi.currentPage <= 0}">
@@ -135,7 +133,9 @@
             </c:if>
 
 		</div>
+		 <c:if test="${ !empty sessionScope.loginUser }">
        <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insertView'" >중고거래 글쓰기</button>
+       </c:if>
     </section>
     <script type="text/javascript">
     function showCate(){
