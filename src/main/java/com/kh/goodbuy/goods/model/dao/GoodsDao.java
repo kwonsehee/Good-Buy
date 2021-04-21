@@ -90,4 +90,8 @@ public interface GoodsDao {
 	public int selectMyDealListCount(String user_id);
 	// 안전거래내역 리스트 출력
 	public List<Goods> selectMyDealList(String user_id, PageInfo pi);
+	//중고상품 파일 삭제 
+	public int deleteFile(int gno);
+	//중고상품 파일update
+	public int updateFile(List<Addfile> list, int gno);
 }

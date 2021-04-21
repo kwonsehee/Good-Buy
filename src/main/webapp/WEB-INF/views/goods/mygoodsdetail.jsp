@@ -185,7 +185,7 @@
 							}
 						});
 						$('#next').click(function(){
-							if(img_count-1>img_position){
+							if(img_count>img_position){
 								imgs.animate({
 									left : '-=400px'
 								});

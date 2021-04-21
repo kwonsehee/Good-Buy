@@ -6,9 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Good-Buy</title>
-
+<!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <link href="${ contextPath }/resources/css/goods/goodsinsert.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="${ contextPath }/resources/css/dropzon/min/dropzone.min.css" />
 
 <style>
 .gcate input[type="button"]{
@@ -25,7 +26,7 @@
    <section id="gbSection">
         <p id="pg_title">상품 수정</p>
   	  <form action="${ contextPath }/goods/edit" method="post" name="myForm" enctype="multipart/form-data">
-	
+	  <input type="hidden" value="${g.gno }" name="gno"/>
         <table id="insert_goods">
             <tr>
                 <th>
@@ -101,13 +102,16 @@
                         <c:if test="${ g.town.t_no==townInfo.t_no }">
                         <option value="1" selected>${townInfo.address_1 } &nbsp;${townInfo.address_2 } &nbsp;${townInfo.address_3 } </option>
                         </c:if>
-                        <c:if test="${ !empty secondTown}">
-                        <option value="2">${secondTown.address_1 }&nbsp;${secondTown.address_2 }&nbsp;${secondTown.address_3 }</option>
-
                         <c:if test="${ g.town.t_no!=townInfo.t_no }">
-                        <option value="2" selected>${secondTown.address_1 }&nbsp;${secondTown.address_2 }&nbsp;${secondTown.address_3 }</option>
-						</c:if>
-
+                        <option value="1" >${townInfo.address_1 } &nbsp;${townInfo.address_2 } &nbsp;${townInfo.address_3 } </option>
+                        </c:if>
+                        <c:if test="${ !empty secondTown}">
+                        	<c:if test="${ g.town.t_no==secondTown.t_no }">
+                        		<option value="2" selected>${secondTown.address_1 }&nbsp;${secondTown.address_2 }&nbsp;${secondTown.address_3 }</option>
+							</c:if>
+						 	<c:if test="${ g.town.t_no!=secondTown.t_no }">
+                        		<option value="2">${secondTown.address_1 }&nbsp;${secondTown.address_2 }&nbsp;${secondTown.address_3 }</option>
+							</c:if>
 						</c:if>
                         <option value="0">직거래 불가</option>
                     </select>
@@ -119,7 +123,7 @@
                     가격
                 </th>
                 <td colspan="3">
-                    <input type="text" placeholder="가격을 입력해주세요." id="gprice"name="gprice" value="${g.gprice}원" required >
+                    <input type="text" placeholder="가격을 입력해주세요." id="gprice"name="gprice" value="${g.gprice}" required >원
                 </td>
             </tr>
             <tr>
@@ -173,10 +177,13 @@
                 	<div id="photo_area" >
 		<div id="photo_input1">
 	<img src='${ contextPath }/resources/images/insertimg.png' class="photo_img" onclick="document.getElementById('file1').click();"> 
-	<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event);" >
+	<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event, 1);" >
 	</div>
 		<c:forEach var="f" items="${ g.filelist }">
-           <div id="photo_input"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></div>
+           <div id="photo_input">
+            <input type="file" name="fileup" value="${ contextPath }/resources/images/goodupload/${f}" style="display:none;">
+            <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img">
+           <button type="button" class="button-delete-file">삭제</button></div>
         </c:forEach>
 		
 	</div>
@@ -186,6 +193,47 @@
 
 
         </table>
+        
+        
+           <script>
+      
+      function setThumbnail(event, num) { 
+        var cnt = $("#photo_area").children().length;
+        console.log(cnt);
+        if(cnt<=5){
+        	var num2 = num+1;
+        	var reader = new FileReader(); 
+        	reader.onload = function(event) { 
+        	var img = document.createElement("img"); 
+        	img.setAttribute("src", event.target.result); 
+        	$(".photo_img").remove();
+        	document.querySelector("div#photo_input"+num).append(img);
+        	$("#photo_input"+num).append("<button class='button-delete-file'>삭제</button>");
+        		
+        	var a = "<div id='photo_input"+num2+"'><img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick("+num2+");'>" 
+        	+"<input type='file' id='file"+num2+"' name='fileup' style='display:none;' onchange='setThumbnail(event, "+num2+");' ></div>";
+        	/* img2.append(a); */
+        	$("#photo_area").append(a);
+        		
+        	}; 
+        	reader.readAsDataURL(event.target.files[0]);
+        }
+        else{
+        	  swal.fire({
+        		  title: '첨부파일',
+        		  html: '<br>첨부파일은 최대 5장 설정 가능합니다.<br>추가하고 싶은 사진이 있다면 기존파일을 삭제하세요.<br>',
+        		  imageUrl: '${ contextPath }/resources/images/logo.png',
+        		  imageWidth: 232,
+        		  imageHeight: 90,
+        		  imageAlt: 'Custom image',
+        		});
+        	}
+        }
+        function imgclick(name){
+        	document.getElementById('file'+name).click();
+        }
+      
+   </script>
 <script>
 $(function(){
 	$('#button-add-file').click(addFileForm);
@@ -252,57 +300,7 @@ function addFileForm() {
               }
 		
         </script>
-			<script>
-			$(function(){
-				//input type="file"태그에 파일이 첨부될때 동작하는 이벤트
-				$("[type=file]").change(function(){
-					loadImg(this);
-				});
-			});
-			function loadImg(element){
-				//element를 판별해서 알맞은 위치에 preview표현하기
-				/* console.log(element.name); */
-				
-				//input type="file" 엘리먼트에 첨부파일 속성, 첨부파일이 잘 존재하는지 확인
-				if(element.files && element.files[0]){
-					//파일을 읽어들일 FileReader 객체 생성
-					var reader = new FileReader();
-					
-					//파일 읽기가 다 완료 되었을 때 실행되는 메소드
-					reader.onload =function(e){
-						var selector;
-						var size;
-						
-						switch(element.name){
-						case "thumbnailImg":
-							selector = "#thumbnail";
-							 size = {width : "550px", height : "300px", border: "solid 1px #dadada"};
-
-							break;
-						case "contentImg1":
-							selector = "#content1";
-							
-							size = {width : "250px", height : "150px", border: "solid 1px #dadada"};
-							break;
-						case "contentImg2":
-							selector = "#content2";
-							 size = {width : "250px", height : "150px", border: "solid 1px #dadada"};
-
-							break;
-							
-						}
-						$(selector).attr("src",e.target.result).css(size);
-						console.log(e);
-						console.log(e.target);
-						console.log(e.target.result);
-					}
-					//파일 읽기 하는 메소드
-					reader.readAsDataURL(element.files[0]);
-
-					
-				}
-			}
-			</script>
+			
         <button type="reset" id="greset" onclick="${ contextPath }/goods/list">취소</button>
         <button type="submit" id="gsubmit" >등록하기</button>
     </form>

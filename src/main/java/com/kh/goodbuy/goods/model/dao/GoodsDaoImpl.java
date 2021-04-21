@@ -288,4 +288,23 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectList("goodsMapper.selectMyDealList",user_id, rowBounds);
 
 	}
+
+	@Override
+	public int deleteFile(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("goodsMapper.deleteFile", gno);
+	}
+
+	@Override
+	public int updateFile(List<Addfile> list, int gno) {
+		Map<String, Object> map = new HashMap <String, Object>();		
+		map.put("gno", gno);
+		int result = 0;
+		for(int i=0;i<list.size();i++) {
+			map.put("list",list.get(i));
+			result += sqlSession.insert("goodsMapper.updateFile", map);
+		}
+		// TODO Auto-generated method stub
+		return result;
+	}
 }

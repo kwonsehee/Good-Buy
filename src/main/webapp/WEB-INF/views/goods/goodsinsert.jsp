@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Good-Buy</title>
+<!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <link href="${ contextPath }/resources/css/goods/goodsinsert.css" rel="stylesheet" type="text/css">
 
@@ -156,13 +159,11 @@
     
 	<div id="photo_area" >
 		<div id="photo_input1">
-	<img src='${ contextPath }/resources/images/insertimg.png' class="photo_img" onclick="document.getElementById('file1').click();"> 
-	<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event);" >
-	</div>
-		<div id="photo_input2"></div>
-		<div id="photo_input3"></div>
-		<div id="photo_input4"></div>
-		<div id="photo_input5"></div>
+		<img src='${ contextPath }/resources/images/insertimg.png' class="photo_img" onclick="document.getElementById('file1').click();"> 
+		<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event, 1);" >
+	
+		</div>
+		
 	</div>
 	
                    
@@ -173,85 +174,42 @@
         </table>
         <script>
       
-        function setThumbnail(event) { 
+      function setThumbnail(event, num) { 
+        var cnt = $("#photo_area").children().length;
+        console.log(cnt);
+        if(cnt<=5){
+        	var num2 = num+1;
         	var reader = new FileReader(); 
         	reader.onload = function(event) { 
         	var img = document.createElement("img"); 
         	img.setAttribute("src", event.target.result); 
         	$(".photo_img").remove();
-        	document.querySelector("div#photo_input1").append(img);
-        	$("#photo_input1").append("<button class='button-delete-file'>삭제</button>");
-        	var img2 = $("#photo_input2");
-        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(2);'>" 
-        	+"<input type='file' id='file2' name='fileup' style='display:none;' onchange='setThumbnail2(event);' >";
-        	img2.append(a);
+        	document.querySelector("div#photo_input"+num).append(img);
+        	$("#photo_input"+num).append("<button class='button-delete-file'>삭제</button>");
+        		
+        	var a = "<div id='photo_input"+num2+"'><img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick("+num2+");'>" 
+        	+"<input type='file' id='file"+num2+"' name='fileup' style='display:none;' onchange='setThumbnail(event, "+num2+");' ></div>";
+        	/* img2.append(a); */
+        	$("#photo_area").append(a);
+        		
         	}; 
         	reader.readAsDataURL(event.target.files[0]);
+        }
+        else{
+        	  swal.fire({
+        		  title: '첨부파일',
+        		  html: '<br>첨부파일은 최대 5장 설정 가능합니다.<br>추가하고 싶은 사진이 있다면 기존파일을 삭제하세요.<br>',
+        		  imageUrl: '${ contextPath }/resources/images/logo.png',
+        		  imageWidth: 232,
+        		  imageHeight: 90,
+        		  imageAlt: 'Custom image',
+        		});
+        	}
         }
         function imgclick(name){
         	document.getElementById('file'+name).click();
         }
-        function setThumbnail2(event) { 
-        	var reader = new FileReader(); 
-        	reader.onload = function(event) { 
-        	var img = document.createElement("img"); 
-        	img.setAttribute("src", event.target.result); 
-        	$(".photo_img").remove();
-        	document.querySelector("div#photo_input2").appendChild(img);
-        	$("#photo_input2").append("<button class='button-delete-file'>삭제</button>");
-        	
-        	var img2 = $("#photo_input3");
-        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(3);'>" 
-        	+"<input type='file'id='file3' name='fileup' style='display:none;'onchange='setThumbnail3(event);' >";
-        	
-        	img2.append(a);
-        	}; 
-        	reader.readAsDataURL(event.target.files[0]);
-        }
-        function setThumbnail3(event) { 
-        	var reader = new FileReader(); 
-        	reader.onload = function(event) { 
-        	var img = document.createElement("img"); 
-        	img.setAttribute("src", event.target.result); 
-        	$(".photo_img").remove();
-        	document.querySelector("div#photo_input3").appendChild(img);
-        	$("#photo_input3").append("<button class='button-delete-file'>삭제</button>");
-        	
-        	var img2 = $("#photo_input4");
-        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(4);'>" 
-        	+"<input type='file' id='file4' name='fileup' style='display:none;'onchange='setThumbnail4(event);' >";
-        	
-        	img2.append(a);
-        	}; 
-        	reader.readAsDataURL(event.target.files[0]);
-        }
-        function setThumbnail4(event) { 
-        	var reader = new FileReader(); 
-        	reader.onload = function(event) { 
-        	var img = document.createElement("img"); 
-        	img.setAttribute("src", event.target.result); 
-        	$(".photo_img").remove();
-        	document.querySelector("div#photo_input4").appendChild(img);
-        	$("#photo_input4").append("<button class='button-delete-file'>삭제</button>");
-        	var img2 = $("#photo_input5");
-        	var a = "<img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick(5);'>" 
-        	+"<input type='file' id='file5' name='fileup' style='display:none;'onchange='setThumbnail5(event);' >";
-        	
-        	img2.append(a);
-        	}; 
-        	reader.readAsDataURL(event.target.files[0]);
-        }
-        function setThumbnail5(event) { 
-        	var reader = new FileReader(); 
-        	reader.onload = function(event) { 
-        	var img = document.createElement("img"); 
-        	img.setAttribute("src", event.target.result); 
-        	$(".photo_img").remove();
-        	document.querySelector("div#photo_input5").appendChild(img);
-        	$("#photo_input5").append("<button class='button-delete-file'>삭제</button>");
-        	}; 
-        	reader.readAsDataURL(event.target.files[0]);
-        }
+      
    </script>
 <script>
 $(function(){

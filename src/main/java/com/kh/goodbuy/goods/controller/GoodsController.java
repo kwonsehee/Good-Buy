@@ -171,6 +171,7 @@ public class GoodsController {
 		}
 		List<Reply>rlist = gService.selectReplyList(g);
 		model.addAttribute("g", g);
+		System.out.println(g);
 		model.addAttribute("rlist", rlist);
 		return "goods/goodsdetail";
 	}
@@ -452,8 +453,7 @@ public class GoodsController {
 				}
 			}
 		}
-		// int ok = gService.insertFile(list);
-
+		
 		int cno = gService.selectCateNo(c);
 		g.setCno(cno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
