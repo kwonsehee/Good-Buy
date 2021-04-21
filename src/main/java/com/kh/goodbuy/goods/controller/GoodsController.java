@@ -171,7 +171,7 @@ public class GoodsController {
 		}
 		List<Reply>rlist = gService.selectReplyList(g);
 		model.addAttribute("g", g);
-		System.out.println(g);
+		System.out.println(rlist);
 		model.addAttribute("rlist", rlist);
 		return "goods/goodsdetail";
 	}
@@ -366,14 +366,40 @@ public class GoodsController {
 		return gson.toJson(rlist);
 	
 	}
-	
+
+	// 댓글 삭제
+	@PostMapping(value = "/deleteReply", produces = "application/json; charset= utf-8")
+	public @ResponseBody String deleteReply(int rno, HttpSession session, HttpServletRequest request) {
+		Goods g = (Goods) request.getSession().getAttribute("g");
+//		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+//
+//		r.setRno(g.getGno());
+//		r.setUser_id(loginUser.getUser_id());
+		
+		
+		// Service, Dao, board-mapper.xml 코드 추가
+		// Service - > 쪽지 상태 N으로 변경 후 댓글 select
+		List<Reply> rlist = gService.updateReply(rno, g);
+		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+		// 응답 작성
+		return gson.toJson(rlist);
+
+	}
 	
 	// 상품 수정페이지로
 	@GetMapping("/editView")
-	public ModelAndView goeditView(HttpServletRequest request,ModelAndView mv) {
+	public ModelAndView goeditView(HttpServletRequest request,ModelAndView mv,
+			@RequestParam(value="gno", required=false, defaultValue="0") int gno) {
 		List<Gcate> list = gService.selectCate();
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		Town secondTown = gService.selectSecondTown(loginUser.getUser_id());
+		if(gno!=0) {
+			//상품 정보셀렉
+			Goods g = gService.Goodsdetail(gno);
+			mv.addObject("g", g);
+		}
 		mv.addObject("list", list);
 		mv.addObject("secondTown", secondTown);
 		mv.setViewName("goods/goodsedit");

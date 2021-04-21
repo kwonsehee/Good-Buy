@@ -94,4 +94,6 @@ public interface GoodsDao {
 	public int deleteFile(int gno);
 	//중고상품 파일update
 	public int updateFile(List<Addfile> list, int gno);
+	//댓글삭제
+	public int updateReply(int rno);
 }

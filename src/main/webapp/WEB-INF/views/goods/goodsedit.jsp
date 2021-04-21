@@ -85,9 +85,9 @@
         		<td>
         		<div  style="margin-top : 10px; margin-bottom:10px;">
         	
-        			<span id="selectedCate1" >${g.goodcate.lfilter }</span><span id="nbsp1"></span>
-        			<span id="selectedCate2" >${g.goodcate.mfilter } </span><span id="nbsp2"></span>
-        			<span id="selectedCate3" >${g.goodcate.sfilter }</span>
+        			<span id="selectedCate1" ><input type='hidden' name='lfilter' value='${g.goodcate.lfilter }'>${g.goodcate.lfilter }</span><span id="nbsp1">&nbsp;&nbsp;->&nbsp;</span>
+        			<span id="selectedCate2" ><input type='hidden' name='mfilter' value='${g.goodcate.mfilter }'>${g.goodcate.mfilter } </span><span id="nbsp2">&nbsp;&nbsp;->&nbsp;</span>
+        			<span id="selectedCate3" ><input type='hidden' name='sfilter' value='${g.goodcate.sfilter }'>${g.goodcate.sfilter }</span>
         		</div>
         		</td>
         	</tr>

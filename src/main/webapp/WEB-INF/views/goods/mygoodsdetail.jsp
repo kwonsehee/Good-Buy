@@ -55,16 +55,18 @@
             <tr>
                 <td rowspan="7">
                    <div class="slider">
+                   <c:if test="${fn:length(g.filelist )>1}">
                 <img src="${ contextPath }/resources/images/left.png" id="back">
-                
+                </c:if>
                 <ul>
                 <c:forEach var="f" items="${ g.filelist }">
                    <li  class="item"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></li>
                 </c:forEach>
                 
                 </ul>
+                <c:if test="${fn:length(g.filelist )>1}">
                 <img src="${ contextPath }/resources/images/left.png" id="next">
-		
+		</c:if>
                 </div>
                 </td>
             </tr>
@@ -103,8 +105,8 @@
                     
                 </tr>
                 <tr>
-                    <td style="width:950px;">${r.rcontent }</td>
-                    <td class="reviews"><img src="${ contextPath }/resources/images/reply.png" style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
+                    <td style="width:94%;">${r.rcontent }</td>
+                    <td style="width:14%;"><span class="deleteReply" onclick="deletereplyBtn(${r.rno })">삭제</span></td>
                 </tr>
              </c:forEach>
              </c:if>
@@ -145,15 +147,53 @@
               tableBody.html("");
               
               for(var i in data){
-            	
+            	  var rno = data[i].rno;
               	   var a = "<tr> <td colspan='2'>";
               	   a+=data[i].user_id;
               	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
               	   a+=data[i].createDate;
-              	   a+="</td></tr><tr><td style='width:950px;'>";
+              	   a+="</td></tr><tr><td style='width:94%;'>";
               	   a+=data[i].rcontent;
-              	   a+="</td><td class='reviews'><img src='${ contextPath }/resources/images/reply.png' style='width : 20px;'><span style='font-size: 1.3em;'>&nbsp;1</span></td></tr>"
+              	   a+="</td><td style='width:14%;'><span class='deleteReply' onclick='deletereplyBtn("+rno+")'>삭제</span></td></tr>"
+              		  
+              	 
+              	   tableBody.append(a);
+              	   
+                 }
+            
+            
+            //-> 댓글 작성 <textarea> 비워주기
+			  $("#replyContent").val("");
+		  }
+		  
+	   });
+   });
+   
+   function deletereplyBtn(rno){
+	   console.log(rno);
+	   $.ajax({
+		   url : "${contextPath}/goods/deleteReply",
+		   data : {rno : rno},
+		  type : "post",
+		  dataType : "json",
+		  success : function(data){
+			  console.log(data);//해당 게시글에 작성된 댓글리스트 받아오기
+			 //-> <tbody> 안에 data 의 댓글 리스트를 형식에 맞게 세팅 
+			     
+			  tableBody = $("#replyTable");
+              tableBody.html("");
+              
+              for(var i in data){
+            	  var rno = data[i].rno;
+              	   var a = "<tr> <td colspan='2'>";
+              	   a+=data[i].user_id;
+              	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+              	   a+=data[i].createDate;
+              	   a+="</td></tr><tr><td style='width:94%;'>";
+              	   a+=data[i].rcontent;
+              	   a+="</td><td style='width:14%;'><span class='deleteReply' onclick='deletereplyBtn("+rno+")'>삭제</span></td></tr>"
               		  
               	 
               	   tableBody.append(a);
@@ -165,7 +205,7 @@
 		  }
 		  
 	   });
-   });
+   }
    </script>
      <script>
 					

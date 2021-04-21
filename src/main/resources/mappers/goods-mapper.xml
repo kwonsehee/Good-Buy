@@ -836,6 +836,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</insert>
+	<update id="updateReply" parameterType="_int">
+		UPDATE REPLY
+		SET R_STATUS = 'N'
+		WHERE R_NO = #{rno}
+	
+	
+	</update>
 </mapper>
 
 

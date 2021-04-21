@@ -307,4 +307,10 @@ public class GoodsDaoImpl implements GoodsDao{
 		// TODO Auto-generated method stub
 		return result;
 	}
+
+	@Override
+	public int updateReply(int rno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateReply", rno);
+	}
 }

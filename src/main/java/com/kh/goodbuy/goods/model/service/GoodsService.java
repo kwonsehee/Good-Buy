@@ -86,6 +86,8 @@ public interface GoodsService {
 	public int selectMyDealListCount(String user_id);
 	// 안전거래내역 리스트 출력
 	public List<Goods> selectMyDealList(String user_id, PageInfo pi);
+	//댓글삭제
+	public List<Reply> updateReply(int rno, Goods g);
 
 
 
