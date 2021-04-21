@@ -38,25 +38,35 @@
         </div>
 
         <div id="div3">
-            <label id="la1">상품 이름</label><input type="text" id="text1">
-            <label id="la1">판매자 명</label><input type="text" id="text1">
+        <form action="${ contextPath }/admin/productsearch" method="get">
+        <select name="searchCondition" id="option1">
+                <option value="proname" <c:if test="${ param.searchCondition == 'proname' }">selected</c:if>>상품명</option>
+                <option value="username" <c:if test="${ param.searchCondition == 'username' }">selected</c:if>>판매자 명</option>
+              
+            </select>
+            <input type="search" name="searchValue" value="${ param.searchValue }">
             <button id="createButton">검 색</button>
-
+		</form>
         </div>
 
         <div id="div4">
             <table id="table1">
                 <thead>
                   <tr style="background-color: #F1FCFF;">
-                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th></th>
+                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>상품 번호</th>
                   </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="g" items="${ list }">
                
             
-                  <tr id="tr_hover1" onclick="location.href='${ contextPath }/admin/productdetail'">
-                    <th><img src="${ contextPath }/resources/images/goodupload/${g.changeName}" id="src1"></th><th>${ g.gtitle }</th><th>${ g.gprice }</th><th>${ g.createDate }</th><th>${ g.user_id }</th><th></th>
+                  <tr id="tr_hover1" onclick="selectProduct(${g.gno})">
+                    <th><img src="${ contextPath }/resources/images/goodupload/${g.changeName}" id="src1"></th>
+                    <th>${ g.gtitle }</th>
+                    <th>${ g.gprice }</th>
+                    <th>${ g.createDate }</th>
+                    <th>${ g.user_id }</th>
+                    <th>${ g.gno }</th>
                   </tr>
                   
                   
@@ -124,7 +134,12 @@
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
-
+	<script>
+	function selectProduct(gno){
+        location.href='${contextPath}/admin/productdetail?gno=' + gno + '&page=${ pi.currentPage }';
+        // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+     }
+	</script>
 
 </body>
 </html>

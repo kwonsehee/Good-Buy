@@ -7,6 +7,7 @@ import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
 import com.kh.goodbuy.town.model.vo.Town;
 
 public interface GoodsService {
@@ -86,6 +87,10 @@ public interface GoodsService {
 	public int selectMyDealListCount(String user_id);
 	// 안전거래내역 리스트 출력
 	public List<Goods> selectMyDealList(String user_id, PageInfo pi);
+	
+	// 관리자
+	public Goods selectProduct(int gno);
+	public List<Goods> searchList(Search search);
 
 
 

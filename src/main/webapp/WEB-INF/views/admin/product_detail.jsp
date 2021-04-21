@@ -38,9 +38,15 @@
         </div>
 
         <div id="div3">
-            <label id="la1">상품 이름</label><input type="text" id="text1">
-            <label id="la1">판매자 명</label><input type="text" id="text1">
+             <form action="${ contextPath }/admin/productsearch" method="get">
+        <select name="searchCondition" id="option1">
+                <option value="proname" <c:if test="${ param.searchCondition == 'proname' }">selected</c:if>>상품명</option>
+                <option value="username" <c:if test="${ param.searchCondition == 'username' }">selected</c:if>>판매자 명</option>
+              
+            </select>
+            <input type="search" name="searchValue" value="${ param.searchValue }">
             <button id="createButton">검 색</button>
+		</form>
 
         </div>
 
@@ -48,17 +54,29 @@
             <table id="table1">
                 <thead>
                   <tr style="background-color: #F1FCFF;">
-                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>지역</th><th></th><th></th><th></th>
+                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>상품 번호</th><th></th><th></th><th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  
-                  <tr id="tr_hover2" onClick="location.href='admin_product_detail.html'" style="background-color: rgb(182, 228, 255);">
-                    <th><img src="images/아이패드.jpg" id="src1"></th><th>아이패드</th><th>700,000</th><th>2021/03/07</th><th>권세희</th><th colspan="3">인천</th><th><button id="createButton1">신고 처리</button></th>
+                  <c:choose>
+                  <c:when test="${ goods.gstatus == 'Y' }">
+                  <tr id="tr_hover2"  style="background-color: rgb(182, 228, 255);">
+                    <th><img src="${ contextPath }/resources/images/goodupload/${ goods.changeName }" id="src1"></th><th>${ goods.gtitle }</th><th>${ goods.gprice }</th><th>${goods.createDate}</th><th>${goods.user_id }</th><th colspan="3">${goods.gno }</th><th><button id="createButton1">신고 처리</button></th>
                   </tr>
                  <tr style="height: 200px; font-size: 30px;">
-                    <th></th><th></th><td>상품신고 처리</td><td><input type="checkbox"  style="width:40px;height:40px;" checked></td><td>상품판매 정지</td><td><input type="checkbox"  style="width:40px;height:40px;"><td></th><th></th><th></th>
+                    <th></th><th></th><td>상품신고 처리</td><td><input type="checkbox"  style="width:40px;height:40px;" checked></td><td>상품판매 정지</td><td><input type="checkbox"  style="width:40px;height:40px;"><td><th></th><th></th>
                  </tr>
+                 </c:when>
+                 <c:when test="${ goods.gstatus == 'N' }">
+                 <tr id="tr_hover2"  style="background-color: rgb(182, 228, 255);">
+                    <th><img src="${ contextPath }/resources/images/goodupload/${ goods.changeName }" id="src1"></th><th>${ goods.gtitle }</th><th>${ goods.gprice }</th><th>${goods.createDate}</th><th>${goods.user_id }</th><th colspan="3">${goods.gno }</th><th></th>
+                  </tr>
+                 <tr style="height: 200px; font-size: 30px;">
+                    <th></th><th></th><td>상품신고 처리</td><td><input type="checkbox"  style="width:40px;height:40px;" checked></td><td>상품판매 정지</td><td><input type="checkbox"  style="width:40px;height:40px;"><td><th></th><th></th>
+                 </tr>
+                 </c:when>
+                 
+                 </c:choose>
                   
                   
                 </tbody>

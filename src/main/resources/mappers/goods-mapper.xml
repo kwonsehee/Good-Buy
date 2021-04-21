@@ -60,6 +60,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result column="G_COMMENT" property="gcomment"/>
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="USER_ID" property="user_id"/>
+		<result column="G_STATUS" property="gstatus"/>
+		<result column="CHANGE_NAME" property="changeName"/>
 		
 		<association property="goodcate" javaType="Gcate">
 			
@@ -802,6 +804,64 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</select>
 
+<select id="selectProduct" parameterType="_int" resultMap="GoodsDetailResult">
+		SELECT
+				G.USER_ID USER_ID
+			  , G.G_NO G_NO
+			  , G.G_TITLE G_TITLE 
+			  , G.G_CONDITION G_CONDITION
+			  , G.G_PRICE G_PRICE
+			  , G.G_COMMENT G_COMMENT
+			  , A.CHANGE_NAME CHANGE_NAME
+			  , C.L_FILTER L_FILTER
+			  , C.M_FILTER M_FILTER
+			  , C.S_FILTER S_FILTER 
+			  , T.T_NO T_NO
+			  , T.ADDRESS_1 ADDRESS_1
+			  , T.ADDRESS_2 ADDRESS_2
+			  , T.ADDRESS_3 ADDRESS_3
+			  , G.G_STATUS G_STATUS
+		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
+		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
+		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
+		 JOIN TOWN T ON(G.G_PLACE = T.T_NO)
+		 WHERE G.G_NO = #{gno}
+	</select>
+	
+	<select id="searchList" parameterType="Search" resultMap="GoodsResultSet">
+		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
+		 SELECT 
+				G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		<where>
+		G_STATUS = 'Y'
+			<choose>
+				<when test="searchCondition == 'proname'">
+				AND (G_TITLE LIKE #{sv} )
+				</when>
+				<when test="searchCondition == 'username'">
+				AND (USER_ID LIKE #{sv} )
+				</when>
+			</choose>
+		</where>
+		ORDER BY CREATE_DATE DESC
+	</select>
 </mapper>
 
 
