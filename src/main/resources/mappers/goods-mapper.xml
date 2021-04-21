@@ -730,7 +730,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 
 
-<select id="selectGoodsList" resultMap="GoodsResultSet">
+	<select id="selectGoodsList" resultMap="GoodsResultSet">
       SELECT 
 				G_NO
 			  , G_TITLE
@@ -766,7 +766,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			, G_PRICE = #{gprice}
 			, G_CONDITION = #{gcondition}
 			, G_COMMENT = #{gcomment}
-			, C_NO = 2
+			, C_NO = #{cno}
 			, G_TITLE = #{gtitle}
 			WHERE G_NO = #{gno}
 	
@@ -862,6 +862,51 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		ORDER BY CREATE_DATE DESC
 	</select>
+
+	<delete id="deleteFile" parameterType="_int">
+		DELETE FROM GOODSFILE WHERE G_NO = #{gno}
+	</delete>
+  
+	<insert id="updateFile" parameterType="java.util.Map">
+	 INSERT ALL
+		INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+          , FILE_LEVEL
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{list.originName}
+		  , #{list.changeName}
+          , DEFAULT
+          , #{list.file_level}
+		 
+		)
+        INTO GOODSFILE
+        (
+            G_NO
+          , F_NO
+        )
+        VALUES
+        (
+            #{gno}
+          , F_SEQ.CURRVAL
+        )
+        SELECT * FROM DUAL
+	
+	
+	</insert>
+	<update id="updateReply" parameterType="_int">
+		UPDATE REPLY
+		SET R_STATUS = 'N'
+		WHERE R_NO = #{rno}
+	
+	
+	</update>
+
 </mapper>
 
 

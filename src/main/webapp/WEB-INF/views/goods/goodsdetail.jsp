@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,16 +116,18 @@
             <tr>
                 <td rowspan="7" >
                 <div class="slider">
+                <c:if test="${fn:length(g.filelist )>1}">
                 <img src="${ contextPath }/resources/images/left.png" id="back">
-                
+                </c:if>
                 <ul>
                 <c:forEach var="f" items="${ g.filelist }">
                    <li  class="item"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></li>
                 </c:forEach>
                 
                 </ul>
+                <c:if test="${fn:length(g.filelist )>1}">
                 <img src="${ contextPath }/resources/images/left.png" id="next">
-		
+				</c:if>
                 </div>
                
                 </td>
@@ -194,6 +197,7 @@
         <div id="replySection">
             <p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
             <table id="replyTable">
+            
             <c:if test="${ !empty rlist }">
             	<c:forEach var="r" items="${ rlist }">
                 <tr>
@@ -201,8 +205,12 @@
                     
                 </tr>
                 <tr>
-                    <td style="width:950px;">${r.rcontent }</td>
-                    <td class="reviews"><img src="${ contextPath }/resources/images/reply.png" style="width : 20px;"><span style="font-size: 1.3em;">&nbsp;1</span></td>
+                    <td style="width:94%;">${r.rcontent }</td>
+                    <td style="width:14%;">
+                    <c:if test="${ r.user_id.equals(loginUser.user_id) }">
+                    <span class="deleteReply" onclick="deletereplyBtn(${r.rno })">삭제</span>
+                    </c:if>
+                    </td>
                 </tr>
              </c:forEach>
              </c:if>
@@ -214,7 +222,7 @@
             </table>
            
             <div id="replyWrite">
-              
+              <input type="hidden" id="sessionloginuser" value='${loginUser.user_id }'/>
                 <c:if test="${ empty loginUser }">
                      <textarea  name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요" onclick="noUser()"></textarea>
                 
@@ -247,7 +255,7 @@
 							}
 						});
 						$('#next').click(function(){
-							if(img_count-1>img_position){
+							if(img_count>img_position){
 								imgs.animate({
 									left : '-=400px'
 								});
@@ -265,7 +273,7 @@
    $("#writeBtn").on("click", function(){
 	   
 	   var rcontent = $("#replyContent").val();
-	   
+		var loginid = $("#sessionloginuser").val();
 	   $.ajax({
 		   url : "${contextPath}/goods/insertReply",
 		   data : {rcontent : rcontent},
@@ -277,17 +285,25 @@
 			     
 			  tableBody = $("#replyTable");
               tableBody.html("");
-              
+		
+			  console.log(loginid);
               for(var i in data){
-            	
+            	  var rno = data[i].rno;
+            	  var user_id = data[i].user_id;
               	   var a = "<tr> <td colspan='2'>";
               	   a+=data[i].user_id;
               	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
               	   a+=data[i].createDate;
-              	   a+="</td></tr><tr><td style='width:950px;'>";
+              	   a+="</td></tr><tr><td style='width:94%;'>";
               	   a+=data[i].rcontent;
-              	   a+="</td><td class='reviews'><img src='${ contextPath }/resources/images/reply.png' style='width : 20px;'><span style='font-size: 1.3em;'>&nbsp;1</span></td></tr>"
+              	   if(user_id==loginid){
+              		   
+              	   		a+="</td><td style='width:14%;'><span class='deleteReply' onclick='deletereplyBtn("+rno+")'>삭제</span></td></tr>";
+              	   }else{
+              	   		a+="</td><td style='width:14%;'></td></tr>";
+              		   
+              	   }
               		  
               	 
               	   tableBody.append(a);
@@ -300,6 +316,50 @@
 		  
 	   });
    });
+   function deletereplyBtn(rno){
+	   console.log(rno);
+	   var loginid = $("#sessionloginuser").val();
+	   $.ajax({
+		   url : "${contextPath}/goods/deleteReply",
+		   data : {rno : rno},
+		  type : "post",
+		  dataType : "json",
+		  success : function(data){
+			  console.log(data);//해당 게시글에 작성된 댓글리스트 받아오기
+			 //-> <tbody> 안에 data 의 댓글 리스트를 형식에 맞게 세팅 
+			     
+			  tableBody = $("#replyTable");
+              tableBody.html("");
+              
+              for(var i in data){
+            	  var rno = data[i].rno;
+            	  var user_id = data[i].user_id;
+              	   var a = "<tr> <td colspan='2'>";
+              	   a+=data[i].user_id;
+              	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+              	   a+=data[i].createDate;
+              	   a+="</td></tr><tr><td style='width:94%;'>";
+              	   a+=data[i].rcontent;
+              	   if(user_id==loginid){
+              		   
+              	   		a+="</td><td style='width:14%;'><span class='deleteReply' onclick='deletereplyBtn("+rno+")'>삭제</span></td></tr>";
+              	   }else{
+              	   		a+="</td><td style='width:14%;'></td></tr>";
+              		   
+              	   }
+              		  
+              	 
+              	   tableBody.append(a);
+              	   
+                 }
+            
+            //-> 댓글 작성 <textarea> 비워주기
+			  $("#replyContent").val("");
+		  }
+		  
+	   });
+   }
    </script>
             </div>
            

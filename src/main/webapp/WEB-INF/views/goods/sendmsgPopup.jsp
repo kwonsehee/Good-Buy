@@ -88,6 +88,7 @@
     .sendMSG{font-size:18px;font-weight: bold;}
 .photo_circle{
 width : 40px;
+height : 40px;
 margin-left: 180%;
     border-radius: 100px;
 }

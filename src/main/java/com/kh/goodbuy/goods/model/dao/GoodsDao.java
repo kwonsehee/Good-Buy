@@ -91,8 +91,17 @@ public interface GoodsDao {
 	public int selectMyDealListCount(String user_id);
 	// 안전거래내역 리스트 출력
 	public List<Goods> selectMyDealList(String user_id, PageInfo pi);
+
 	
 	// 관리자
 	public Goods selectProduct(int gno);
 	public List<Goods> searchList(Search search);
+
+	//중고상품 파일 삭제 
+	public int deleteFile(int gno);
+	//중고상품 파일update
+	public int updateFile(List<Addfile> list, int gno);
+	//댓글삭제
+	public int updateReply(int rno);
+
 }

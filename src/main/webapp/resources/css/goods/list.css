@@ -40,31 +40,39 @@
      padding-top: 10px; 
 
 }
-#selectTown span {
-    padding-left: 5px;
-   
-}
-#goodlist p{
-    padding-left: 15%;
-    font-size: 15px;
-    font-weight: bolder;
-}
-#goodlist span{
-    padding-left: 15%;
-    font-size: 13px;
-}
-#goodlist span:nth-child(4){
-    margin-left: 15%;
-    font-size: 13px;
-    color: #9a9999; 
-    
 
+.price_font{
+	font-size: 15px !important;
+	padding-left: 15% !important;
+	 margin-top : -35px;
+}
+.title_font{
+	font-size: 15px !important;
+	padding-left: 15% !important;
+}
+.date_font{
+    margin-left: 15% !important;
+    font-size: 13px !important;
+    color: #9a9999 !important;
+    text-align : right !important;
+    margin-top : -35px;
+    margin-right : 23%;
+
+}
+.id_font{
+	font-size: 13px; 
+	margin-top : -20px;
+    margin-right : 23%;
+	
+	 text-align : right !important;
 }
 .deleteBtn{
 	font-size: 13px; 
-	margin-left: 30%; 
+	margin-top : -20px;
+    margin-right : 23%;
 	text-decoration: underline;
 	cursor: pointer;
+	 text-align : right !important;
 }
 
 #pageArea{

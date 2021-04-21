@@ -61,36 +61,50 @@ margin-top : 10px;
 .reviews{
     position:relative; 
        left: 23%;
-       }
+ }
 #replySection{
     background-color: #fafafa;
     width: 80%;
     margin: auto;
-      margin-top : 2%;
+    margin-top : 2%;
+}
+#replyTable{
+	margin-left : 4%;
+	width : 90%;
 }
 #replySection td{
     width: 33%;
     padding-bottom: 10px;
-    padding-left: 50px;
+    
 }
 #replySection tr:nth-child(odd){
     color: #9a9999;
 }
-
 #replyWrite {
 	width: 90%;
     margin: auto;
     margin-top: 2%;
-      padding-bottom: 2%;
+    
+   padding-bottom: 2%;
 }
 #replyWrite textarea{
-	width: 100%;
+	width: 102%;
 	height: 90px;
 	resize: none;
 	background: none;
 	border: 1px solid #75757552;
-   
+   	margin-left : -2%;
     /* display: inline-block; */
+}
+.reply_left{
+	margin-left : -15px;
+}
+.deleteReply{
+	font-size : 14px !important;
+	text-decoration : underline;
+	cursor:pointer;
+	margin-left : 40px;
+	
 }
 #writeBtn{ 
     margin-left: 93%; 
@@ -163,7 +177,7 @@ margin-top : 10px;
  padding : 0;
  }
  .slider ul{
- 	width : 1900px;
+ 	width : 1750px;
  	position : absolute;
  	top : 0;
  	padding-left:0px;

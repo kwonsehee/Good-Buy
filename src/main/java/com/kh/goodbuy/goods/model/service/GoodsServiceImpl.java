@@ -194,8 +194,15 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 	@Override
 	public int updateGoods(Goods g, List<Addfile> list) {
-		// TODO Auto-generated method stub
-		return gDao.updateGoods(g);
+		
+		int result = gDao.updateGoods(g);
+		if(result>0) {
+			
+			gDao.deleteFile(g.getGno());
+			
+			return gDao.updateFile(list, g.getGno());
+		}
+		else return 0;
 	}
 	@Override
 	public int selectMyDealListCount(String user_id) {
@@ -215,6 +222,11 @@ public class GoodsServiceImpl implements GoodsService{
 	public List<Goods> searchList(Search search) {
 		// TODO Auto-generated method stub
 		return gDao.searchList(search);
+  }
+  @Override
+	public List<Reply> updateReply(int rno, Goods g) {
+		gDao.updateReply(rno);
+		return gDao.selectReplyList(g);
 	}
 	
 

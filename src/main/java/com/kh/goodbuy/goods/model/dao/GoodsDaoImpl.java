@@ -291,6 +291,7 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
+
 	public Goods selectProduct(int gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("goodsMapper.selectProduct",gno);
@@ -300,5 +301,30 @@ public class GoodsDaoImpl implements GoodsDao{
 	public List<Goods> searchList(Search search) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("goodsMapper.searchList", search);
+  }
+ @Override
+	public int deleteFile(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("goodsMapper.deleteFile", gno);
+	}
+
+	@Override
+	public int updateFile(List<Addfile> list, int gno) {
+		Map<String, Object> map = new HashMap <String, Object>();		
+		map.put("gno", gno);
+		int result = 0;
+		for(int i=0;i<list.size();i++) {
+			map.put("list",list.get(i));
+			result += sqlSession.insert("goodsMapper.updateFile", map);
+		}
+		// TODO Auto-generated method stub
+		return result;
+	}
+
+	@Override
+	public int updateReply(int rno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateReply", rno);
+
 	}
 }
