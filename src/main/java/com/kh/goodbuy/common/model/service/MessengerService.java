@@ -14,5 +14,9 @@ public interface MessengerService {
 	int selectMsgCount(String user_id);
 	// 내 쪽지함 리스트
 	List<Messenger> selectMsgList(String user_id, PageInfo pi);
+	// 받은 쪽지 한개 조회
+	Messenger selectOneMsg(int mno);
+	// msg답장보내기
+	int insertMsg2(Messenger msg);
 
 }

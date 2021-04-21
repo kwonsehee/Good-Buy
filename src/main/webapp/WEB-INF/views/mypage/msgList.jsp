@@ -6,12 +6,47 @@
 <head>
 <meta charset="UTF-8">
 <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
+<!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <link href="${ contextPath }/resources/css/mypage/msgList.css?" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
 	
 	 <section id="gbSection">
+  <c:if test="${ !empty msg && msg.equals('success')}">
+  		<script>
+          swal.fire({
+			  title: '쪽지 답변 완료',
+			  html: '',
+			  imageUrl: '${ contextPath }/resources/images/logo.png',
+			  imageWidth: 232,
+			  imageHeight: 90,
+			  imageAlt: 'Custom image',
+		  });
+  		</script>
+  		<c:remove var="msg" />
+  </c:if>
+  
+  <c:if test="${ !empty msg && msg.equals('fail')}">
+  		<script>
+          swal.fire({
+			  title: '쪽지 답변 실패',
+			  html: '<br>사용에 불편을 드려서 죄송합니다. <br>좋은 Good-buy가 될 수 있도록 노력하겠습니다.<br>',
+			  imageUrl: '${ contextPath }/resources/images/logo.png',
+			  imageWidth: 232,
+			  imageHeight: 90,
+			  imageAlt: 'Custom image',
+		  });
+  		</script>
+  		<c:remove var="msg" />
+  </c:if>
+ 
+	 
+	 
+	 
         <img src="${ contextPath }/resources/images/mypage/left-arrow.png" id ="backBtn" onclick="location.href='${ contextPath }/mypage/main'">
         <h1 class="title_h1">내 쪽지함</h1>
 
@@ -19,8 +54,8 @@
 		<!-- 리스트 있을 때 -->
 		<c:if test="${ mlist != null }">
         <div class="listWrap">
-         <c:forEach var="list" items="${ mlist }">
-            <div class="eachListWrap" onclick="sendReply()">
+         <c:forEach var="list" items="${ mlist }" varStatus="status">
+            <div class="eachListWrap" onclick="sendReply(${ list.mno })">
             	<!-- 프사 있을 때 -->
             	<c:if test="${ !empty list.photo }">
                 <img src="${ contextPath }/resources/images/userProfilePhoto/${list.photo}" class="profilePhoto">
@@ -39,7 +74,7 @@
                 <div class="mcontentWrap">
                     <p class="mcontent">${ list.mcontent }</p>
                 </div>
-                
+              
                 <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto">
             </div>
          </c:forEach>
@@ -113,18 +148,15 @@
         </c:if>
         
         
-        
-        
-        
-        
     </section>
-	
+
+
 	<jsp:include page="../common/footer.jsp"/>
 	
 	 <script>
        // 쪽지 보내기 팝업 창 띄우기
-       function sendReply(){
-            var url = "${contextPath}/mypage/msgReply";
+       function sendReply(mno){
+            var url = "${contextPath}/mypage/msgReply?mno="+mno;
             var _width = '400';
             var _height = '640';
 

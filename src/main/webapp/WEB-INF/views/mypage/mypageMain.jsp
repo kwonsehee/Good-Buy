@@ -93,7 +93,12 @@
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/setMyTown'"><img src="${ contextPath }/resources/images/mypage/placeholder.png"><p>내동네 설정</p></div>
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/setKeyword'"><img src="${ contextPath }/resources/images/mypage/pricetag.png"><p>키워드 알림</p></div>
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/myBoardList'"><img src="${ contextPath }/resources/images/mypage/content.png"><p>내 글 / 댓글</p></div>
-           <div class="secondLineBtn" onclick=""><img src="${contextPath}/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
+           <c:if test="${loginUser.is_business == 'N' }">
+           <div class="secondLineBtn" onclick="location.href='${contextPath}/business/create'"><img src="${contextPath}/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
+           </c:if>
+           <c:if test="${loginUser.is_business == 'Y' }">
+            <div class="secondLineBtn" onclick="location.href='${contextPath}/business/detail'"><img src="${contextPath}/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
+           </c:if>
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/reportList'"><img src="${ contextPath }/resources/images/mypage/alarm2.png"><p>신고</p></div>
         </div>
     </section>

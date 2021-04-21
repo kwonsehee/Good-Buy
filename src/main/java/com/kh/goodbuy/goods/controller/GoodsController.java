@@ -407,10 +407,16 @@ public class GoodsController {
 	}
 	// 상품삭제 
 	@GetMapping("/delete")
-	public String goodsDelete(int gno) {
-//		System.out.println(gno);
+	public String goodsDelete(int gno, @RequestParam(value="pageName", required=false, defaultValue="null") String pageName) {
+		//System.out.println(gno);
 		int result = gService.deleteGoods(gno);
-		return "redirect:/goods/mylist";
+		
+		System.out.println("페이지이름 넘어왔니 "+pageName);
+		if(pageName.equals("mypage")) {
+			return "redirect:/mypage/sellingList";
+		}else {
+			return "redirect:/goods/mylist";
+		}
 	}
 	//상품숨김
 	@GetMapping("/hide")
