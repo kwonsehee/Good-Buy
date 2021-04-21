@@ -40,4 +40,14 @@ public class MessengerDaoImpl implements MessengerDao{
 		return sqlSession.selectList("msgMapper.selectMsgList", user_id ,rowBounds);
 	}
 
+	@Override
+	public Messenger selectOneMsg(int mno) {
+		return sqlSession.selectOne("msgMapper.selectOneMsg",mno);
+	}
+
+	@Override
+	public int insertMsg2(Messenger msg) {
+		return sqlSession.insert("msgMapper.insertMsg2",msg);
+	}
+
 }

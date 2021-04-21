@@ -358,14 +358,16 @@ public class MypageController {
 		int listCount = 0;
 		int boardLimit = 10;
 		PageInfo pi;
+		listCount = msgService.selectMsgCount(loginUser.getUser_id());
+		
 		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
 		List<Messenger> mlist;
-		listCount = msgService.selectMsgCount(loginUser.getUser_id());
+		
 		System.out.println("쪽지 갯수  : " + listCount);
 		mlist = msgService.selectMsgList(loginUser.getUser_id(),pi);
 		System.out.println("쪽지 리스트  : "+mlist);
-		
+		System.out.println("pi " +pi);
 		mv.addObject("pi", pi);
 		mv.addObject("mlist", mlist);
 		
@@ -375,10 +377,20 @@ public class MypageController {
 	
 	// 쪽지 답장 팝업 화면
 	@GetMapping("/msgReply")
-	public ModelAndView showMsgReply(ModelAndView mv) {
+	public ModelAndView showMsgReply(ModelAndView mv,int mno) {
+		System.out.println("mno넘어왔니 : " + mno);
+		
+		
+		Messenger m = msgService.selectOneMsg(mno);
+		
+		System.out.println("m 조회됐니 : " + m);
+		
+		mv.addObject("m", m);
 		mv.setViewName("mypage/msgReply");
+		
 		return mv;
 	}
+	
 	
 	// 내가 쓴 후기 화면
 	@GetMapping("/sentReviewList")

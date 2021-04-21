@@ -30,4 +30,14 @@ public class MessengerServiceImpl implements MessengerService{
 	public List<Messenger> selectMsgList(String user_id, PageInfo pi) {
 		return msgDao.selectMsgList(user_id,pi);
 	}
+
+	@Override
+	public Messenger selectOneMsg(int mno) {
+		return msgDao.selectOneMsg(mno);
+	}
+
+	@Override
+	public int insertMsg2(Messenger msg) {
+		return msgDao.insertMsg2(msg);
+	}
 }

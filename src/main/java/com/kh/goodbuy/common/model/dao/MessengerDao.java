@@ -13,4 +13,8 @@ public interface MessengerDao {
 	int selectMsgCount(String user_id);
 
 	List<Messenger> selectMsgList(String user_id, PageInfo pi);
+
+	Messenger selectOneMsg(int mno);
+
+	int insertMsg2(Messenger msg);
 }

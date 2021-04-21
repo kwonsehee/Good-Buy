@@ -160,7 +160,7 @@
       function goDeleteGoods(gno){
     	   $(".subMenu a:nth-last-child(1)").on('click',function(){
     		   console.log(gno);
-    		  /*  location.href=""; */
+    		   location.href="${contextPath}/goods/delete?gno="+gno+"&pageName=mypage"; 
     	   });
       }
        
