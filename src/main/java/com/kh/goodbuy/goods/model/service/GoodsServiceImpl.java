@@ -11,6 +11,7 @@ import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
 import com.kh.goodbuy.town.model.vo.Town;
 @Service
 public class GoodsServiceImpl implements GoodsService{
@@ -213,6 +214,16 @@ public class GoodsServiceImpl implements GoodsService{
 
 	}
 	@Override
+	public Goods selectProduct(int gno) {
+		// TODO Auto-generated method stub
+		return gDao.selectProduct(gno);
+	}
+	@Override
+	public List<Goods> searchList(Search search) {
+		// TODO Auto-generated method stub
+		return gDao.searchList(search);
+  }
+  @Override
 	public List<Reply> updateReply(int rno, Goods g) {
 		gDao.updateReply(rno);
 		return gDao.selectReplyList(g);

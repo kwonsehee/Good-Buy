@@ -14,6 +14,7 @@ import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.vo.PageInfo;
+import com.kh.goodbuy.member.model.vo.Search;
 import com.kh.goodbuy.town.model.vo.Town;
 
 @Repository
@@ -290,6 +291,18 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
+
+	public Goods selectProduct(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.selectProduct",gno);
+	}
+
+	@Override
+	public List<Goods> searchList(Search search) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("goodsMapper.searchList", search);
+  }
+ @Override
 	public int deleteFile(int gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("goodsMapper.deleteFile", gno);
@@ -312,5 +325,6 @@ public class GoodsDaoImpl implements GoodsDao{
 	public int updateReply(int rno) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("goodsMapper.updateReply", rno);
+
 	}
 }

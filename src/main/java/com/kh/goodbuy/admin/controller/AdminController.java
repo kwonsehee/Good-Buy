@@ -216,8 +216,31 @@ public class AdminController {
 
 	// 상품관리 디테일 페이지 이동
 	@GetMapping("/productdetail")
-	public String ProductDetailView() {
-		return "admin/product_detail";
+		
+		public String ProductDetailView(@RequestParam int gno, Model model) {
+
+			Goods g = gService.selectProduct(gno);
+			System.out.println("g: " + g);
+			if (g != null) {
+				model.addAttribute("goods", g);
+				return "admin/product_detail";
+			} else {
+				model.addAttribute("msg", "상품 상세보기에 실패했습니다.");
+				return "common/errorpage";
+			}
+		
+	}
+	
+	// 상품관리 검색
+	@GetMapping("/productsearch")
+	public String procductSearch(@ModelAttribute Search search,
+							   Model model) {
+		
+		List<Goods> searchList = gService.searchList(search);
+		
+		model.addAttribute("list", searchList);
+		System.out.println(searchList);
+		return "admin/product_main";
 	}
 
 	// 회원관리
@@ -301,7 +324,6 @@ public class AdminController {
 			List<QNA> list21 = qService.selectQNAList1();
 			List<QNA> list22 = qService.selectQNAList2();
 			List<QNA> list23 = qService.selectQNAList3();
-			System.out.println(cate);
 			if (list != null) {
 				mv.addObject("list", list);
 				mv.addObject("list2", list2);
