@@ -212,6 +212,11 @@ public class GoodsServiceImpl implements GoodsService{
 		return gDao.selectMyDealList(user_id, pi);
 
 	}
+	@Override
+	public List<Reply> updateReply(int rno, Goods g) {
+		gDao.updateReply(rno);
+		return gDao.selectReplyList(g);
+	}
 	
 
 }

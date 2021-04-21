@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,14 +49,19 @@
             <td></td>
            </tr>
            <tr>
-            	 <c:forEach var="a" items="${ glist }" end="4">
+            <c:forEach var="a" items="${ glist }" end="4">
                <td onclick="selectGoods(${a.gno});"> 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg">
                     <br>
-                    <span>${a.gtitle}</span><span>${a.user_id}</span>
+                    <span class="title_font">${fn:substring(a.gtitle,0,4)}
+                    <c:if test="${fn:length(a.gtitle )>4}">
+                    ...
+                    </c:if>
+                    </span>
+                    <p class="id_font">${a.user_id}</p>
                     <br>
-                    <span>${a.gprice}원</span>
-                    <span>${a.createDate}</span>
+                    <p class="price_font">${a.gprice}원</p>
+                    <p class="date_font">${a.createDate}</p>
                 </td>
             </c:forEach>
            </tr>
@@ -64,7 +70,10 @@
                <td onclick="selectGoods(${a.gno});"> 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg">
                     <br>
-                    <span>${a.gtitle}</span><span>${a.user_id}</span>
+                     <span>${fn:substring(a.gtitle,0,4)}
+                    <c:if test="${fn:length(a.gtitle )>4}">
+                    ...
+                    </c:if></span><span>${a.user_id}</span>
                     <br>
                     <span>${a.gprice}원</span>
                     <span>${a.createDate}</span>
