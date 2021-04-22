@@ -200,7 +200,7 @@ public class GoodsServiceImpl implements GoodsService{
 		int result = gDao.updateGoods(g);
 		if(result>0) {
 			
-			gDao.deleteFile(g.getGno());
+//			gDao.deleteFile(g.getGno());
 			
 			return gDao.updateFile(list, g.getGno());
 		}
@@ -230,10 +230,42 @@ public class GoodsServiceImpl implements GoodsService{
 		gDao.updateReply(rno);
 		return gDao.selectReplyList(g);
 	}
+
 	@Override
 	public List<Keyword> searchKeyword(String[] gArr) {
 		return gDao.searchKeyword(gArr);
 	}
-	
+
+
+@Override
+public int updateProduct(int gno) {
+	// TODO Auto-generated method stub
+	return gDao.updateProduct(gno);
+}
+@Override
+public int updateProduct2(int gno) {
+	// TODO Auto-generated method stub
+	return gDao.updateProduct2(gno);
+}
+
+
+
+  @Override
+  public int deleteFile(String index) {
+	  // TODO Auto-generated method stub
+	  return gDao.deleteFile(index);
+  }
+@Override
+public int selectSearchCount(String search) {
+	// TODO Auto-generated method stub
+	return gDao.selectSearchCount(search);
+}
+@Override
+public List<Goods> selectSearchList(PageInfo pi, String search) {
+	// TODO Auto-generated method stub
+	return gDao.selectSearchList(pi, search);
+}
+
+
 
 }

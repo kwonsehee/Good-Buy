@@ -304,7 +304,7 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectList("goodsMapper.searchList", search);
   }
  @Override
-	public int deleteFile(int gno) {
+	public int deleteFile(String gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("goodsMapper.deleteFile", gno);
 	}
@@ -337,6 +337,32 @@ public class GoodsDaoImpl implements GoodsDao{
 			System.out.println("map : " + map);
 		}
 		return sqlSession.selectList("goodsMapper.searchKeyword",map);
+  }
+  
+	@Override
+	public int updateProduct(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct", gno);
+	}
+
+	@Override
+	public int updateProduct2(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct2", gno);
+	}
+
+	@Override
+	public int selectSearchCount(String search) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.selectSearchCount", search);
+	}
+
+	@Override
+	public List<Goods> selectSearchList(PageInfo pi, String search) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectSearchList",search, rowBounds);
+
 	}
 
 }

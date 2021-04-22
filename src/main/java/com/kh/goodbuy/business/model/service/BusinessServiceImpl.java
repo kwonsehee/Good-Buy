@@ -1,6 +1,7 @@
 package com.kh.goodbuy.business.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -206,11 +207,57 @@ public class BusinessServiceImpl implements BusinessService{
 
 
 
-	/*
-	 * @Override public int infoupdate(Business b, Addfile a) {
-	 * 
-	 * return bDao.updateInfo(); }
-	 */
+	@Override
+	public int infoupdate(Business b, Addfile a) {
+		
+		int result = bDao.infoupdate(b);
+		if(result > 0) {
+			return bDao.changeFileInsert(a);
+		}else {
+			return 0;
+		}
+	
+	}
+
+
+
+	@Override
+	public int updateBfile(int shopNo) {
+		
+		return bDao.updateBfile(shopNo);
+	}
+
+
+
+
+	@Override
+	public int updateFacount(Map<String, String> map) {
+		
+		return bDao.updateFaCount(map);
+	}
+
+
+
+
+	@Override
+	public int deleteBusiness(int shopNo) {
+		
+		return bDao.deleteBusiness(shopNo);
+	}
+
+
+
+
+	@Override
+	public int updateBstatus2(String userId) {
+		
+		return bDao.updateBstatus2(userId);
+	}
+
+
+
+
+	
 
 
 

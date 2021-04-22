@@ -29,7 +29,7 @@
                 </c:if>
                 <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
                 <label id="name">${ business.shopName }</label>
-                <button id="likeBtn">+단골${ business.faCount}</button>
+                <button id="likeBtn" onclick="updateFaCount(${business.shopNo})">+단골${ business.faCount}</button>
                 <img id="call" src="${contextPath}/resources/images/business/전화기.png" width="50px" height="50px">
                 <label id="callLabel">전화문의</label>
                 <img id="line" src="${contextPath}/resources/images/business/선.png" >
@@ -79,6 +79,10 @@
 						});
 			
 					});
+			        
+			        function updateFaCount(shopNo){
+			    		location.href='${contextPath}/business/updateFaCount?shopNo=' + shopNo;
+			    	}
         
         	  </script>
             

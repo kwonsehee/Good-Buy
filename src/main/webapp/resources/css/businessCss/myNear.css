@@ -286,4 +286,12 @@
    .plusArea >a{
    	cursor : pointer;
    }
+    .logoArea{
+   	text-align : center;
+   	margin-top : 50px;
+   	margin-bottom : 50px;
+   }
+   .logoArea > p{
+   	font-size : 24px;
+   }
   

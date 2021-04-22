@@ -3,6 +3,7 @@ package com.kh.goodbuy.common.model.service;
 import java.util.List;
 
 import com.kh.goodbuy.common.model.vo.Report;
+import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 public interface ReportService {
@@ -19,6 +20,7 @@ public interface ReportService {
 
 	//상품신고 
 	public int insertGoodsReport(Report r, int gno, String report_id);
+	
 
 	
 }
