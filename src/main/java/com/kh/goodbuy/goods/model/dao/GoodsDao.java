@@ -103,8 +103,16 @@ public interface GoodsDao {
 	public int updateFile(List<Addfile> list, int gno);
 	//댓글삭제
 	public int updateReply(int rno);
+
+	// 관리자 상품 관리
+	public int updateProduct(int gno);
+
+	public int updateProduct2(int gno);
+
+
 	//user 없을때 검색 카운트
 	public int selectSearchCount(String search);
 	//user 없을떄 검색 리스트 셀렉
 	public List<Goods> selectSearchList(PageInfo pi, String search);
+
 }

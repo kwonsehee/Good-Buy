@@ -53,22 +53,36 @@
             <table id="table1">
                 <thead>
                   <tr style="background-color: #F1FCFF;">
-                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>상품 번호</th>
+                    <th>상품명</th><th></th><th>판매가</th><th>등록일</th><th>판매자</th><th>상품 신고상태</th><th></th>
                   </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="g" items="${ list }">
-               
-            
+           
+            	<c:choose>
+            	<c:when test="${ g.gstatus eq 'Y'}">
                   <tr id="tr_hover1" onclick="selectProduct(${g.gno})">
                     <th><img src="${ contextPath }/resources/images/goodupload/${g.changeName}" id="src1"></th>
                     <th>${ g.gtitle }</th>
                     <th>${ g.gprice }</th>
                     <th>${ g.createDate }</th>
                     <th>${ g.user_id }</th>
-                    <th>${ g.gno }</th>
+                    <td></td>
+                    <th><button id="createButton1" onclick="location.href='${ contextPath }/admin/productdelete?gno=${ goods.gno }'">상품 삭제하기</button></th>
                   </tr>
-                  
+                  </c:when>
+                  <c:when test="${ g.gstatus eq 'R'}">
+                  <tr id="tr_hover1" onclick="selectProduct(${g.gno})">
+                    <th><img src="${ contextPath }/resources/images/goodupload/${g.changeName}" id="src1"></th>
+                    <th>${ g.gtitle }</th>
+                    <th>${ g.gprice }</th>
+                    <th>${ g.createDate }</th>
+                    <th>${ g.user_id }</th>
+                    <td><button id="createButton1" disable>신고 처리됨</button></td>
+                    <th><button id="createButton1" onclick="location.href='${ contextPath }/admin/productdelete?gno=${ goods.gno }'">상품 삭제하기</button></th>
+                  </tr>
+                  </c:when>
+                  </c:choose>
                   
                 
                   </c:forEach>

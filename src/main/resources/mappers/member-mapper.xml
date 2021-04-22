@@ -108,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     
    <select id="searchList" parameterType="Search" resultMap="memberResultSet">
 		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
+		
 		SELECT
 		     USER_ID
 			 , USER_PWD
@@ -127,7 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<where>
 			<choose>
 				<when test="searchCondition == 'common'">
-				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'N')
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'N' AND ENROLL_DATE between #{date1} and #{date2})
 				</when>
 				<when test="searchCondition == 'business'">
 				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'Y')

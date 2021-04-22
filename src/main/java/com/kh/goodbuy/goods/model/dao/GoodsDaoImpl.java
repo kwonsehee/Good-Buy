@@ -329,6 +329,18 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
+	public int updateProduct(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct", gno);
+	}
+
+	@Override
+	public int updateProduct2(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct2", gno);
+	}
+
+	@Override
 	public int selectSearchCount(String search) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("goodsMapper.selectSearchCount", search);
@@ -340,4 +352,5 @@ public class GoodsDaoImpl implements GoodsDao{
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("goodsMapper.selectSearchList",search, rowBounds);
 	}
+
 }

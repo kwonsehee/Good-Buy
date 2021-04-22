@@ -1,6 +1,8 @@
 package com.kh.goodbuy.member.model.vo;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,4 +19,6 @@ public class Search {
 	private String searchCondition;
 	private String searchValue;
 	private String existFile;
+	private String date1;
+	private String date2;
 }

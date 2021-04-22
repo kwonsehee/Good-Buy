@@ -40,23 +40,26 @@
         </div>
   
         <div id="div3">
+        <form action="${ contextPath }/admin/search" method="get">
             <div id="div3_1">
-            <form action="${ contextPath }/admin/search" method="get">
+            
             <label>ID</label>
             <select name="searchCondition" id="option1">
                 <option value="common" <c:if test="${ param.searchCondition == 'common' }">selected</c:if>>일반</option>
                 <option value="business" <c:if test="${ param.searchCondition == 'business' }">selected</c:if>>비즈</option>
               </select>
-            <input type="search" name="searchValue" value="${ param.searchValue }">
-            <button id="createButton1">검색</button><br>
-            </form>
+            <input type="text" name="searchValue" value="${ param.searchValue }">
+            
+            
               </div>
 
             <label>가입일</label>
             
-            <input type="date" id="option1" name="date1">
+            <input type="date" name="date1" value="${ start }">
             <label>~</label>
-            <input type="date" name="date2">
+            <input type="date" name="date2" value="${ end }">
+            <button id="createButton1">검색</button><br>
+            </form>
         </div>
 
         <div id="div4">
