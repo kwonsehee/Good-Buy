@@ -175,7 +175,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	<select id="selectAllCount" resultType= "_int">
 		SELECT COUNT(*)
-	      FROM GOODS	
+	      FROM GOODS
+	     WHERE G_STATUS = 'Y'	
 
 	</select>
 	<select id="selectListCount" parameterType="Town"  resultType= "_int">
@@ -196,7 +197,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</if>
 		<if test='area lt 2'>
 		AND ADDRESS_3 =#{address_3}
-		</if>
+		</if>	
 	</select>
 	<select id="selectAllList" resultMap="GoodsResultSet">
 		SELECT 
@@ -863,8 +864,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		ORDER BY CREATE_DATE DESC
 	</select>
 
-	<delete id="deleteFile" parameterType="_int">
-		DELETE FROM GOODSFILE WHERE G_NO = #{gno}
+	<delete id="deleteFile" parameterType="string">
+		DELETE
+		  FROM GOODSFILE
+		 WHERE F_NO = (SELECT F_NO
+		  				 FROM ADDFILE
+		  				WHERE CHANGE_NAME= #{index})
 	</delete>
   
 	<insert id="updateFile" parameterType="java.util.Map">

@@ -454,8 +454,9 @@ public class GoodsController {
 	@PostMapping("/edit")
 	public String GoodsEdit(@ModelAttribute Goods g, MultipartFile[] fileup, @ModelAttribute Gcate c,
 			HttpServletRequest request, Model model) {
+		
 		List<Addfile> list = new ArrayList<Addfile>();
-
+		
 		// 업로드 파일 서버에 저장
 		// 파일이 첨부되었다면
 		for (int i = 0; i < fileup.length; i++) {
@@ -501,4 +502,44 @@ public class GoodsController {
 		}
 
 	}
+
+	// 파일삭제 
+//	 @RequestMapping(value="deleteFile", method=RequestMethod.POST)
+//	public void deleteFile(int index, HttpServletResponse response, HttpServletRequest request) {
+////		 Goods g = (Goods) request.getSession().getAttribute("g");
+//			System.out.println("여기오니?"+index);
+//		 try {
+//	         PrintWriter out = response.getWriter();
+//	         int result = gService.deleteFile(index);
+//	         if(result>0) {
+//	        	 
+//	            out.write("success");
+//	         } else {
+//	            out.write("fail");
+//	         }
+//	         
+//	      } catch (IOException e) {
+//	         e.printStackTrace();
+//	      }
+//	      
+//
+//	}
+	  @RequestMapping(value="deleteFile", method=RequestMethod.POST)
+	   public void test1(String index, HttpServletResponse response) {
+		  System.out.println("여기오니?"+index);
+		  int result = gService.deleteFile(index);
+			 try {
+		         PrintWriter out = response.getWriter();
+		         if(result>0) {
+		        	 
+		            out.write("success");
+		         } else {
+		            out.write("fail");
+		         }
+		         
+		      } catch (IOException e) {
+		         e.printStackTrace();
+		      }
+	      
+	   }
 }

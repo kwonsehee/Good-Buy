@@ -198,7 +198,7 @@ public class GoodsServiceImpl implements GoodsService{
 		int result = gDao.updateGoods(g);
 		if(result>0) {
 			
-			gDao.deleteFile(g.getGno());
+//			gDao.deleteFile(g.getGno());
 			
 			return gDao.updateFile(list, g.getGno());
 		}
@@ -228,6 +228,11 @@ public class GoodsServiceImpl implements GoodsService{
 		gDao.updateReply(rno);
 		return gDao.selectReplyList(g);
 	}
+  @Override
+  public int deleteFile(String index) {
+	  // TODO Auto-generated method stub
+	  return gDao.deleteFile(index);
+  }
 	
 
 }

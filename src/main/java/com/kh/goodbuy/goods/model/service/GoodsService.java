@@ -95,6 +95,8 @@ public interface GoodsService {
 
 	//댓글삭제
 	public List<Reply> updateReply(int rno, Goods g);
+	//파일삭제
+	public int deleteFile(String index);
 
 
 

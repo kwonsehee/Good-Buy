@@ -175,17 +175,18 @@
                
                 	<p>*가장 앞에 있는 사진은 중고상품 리스트에서 보여질 사진입니다.</p>
                 	<div id="photo_area" >
+		
+		<c:forEach var="f" items="${ g.filelist }" >
+           <div id="photo_input">
+            <input type="file" name="fileup" value="${ contextPath }/resources/images/goodupload/${f}" style="display:none;">
+            <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img">
+           <button type="button" onclick="delete_file('${f}'  , this)" >삭제</button>
+           </div>
+        </c:forEach>
 		<div id="photo_input1">
 	<img src='${ contextPath }/resources/images/insertimg.png' class="photo_img" onclick="document.getElementById('file1').click();"> 
 	<input type="file" id="file1" name="fileup" style="display:none;"onchange="setThumbnail(event, 1);" >
 	</div>
-		<c:forEach var="f" items="${ g.filelist }">
-           <div id="photo_input">
-            <input type="file" name="fileup" value="${ contextPath }/resources/images/goodupload/${f}" style="display:none;">
-            <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img">
-           <button type="button" class="button-delete-file">삭제</button></div>
-        </c:forEach>
-		
 	</div>
  					
                 </td>
@@ -238,9 +239,25 @@
 $(function(){
 	$('#button-add-file').click(addFileForm);
 	$(document).on('click', '.button-delete-file', function(event) {
+		console.log(this);
 		$(this).parent().remove();
 	});
 });
+function delete_file(index, e){
+	 console.log(index); 
+	console.log(e);
+	$(e).parent().remove();
+	
+	$.ajax({
+		   url:"${contextPath}/goods/deleteFile",
+		  type:"post",
+		  data : {index : index},
+		  success : function(data){
+			  console.log(data);
+			 
+		  } 
+		});
+}
 var count = 0;
 function addFileForm() {
 	var html = "<div class='preview'>";
