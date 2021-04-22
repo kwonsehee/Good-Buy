@@ -34,7 +34,7 @@ public class Business {
 	private String topMenu;		 	// 대표메뉴
 	private String price;			// 가격
 	private String menuInfo;		// 메뉴설명
-	private int shopPhone;			// 전화번호
+	private String shopPhone;			// 전화번호
 	private String userId;			// 아이디
 	private int adCash;				// 광고캐시
 	private String shopTime2;		// 영업마감시간

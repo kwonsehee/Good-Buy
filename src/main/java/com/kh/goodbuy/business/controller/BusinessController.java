@@ -6,9 +6,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +30,8 @@ import com.kh.goodbuy.business.model.service.BusinessService;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.Review;
-import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
 import com.kh.goodbuy.goods.model.vo.Addfile;
+import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.town.model.vo.Town;
 
@@ -39,6 +40,8 @@ import com.kh.goodbuy.town.model.vo.Town;
 public class BusinessController {
 	@Autowired
 	private BusinessService bService;
+	@Autowired
+	private MemberService mService;
 	
 	// 내 근처 페이지
 	@GetMapping("/list")
@@ -65,6 +68,8 @@ public class BusinessController {
 		//System.out.println(nfList);
 		System.out.println(townInfo);
 		System.out.println(rList);
+	   	 Member loginUser2 = mService.loginMember(loginUser);
+	   	 mv.addObject("loginUser", loginUser2);
 		mv.setViewName("business/myNear");
 
 		return mv;
@@ -176,29 +181,64 @@ public class BusinessController {
 	         b.setTNo(tNo);
 	         int result = bService.infoInsert(b,a);
 	         
+	         System.out.println(result);
+	         
 	         if(result > 0) {
 	        	 int result2 = bService.updateBstatus(userId);
-	        	 model.addAttribute("loginUser", loginUser);
+	        	 System.out.println("result2" +result2);
 	        	 return "redirect:/business/list";
 	         }else {
 	        	 System.out.println("실패");
 	         }
 	         return "redirect:/business/list";
 	}
+
 	
-	/*
-	 * @PostMapping("/update") public String businessUpdate(@ModelAttribute Business
-	 * b, MultipartFile file, @ModelAttribute Addfile a, HttpServletRequest request,
-	 * HttpSession session) { Member loginUser =
-	 * (Member)session.getAttribute("loginUser"); String userId=
-	 * loginUser.getUser_id(); Town townInfo =
-	 * (Town)session.getAttribute("townInfo"); int tNo = townInfo.getT_no();
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
+	
+	 @PostMapping("/update") 
+	 public String businessUpdate(@ModelAttribute Business
+			 	b, MultipartFile file, @ModelAttribute Addfile a, 
+			 	HttpServletRequest request,HttpSession session,Model model
+			 				) {
+	  
+		 		Member loginUser = (Member)session.getAttribute("loginUser");
+		 		String userId=loginUser.getUser_id();
+		 		int shopNo = bService.selectshopNo(userId);
+		 		
+		 		System.out.println("업데이트b" + b);
+
+	  	
+	  
+
+				   // 업로드 파일 서버에 저장
+			      // 파일이 첨부 되었다면
+			      if(!file.getOriginalFilename().equals("")) {
+			         // 파일 저장 메소드 별도로 작성 - 리네임 리턴 
+			         String renameFileName = saveFile(file, request);
+			         // DB에 저장하기 위한 파일명 세팅
+			         if(renameFileName != null) {
+			            a.setOriginName(file.getOriginalFilename());
+			            a.setChangeName(renameFileName);
+			            a.setFile_level(1);
+			           
+			         }
+			         
+			      }
+
+		         int result = bService.infoupdate(b,a);
+		         
+		         if(result > 0) {
+		        	 int result2 = bService.updateBfile(shopNo);
+		        	 return "redirect:/business/list";
+		         }else {
+		        	 System.out.println("실패");
+		         }
+		         return "redirect:/business/list";
+	 
+		 		
+	  }
+	 
+	 
 	
 	@PostMapping("/news/insert")
 	public String newsInsert(@ModelAttribute News n ,MultipartFile file, @ModelAttribute Addfile a,
@@ -410,4 +450,30 @@ public class BusinessController {
 		mv.setViewName("business/cateNear");
 		return mv;
 	}
+	
+	@GetMapping("updateFaCount")
+	public String updateFaCount(String shopNo, HttpSession session) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			String userId = loginUser.getUser_id();
+			Map<String, String> map = new HashMap<>();
+			map.put("userId", userId);
+			map.put("shopNo", shopNo);
+			
+			int result = bService.updateFacount(map);
+		
+		return "redirect:/business/list";
+	}
+	@GetMapping("delete")
+	public String deleteBusiness( HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId= loginUser.getUser_id();
+		int shopNo = bService.selectshopNo(userId);
+		
+		int result = bService.deleteBusiness(shopNo);
+		int result2 = bService.updateBstatus2(userId);
+		
+		System.out.println("딜리트업뎃결과"+result2);
+		return  "redirect:/business/list";
+	}
+		
 }

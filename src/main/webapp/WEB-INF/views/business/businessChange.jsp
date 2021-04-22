@@ -17,18 +17,18 @@
     
 	<jsp:include page="../common/menubar.jsp"/>
     <section id="gbSection">
-            	<form action="${ contextPath }/business/photoInsert" method="post" id="photoInsertForm" enctype="multipart/form-data">
+            	<form action="${ contextPath }/business/update" method="post" id="update" enctype="multipart/form-data">
         <div class="area">
     		
     		
             <div class="photoArea">
-            	<c:if test="${b.filePath !=null }">
-                <img id="photoPlus"src="${contextPath}/resources/${b.filePath}${b.changeName}">
+            	<c:if test="${b.changeName !=null }">
+                <img id="photoPlus"src="${contextPath}/resources/images/goodupload/${b.changeName}">
                 </c:if>
-            	<c:if test="${b.filePath ==null }">
+            	<c:if test="${b.changeName ==null }">
                 <img id="photoPlus"src="${contextPath}/resources/images/business/사진추가샘플.png">
                 </c:if>
-                <input id="profilePhoto" type="file" name="profilePhoto" >
+                <input id="profilePhoto" type="file" name="file"  >
                
                 <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
                 <div id="nameArea">
@@ -126,6 +126,8 @@
 								
                					<input type="text" id="timeInput2" name="shopTime2" placeholder="종료" value="${ b.shopTime2 }" ><br>
 								<input type="text" id="timeInput3" name="shopTime3" placeholder="휴무요일을 적어주세요." value="${ b.shopTime3 }"><br>
+								<input type="hidden" name="shopNo" value="${b.shopNo }">
+								<input type="hidden" name="userId" value="${b.userId }">
 								</div>
 			
             </div>
@@ -171,12 +173,16 @@
         	  </script>
            
         </div>
-        
-        <div id="btnArea">
-        <button id="finalBtn" onclick="location.href='${contextPath}/business/update'">완료</button>
-        </div>
         </form>
         
+        <div id="btnArea">
+        <button class="finalBtn" onclick="location.href='${contextPath}/business/update'">수정</button>
+        
+        
+        <button id="deleteBtn" onclick="location.href='${contextPath}/business/delete'">삭제</button>
+     
+        </div>
+      
         
         	
    
@@ -225,7 +231,7 @@
 							var size;
 							
 							switch(element.name){
-							case "profilePhoto" :
+							case "file" :
 								selector = "#photoPlus";
 								size = {width:"654px", height:"316px" };
 								break;
@@ -243,7 +249,9 @@
 					};
 				};
 			
-
+		$(".finalBtn").click(function(){
+			$("#update").submit();
+		});
 			
     </script>
 
