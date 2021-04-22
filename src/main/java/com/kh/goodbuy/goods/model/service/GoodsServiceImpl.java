@@ -228,6 +228,18 @@ public class GoodsServiceImpl implements GoodsService{
 		gDao.updateReply(rno);
 		return gDao.selectReplyList(g);
 	}
+@Override
+public int updateProduct(int gno) {
+	// TODO Auto-generated method stub
+	return gDao.updateProduct(gno);
+}
+@Override
+public int updateProduct2(int gno) {
+	// TODO Auto-generated method stub
+	return gDao.updateProduct2(gno);
+}
+
+
 	
 
 }

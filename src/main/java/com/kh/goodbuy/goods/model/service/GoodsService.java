@@ -95,6 +95,9 @@ public interface GoodsService {
 
 	//댓글삭제
 	public List<Reply> updateReply(int rno, Goods g);
+	// 관리자 상품 관리
+	public int updateProduct(int gno);
+	public int updateProduct2(int gno);
 
 
 

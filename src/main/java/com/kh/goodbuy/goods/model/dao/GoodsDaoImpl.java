@@ -327,4 +327,18 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.updateReply", rno);
 
 	}
+
+	@Override
+	public int updateProduct(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct", gno);
+	}
+
+	@Override
+	public int updateProduct2(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct2", gno);
+	}
+
+
 }

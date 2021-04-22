@@ -103,5 +103,9 @@ public interface GoodsDao {
 	public int updateFile(List<Addfile> list, int gno);
 	//댓글삭제
 	public int updateReply(int rno);
+	// 관리자 상품 관리
+	public int updateProduct(int gno);
+
+	public int updateProduct2(int gno);
 
 }

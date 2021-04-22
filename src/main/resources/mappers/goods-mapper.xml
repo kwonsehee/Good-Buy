@@ -738,6 +738,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , CREATE_DATE
 			  , USER_ID
+			  , G_STATUS
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -750,7 +751,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         		WHERE G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
         		  AND F.FILE_LEVEL = 1)
-		  WHERE G_STATUS = 'Y'
+		 
 	   ORDER BY CREATE_DATE DESC
    
    </select>
@@ -821,6 +822,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , T.ADDRESS_2 ADDRESS_2
 			  , T.ADDRESS_3 ADDRESS_3
 			  , G.G_STATUS G_STATUS
+			  , G.CREATE_DATE CREATE_DATE
 		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
 		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
 		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
@@ -837,6 +839,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , CREATE_DATE
 			  , USER_ID
+			  , G_STATUS
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -850,7 +853,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         		  AND GF.F_NO = F.F_NO
         		  AND F.FILE_LEVEL = 1)
 		<where>
-		G_STATUS = 'Y'
 			<choose>
 				<when test="searchCondition == 'proname'">
 				AND (G_TITLE LIKE #{sv} )
@@ -906,7 +908,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
+	
+	<update id="updateProduct" parameterType="Goods">
+		UPDATE GOODS
+		SET G_STATUS = 'R'
+		WHERE G_NO = #{gno}
+	
+	
+	</update>
 
+<update id="updateProduct2" parameterType="Goods">
+		UPDATE GOODS
+		SET G_STATUS = 'N'
+		WHERE G_NO = #{gno}
+		
+	</update>
 </mapper>
 
 
