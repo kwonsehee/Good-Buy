@@ -98,7 +98,7 @@ public interface GoodsDao {
 	public List<Goods> searchList(Search search);
 
 	//중고상품 파일 삭제 
-	public int deleteFile(int gno);
+	public int deleteFile(String index);
 	//중고상품 파일update
 	public int updateFile(List<Addfile> list, int gno);
 	//댓글삭제

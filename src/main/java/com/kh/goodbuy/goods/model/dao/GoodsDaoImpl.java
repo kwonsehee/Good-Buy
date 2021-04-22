@@ -303,7 +303,7 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectList("goodsMapper.searchList", search);
   }
  @Override
-	public int deleteFile(int gno) {
+	public int deleteFile(String gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("goodsMapper.deleteFile", gno);
 	}
