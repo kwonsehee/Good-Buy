@@ -90,6 +90,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       <result property="createDate" column="CREATE_DATE"/>
       
    </resultMap>
+   
+   <resultMap type="Keyword" id="keywordResultSet">
+		<id property="user_id" column="USER_ID"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
 	
 	
 	<select id="selectCate" resultMap="cateSet">
@@ -913,6 +919,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
+	
+	<!-- <select id="searchKeyword" parameterType="map" resultMap="keywordResultSet">
+		SELECT 
+				USER_ID
+			  , KEYWORD
+	      FROM 
+	      		KEYWORD
+	     WHERE 
+	     		<foreach collection="gArr" item="gtitle" open="'" close="'" separator="|">
+	     		REGEXP_LIKE(KEYWORD, #{gtitle.value});
+	    		</foreach>
+	
+	</select> -->
+	
+	
+	
 
 	
 	<update id="updateProduct" parameterType="Goods">

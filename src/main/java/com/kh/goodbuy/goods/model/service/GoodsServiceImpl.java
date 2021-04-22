@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.dao.GoodsDao;
 import com.kh.goodbuy.goods.model.vo.Addfile;
@@ -27,6 +28,7 @@ public class GoodsServiceImpl implements GoodsService{
 		int result = gDao.insertGoods(g);
 		if(result>0) return gDao.insertFile(list);
 		else return 0;
+		
 	}
 	
 	@Override
@@ -229,6 +231,12 @@ public class GoodsServiceImpl implements GoodsService{
 		return gDao.selectReplyList(g);
 	}
 
+	@Override
+	public List<Keyword> searchKeyword(String[] gArr) {
+		return gDao.searchKeyword(gArr);
+	}
+
+
 @Override
 public int updateProduct(int gno) {
 	// TODO Auto-generated method stub
@@ -257,6 +265,7 @@ public List<Goods> selectSearchList(PageInfo pi, String search) {
 	// TODO Auto-generated method stub
 	return gDao.selectSearchList(pi, search);
 }
+
 
 
 }

@@ -35,6 +35,7 @@
 
 		<typeAlias type="com.kh.goodbuy.common.model.vo.Messenger" alias="Messenger"/>
 		<typeAlias type="com.kh.goodbuy.common.model.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.kh.goodbuy.common.model.vo.Keyword" alias="Keyword"/>
 
 
 	</typeAliases>

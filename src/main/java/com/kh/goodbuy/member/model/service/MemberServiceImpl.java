@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.dao.MemberDao;
 import com.kh.goodbuy.member.model.vo.Member;
@@ -100,6 +101,14 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int deleteMember(String user_id) {
 		return	mDao.deleteMember(user_id);
+	}
+	@Override
+	public int insertKeyword(Keyword k) {
+		return mDao.insertKeyword(k);
+	}
+	@Override
+	public List<Keyword> selectKeyword(String user_id) {
+		return mDao.selectKeyword(user_id);
 	}
 	
 

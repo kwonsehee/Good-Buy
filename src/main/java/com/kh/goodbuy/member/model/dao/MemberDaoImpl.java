@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -135,6 +136,16 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int deleteMember(String user_id) {
 		return sqlSession.update("memberMapper.deleteMember",user_id);
+	}
+
+	@Override
+	public int insertKeyword(Keyword k) {
+		return sqlSession.insert("memberMapper.insertKeyword", k);
+	}
+
+	@Override
+	public List<Keyword> selectKeyword(String user_id) {
+		return sqlSession.selectList("memberMapper.selectKeyword",user_id);
 	}
 
 	
