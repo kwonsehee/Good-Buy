@@ -35,8 +35,8 @@
                 </li>
                 <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
-                <form action="${ contextPath }/goods/search" method="post">
-                    <input type="text" id="searchbox" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
+                <form action="${ contextPath }/goods/search" method="get">
+                    <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
                     <button type="submit">검색</button>
                 </form>
                 </li>

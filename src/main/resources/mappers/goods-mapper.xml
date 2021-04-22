@@ -911,7 +911,42 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
-
+	<select id="selectSearchCount" parameterType="string" resultType="_int">
+		<bind name="searchb" value="'%'+_parameter+'%'"/>
+		SELECT COUNT(*)
+		FROM GOODS
+		WHERE G_TITLE LIKE #{searchb}
+	
+	</select>
+	<select id="selectSearchList" parameterType="string" resultMap = "GoodsResultSet">
+		<bind name="searchb" value="'%'+_parameter+'%'"/>
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  	AND G_TITLE LIKE  #{searchb}
+	   ORDER BY CREATE_DATE
+	  </select>
 </mapper>
 
 

@@ -503,43 +503,50 @@ public class GoodsController {
 
 	}
 
-	// 파일삭제 
-//	 @RequestMapping(value="deleteFile", method=RequestMethod.POST)
-//	public void deleteFile(int index, HttpServletResponse response, HttpServletRequest request) {
-////		 Goods g = (Goods) request.getSession().getAttribute("g");
-//			System.out.println("여기오니?"+index);
-//		 try {
-//	         PrintWriter out = response.getWriter();
-//	         int result = gService.deleteFile(index);
-//	         if(result>0) {
-//	        	 
-//	            out.write("success");
-//	         } else {
-//	            out.write("fail");
-//	         }
-//	         
-//	      } catch (IOException e) {
-//	         e.printStackTrace();
-//	      }
-//	      
-//
-//	}
-	  @RequestMapping(value="deleteFile", method=RequestMethod.POST)
-	   public void test1(String index, HttpServletResponse response) {
-		  System.out.println("여기오니?"+index);
-		  int result = gService.deleteFile(index);
-			 try {
-		         PrintWriter out = response.getWriter();
-		         if(result>0) {
-		        	 
-		            out.write("success");
-		         } else {
-		            out.write("fail");
-		         }
-		         
-		      } catch (IOException e) {
-		         e.printStackTrace();
-		      }
-	      
-	   }
+	// 파일삭제
+	@RequestMapping(value = "deleteFile", method = RequestMethod.POST)
+	public void test1(String index, HttpServletResponse response) {
+		System.out.println("여기오니?" + index);
+		int result = gService.deleteFile(index);
+		try {
+			PrintWriter out = response.getWriter();
+			if (result > 0) {
+
+				out.write("success");
+			} else {
+				out.write("fail");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// 중고상품검색
+	@GetMapping("/search")
+	public String GoodsSearch(String search, @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			HttpServletRequest request, Model model) {
+		Town myTown = (Town) request.getSession().getAttribute("townInfo");
+		int listCount=0;
+		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
+		List<Goods> glist;
+		PageInfo pi;
+		if(myTown !=null) {
+		System.out.println("search : "+search);
+			
+		}else {
+			listCount = gService.selectSearchCount(search);
+			System.out.println("search : "+listCount);
+			System.out.println("로그인 유저 없을때 search : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectSearchList(pi, search);
+			System.out.println("로그인 유저 없을때 search: glist"+ glist);
+			model.addAttribute("glist", glist);
+			model.addAttribute("pi", pi);
+		}
+		
+		
+		return "goods/goodslist";
+	}
 }
