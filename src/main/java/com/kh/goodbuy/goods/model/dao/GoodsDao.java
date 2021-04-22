@@ -103,5 +103,8 @@ public interface GoodsDao {
 	public int updateFile(List<Addfile> list, int gno);
 	//댓글삭제
 	public int updateReply(int rno);
-
+	//user 없을때 검색 카운트
+	public int selectSearchCount(String search);
+	//user 없을떄 검색 리스트 셀렉
+	public List<Goods> selectSearchList(PageInfo pi, String search);
 }

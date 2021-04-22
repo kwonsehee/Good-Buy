@@ -233,6 +233,16 @@ public class GoodsServiceImpl implements GoodsService{
 	  // TODO Auto-generated method stub
 	  return gDao.deleteFile(index);
   }
+@Override
+public int selectSearchCount(String search) {
+	// TODO Auto-generated method stub
+	return gDao.selectSearchCount(search);
+}
+@Override
+public List<Goods> selectSearchList(PageInfo pi, String search) {
+	// TODO Auto-generated method stub
+	return gDao.selectSearchList(pi, search);
+}
 	
 
 }
