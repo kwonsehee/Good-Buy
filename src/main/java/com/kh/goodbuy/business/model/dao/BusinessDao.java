@@ -1,6 +1,7 @@
 package com.kh.goodbuy.business.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
@@ -63,6 +64,18 @@ public interface BusinessDao {
 	public int selectshopNo(String userId);
 
 	public List<News> selectNews(int shopNo);
+
+	public int infoupdate(Business b);
+
+	public int changeFileInsert(Addfile a);
+
+	public int updateBfile(int shopNo);
+
+	public int updateFaCount(Map<String, String> map);
+
+	public int deleteBusiness(int shopNo);
+
+	public int updateBstatus2(String userId);
 
 
 	

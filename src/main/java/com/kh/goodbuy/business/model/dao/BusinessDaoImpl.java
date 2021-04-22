@@ -178,6 +178,43 @@ public class BusinessDaoImpl implements BusinessDao {
 		return sqlSession.selectList("businessMapper.selectNews",shopNo);
 	}
 
+	@Override
+	public int infoupdate(Business b) {
+		System.out.println("dao b" + b);
+		
+		return sqlSession.update("businessMapper.infoupdate",b);
+	}
+
+	@Override
+	public int changeFileInsert(Addfile a) {
+		
+		return sqlSession.insert("businessMapper.changeFileInsert",a);
+	}
+
+	@Override
+	public int updateBfile(int shopNo) {
+		
+		return sqlSession.update("businessMapper.updateBfile",shopNo);
+	}
+
+	@Override
+	public int updateFaCount(Map<String, String> map) {
+		
+		return sqlSession.insert("businessMapper.updateFaCount",map);
+	}
+
+	@Override
+	public int deleteBusiness(int shopNo) {
+		
+		return sqlSession.update("businessMapper.deleteBusiness",shopNo);
+	}
+
+	@Override
+	public int updateBstatus2(String userId) {
+		
+		return sqlSession.update("businessMapper.updateBstatus2",userId);
+	}
+
 	
 
 	

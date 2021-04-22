@@ -36,6 +36,7 @@
 
         <!--내 근처  시작-->
         <h3 id="nearNews">내 근처 소식</h3>
+		<c:if test="${!empty  nList }">
         <div class="nearArea">
         <c:forEach var="n" items="${nList}" >
             <div class="nearList" onclick="detailList(${n.shopNo})">
@@ -62,11 +63,20 @@
         <div class="btnArea">
         <button id="nearBtn" onclick="location.href='${contextPath}/business/company/list'">내 근처 소식 전체보기</button>
         </div>
+        </c:if>
+        
+        <c:if test="${empty nList }">
+        <div class="logoArea">
+       		<img src="${contextPath}/resources/images/logo2.png">
+            <p>소식이 없습니다.</p>
+        </div>
+        </c:if>
         <!--내 근처 끝-->
 
         <!--이웃들의 추천 가게 시작-->
         
         <h3 id="likeShopArea">이웃들의 추천 가게</h3>
+        <c:if test="${!empty bList }">
         <div id="star">
         <c:if test="${ color == 0 }">
         <a class="gradeRanking" onclick="location.href='${contextPath}/business/gradeRanking'" >별점순</a>
@@ -139,6 +149,10 @@
             <div class="plusArea">
 	        	<a>더보기</a>
 	        </div>
+	       
+	        
+	       
+	        
         <script>
         $(document).ready(function(){
 			size_div = $('.likeList').length;
@@ -157,15 +171,22 @@
         </script>
      
         <div class="btnArea">
-        	<c:if test="${ sessionScope.loginUser.is_business eq 'Y' }">
+        	<c:if test="${ loginUser.is_business eq 'Y' }">
             <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/change'">비즈 프로필 관리</label></button>
             </c:if>
-            <c:if test="${ sessionScope.loginUser.is_business eq 'N'}">
+            <c:if test="${ loginUser.is_business eq 'N'}">
             <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/create'">비즈 프로필 생성</label></button>
             </c:if>
            
         </div>
-
+		 </c:if>
+		 
+		 <c:if test="${empty bList }">
+		        <div class="logoArea">
+	       		<img src="${contextPath}/resources/images/logo2.png">
+	            <p>추천 가게가 없습니다.</p>
+        		</div>
+	     </c:if>
         <!--이웃들의 추천 가게 끝-->
        
     </section>
