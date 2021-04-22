@@ -143,7 +143,7 @@
         #btnArea{
             text-align: center;
         }
-        #finalBtn{
+        .finalBtn{
             width: 85px;
             height: 43px;
             border-radius: 27px;
@@ -403,5 +403,23 @@
             margin-top: 3px;
             font-family: 'yg-jalnan';
         }
-        
-        
+        #deleteBtn{
+         width: 85px;
+            height: 43px;
+            border-radius: 27px;
+            border: none;
+            background-color: black;
+            color: white;
+            letter-spacing: 2px;
+            /* text-align: -webkit-center; */
+            /* position: relative; */
+           
+            margin-bottom: 30px;
+            font-family: 'yg-jalnan';
+        }
+        #deleteArea{
+         text-align: center;
+        }
+        #shopNo2{
+        	display : none;
+        }
