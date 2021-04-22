@@ -2,6 +2,7 @@ package com.kh.goodbuy.goods.model.service;
 
 import java.util.List;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
@@ -95,6 +96,9 @@ public interface GoodsService {
 
 	//댓글삭제
 	public List<Reply> updateReply(int rno, Goods g);
+	
+	// 키워드 대조
+	public List<Keyword> searchKeyword(String[] gArr);
 
 
 

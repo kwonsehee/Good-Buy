@@ -19,6 +19,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="is_business" column="IS_BUSINESS"/>
 	</resultMap>
 	
+	<resultMap type="Keyword" id="keywordResultSet">
+		<id property="user_id" column="USER_ID"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
+	
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
@@ -314,6 +320,27 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE 
 	 		USER_ID = #{user_id}
 	</update>
+	
+	<insert id="insertKeyword" parameterType="Keyword">
+		INSERT INTO KEYWORD
+		VALUES(
+			#{user_id}
+		  , #{keyword}
+		  , DEFAULT
+		)
+	
+	</insert>
+	
+	<select id="selectKeyword" parameterType="string" resultMap="keywordResultSet">
+		SELECT
+				USER_ID
+			  , KEYWORD
+			  , CREATE_DATE
+		  FROM
+		  		KEYWORD
+		 WHERE
+		 		USER_ID = #{user_id}
+	</select>
 
 				
 

@@ -2,6 +2,7 @@ package com.kh.goodbuy.goods.model.dao;
 
 import java.util.List;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
@@ -103,5 +104,7 @@ public interface GoodsDao {
 	public int updateFile(List<Addfile> list, int gno);
 	//댓글삭제
 	public int updateReply(int rno);
+	//키워드 대조
+	public List<Keyword> searchKeyword(String[] gArr);
 
 }

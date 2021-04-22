@@ -50,7 +50,6 @@
 	margin: auto;
 	margin-bottom: 20px;
 	position: relative;
-	/* cursor: pointer; */
 }
 
 .gPhoto {
@@ -169,9 +168,8 @@
 	background: #F9F9F9;
 	text-align: center;
 	display: none;
-    position: absolute;
-    top: 320px;
-    left: 83%;
+	margin-left:100%;
+	z-index:1;
 }
 
 .subMenu a {

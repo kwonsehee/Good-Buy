@@ -3,6 +3,7 @@ package com.kh.goodbuy.member.model.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -50,6 +51,10 @@ public interface MemberDao {
 	public String selectSellerPhoto(String user_id);
 	// 회원탈퇴
 	public int deleteMember(String user_id);
+	// 키워드 등록
+	public int insertKeyword(Keyword k);
+	// 키워드 조회
+	public List<Keyword> selectKeyword(String user_id);
 	
 
 

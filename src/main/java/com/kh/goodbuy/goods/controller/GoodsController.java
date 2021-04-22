@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
 import com.kh.goodbuy.goods.model.service.GoodsService;
@@ -231,15 +232,15 @@ public class GoodsController {
 		// 업로드 파일 서버에 저장
 		// 파일이 첨부되었다면
 		 for(int i=0; i<fileup.length; i++) {
-	            System.out.println("================== file start ==================");
-	            System.out.println("파일 이름: "+fileup[i].getName());
-	            System.out.println("파일 실제 이름: "+fileup[i].getOriginalFilename());
-	            System.out.println("파일 크기: "+fileup[i].getSize());
-	            System.out.println("content type: "+fileup[i].getContentType());
-	            System.out.println("================== file   END ==================");
+//	            System.out.println("================== file start ==================");
+//	            System.out.println("파일 이름: "+fileup[i].getName());
+//	            System.out.println("파일 실제 이름: "+fileup[i].getOriginalFilename());
+//	            System.out.println("파일 크기: "+fileup[i].getSize());
+//	            System.out.println("content type: "+fileup[i].getContentType());
+//	            System.out.println("================== file   END ==================");
 	   
 		if (!fileup[i].getOriginalFilename().equals("")) {
-			System.out.println("여기오니?");
+			// System.out.println("여기오니?");
 			// 파일 저장 메소드 별도로 작성 - 리네임명 리턴
 			String renameFileName = saveFile(fileup[i], request);
 			// DB에 저장하기 위한 파일명 세팅
@@ -253,7 +254,7 @@ public class GoodsController {
 					a.setFile_level(0);
 				}
 				list.add(a);
-				System.out.println(renameFileName);
+				// System.out.println(renameFileName);
 			}
 		}
 		 }
@@ -266,6 +267,23 @@ public class GoodsController {
 		System.out.println(g);
 		
 		int result = gService.insertGoods(g, list);
+		
+		// 키워드 부분 미완성
+		/*
+		// 1) 넘어온 gtitle 공백 단위로 쪼갬
+		String[] gArr = g.getGtitle().split(" ");
+
+		for(int i = 0; i < gArr.length; i++) {
+			System.out.println("gArr : " + gArr[i]);
+		}
+		// 2) keyword테이블에 제목 포함된 행 있는지 대조
+		List<Keyword> klist = gService.searchKeyword(gArr);
+		
+		System.out.println("klist : " + klist);
+		
+		// 3) ALARM DB에 keyword,user_id,gno.currval 넣어줌
+		*/
+		
 		if(result>0) {
 			
 			return "redirect:/goods/list";

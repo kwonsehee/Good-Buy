@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.MessengerService;
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -605,17 +606,37 @@ public class MypageController {
 	
 	// 키워드 알림 설정 화면
 	@GetMapping("/setKeyword")
-	public ModelAndView showSetKeyword(ModelAndView mv,String key,@ModelAttribute("loginUser") Member loginUser) {
-		
-		System.out.println("키워드 넘어오니  : " + key);
-		
-		
-		
-		
-		
-		
+	public ModelAndView showSetKeyword(ModelAndView mv,Model model,@ModelAttribute("loginUser") Member loginUser) {
+		// insert 후 키워드 조회 후 화면에 뿌리기
+		List<Keyword> list = mService.selectKeyword(loginUser.getUser_id());
+		System.out.println("키워드 리스트 : " + list);
+		mv.addObject("list", list);
 		mv.setViewName("mypage/setKeyword");
 		return mv;
+	}
+	
+	// 키워드 DB insert
+	@GetMapping("/insertKey")
+	public String insertKey(String key,@ModelAttribute("loginUser") Member loginUser,Model model) {
+		System.out.println("키워드 넘어오니  : " + key);
+		
+		Keyword k = new Keyword();
+		k.setUser_id(loginUser.getUser_id());
+		k.setKeyword(key);
+		
+		// 키워드 DB insert
+		int result = mService.insertKeyword(k);
+		
+		System.out.println("키워드 디비 들어감? " + result);
+		System.out.println("k : " + k);
+		
+		// insert 후 키워드 조회 후 화면에 뿌리기
+		List<Keyword> list = mService.selectKeyword(loginUser.getUser_id());
+		System.out.println("키워드 리스트 : " + list);
+		model.addAttribute("list", list);
+		
+		return "redirect:/mypage/setKeyword";
+		
 	}
 	
 	// 키워드 안내 팝업 화면

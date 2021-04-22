@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
@@ -327,4 +328,15 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.updateReply", rno);
 
 	}
+
+	@Override
+	public List<Keyword> searchKeyword(String[] gArr) {
+		Map<String, String> map = new HashMap <String, String>();
+		for(int i = 0; i<gArr.length; i++) {
+			map.put("gArr",gArr[i]);
+			System.out.println("map : " + map);
+		}
+		return sqlSession.selectList("goodsMapper.searchKeyword",map);
+	}
+
 }

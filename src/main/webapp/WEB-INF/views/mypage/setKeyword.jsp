@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,14 +23,23 @@
        
        <div class="countingWrap">
            <span>알림 받을 키워드</span>
-           <span id="keyCount">0</span>
+           <span id="keyCount">${list.size()}</span>
            <span>/</span>
            <span>20</span>
        </div>
-   
-       <div class="keywordWrap"></div>
- 
-    </section>
+
+		<div class="keywordWrap">
+		<c:if test="${ list.size() != 0 }">
+		<c:forEach items="${ list }" var="klist">
+			<div class='eachKeywordWrap'>
+			${klist.keyword }&nbsp; &nbsp;
+				<button class='cancelBtn' onclick='cancelKeyword()'>X</button>
+			</div>
+		</c:forEach>
+		</c:if>
+		</div>
+
+	</section>
 	
 	
 	<jsp:include page="../common/footer.jsp"/>
@@ -49,18 +59,16 @@
        }
 
        // 키워드 추가 
-       function add(){
+       function add(listSize){
            var keyword = $("#keywordInput").val();
-          
             $(".keywordWrap").append("<div class='eachKeywordWrap'>"+keyword+"&nbsp; &nbsp; <button class='cancelBtn' onclick='cancelKeyword()'>X</button></div>");
             $("#keywordInput").val(""); // input 리셋 시키기
 
-            // 키워드 카운팅
-            var keyCount = $(".eachKeywordWrap").length;
-            $("#keyCount").html(keyCount);
+			// 키워드 카운팅
+            $("#keyCount").html(listSize); 
 
             // 키워드 갯수 20개 제한
-            if(keyCount > 20){
+            if(listSize > 20){
                 alert("키워드는 최대 20개까지 등록 가능합니다 :)");
                 $("#keyCount").html("20");
                 $(".eachKeywordWrap:nth-last-child(1)").remove();
@@ -68,7 +76,7 @@
             
             console.log(keyword);
             
-            location.href="${contextPath}/mypage/setKeyword?key="+keyword;
+            location.href="${contextPath}/mypage/insertKey?key="+keyword;
        }
 
        // 키워드 X 클릭 -> 취소
