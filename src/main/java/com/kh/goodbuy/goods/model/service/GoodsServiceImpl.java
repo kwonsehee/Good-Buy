@@ -231,9 +231,11 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public int updateGoods(Goods g) {
-
-			return gDao.updateGoods(g);
+	public int updateGoods(Goods g, List<Addfile> list) {
+		if(list!=null) {
+			gDao.updateFile(list, g.getGno());
+		}
+		return gDao.updateGoods(g);
 	}
 
 	@Override

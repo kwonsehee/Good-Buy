@@ -29,7 +29,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.common.Pagination;
-import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
 import com.kh.goodbuy.goods.model.service.GoodsService;
@@ -514,7 +513,7 @@ public class GoodsController {
 		g.setUser_id(loginUser.getUser_id());
 		System.out.println(g);
 
-		int result = gService.updateGoods(g);
+		int result = gService.updateGoods(g , list);
 		if (result > 0) {
 			model.addAttribute("gno", g.getGno());
 			return "redirect:/goods/mydetail";
