@@ -25,6 +25,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="createDate" column="CREATE_DATE"/>
 	</resultMap>
 	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rno" column="R_NO"/>
+		<result property="rcontent" column="RCONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="rstatus" column="R_STATUS"/>
+		<result property="ref_rid" column="REF_RID"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="gtitle" column="G_TITLE"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="gno" column="G_NO"/>
+	</resultMap>
+	
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
@@ -343,6 +355,49 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		USER_ID = #{user_id}
 	</select>
 
-				
+	<select id="selectReplyCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(R_NO)
+	  FROM 	
+	  		REPLY
+	 WHERE 
+	 		USER_ID = #{user_id}
+	   AND
+	   		R_STATUS = 'Y'
+	</select>
+	
+	<select id="selectReplyList" parameterType="string" resultMap="replyResultSet">
+	SELECT 
+			R_NO,REPLY.CREATE_DATE,G_NO,G_TITLE,RCONTENT,CHANGE_NAME
+	  FROM 
+	  		REPLY
+	  JOIN 
+	  		GOODS_REPLY USING(R_NO)
+	  JOIN 
+	  		GOODS USING(G_NO)
+	  JOIN 
+	  		GOODSFILE USING(G_NO)
+	  JOIN 
+	  		ADDFILE USING(F_NO)
+	 WHERE 
+	 		REPLY.USER_ID = #{user_id}
+	   AND
+	   		R_STATUS = 'Y'
+	
+	</select>
+	
+	<update id="deleteReply" parameterType="Reply">
+	UPDATE 
+			REPLY
+	   SET 
+	   		R_STATUS = 'N'
+	 WHERE
+	 	   	USER_ID = #{user_id}
+	   AND 
+	   		R_NO = #{rno}
+	
+	
+	
+	</update>
 
 </mapper>

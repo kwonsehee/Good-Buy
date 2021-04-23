@@ -22,4 +22,7 @@ public class Reply {
 	private String rstatus;
 	private int ref_rid;
 	private String user_id;
+	private String gtitle;
+	private String changeName;
+	private int gno;
 }

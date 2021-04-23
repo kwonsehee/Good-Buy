@@ -27,6 +27,7 @@ import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.MessengerService;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.service.MemberService;
@@ -202,7 +203,6 @@ public class MypageController {
 	@GetMapping("/sellingList")
 	public ModelAndView showSellingList(ModelAndView mv,
 										@ModelAttribute("loginUser") Member loginUser, 
-										Model model,
 										@RequestParam(value="page", required=false, defaultValue="1") int currentPage){
 		int listCount = 0;
 		int boardLimit = 5;
@@ -234,12 +234,14 @@ public class MypageController {
 
 		int result = gService.changeGoodsStatus(g,status);
 		
+		System.out.println("상품 상태 변경됐니?" + result);
+		
 		if(result > 0) {
+			return "redirect:/mypage/sellingList";
 		}else {
 			return "common/errorpage";
 		}
 		
-		return "redirect:/mypage/sellingList";
 	}
 
 	
@@ -668,10 +670,47 @@ public class MypageController {
 	
 	// 내글/댓글 - 중고거래 댓글 화면
 	@GetMapping("/myGoodsReplyList")
-	public ModelAndView showMyGoodsReplyList(ModelAndView mv) {
+	public ModelAndView showMyGoodsReplyList(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser,
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 10;
+		PageInfo pi;
+		listCount = mService.selectReplyCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Reply> list = mService.selectReplyList(loginUser.getUser_id(),pi);
+		
+		System.out.println("댓글 리스트 : " + list);
+		
+		mv.addObject("list", list);
+		mv.addObject("pi",pi);
 		mv.setViewName("mypage/myGoodsReplyList");
+
 		return mv;
 	}
+	
+	// 중고상품 댓글 삭제
+	@GetMapping("deleteReply")
+	public String deleteReply(int rno,@ModelAttribute("loginUser") Member loginUser) {
+		
+		Reply r = new Reply();
+		r.setRno(rno);
+		r.setUser_id(loginUser.getUser_id());
+		
+		int result = mService.deleteReply(r);
+		
+		if(result > 0) {
+			return "redirect:/mypage/myGoodsReplyList";
+		} else {
+			return "common/errorpage";
+		}
+	}
+	
+	
+	
+	
 	
 	// 내가 한 신고 화면
 	@GetMapping("/reportList")

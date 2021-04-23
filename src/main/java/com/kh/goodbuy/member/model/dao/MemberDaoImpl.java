@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -146,6 +147,23 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public List<Keyword> selectKeyword(String user_id) {
 		return sqlSession.selectList("memberMapper.selectKeyword",user_id);
+	}
+
+	@Override
+	public List<Reply> selectReplyList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("memberMapper.selectReplyList",user_id,rowBounds);
+	}
+
+	@Override
+	public int selectReplyCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectReplyCount",user_id);
+	}
+
+	@Override
+	public int deleteReply(Reply r) {
+		return sqlSession.update("memberMapper.deleteReply", r);
 	}
 
 	

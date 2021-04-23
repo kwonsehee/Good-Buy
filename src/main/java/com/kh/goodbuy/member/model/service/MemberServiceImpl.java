@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.dao.MemberDao;
 import com.kh.goodbuy.member.model.vo.Member;
@@ -109,6 +110,18 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<Keyword> selectKeyword(String user_id) {
 		return mDao.selectKeyword(user_id);
+	}
+	@Override
+	public List<Reply> selectReplyList(String user_id, PageInfo pi) {
+		return mDao.selectReplyList(user_id, pi);
+	}
+	@Override
+	public int selectReplyCount(String user_id) {
+		return mDao.selectReplyCount(user_id);
+	}
+	@Override
+	public int deleteReply(Reply r) {
+		return mDao.deleteReply(r);
 	}
 	
 

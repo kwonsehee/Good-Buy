@@ -24,7 +24,6 @@ public class TownDaoImpl implements TownDao{
 
 	@Override
 	public List<Town> selectAllTown2() {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("townMapper.selectAllTown2");
 	}
 
@@ -37,6 +36,7 @@ public class TownDaoImpl implements TownDao{
 
 	@Override
 	public int selectTownNo(String address_3) {
+		System.out.println("DaoImpl : "+address_3);
 		return sqlSession.selectOne("townMapper.selectTownNo", address_3);
 	}
 
@@ -49,7 +49,6 @@ public class TownDaoImpl implements TownDao{
 
 	@Override
 	public int insertMyNewTown(MyTown mt) {
-		// TODO Auto-generated method stub
 		return sqlSession.insert("townMapper.insertMyNewTown",mt);
 	}
 
