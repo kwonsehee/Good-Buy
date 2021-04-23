@@ -118,4 +118,8 @@ public interface GoodsDao {
 	//user 없을떄 검색 리스트 셀렉
 	public List<Goods> selectSearchList(PageInfo pi, String search);
 
+	//user 있을떄 검색 카운트
+	public int selectMySearchCount(String search,Town myTown);
+	//user 있을떄 검색 리스트 셀렉
+	public List<Goods> selectMySearchList(PageInfo pi, String search, Town myTown);
 }

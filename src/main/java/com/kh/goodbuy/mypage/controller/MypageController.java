@@ -553,7 +553,13 @@ public class MypageController {
 		
 		// 세션에 다시 저장
 		model.addAttribute("mtlist", mtlist);
-		
+		// 바뀐 동네 정보 세션에 다시 담아주기
+		Town townInfo2 = tService.selectUserTown(loginUser.getUser_id());
+				
+		if(townInfo2 != null) {
+			model.addAttribute("townInfo", townInfo2);
+			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo2);
+		}
 		
 		System.out.println("contextPath넘어왔나 : " + contextPath);
 		
@@ -580,7 +586,7 @@ public class MypageController {
 		// 바뀐 동네 정보 세션에 다시 담아주기
 		Town townInfo2 = tService.selectUserTown(loginUser.getUser_id());
 		
-		if(townInfo != null) {
+		if(townInfo2 != null) {
 			model.addAttribute("townInfo", townInfo2);
 			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo2);
 		}

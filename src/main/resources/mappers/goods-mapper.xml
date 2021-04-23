@@ -440,13 +440,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			   AND GF.F_NO = F.F_NO
 			   AND F.FILE_LEVEL = 1)
 		WHERE G_STATUS = 'Y'
-			<if test='area lt 4'>
+			<if test='myTown.area lt 4'>
 			AND ADDRESS_1 = #{myTown.address_1}
 			</if>
-			<if test='area lt 3'>
+			<if test='myTown.area lt 3'>
 			AND ADDRESS_2 = #{myTown.address_2}
 			</if>
-			<if test='area lt 2'>
+			<if test='myTown.area lt 2'>
 			AND ADDRESS_3 =#{myTown.address_3}
 			</if>
         AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
@@ -477,13 +477,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         		  AND GF.F_NO = F.F_NO
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
-			<if test='area lt 4'>
+			<if test='myTown.area lt 4'>
 			AND ADDRESS_1 = #{myTown.address_1}
 			</if>
-			<if test='area lt 3'>
+			<if test='myTown.area lt 3'>
 			AND ADDRESS_2 = #{myTown.address_2}
 			</if>
-			<if test='area lt 2'>
+			<if test='myTown.area lt 2'>
 			AND ADDRESS_3 =#{myTown.address_3}
 			</if>
         AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
@@ -988,7 +988,68 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  	AND G_TITLE LIKE  #{searchb}
 	   ORDER BY CREATE_DATE
 	  </select>
+	<select id="selectMySearchCount" parameterType="java.util.Map" resultType="_int">
+		<bind name="searchb" value="'%'+_parameter.search+'%'"/>
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+			   WHERE G.G_PLACE = T.T_NO
+			   AND G.G_NO = GF.G_NO
+			   AND GF.F_NO = F.F_NO
+			   AND F.FILE_LEVEL = 1)
+		WHERE G_STATUS = 'Y'
+        AND G_TITLE LIKE #{searchb}
+		<if test='myTown.area lt 4'>
+		AND ADDRESS_1 = #{myTown.address_1}
+		</if>
+		<if test='myTown.area lt 3'>
+		AND ADDRESS_2 = #{myTown.address_2}
+		</if>
+		<if test='myTown.area lt 2'>
+		AND ADDRESS_3 =#{myTown.address_3}
+		</if>
 
+	</select>
+	<select id="selectMySearchList" parameterType="java.util.Map" resultMap="GoodsResultSet">
+		<bind name="searchb" value="'%'+_parameter.search+'%'"/>
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G.C_NO C_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  AND G_TITLE LIKE #{searchb}
+			<if test='myTown.area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='myTown.area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='myTown.area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
+	   ORDER BY CREATE_DATE DESC
+	</select>
 </mapper>
 
 
