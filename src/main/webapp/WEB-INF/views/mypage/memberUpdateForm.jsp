@@ -183,19 +183,9 @@
 		
 		$("#town1").on('change',function(){
 			var bigTown = $("#town1 option:selected").text();
-			//console.log(bigTown);
+			console.log(bigTown);
 			$("#town2 option").remove();
 			$("#town2").append("<option>&nbsp;시•구•군</option>");
-			
-			/* for(var i in sido){
-				if(bigTown == sido[i]){
-					break;
-					var gugun = "area" + i;
-					for(var j in gugun){
-						$("#town2").append("<option>"+gugun[j]+"</option>");
-					}
-				}
-			} */
 			
 			if(bigTown == "서울특별시"){
 				for(var i in area0){

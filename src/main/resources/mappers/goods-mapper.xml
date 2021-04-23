@@ -293,9 +293,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  AND F.FILE_LEVEL = 1
 		  AND G.USER_ID =#{user_id}
 		  AND G_STATUS = 'Y'
-		  AND G_PLACE IN (SELECT T_NO
-                 		   FROM MY_TOWN
-                 		  WHERE USER_ID =#{user_id})
 	 ORDER BY
         	   G.CREATE_DATE DESC
 	</select>
@@ -323,11 +320,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 						WHERE G.G_NO = GF.G_NO
 						  AND GF.F_NO = F.F_NO     
 						  AND F.FILE_LEVEL = 1
-						  AND G.USER_ID = #{user_id}
-						  AND G_PLACE = (SELECT T_NO
-				                 		   FROM MY_TOWN
-				                 		  WHERE MYTOWN_TYPE=1
-				                 			AND USER_ID = #{user_id}))A 
+						  AND G.USER_ID = #{user_id})A 
 					                            
 				  LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 				  GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -376,11 +369,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 						WHERE G.G_NO = GF.G_NO
 						  AND GF.F_NO = F.F_NO     
 						  AND F.FILE_LEVEL = 1
-						  AND G.USER_ID = #{user_id}
-						  AND G_PLACE = (SELECT T_NO
-				                 		   FROM MY_TOWN
-				                 		  WHERE MYTOWN_TYPE=1
-				                 			AND USER_ID = #{user_id}))A 
+						  AND G.USER_ID = #{user_id})A 
 					                            
 				  LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 				  GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -928,7 +917,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	      		KEYWORD
 	     WHERE 
 	     		<foreach collection="gArr" item="gtitle" open="'" close="'" separator="|">
-	     		REGEXP_LIKE(KEYWORD, #{gtitle.value});
+	     		REGEXP_LIKE(KEYWORD, #{gtitle.value})
 	    		</foreach>
 	
 	</select> -->

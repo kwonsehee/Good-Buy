@@ -50,6 +50,7 @@
 	margin: auto;
 	margin-bottom: 20px;
 	position: relative;
+	border:1px solid black;
 }
 
 .gPhoto {
@@ -168,7 +169,8 @@
 	background: #F9F9F9;
 	text-align: center;
 	display: none;
-	margin-left:100%;
+	margin-left:101%;
+	margin-top:30px;
 	z-index:1;
 }
 
@@ -177,12 +179,13 @@
 	color: #222;
 	display: block;
 	padding-top: 20px;
-	padding-bottom: 10px;
+	padding-bottom: 15px;
 }
 
 .subMenu a:nth-child(3) {
 	color: red;
 }
+
 
 #textWrap{
 	width:400px;

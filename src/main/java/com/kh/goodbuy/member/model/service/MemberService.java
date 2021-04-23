@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.goodbuy.common.model.vo.Keyword;
-import com.kh.goodbuy.goods.model.vo.Addfile;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
@@ -62,6 +62,12 @@ public interface MemberService {
 		public int insertKeyword(Keyword k);
 		// 키워드 조회
 		public List<Keyword> selectKeyword(String user_id);
+		// 중고상품 내 댓글 조회 
+		public List<Reply> selectReplyList(String user_id, PageInfo pi);
+		// 중고상품 내 댓글 갯수 카운트
+		public int selectReplyCount(String user_id);
+		// 마이페이지 중고상품 댓글 삭제 
+		public int deleteReply(Reply r);
 
 	
 

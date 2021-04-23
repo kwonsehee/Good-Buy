@@ -39,8 +39,8 @@
                 <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
                 <p class="likeCount">${ slist.like_cnt }</p>
                  <div class="subMenu">
-		            <a href="#">게시글 수정</a>
-		            <a href="#">숨기기</a>
+                 	<a href="#">게시글 수정</a>
+		            <a href="#">숨김으로 변경</a>
 		            <a href="#">삭제</a>
        			 </div>
             </div>
@@ -144,7 +144,7 @@
        function goUpdateGoods(gno){
     	   $(".subMenu a:nth-child(1)").on('click',function(){
     		   console.log(gno);
-    		  /*  location.href=""; */
+    		   location.href="${contextPath}/goods//editView?gno="+gno;
     	   });
        }
        

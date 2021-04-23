@@ -147,7 +147,7 @@
        function goUpdateGoods(gno){
     	   $(".subMenu a:nth-child(1)").on('click',function(){
     		   console.log(gno);
-    		  /*  location.href=""; */
+    		   location.href="${contextPath}/goods//editView?gno="+gno;
     	   });
        }
        
@@ -163,7 +163,7 @@
       function goDeleteGoods(gno){
     	   $(".subMenu a:nth-last-child(1)").on('click',function(){
     		   console.log(gno);
-    		  /*  location.href=""; */
+    		   location.href="${contextPath}/goods/delete?gno="+gno+"&pageName=mypage"; 
     	   });
       }
     
