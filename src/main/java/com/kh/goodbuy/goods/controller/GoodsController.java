@@ -506,14 +506,15 @@ public class GoodsController {
 				}
 			}
 		}
-		
+		System.out.println("여기오니 ");
+		System.out.println(c);
 		int cno = gService.selectCateNo(c);
 		g.setCno(cno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		g.setUser_id(loginUser.getUser_id());
 		System.out.println(g);
 
-		int result = gService.updateGoods(g, list);
+		int result = gService.updateGoods(g);
 		if (result > 0) {
 			model.addAttribute("gno", g.getGno());
 			return "redirect:/goods/mydetail";

@@ -178,7 +178,7 @@
 		
 		<c:forEach var="f" items="${ g.filelist }" >
            <div id="photo_input">
-            <input type="file" name="fileup" value="${ contextPath }/resources/images/goodupload/${f}" style="display:none;">
+            <input type="file" value="${ contextPath }/resources/images/goodupload/${f}" style="display:none;">
             <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img">
            <button type="button" onclick="delete_file('${f}'  , this)" >삭제</button>
            </div>
@@ -318,8 +318,8 @@ function addFileForm() {
 		
         </script>
 			
-        <button type="reset" id="greset" onclick="${ contextPath }/goods/list">취소</button>
-        <button type="submit" id="gsubmit" >등록하기</button>
+        <button type="button" id="greset" onclick="location.href='${ contextPath }/goods/mydetail?gno='+${g.gno}">취소</button>
+        <button type="submit" id="gsubmit" >수정하기</button>
     </form>
     </section>
 <script>

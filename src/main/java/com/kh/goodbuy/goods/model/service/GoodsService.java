@@ -83,7 +83,7 @@ public interface GoodsService {
 	//좋아요한사람
 	public List<String> selectLikeGoods(int gno);
 	//상품수정
-	public int updateGoods(Goods g, List<Addfile> list);
+	public int updateGoods(Goods g);
 	// 안전거래내역 리스트 카운트
 	public int selectMyDealListCount(String user_id);
 	// 안전거래내역 리스트 출력
