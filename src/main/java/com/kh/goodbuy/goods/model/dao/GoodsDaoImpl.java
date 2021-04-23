@@ -365,4 +365,22 @@ public class GoodsDaoImpl implements GoodsDao{
 
 	}
 
+	@Override
+	public int selectMySearchCount(String search, Town myTown) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("search",search);
+		map.put("myTown", myTown);
+		return sqlSession.selectOne("goodsMapper.selectMySearchCount", map);
+	}
+
+	@Override
+	public List<Goods> selectMySearchList(PageInfo pi, String search, Town myTown) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("search",search);
+		map.put("myTown", myTown);
+		return sqlSession.selectList("goodsMapper.selectMySearchList", map, rowBounds);
+	}
+
 }

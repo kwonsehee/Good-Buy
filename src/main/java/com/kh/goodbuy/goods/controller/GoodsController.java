@@ -58,6 +58,8 @@ public class GoodsController {
 			 Model model) {
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		Town myTown = (Town) request.getSession().getAttribute("townInfo");
+		System.out.println("list 뽑을때 myTown : "+myTown);
+		
 		int listCount=0;
 		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
 		List<Goods> glist;
@@ -546,12 +548,19 @@ public class GoodsController {
 	public String GoodsSearch(String search, @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
 			HttpServletRequest request, Model model) {
 		Town myTown = (Town) request.getSession().getAttribute("townInfo");
+		System.out.println("search myTown"+myTown);
 		int listCount=0;
 		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
 		List<Goods> glist;
 		PageInfo pi;
 		if(myTown !=null) {
-		System.out.println("search : "+search);
+			listCount = gService.selectMySearchCount(search, myTown);
+			System.out.println("search : "+listCount);
+			System.out.println("로그인 유저 있을때 search : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectMySearchList(pi, search, myTown);
+//			glist = gService.selectSearchList(pi, search);
+			System.out.println("로그인 유저 있을때 search: glist"+ glist);
 			
 		}else {
 			listCount = gService.selectSearchCount(search);
@@ -560,10 +569,10 @@ public class GoodsController {
 			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 			glist = gService.selectSearchList(pi, search);
 			System.out.println("로그인 유저 없을때 search: glist"+ glist);
-			model.addAttribute("glist", glist);
-			model.addAttribute("pi", pi);
+			
 		}
-		
+		model.addAttribute("glist", glist);
+		model.addAttribute("pi", pi);
 		
 		return "goods/goodslist";
 	}
