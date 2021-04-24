@@ -49,4 +49,19 @@ public class ReportServiceImpl implements ReportService{
 		// TODO Auto-generated method stub
 		return rDao.insertGoodsReport(r, gno, report_id);
 	}
+
+	@Override
+	public int selectMyReportCount(String user_id) {
+		return rDao.selecMyReportCount(user_id);
+	}
+
+	@Override
+	public List<Report> selectMyReportList(String user_id, PageInfo pi) {
+		return rDao.selectMyReportList(user_id, pi);
+	}
+
+	@Override
+	public int deleteReport(int re_no) {
+		return rDao.deleteReport(re_no);
+	}
 }

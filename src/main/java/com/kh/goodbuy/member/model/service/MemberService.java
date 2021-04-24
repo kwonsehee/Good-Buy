@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.member.model.vo.PageInfo;
@@ -32,7 +33,6 @@ public interface MemberService {
 
 		public List<Member> searchList(Search search);
 
-
 		public Member selectMemberDetail(String user_id);
 		
 		// id 중복확인 
@@ -52,23 +52,30 @@ public interface MemberService {
 
 		//포인트 업데이트
 		public int updatePoint(String user_id, int user_point, int gno);
+		
 		//안전거래 디비 insert
 		public int insertDeal(String user_id, int amount, int gno);
+		
 		//셀러 사진얻어오기
 		public String selectSellerPhoto(String user_id);
+		
 		// 회원탈퇴
 		public int deleteMember(String user_id);
+		
 		// 키워드 등록
 		public int insertKeyword(Keyword k);
+		
 		// 키워드 조회
 		public List<Keyword> selectKeyword(String user_id);
+		
 		// 중고상품 내 댓글 조회 
 		public List<Reply> selectReplyList(String user_id, PageInfo pi);
+		
 		// 중고상품 내 댓글 갯수 카운트
 		public int selectReplyCount(String user_id);
+		
 		// 마이페이지 중고상품 댓글 삭제 
 		public int deleteReply(Reply r);
-
-	
+		
 
 }

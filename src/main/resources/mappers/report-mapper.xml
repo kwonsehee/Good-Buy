@@ -115,4 +115,45 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		SELECT * FROM DUAL
 	</insert>
 	
+	<select id="selecMyReportCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(RE_NO)
+	  FROM 
+	  		REPORT
+	 WHERE 
+		   REPORTED_ID = #{user_id}
+	   AND
+		   RE_STATUS = 'Y'
+		</select>
+	
+	<select id="selectMyReportList" parameterType="string" resultMap="reportResultSet">
+	SELECT 
+		   RE_NO
+		 , RETITLE
+		 , REPORTED_ID
+		 , RE_CONTENT
+		 , CREATE_DATE
+		 , RE_STATUS
+		 , RE_RESULT
+	  FROM 
+	  		REPORT
+	 WHERE 
+	 		REPORTED_ID = #{user_id}
+	   AND
+		    RE_STATUS = 'Y'
+  ORDER BY 
+  			CREATE_DATE DESC
+	
+	</select>
+	
+	<update id="deleteReport" parameterType="_int">
+	UPDATE 
+			REPORT
+	   SET 
+	   		RE_STATUS = 'N'
+	 WHERE 
+	 		RE_NO = #{re_no}
+	
+	</update>
+	
 </mapper>

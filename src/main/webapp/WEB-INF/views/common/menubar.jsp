@@ -202,10 +202,10 @@
 			
 			$("#gbSection").click(function(){
 				/* 섹션 부분 누르면 메뉴바 내동네 리스트 닫힘 */
-				/* if($(".userTownli p:nth-last-child(1)").css("display") != "none"){
+				 if($(".userTownli p:nth-last-child(1)").css("display") != "none"){
 					$(".userTownli p:nth-child(2)").slideUp(350);
 					$(".userTownli p:nth-last-child(1)").slideUp(350);
-				} */
+				} 
 				/* 섹션 부분 누르면 사이드바 닫힘 */
 				if($(".sidebar").css("left") == "0px"){
 					$(".sidebar").css("left", "-300px");
@@ -214,20 +214,33 @@
 		});
 		
 		/* 메뉴바에서 동네 바꾸기(ajax) */
-		$(".userTownli p:nth-child(2)").click(function(){
+		/* 동네 1개일 때 */
+	 	$(".userTownli p:nth-child(2)").click(function(){
 			var townName = event.target.innerText;
-		
 			var contextPath = "${pageContext.request.requestURI}";
 			
 			console.log(contextPath);
 			
-			
-			if(townName =="내 동네 설정"){
+			if(townName === "내 동네 설정"){
 				location.href="${contextPath}/mypage/setMyTown";
 			} else{
 				location.href= "${contextPath}/mypage/changeTownType2?contextPath="+contextPath;
 			}
 			
+		});
+		/* 동네 2개일 때 */
+		$(".userTownli p:nth-last-child(1)").click(function(){
+			var townName = event.target.innerText;
+			var contextPath = "${pageContext.request.requestURI}";
+			
+			console.log(contextPath);
+		 	console.log(townName);
+		 	
+			if(townName === "내 동네 설정"){
+				location.href="${contextPath}/mypage/setMyTown";
+			} else{
+				location.href= "${contextPath}/mypage/changeTownType2?contextPath="+contextPath;
+			}
 		});
 		
 		// 메뉴 아이콘 hover 효과

@@ -2,11 +2,11 @@
 
 #gbSection{
 	margin-top:30px;
-	border:1px solid black;
+	/* border:1px solid black; */
 }
 
 #titleWrap{
-	border:1px solid black;
+	/* border:1px solid black; */
 	width: 35%;
     margin-left: 50px;
     margin-top: 150px;
@@ -43,7 +43,7 @@
 }
 
 #mainImgWrap{
-	border:1px solid black;
+	/* border:1px solid black; */
 	width:57%;
 	height:700px;
 	margin-left:40%;
