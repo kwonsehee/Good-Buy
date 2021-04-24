@@ -69,6 +69,7 @@ button {
 	color:#949999;
 	position:absolute;
 	left:68%;
+	z-index:1;
 }
 
 .userTownli2 img{

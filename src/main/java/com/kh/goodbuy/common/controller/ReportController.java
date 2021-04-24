@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,4 +44,23 @@ public class ReportController {
 		model.addAttribute("gno",gno);
 		return "redirect:/goods/detail";
 	}
+	
+	
+	// 신고 철회
+	@GetMapping("/deleteReport")
+	public String deleteReport(int re_no, @ModelAttribute("loginUser") Member loginUser) {
+		System.out.println("re_no : " + re_no);
+		
+		int result = rService.deleteReport(re_no);
+		
+		System.out.println("신고철회 됨? " + result);
+		
+		if(result > 0) {
+			return "redirect:/mypage/reportList";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
 }

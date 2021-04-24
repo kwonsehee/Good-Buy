@@ -25,9 +25,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.MessengerService;
+import com.kh.goodbuy.common.model.service.ReportService;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.service.MemberService;
@@ -52,6 +54,9 @@ public class MypageController {
 	private GoodsService gService;
 	@Autowired
 	private MessengerService msgService;
+	@Autowired
+	private ReportService reService;
+	
 	
 	// 마이페이지 메인 화면으로
 	@GetMapping("/main")
@@ -710,14 +715,38 @@ public class MypageController {
 	
 	
 	
-	
-	
 	// 내가 한 신고 화면
 	@GetMapping("/reportList")
-	public ModelAndView showReportList(ModelAndView mv) {
-		mv.setViewName("mypage/reportList");
+	public ModelAndView showReportList(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser,
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			String rType
+			) {
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		listCount = reService.selectMyReportCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Report> rlist = reService.selectMyReportList(loginUser.getUser_id(),pi);
+		
+		System.out.println("신고리스트 : " + rlist);
+		System.out.println("신고 갯수 : " + listCount);
+		
+		
+		if(rlist != null) {
+			mv.addObject("rlist", rlist);
+			mv.addObject("pi", pi);
+			mv.setViewName("mypage/reportList");
+		}
+		
 		return mv;
 	}
+	
+	
+	
+	
+	
 	
 	// 내가 당한 신고 화면
 	@GetMapping("/reportedList")
