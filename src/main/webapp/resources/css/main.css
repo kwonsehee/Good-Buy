@@ -2,7 +2,11 @@
 
 #gbSection{
 	margin-top:30px;
-	/* border:1px solid black; */
+	height:2600px;
+}
+
+p{
+	color:#949999;
 }
 
 #titleWrap{
@@ -67,3 +71,148 @@
 	margin-left:520px;
 	margin-top:90px;
 }
+
+#threePhotoWrap{
+ 	border:1px solid #fff;
+ 	margin-top:-80px;
+}
+
+.mainPhoto{
+	width:310px;
+	border-radius:200px;
+    display: block;
+    margin-bottom:40px;
+    background:#F4F4F4;
+    padding:10px;
+    position:absolute;
+    z-index:1;
+}
+
+#mainPhoto1{
+	margin-left:5%;
+}
+#mainPhoto2{
+	margin-left:50%;
+    transform: translate(-50%);
+}
+#mainPhoto3{
+	margin-left:75%;
+}
+
+#saveWrap1{
+	width:30%;
+	/* border:1px solid black; */
+	margin-top:110px;
+	margin-left:26%;
+	margin-bottom:150px;
+}
+#saveWrap1 p{
+	padding-left:30px;
+	color:#949999;
+}
+#saveWrap2{
+	width:30%;
+	/* border:1px solid black; */
+	margin-top:250px;
+	margin-left:60%;
+	margin-bottom:160px;
+}
+#saveWrap2 p{
+	padding-left:30px;
+	color:#949999;
+}
+#saveWrap3{
+	width:30%;
+	/* border:1px solid black; */
+	margin-top:-110px; 
+	margin-left:52%;
+}
+#saveWrap3 p{
+	color:#949999;
+}
+.save{
+	width:300px;
+	heignt:50px;
+	font-size:25px;
+	background:#F1FCFF;
+	padding-left:30px;
+	color:#05AAD1;
+}
+.save2{
+	width:350px;
+	color:#05AAD1;
+}
+
+#forrest{
+	width:400px;
+	margin-left:100px;
+}
+
+
+#bestGoodsWrap{
+	width:100%;
+	background:#F9F9F9;
+	height:700px;
+	margin-top:150px;
+}
+
+.bestWrap {
+	padding-top: 15px;
+	text-align: center;
+	margin:auto;
+}
+
+.circle {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: #05AAD1;
+	border-radius: 50px;
+}
+
+.bestText {
+	font-size: 26px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+#bestSearch{
+	margin-top:30px;
+	height:200px;
+}
+
+#bestSearch p{
+	width:198px;
+	color: black;
+	font-size:24px;
+	margin-left:40px;
+	border-bottom:3px solid #05AAD1;
+}
+
+#bestSearch ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+	margin-left:40px;
+	margin-top:50px;
+}
+
+#bestSearch ul li{
+	width:10%;
+	float:left;
+	font-size:18px;
+	cursor:pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

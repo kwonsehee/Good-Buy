@@ -35,7 +35,7 @@
 
 					<img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${r.re_no},this)">
 					<ul class="secondUl">
-						<li>${r.re_content} ${r.re_no }</li>
+						<li>${r.re_content}</li>
 						<li>신고 유형 [${r.retitle}]</li>
 					</ul>
 
