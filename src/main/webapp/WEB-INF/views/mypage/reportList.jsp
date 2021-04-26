@@ -58,7 +58,7 @@
   		 </c:if> 
     	    
         
-         <!-- 리스트 없을 때 -->
+        <!-- 리스트 없을 때 -->
 		<c:if test="${ rlist.size() == 0 }">
 		 <div class="listWrap">
 			 <div id="textWrap">

@@ -179,6 +179,12 @@ public class AdminController {
 		
 		int result = rService.updateReport(r);
 		
+		System.out.println("신고당한사람 : " + r.getReported_id());
+		System.out.println("r : " + r);
+		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
+		int result2 = rService.addCountReported(r.getReported_id());
+		
+		System.out.println("유저인포 reported+1 됐나 : " + result2);
 		
 		if (result > 0) {
 			return "redirect:/admin/report";

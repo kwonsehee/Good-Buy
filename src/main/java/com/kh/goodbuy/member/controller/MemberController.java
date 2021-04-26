@@ -6,11 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.goodbuy.common.model.service.ReportService;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -31,7 +30,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "loginUser", "msg", "townInfo","mtlist" })
+@SessionAttributes({ "loginUser", "msg", "townInfo","mtlist", "writeActive"})
 public class MemberController {
 
 	@Autowired
@@ -39,16 +38,46 @@ public class MemberController {
 	@Autowired
 	private TownService tService;
 	@Autowired
+	private ReportService reService;
+	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	// 3_2. 일반 로그인 컨트롤러 (DB select)
 	@PostMapping("/login") // 일반 로그인 post 방식
 	public String userLogin(@ModelAttribute Member m, Model model,HttpServletRequest request) {
 //		   System.out.println("m" + m);
-
+		// 신고 날짜+15 < 오늘 날짜 
+		int checkDate = reService.updateReportedDate(m.getUser_id());
+		
+		System.out.println("신고당한지 15일 지나고 null로 바뀜? : " + checkDate);
+		
+		// 로그인시 유저의 신고 당한 이력이 있는지 신고 날짜 조회 
+		// 신고 날짜가 있는 경우 
+		String repDate = reService.selectMyReportedDate(m.getUser_id());
+		
+		System.out.println("신고 날짜 조회됨? : " + repDate);
+		
+		String writeActive;
+		
+		if(repDate != null) {
+			writeActive = "n";
+			System.out.println("writeActive : " + writeActive);
+		}else {
+			writeActive = "y";
+			System.out.println("writeActive : " + writeActive);
+		}
+		
+		model.addAttribute("writeActive", writeActive);
+		
+		
+		
+		
 		Member loginUser = mService.loginMember(m);
-		 String referer = request.getHeader("Referer");
-	     request.getSession().setAttribute("redirectURI", referer);
+		
+		System.out.println("loginUser : " + loginUser);
+		
+		String referer = request.getHeader("Referer");
+	    request.getSession().setAttribute("redirectURI", referer);
 		System.out.println("이전페이지 :"+referer);
 		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
 		// 일반 로그인이까 암호화 필요 o
@@ -60,12 +89,18 @@ public class MemberController {
 			saveUserMtlist(loginUser.getUser_id(),model);
 			
 			// 뒤로 갈 히스토리가 있는 경우 및 우리 시스템에서 링크를 통해 유입된 경우
-
 			return "redirect:"+referer;
 		} else {
 			model.addAttribute("msg", "로그인에 실패하였습니다.");
 			return "redirect:/home";
 		}
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 	
@@ -77,6 +112,8 @@ public class MemberController {
 			System.out.println("멤버 컨트롤러(세션저장) mtlist : " + mtlist);
 		}
 	}
+	
+	
 
 	// 회원가입 페이지로
 	@GetMapping("/join")
@@ -218,7 +255,7 @@ public class MemberController {
 			System.out.println("세션에 저장되는 타운 바뀌나 : " + townInfo);
 		}
 		
-		return"redirect:/mypage/updateMember";
+		return"redirect:/mypage/main";
 		
 	}
 	

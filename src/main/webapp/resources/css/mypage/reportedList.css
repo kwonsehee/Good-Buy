@@ -87,7 +87,7 @@
 }
 
 .firstUl li:nth-child(2), .firstUl li:nth-child(3), .firstUl li:nth-child(4),
-	.firstUl li:nth-child(5) {
+	.firstUl li:nth-child(5), .firstUl li:nth-child(6) {
 	line-height: 40px;
 }
 
@@ -104,14 +104,6 @@
 .secondUl li:nth-child(2) {
 	color: #9A9999;
 	font-size: 13px;
-}
-
-.moreIcon {
-	position: absolute;
-	width: 20px;
-	top: 13px;
-	left: 98%;
-	cursor: pointer;
 }
 
 .bcontent {
@@ -139,7 +131,7 @@
 }
 
 .reportedCountWrap li:nth-child(1) {
-	width: 35%;
+	width: 32%;
 	line-height: 40px;
 	font-size: 14px;
 }
@@ -147,6 +139,7 @@
 .reportedCountWrap li:nth-child(2) {
 	color: #9A9999;
 	font-size: 14px;
+	line-height:22px;
 }
 
 .setBox {
@@ -160,48 +153,40 @@
 	margin-top: 5px;
 }
 
-.pagingArea ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	width: 500px;
-	height: 30px;
-	margin-left: 50%;
-	margin-top: 40px;
-	transform: translate(-50%);
-	margin-bottom: 100px;
+
+#textWrap{
+	width:400px;
+	height:100px;
+	border-top:1px solid #ccd1d3;
+	border-bottom:1px solid #ccd1d3;
+	margin-top:100px;
+	margin-bottom:300px;
+	text-align:center;
+	margin-left:50%;
+	transform:translate(-50%);
 }
 
-.pagingArea ul li {
-	float: left;
-	margin-right: 10px;
+#NullListText{
+	color:#ccd1d3;
+	line-height:100px;
 }
 
-.pagingArea ul li:nth-child(1) {
-	margin-left: 30%;
-	transform: translate(-30%);
+#pageArea{
+    margin-top: 3%;
+    color: #9a9999;
+    margin-left: 50%;
+    transform: translate(-50%);
+    display: inline-block;
+    margin-bottom:100px;
 }
 
-.pagingArea ul li a {
-	color: #9A9999;
+#pageArea a{
+	color:#949999;
 }
 
-.subMenu {
-	width: 100px;
-	height: 50px;
-	background: #F9F9F9;
-	text-align: center;
-	display: none;
+#pageArea a:hover{
+    color:  #05aad1;
+    cursor: pointer;
 }
 
-.subMenu a {
-	font-size: 12px;
-	color: #222;
-	display: block;
-	padding-top: 20px;
-	padding-bottom: 15px;
-}
 
-.subMenu a:nth-child(1) {
-	color: red;
-}

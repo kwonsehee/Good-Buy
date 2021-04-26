@@ -86,4 +86,19 @@ public class ReportDaoImpl implements ReportDao{
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("reportMapper.selectReportedList",user_id,rowBounds);
 	}
+
+	@Override
+	public int addCountReported(String reported_id) {
+		return sqlSession.update("reportMapper.addCountReported", reported_id);
+	}
+
+	@Override
+	public String selectMyReportedDate(String user_id) {
+		return sqlSession.selectOne("reportMapper.selectMyReportedDate", user_id);
+	}
+
+	@Override
+	public int updateReportedDate(String user_id) {
+		return sqlSession.update("reportMapper.updateReportedDate", user_id);
+	}
 }

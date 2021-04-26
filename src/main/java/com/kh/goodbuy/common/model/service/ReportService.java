@@ -30,6 +30,12 @@ public interface ReportService {
 	public int selectMyReportedCount(String user_id);
 	// 내가 당한 신고 리스트 
 	public List<Report> selectReportedList(String user_id, PageInfo pi);
+	// 관리자가 신고 처리시 유저인포 DB 업데이트
+	public int addCountReported(String reported_id);
+	// 로그인 시 신고 이력 있는지 조회 
+	public String selectMyReportedDate(String user_id);
+	// 로그인 시 신고 이력 날짜 비교 -> 업데이트
+	public int updateReportedDate(String user_id);
 	
 
 	

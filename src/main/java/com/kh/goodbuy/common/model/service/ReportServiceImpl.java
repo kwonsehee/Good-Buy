@@ -74,4 +74,19 @@ public class ReportServiceImpl implements ReportService{
 	public List<Report> selectReportedList(String user_id, PageInfo pi) {
 		return rDao.selectReportedList(user_id, pi);
 	}
+
+	@Override
+	public int addCountReported(String reported_id) {
+		return rDao.addCountReported(reported_id);
+	}
+
+	@Override
+	public String selectMyReportedDate(String user_id) {
+		return rDao.selectMyReportedDate(user_id);
+	}
+
+	@Override
+	public int updateReportedDate(String user_id) {
+		return rDao.updateReportedDate(user_id);
+	}
 }
