@@ -27,13 +27,18 @@ public class ReportController {
 	@PostMapping("/goodsinsert")
 	public String goGoodsView(HttpServletRequest request,
 			@RequestParam(value = "gno", required = false) int gno,
-			@RequestParam(value = "report_id", required = false) String report_id,
+			@RequestParam(value = "reported_id", required = false) String reported_id,
 			@ModelAttribute Report r, Model model) {
 		System.out.println("r : " + r);
 		System.out.println("gno : " + gno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-		r.setReported_id(loginUser.getUser_id());
-		int result = rService.insertGoodsReport(r, gno, report_id);
+		r.setReport_id(loginUser.getUser_id());
+		r.setReported_id(reported_id);
+		
+		System.out.println("신고자(로그인유저) : " + loginUser.getUser_id());
+		System.out.println("신고대상자(글쓴이) : " + reported_id);
+		
+		int result = rService.insertGoodsReport(r, gno, loginUser.getUser_id(), reported_id);
 		if(result>0) {
 			
 			model.addAttribute("msg", "success");

@@ -26,9 +26,18 @@
 				<div class="eachListWrap">
 					<ul class="firstUl">
 						<li><div class="bCategory">
-								<p class="cateName">카테고리</p>
-							</div></li>
-						<li class="town">신고대상자 닉네임</li>
+								<c:if test="${ r.re_cate == 1 }">
+								<p class="cateName">상품신고</p>
+								</c:if>
+								<c:if test="${ r.re_cate == 2 }">
+								<p class="cateName">회원신고</p>
+								</c:if>
+								<c:if test="${ r.re_cate == 3 }">
+								<p class="cateName">동네생활</p>
+								</c:if>
+							</div>
+						</li>
+						<li class="town">${ r.reported_id }</li>
 						<li class="dot">•</li>
 						<li class="createDate">${r.create_date}</li>
 					</ul>

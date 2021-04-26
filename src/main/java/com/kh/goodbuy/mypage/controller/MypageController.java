@@ -718,9 +718,8 @@ public class MypageController {
 	// 내가 한 신고 화면
 	@GetMapping("/reportList")
 	public ModelAndView showReportList(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser,
-			@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
-			String rType
-			) {
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
 		int listCount = 0;
 		int boardLimit = 5;
 		PageInfo pi;
@@ -744,13 +743,26 @@ public class MypageController {
 	}
 	
 	
-	
-	
-	
-	
 	// 내가 당한 신고 화면
 	@GetMapping("/reportedList")
-	public ModelAndView showReportedList(ModelAndView mv) {
+	public ModelAndView showReportedList(ModelAndView mv,
+									    @ModelAttribute("loginUser") Member loginUser,
+										@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		listCount = reService.selectMyReportedCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Report> rlist = reService.selectReportedList(loginUser.getUser_id(),pi);
+		
+
+		System.out.println("신고당한리스트 : " + rlist);
+		System.out.println("신고 당한횟수 : " + listCount);
+		
+		
 		mv.setViewName("mypage/reportedList");
 		return mv;
 	}

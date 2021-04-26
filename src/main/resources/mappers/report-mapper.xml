@@ -6,11 +6,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<resultMap type="Report" id="reportResultSet">
 		<id property = "re_no" column ="RE_NO"/>
 		<result property="retitle" column="RETITLE"/>
-		<result property="reported_id" column="REPORTED_ID"/>
 		<result property="re_content" column="RE_CONTENT"/>
 		<result property="create_date" column="CREATE_DATE"/>
 		<result property="re_status" column="RE_STATUS"/>
 		<result property="re_result" column="RE_RESULT"/>
+		<result property="report_id" column="REPORT_ID"/>
+		<result property="reported_id" column="REPORTED_ID"/>
+		<result property="re_cate" column="RE_CATE"/>
 	</resultMap>
 	<select id="selectReportList" resultMap="reportResultSet">
 		SELECT
@@ -78,20 +80,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		   RE_NO
 		 , RETITLE
-		 , REPORTED_ID
 		 , RE_CONTENT
 		 , CREATE_DATE
 		 , RE_STATUS
-		 , RE_RESULT)
+		 , RE_RESULT
+		 , REPORT_ID
+		 , REPORTED_ID
+		 , RE_CATE)
 		VALUES
 		(
 		  REPORT_SEQ.NEXTVAL
 		, #{r.retitle}
-		, #{r.reported_id}
 		, #{r.re_content}
 		, DEFAULT
 		, DEFAULT
 		, DEFAULT
+		, #{r.report_id}
+		, #{r.reported_id}
+		, 1
 		)
 		INTO GOODS_REPORT
 		VALUES
@@ -121,24 +127,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	  FROM 
 	  		REPORT
 	 WHERE 
-		   REPORTED_ID = #{user_id}
+		    REPORT_ID = #{user_id} 
 	   AND
-		   RE_STATUS = 'Y'
+		    RE_STATUS = 'Y'
 		</select>
 	
 	<select id="selectMyReportList" parameterType="string" resultMap="reportResultSet">
 	SELECT 
 		   RE_NO
 		 , RETITLE
-		 , REPORTED_ID
 		 , RE_CONTENT
 		 , CREATE_DATE
 		 , RE_STATUS
 		 , RE_RESULT
+		 , REPORT_ID
+		 , REPORTED_ID
+		 , RE_CATE
 	  FROM 
 	  		REPORT
 	 WHERE 
-	 		REPORTED_ID = #{user_id}
+	 		REPORT_ID = #{user_id}
 	   AND
 		    RE_STATUS = 'Y'
   ORDER BY 
@@ -156,4 +164,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</update>
 	
+	<select id="selectMyReportedCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(RE_NO)
+	  FROM
+			REPORT
+	 WHERE 
+	 		REPORTED_ID = #{user_id}
+	</select>
+	
+	<select id="selectReportedList" parameterType="string" resultMap="reportResultSet">
+	SELECT 
+			RE_NO, RETITLE, REPORTED_ID, REPORT_ID, RE_CONTENT, CREATE_DATE, RE_STATUS, RE_RESULT, RE_CATE
+	  FROM 
+	  		REPORT
+	 WHERE 
+	 		REPORTED_ID = #{user_id}
+  ORDER BY 
+  			CREATE_DATE DESC
+	</select>
 </mapper>
