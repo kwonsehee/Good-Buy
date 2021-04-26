@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,13 +25,32 @@
         <a class="btn_gray" href = "javascript:sellerReportPopup()">신고하기</a>
         <table id="seller_tb">
             <tr>
-                <td><img src="${ contextPath }/resources/images/person.png" style="width: 150px; border: 1px solid black; border-radius: 100%;"></td>
+                <td>
+				<c:if test="${ seller.photo ne null }">
+                <img src="${ contextPath }/resources/images/userProfilePhoto/${ seller.photo }" style="width: 150px; border: 1px solid black; border-radius: 100%;">
+                </c:if>
+                 <c:if test="${ seller.photo eq null }">
+                
+                <img src="${ contextPath }/resources/images/person.png" style="width: 150px; border: 1px solid black; border-radius: 100%;">
+                </c:if>
+				</td>
                 <td colspan="2" style="padding-left:5%;">안녕하세요~ 서로 좋은 물건 공유합시다
                     아나바다 운동을 일으켜봅시당@@#@하이하이 저는 뭐시기입니아아</td>
             </tr>
             <tr>
-                <th >데세해</th>
-                <td style="padding-left:5%;"><button type="button" class="btn_small" onclick="sellerFollow()"><img src="${ contextPath }/resources/images/follower.png" /><p>&nbsp;&nbsp;&nbsp;팔로우</p></button></td>
+                <th id="seller_id">${ seller.user_id }</th>
+                <td style="padding-left:5%;" id="follow_area">
+                <c:if test="${follow==0 }">
+              	  <button type="button" class="btn_small" id="followBtn">	
+              	  <img src="${ contextPath }/resources/images/follower.png" />
+              	  <p>&nbsp;&nbsp;&nbsp;팔로우</p></button>
+              	 </c:if>
+              	 <c:if test="${follow>0 }">
+              	  <button type="button" class="btn_small" id="canselfollowBtn">	
+              	 
+              	  <p>&nbsp;&nbsp;&nbsp;&nbsp;팔로우&nbsp;&nbsp;취소</p></button>
+              	 </c:if>
+                </td>
                 <td><button type="button" class="btn_small" onclick="sendToseller();"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button></td>
             </tr>
             

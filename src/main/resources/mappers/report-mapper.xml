@@ -183,4 +183,51 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
   ORDER BY 
   			CREATE_DATE DESC
 	</select>
+	<insert id="insertUserReport" parameterType="Report">
+		INSERT ALL
+		INTO REPORT
+		(
+		   RE_NO
+		 , RETITLE
+		 , RE_CONTENT
+		 , CREATE_DATE
+		 , RE_STATUS
+		 , RE_RESULT
+		 , REPORT_ID
+		 , REPORTED_ID
+		 , RE_CATE
+		 )
+		VALUES
+		(
+		  REPORT_SEQ.NEXTVAL
+		, #{retitle}
+		, #{re_content}
+		, DEFAULT
+		, DEFAULT
+		, DEFAULT
+		, #{report_id}
+		, #{reported_id}
+		, 1
+		)
+		INTO USER_REPORT
+		VALUES
+		(REPORT_SEQ.CURRVAL, #{reported_id})
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 2
+		, #{reported_id}
+		, DEFAULT
+		
+		)
+		SELECT * FROM DUAL
+	</insert>
 </mapper>

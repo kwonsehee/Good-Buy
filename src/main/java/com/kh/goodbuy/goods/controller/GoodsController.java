@@ -196,18 +196,37 @@ public class GoodsController {
 	}
 	// 판매자 정보 페이지로
 	@GetMapping("/sellerInfo")
-	public String gosellerInfoView() {
+	public String gosellerInfoView(String seller, Model model, HttpServletRequest request) {
+		System.out.println("sellerInfo ; "+seller);
+		Member sellerInfo = mService.selectMemberDetail(seller);
+		System.out.println(sellerInfo);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		//로그인 유저가 해당 셀러를 follow하는지 확인
+		int follow = mService.isFollow(seller, loginUser.getUser_id());
+		
+		model.addAttribute("follow", follow);
+		model.addAttribute("seller", sellerInfo);
 		return "goods/sellerInfo";
 	}
 
 	// 판매자 following 페이지로
 	@GetMapping("/sellerfollowing")
-	public String gosellerfollowingView() {
+	public String gosellerfollowingView(String seller, Model model, HttpServletRequest request) {
+		Member sellerInfo = mService.selectMemberDetail(seller);
+		System.out.println(sellerInfo);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		//로그인 유저가 해당 셀러를 follow하는지 확인
+		int follow = mService.isFollow(seller, loginUser.getUser_id());
+		
+		model.addAttribute("follow", follow);
+		model.addAttribute("seller", sellerInfo);
 		return "goods/sellerfollowing";
 	}
 	// 판매자에게 메세지 보내는 팝업 페이지로
 	@GetMapping("/sendToseller")
-	public String gosendmsgView() {
+	public String gosendmsgView(String seller, Model model) {
+		System.out.println(seller);
+		model.addAttribute("seller", seller);
 		return "goods/sendToseller";
 	}
 	// 판매자에게 상품 메세지 보내는 팝업 페이지로

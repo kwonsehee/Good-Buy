@@ -90,17 +90,18 @@
         <span class="sendMSG">Send Message</span>
         <span class="circle"></span>
     </div>
-        <form method="POST">
+        <form method="POST" action="${ contextPath }/msg/userinsert">
+        <input type="hidden" name="seller" value="${seller}">
     <table id="sendMsg_tb" style="margin-top: 20px;">
         <tr style="height: 80px;">
             <td  style="text-align: right;">
                 <img src="${ contextPath }/resources/images/user.png" width="40px" > 
             </td>
-            <td style="padding-left: 10px;"><span>데세해</span></td>
+            <td style="padding-left: 10px;"><span>${seller}</span></td>
         </tr>
 
         <tr>
-            <td colspan="2"><textarea></textarea></td>
+            <td colspan="2"><textarea name="mcontent"></textarea></td>
         </tr>
         <tr>
         <th  colspan="2"><button type="submit" id="gsubmit" >보내기</button></th>    

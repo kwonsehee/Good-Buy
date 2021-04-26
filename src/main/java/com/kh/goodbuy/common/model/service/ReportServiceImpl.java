@@ -74,4 +74,10 @@ public class ReportServiceImpl implements ReportService{
 	public List<Report> selectReportedList(String user_id, PageInfo pi) {
 		return rDao.selectReportedList(user_id, pi);
 	}
+
+	@Override
+	public int insertUserReport(Report r) {
+		// TODO Auto-generated method stub
+		return rDao.insertUserReport(r);
+	}
 }

@@ -86,4 +86,10 @@ public class ReportDaoImpl implements ReportDao{
 		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("reportMapper.selectReportedList",user_id,rowBounds);
 	}
+
+	@Override
+	public int insertUserReport(Report r) {
+
+		return sqlSession.insert("reportMapper.insertUserReport", r);
+	}
 }

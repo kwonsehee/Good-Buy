@@ -124,6 +124,21 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteReply(Reply r) {
 		return mDao.deleteReply(r);
 	}
+	@Override
+	public int insertFollow(String user_id, String seller) {
+		// TODO Auto-generated method stub
+		return mDao.insertFollow(user_id, seller);
+	}
+	@Override
+	public int isFollow(String seller, String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.isFollow(seller, user_id);
+	}
+	@Override
+	public int canselFollow(String user_id, String seller) {
+		// TODO Auto-generated method stub
+		return mDao.canselFollow(user_id, seller);
+	}
 	
 
 	

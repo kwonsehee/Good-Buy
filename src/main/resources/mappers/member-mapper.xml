@@ -399,5 +399,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
-
+	<insert id="insertFollow"  parameterType="java.util.Map">
+	INSERT INTO
+	FOLLOW
+	(FOLLOWER, FOLLOWING)
+	VALUES
+	(#{user_id}, #{seller})
+	
+	</insert>
+	<select id="isFollow" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		  FROM FOLLOW
+		 WHERE FOLLOWER =#{user_id}
+		   AND FOLLOWING =#{seller}
+	</select>
+	<delete id="canselFollow" parameterType="java.util.Map">
+		DELETE FROM FOLLOW 
+	    WHERE FOLLOWER = #{user_id}
+   		  AND FOLLOWING = #{seller}
+	
+	</delete>
 </mapper>
