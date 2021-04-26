@@ -26,11 +26,18 @@ public interface ReportService {
 	public List<Report> selectMyReportList(String user_id, PageInfo pi);
 	// 신고 철회 
 	public int deleteReport(int re_no);
+
+
+	// 관리자
+	public List<Report> selectReport1List();
+	public List<Report> selectReport2List();
+	public List<Report> selectReport3List();
+
 	// 내가 당한 신고 카운트 
 	public int selectMyReportedCount(String user_id);
 	// 내가 당한 신고 리스트 
 	public List<Report> selectReportedList(String user_id, PageInfo pi);
-	
+
 
 	
 }

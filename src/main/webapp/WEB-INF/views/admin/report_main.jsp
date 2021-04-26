@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                   
-                  <c:forEach var="r" items="${ list }">
+                  <c:forEach var="r" items="${ list1 }">
                
                <tr id="tr_hover1" onclick="selectReport(${r.re_no})">
                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th>
@@ -81,10 +81,10 @@
                 </thead>
                 <tbody>
                   
-                  <c:forEach var="r" items="${ list }">
+                  <c:forEach var="r" items="${ list2 }">
                
                <tr id="tr_hover1" onclick="selectReport(${r.re_no})">
-                    <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th>
+                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th>
                     <c:if test="${ r.re_result == 'Y' }">
 						<th><button id="createButton" disabled>처리 완료</button></th>
 					</c:if>
@@ -114,7 +114,7 @@
                 </thead>
                 <tbody>
                   
-                  <c:forEach var="r" items="${ list }">
+                  <c:forEach var="r" items="${ list3 }">
                
                <tr id="tr_hover1" onclick="selectReport(${r.re_no})">
                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th>

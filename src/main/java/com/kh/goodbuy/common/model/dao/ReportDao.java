@@ -29,4 +29,10 @@ public interface ReportDao {
 	// 내가 당한 신고 리스트 
 	public List<Report> selectReportedList(String user_id, PageInfo pi);
 
+	public List<Report> selectReportList1();
+
+	public List<Report> selectReportList2();
+
+	public List<Report> selectReportList3();
+
 }
