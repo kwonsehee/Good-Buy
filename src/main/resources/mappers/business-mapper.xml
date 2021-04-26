@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<resultMap type="Review" id="ReviewResultSet">
 		<id property="shopNo" column="SHOP_NO"/>
-		<result property="reviewNO" column="F_NO"/>
+		<result property="reviewNo" column="REVIEW_NO"/>
 		<result property="status" column="STATUS"/>
 		<result property="content" column="CONTENT"/>
 		<result property="reviewDate" column="REVIEW_DATE"/>
@@ -103,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		JOIN AD AD USING(SHOP_NO)
 		WHERE ROWNUM <![CDATA[<=]]> 9
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
 	</select>
 	
 	<select id="selectnList" parameterType="Town" resultMap="NewsResultSet">
@@ -111,9 +112,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , NEWS_TITLE
 			  , SHOP_NEWS
 			  , SHOP_NO
-			  , T_NO
+			  , NN.T_NO
 			  , ADDRESS_3
-			  , FILE_PATH
+			  , NN.FILE_PATH
 			  , ORIGIN_NAME
 			  , CHANGE_NAME
 			  , STATUS
@@ -154,10 +155,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			</choose>
 		</where>
         ORDER BY N_NO DESC 
-        ) 
+        ) NN
         JOIN AD AD USING(SHOP_NO)
+        JOIN BUS_INFO USING(SHOP_NO)
 		WHERE ROWNUM <![CDATA[<=]]> 4
 		 AND VIEW_CNT !=0
+		 AND BSTATUS != 'N'
 	</select>
 	
 	<!-- <select id="selectfList" resultMap="AttachmentResultSet" >
@@ -207,6 +210,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                                               FROM REVIEW R
 		JOIN BUS_REVIEW BR ON(BR.REVIEW_NO = R.REVIEW_NO)
         GROUP BY SHOP_NO)
+        AND BSTATUS != 'N'
 	</select>
 	
 	<select id="selectGradebList" parameterType="Town" resultMap="businessResultSet">
@@ -235,7 +239,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		JOIN AD AD USING(SHOP_NO)
 		WHERE ROWNUM <![CDATA[<=]]> 9
 		AND VIEW_CNT !=0
-		 
+		AND BSTATUS != 'N' 
 	</select>
 	
 	<select id="selectReviewbList" parameterType="Town" resultMap="businessResultSet">
@@ -264,6 +268,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		JOIN AD AD USING(SHOP_NO)
 		WHERE ROWNUM <![CDATA[<=]]> 9
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
 	</select>
 	
 	<select id="selectJobnList" parameterType="Town" resultMap="NewsResultSet">
@@ -305,6 +310,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		AND SHOP_CATE='일자리'
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
         ORDER BY N_NO DESC 
          
         
@@ -350,6 +356,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		AND SHOP_CATE='농수산물'
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
         ORDER BY N_NO DESC 
 
 	</select>
@@ -393,6 +400,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		AND SHOP_CATE='중고차'
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
         ORDER BY N_NO DESC 
 
 	</select>
@@ -436,6 +444,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		AND SHOP_CATE='부동산'
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
         ORDER BY N_NO DESC 
 
 	</select>
@@ -479,6 +488,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		AND SHOP_CATE='지역업체'
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
         ORDER BY N_NO DESC 
 
 	</select>
@@ -522,6 +532,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		AND SHOP_CATE='전시'
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
         ORDER BY N_NO DESC 
 
 	</select>
@@ -565,6 +576,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</where>
 		AND SHOP_CATE='과외'
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
         ORDER BY N_NO DESC 
          
 	</select>
@@ -587,6 +599,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE
 			    SHOP_NO = #{shopNo}
 		AND VIEW_CNT !=0
+		AND BSTATUS != 'N'
 			    
 	</select>
 	
@@ -598,7 +611,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , SHOP_NO
 			  , N.T_NO
 			  , ADDRESS_3
-			  , FILE_PATH
+			  , A.FILE_PATH
 			  , ORIGIN_NAME
 			  , CHANGE_NAME
 			  , STATUS
@@ -608,9 +621,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
 		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
+		JOIN BUS_INFO USING(SHOP_NO)
         JOIN AD AD USING(SHOP_NO)
         WHERE SHOP_NO = #{shopNo}
 		 AND VIEW_CNT !=0
+		 AND BSTATUS != 'N'
 		
 	</select>
 	
@@ -629,6 +644,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		JOIN BUS_INFO B ON(B.SHOP_NO = BR.SHOP_NO)
 		JOIN USER_INFO U ON(U.USER_ID = R.USER_ID)
         WHERE B.SHOP_NO = #{shopNo}
+        AND BSTATUS != 'N'
         ORDER BY R.REVIEW_NO DESC
 	</select>
 	
@@ -639,6 +655,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 	V_BUS_INFO
 		WHERE
 			    USER_ID = #{userId}
+		AND BSTATUS != 'N'
 			    
 	</select>
 	
@@ -683,7 +700,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	
 	<insert id="fileInsert" parameterType="Addfile">
-	  INSERT ALL
+		INSERT ALL
 		INTO ADDFILE(
 			F_NO
 		  , ORIGIN_NAME
@@ -709,6 +726,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         (
             SEQ_SHOPNO.CURRVAL
           , F_SEQ.CURRVAL
+        )
+        INTO AD
+        (    SHOP_NO
+           ,  VIEW_CNT 
+        )
+        VALUES
+        (
+            SEQ_SHOPNO.CURRVAL
+            , DEFAULT
         )
         SELECT * FROM DUAL
 	
@@ -787,6 +813,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		FROM USER_INFO
 		JOIN BUS_INFO USING(USER_ID)
 		WHERE USER_ID = #{userId}
+		AND BSTATUS != 'N'
 	</select>
 	
 	<select id="selectNews" parameterType="_int" resultMap="NewsResultSet">
@@ -795,9 +822,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , NEWS_TITLE
 			  , SHOP_NEWS
 			  , SHOP_NO
-			  , T_NO
+			  , NN.T_NO
 			  , ADDRESS_3
-			  , FILE_PATH
+			  , NN.FILE_PATH
 			  , ORIGIN_NAME
 			  , CHANGE_NAME
 			  , STATUS
@@ -823,10 +850,127 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
         WHERE SHOP_NO = #{shopNo}
         ORDER BY N_NO DESC 
-        ) 
+        ) NN
         JOIN AD AD USING(SHOP_NO)
+        JOIN BUS_INFO USING(SHOP_NO)
 		WHERE ROWNUM <![CDATA[<=]]> 5
 		 AND VIEW_CNT !=0
+		 AND BSTATUS != 'N'
 	</select>
+	
+	<update id="infoupdate" parameterType="Business">
+		UPDATE
+			BUS_INFO
+		SET
+		 	SHOP_CATE = #{shopCate}
+		  , SHOP_ADD  = #{shopAdd}
+		  , SHOP_INTRO = #{shopIntro}
+		  , SHOP_TIME1 = #{shopTime1}
+		  , TOP_MENU   = #{topMenu}	
+		  , MENU_INFO  = #{menuInfo}
+		  , SHOP_PHONE = #{shopPhone}
+		  , SHOP_TIME2 = #{shopTime2}
+		  , SHOP_TIME3 = #{shopTime3}
+		  , SHOP_NAME  = #{shopName}
+		WHERE
+			SHOP_NO	 = #{shopNo}	
+	</update>
+	
+	<insert id="changeFileInsert" parameterType="Addfile">
+	
+		INSERT INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+          , FILE_LEVEL
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{originName}
+		  , #{changeName}
+          , DEFAULT
+          , #{file_level}
+		 
+		)
 
+	</insert>
+	
+	<update id="updateBfile" parameterType="_int">
+		UPDATE
+			BUS_FILE
+		SET
+		    F_NO = F_SEQ.CURRVAL
+		WHERE 
+			SHOP_NO = #{shopNo}
+	</update>
+	
+	<insert id="updateFaCount" parameterType="java.util.Map">
+		INSERT INTO FAVORITE
+		( 	SHOP_NO
+		  , USER_ID
+		  , F_DATE
+		
+		)
+		VALUES
+		(	#{shopNo}
+		  , #{userId}
+		  , DEFAULT
+			
+		)
+		
+	</insert>
+	
+	<update id="deleteBusiness" parameterType="_int">
+		UPDATE
+			BUS_INFO
+		SET
+			BSTATUS = 'N'
+		WHERE 
+			SHOP_NO = #{shopNo}
+	</update>
+	
+	<update id="updateBstatus2" parameterType="string">
+		UPDATE
+			USER_INFO
+		SET
+			IS_BUSINESS = 'N'
+		WHERE
+			USER_ID = #{userId}
+	</update>
+	
+	<insert id="insertReview" parameterType="Review"> 
+		INSERT ALL 
+		INTO REVIEW
+		(
+		    REVIEW_NO
+		  ,	STATUS
+		  , CONTENT
+		  , REVIEW_DATE
+		  , GRADE
+		  , USER_ID
+		)
+		VALUES
+		(
+		    R_SEQ.NEXTVAL
+		  , DEFAULT
+		  , #{content}
+		  , DEFAULT
+		  , #{grade}
+		  , #{userId}	
+		)
+		INTO BUS_REVIEW
+		(
+		     SHOP_NO
+		   , REVIEW_NO
+		)
+		VALUES
+		(
+			  #{shopNo}
+			, R_SEQ.CURRVAL
+		)
+		SELECT * FROM DUAL
+	
+	</insert>
 </mapper>

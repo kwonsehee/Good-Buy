@@ -170,6 +170,7 @@
         
         </script>
      
+		 </c:if>
         <div class="btnArea">
         	<c:if test="${ loginUser.is_business eq 'Y' }">
             <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/change'">비즈 프로필 관리</label></button>
@@ -179,7 +180,6 @@
             </c:if>
            
         </div>
-		 </c:if>
 		 
 		 <c:if test="${empty bList }">
 		        <div class="logoArea">

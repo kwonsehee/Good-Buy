@@ -34,7 +34,7 @@
                 <label id="callLabel">전화문의</label>
                 <img id="line" src="${contextPath}/resources/images/business/선.png" >
                 <img id="review" src="${contextPath}/resources/images/business/연필.png" width="50px" height="50px">
-                <label id="reviewLabel">후기작성</label>
+                <label id="reviewLabel" data-bs-toggle="modal" data-bs-target="#reviewModal">후기작성</label>
             </div>
             <div class="infoArea">
                 <label id="infoLabel">정보</label>
@@ -147,6 +147,54 @@
             
             
         </div>
+        
+        <!--review Modal -->
+	<div class="modal fade" id="reviewModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="titleWrap">
+						<span class="circle"></span> <span class="welcome">후기 작성</span>
+						<span class="circle"></span>
+					</div>
+				</div>
+
+				
+					<div class="review-body">
+						<div class="reviewformWrap">
+							
+								 <table id="reviewWrite">
+							        <tr >
+							            <td id="star">
+							                <span id="star">
+							                    <a value=1 style="padding-right: 0;">★</a> 
+							                    <a  value=2 style="padding-right: 0;">★</a> 
+							                    <a  value=3 style="padding-right: 0;">★</a> 
+							                    <a  value=4 style="padding-right: 0;">★</a>
+							                    <a value=5 style="padding-right: 0;">★</a>
+							                <span>
+							            </td>
+							        </tr>
+							        <tr>
+							            <td><textarea name="content" id="reviewInput" style="resize: none;" placeholder="가게 이용 후기를 자유롭게 작성해 주세요."></textarea></td>
+							        </tr>
+							        <tr id="btnArea">
+							            <td><button id="reviewInsertBtn">완료</button></td>
+							        </tr>
+							    </table>
+						
+							
+						</div>
+
+					</div>
+					<div class="modal-footer">
+					
+						<button type="button" id="closeBtn" data-bs-dismiss="modal">닫기</button>
+					</div>
+			</div>
+		</div>
+	</div>
        
     </section>
 
@@ -154,7 +202,7 @@
    <jsp:include page="../common/footer.jsp"/>
     <script>
      
-       $("#review").click(function(){
+      /* $("#review").click(function(){
             var url = "${contextPath}/business/reviewWrite";
             var name = "정보관리";
             var _width = '500';
@@ -163,7 +211,44 @@
             var _left = Math.ceil(( window.screen.width - _width )/2);
             var _top = Math.ceil(( window.screen.height - _height )/2); 
             window.open(url, name, 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top );
-       });
+       }); */
+       
+       // 별 색 채워짐 이벤트
+       $('#star a').click(function(){ 
+         $(this).parent().children("a").removeClass("on"); 
+         $(this).addClass("on").prevAll("a").addClass("on"); 
+         //console.log($(this).attr("value")); 
+         star = $(this).attr("value");
+        console.log(this);
+         grade = $(this).attr("value");
+  	
+         
+     });   
+       
+      $("#reviewInsertBtn").on("click",function(){
+    	  var content = $("#reviewInput").val();
+    	  var shopNo =${business.shopNo};
+    	  console.log(grade);
+    	  console.log(star);
+    		
+    	
+    	  
+    	  $.ajax({
+    		 url : "${ contextPath }/business/review/insert" ,
+    		 data : {content : content , shopNo : shopNo, grade : grade},
+    		 type : "post",
+    		 dataType : "json",
+    		 success : function(data){
+    			 console.log(data);
+    			 console.log(grade);
+    		 },
+    		 error : function(e){
+    			 
+    		 }
+    		 
+    	  });
+      }); 
+       
     </script>
 
 

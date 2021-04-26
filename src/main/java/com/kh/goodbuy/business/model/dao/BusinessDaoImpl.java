@@ -12,6 +12,7 @@ import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.town.model.vo.Town;
 @Repository
@@ -213,6 +214,12 @@ public class BusinessDaoImpl implements BusinessDao {
 	public int updateBstatus2(String userId) {
 		
 		return sqlSession.update("businessMapper.updateBstatus2",userId);
+	}
+
+	@Override
+	public int insertReview(Review r) {
+		
+		return sqlSession.insert("businessMapper.insertReview",r);
 	}
 
 	
