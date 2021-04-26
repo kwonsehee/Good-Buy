@@ -413,7 +413,7 @@
 				<div class="modal-body">
 					<form method="POST" action="${ contextPath }/report/goodsinsert">
 					<input type="hidden" name="gno" value="${g.gno }">
-					<input type="hidden" name="report_id" value="${g.user_id }">
+					<input type="hidden" name="reported_id" value="${g.user_id }">
 						<table id="report_tb">
 							<tr>
 								<td colspan="2"><img src="${ contextPath }/resources/images/logo.png" width="40%;"

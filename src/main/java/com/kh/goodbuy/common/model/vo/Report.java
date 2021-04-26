@@ -21,9 +21,11 @@ public class Report {
 
 	private Integer re_no;
 	private String retitle;
-	private String reported_id;
 	private String re_content;
 	private Date create_date;
 	private String re_status;
 	private String re_result;
+	private String report_id;
+	private String reported_id;
+	private int re_cate;
 }
