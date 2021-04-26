@@ -25,48 +25,66 @@ public class ReportController {
 
 	// 중고상품 신고
 	@PostMapping("/goodsinsert")
-	public String goGoodsView(HttpServletRequest request,
-			@RequestParam(value = "gno", required = false) int gno,
-			@RequestParam(value = "reported_id", required = false) String reported_id,
-			@ModelAttribute Report r, Model model) {
+	public String goGoodsView(HttpServletRequest request, @RequestParam(value = "gno", required = false) int gno,
+			@RequestParam(value = "reported_id", required = false) String reported_id, @ModelAttribute Report r,
+			Model model) {
 		System.out.println("r : " + r);
 		System.out.println("gno : " + gno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		r.setReport_id(loginUser.getUser_id());
 		r.setReported_id(reported_id);
-		
+
 		System.out.println("신고자(로그인유저) : " + loginUser.getUser_id());
 		System.out.println("신고대상자(글쓴이) : " + reported_id);
-		
+
 		int result = rService.insertGoodsReport(r, gno, loginUser.getUser_id(), reported_id);
-		if(result>0) {
-			
+		if (result > 0) {
+
 			model.addAttribute("msg", "success");
-		}else {
-			
+		} else {
+
 			model.addAttribute("msg", "fail");
 		}
-		model.addAttribute("gno",gno);
+		model.addAttribute("gno", gno);
 		return "redirect:/goods/detail";
 	}
-	
-	
+
 	// 신고 철회
 	@GetMapping("/deleteReport")
 	public String deleteReport(int re_no, @ModelAttribute("loginUser") Member loginUser) {
 		System.out.println("re_no : " + re_no);
-		
+
 		int result = rService.deleteReport(re_no);
-		
+
 		System.out.println("신고철회 됨? " + result);
-		
-		if(result > 0) {
+
+		if (result > 0) {
 			return "redirect:/mypage/reportList";
 		} else {
 			return "common/errorpage";
 		}
-		
+
 	}
-	
-	
+
+	// 중고상품 신고
+	@PostMapping("/userinsert")
+	public String userinsert(HttpServletRequest request, @ModelAttribute Report r, Model model) {
+
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		r.setReport_id(loginUser.getUser_id());
+
+		System.out.println("r : " + r);
+
+		int result = rService.insertUserReport(r);
+		if (result > 0) {
+
+			model.addAttribute("msg", "userReportSuccess");
+		} else {
+
+			model.addAttribute("msg", "userReportFail");
+		}
+		model.addAttribute("seller", r.getReported_id());
+		return "redirect:/goods/sellerInfo";
+	}
+
 }

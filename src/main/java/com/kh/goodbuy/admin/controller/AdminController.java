@@ -140,22 +140,23 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// 신고 메인페이지 이동
 	@GetMapping("/report")
-		public ModelAndView ReportMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
-			
-			int listCount = rService.selectListCount();
-			int boardLimit = 7;	// 한 페이지 보여질 게시글 개수
-			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
-			List<Report> list = rService.selectReportList(pi);
-			if (list != null) {
-				mv.addObject("list", list);
-				mv.addObject("pi", pi);
-				mv.setViewName("admin/report_main");
-			} else {
-				mv.addObject("msg", "회원 목록 조회에 실패하였습니다.");
-				mv.setViewName("common/error_page");
-			}
-			return mv;
+
+	public ModelAndView ReportMainView(ModelAndView mv) {
+		List<Report> list1 = rService.selectReport1List();
+		List<Report> list2 = rService.selectReport2List();
+		List<Report> list3 = rService.selectReport3List();
+		if (list1 != null) {
+			mv.addObject("list1", list1);
+			mv.addObject("list2", list2);
+			mv.addObject("list3", list3);
+			mv.setViewName("admin/report_main");
+		} else {
+			mv.addObject("msg", "공지사항 목록 조회에 실패하였습니다.");
+			mv.setViewName("common/error_page");
 		}
+		return mv;
+
+	}
 
 	// 신고 메인페이지 이동
 	@GetMapping("/reportdetail")

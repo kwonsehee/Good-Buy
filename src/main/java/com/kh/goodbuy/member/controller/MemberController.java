@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -366,4 +367,48 @@ public class MemberController {
 		model.addAttribute("gno", gno);
 		return "redirect:/goods/detail";
 	}
+
+	
+	 // 1. Stream을 이용한 text 응답
+	  @RequestMapping(value="follow", method=RequestMethod.POST)
+	  public void follow(String seller, HttpServletResponse response, HttpServletRequest request) {
+		  System.out.println("여기오니?" + seller);
+		  try {
+	         PrintWriter out = response.getWriter();
+	     	Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+	     	System.out.println("dd"+seller+"ddd"+loginUser.getUser_id());
+	     	int result = mService.insertFollow(loginUser.getUser_id(), seller);
+
+	         if(result>0) {
+	            out.write("success");
+	         } else {
+	            out.write("fail");
+	         }
+	         
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+	      
+	   }
+	// 1. Stream을 이용한 text 응답
+		  @RequestMapping(value="unfollow", method=RequestMethod.POST)
+		  public void unfollow(  String seller, HttpServletResponse response, HttpServletRequest request) {
+			  System.out.println("여기오니?" + seller);
+			  try {
+		         PrintWriter out = response.getWriter();
+		     	Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		     	System.out.println("dd"+seller+"ddd"+loginUser.getUser_id());
+		     	int result = mService.canselFollow(loginUser.getUser_id(), seller);
+
+		         if(result>0) {
+		            out.write("success");
+		         } else {
+		            out.write("fail");
+		         }
+		         
+		      } catch (IOException e) {
+		         e.printStackTrace();
+		      }
+		      
+		   }
 }

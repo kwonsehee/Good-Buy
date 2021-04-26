@@ -167,6 +167,30 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.deleteReply", r);
 	}
 
+	@Override
+	public int insertFollow(String user_id, String seller) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		return sqlSession.insert("memberMapper.insertFollow", map);
+	}
+
+	@Override
+	public int isFollow(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		return sqlSession.selectOne("memberMapper.isFollow", map);
+	}
+
+	@Override
+	public int canselFollow(String user_id, String seller) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		return sqlSession.delete("memberMapper.canselFollow", map);
+	}
+
 
 	
 
