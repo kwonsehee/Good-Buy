@@ -31,4 +31,10 @@ public interface ReportDao {
 	//user신고
 	public int insertUserReport(Report r);
 
+	public List<Report> selectReportList1();
+
+	public List<Report> selectReportList2();
+
+	public List<Report> selectReportList3();
+
 }
