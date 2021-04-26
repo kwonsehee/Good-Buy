@@ -64,4 +64,22 @@ public class ReportServiceImpl implements ReportService{
 	public int deleteReport(int re_no) {
 		return rDao.deleteReport(re_no);
 	}
+
+	@Override
+	public List<Report> selectReport1List() {
+		// TODO Auto-generated method stub
+		return rDao.selectReportList1();
+	}
+
+	@Override
+	public List<Report> selectReport2List() {
+		// TODO Auto-generated method stub
+		return rDao.selectReportList2();
+	}
+
+	@Override
+	public List<Report> selectReport3List() {
+		// TODO Auto-generated method stub
+		return rDao.selectReportList3();
+	}
 }

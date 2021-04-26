@@ -155,5 +155,53 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 		RE_NO = #{re_no}
 	
 	</update>
+	<select id="selectReport1List" resultMap="reportResultSet">
+		SELECT
+		       RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+		  FROM
+		       REPORT
+		  WHERE
+		  		RE_CATE = 1
+      ORDER BY
+               RE_NO ASC
+	</select>
+	<select id="selectReport2List" resultMap="reportResultSet">
+		SELECT
+		       RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+		  FROM
+		       REPORT
+		       WHERE
+		  		RE_CATE = 2
+      ORDER BY
+               RE_NO ASC
+	</select>
+	<select id="selectReport3List" resultMap="reportResultSet">
+		SELECT
+		       RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+		  FROM
+		       REPORT
+		       WHERE
+		  		RE_CATE = 3
+      ORDER BY
+               RE_NO ASC
+	</select>
 	
 </mapper>

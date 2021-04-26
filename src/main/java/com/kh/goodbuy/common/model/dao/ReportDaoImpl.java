@@ -73,4 +73,22 @@ public class ReportDaoImpl implements ReportDao{
 	public int deleteReport(int re_no) {
 		return sqlSession.update("reportMapper.deleteReport", re_no);
 	}
+
+	@Override
+	public List<Report> selectReportList1() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("reportMapper.selectReport1List");
+	}
+
+	@Override
+	public List<Report> selectReportList2() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("reportMapper.selectReport2List");
+	}
+
+	@Override
+	public List<Report> selectReportList3() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("reportMapper.selectReport3List");
+	}
 }

@@ -25,4 +25,10 @@ public interface ReportDao {
 	// 신고 철회 
 	public int deleteReport(int re_no);
 
+	public List<Report> selectReportList1();
+
+	public List<Report> selectReportList2();
+
+	public List<Report> selectReportList3();
+
 }

@@ -26,4 +26,6 @@ public class Report {
 	private Date create_date;
 	private String re_status;
 	private String re_result;
+	private String report_id;
+	private Integer re_cate;
 }
