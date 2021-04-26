@@ -8,6 +8,7 @@ import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.town.model.vo.Town;
 
@@ -68,6 +69,8 @@ public interface BusinessService {
 	public int deleteBusiness(int shopNo);
 
 	public int updateBstatus2(String userId);
+
+	public List<Review> insertReview(Review r);
 
 	
 

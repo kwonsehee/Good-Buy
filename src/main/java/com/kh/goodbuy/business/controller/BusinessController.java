@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,13 +24,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.business.model.service.BusinessService;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
@@ -128,6 +133,8 @@ public class BusinessController {
 		 System.out.println("b: " +b);
 		 System.out.println("n: " +nList);
 		 System.out.println("rList : " + rList);
+		 
+
 		 
 		return "business/businessDetail";
 	}
@@ -474,6 +481,33 @@ public class BusinessController {
 		
 		System.out.println("딜리트업뎃결과"+result2);
 		return  "redirect:/business/list";
+	}
+	@PostMapping(value="/review/insert", produces="application/json; charset=utf-8")
+	public @ResponseBody String reviewInsert(Review r, HttpSession session, HttpServletRequest request) {
+		 // 글 작성자 loginUser에서 가져옴
+	      Member loginUser = (Member)session.getAttribute("loginUser");
+	      String userId = loginUser.getUser_id();
+	      String grade = request.getParameter("grade");
+	      
+	      String content = request.getParameter("content");
+	      System.out.println(grade);
+	      r.setContent(content);
+	      r.setGrade(grade);
+	      r.setUserId(userId);
+	     
+	      // +rcontent, refBid 
+	      
+	      // Service, Dao, board-mapper.xml 코드 추가
+	      // Service -> 댓글 insert 후 댓글 select
+	      List<Review> rlist = bService.insertReview(r);
+	      
+	      // 응답 작성 
+	      // 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+	      Gson gson = new GsonBuilder()
+	               .setDateFormat("yyyy-MM-dd")
+	               .create();
+	      
+	      return gson.toJson(rlist);
 	}
 		
 }

@@ -11,8 +11,8 @@
     <link href="${ contextPath }/resources/css/businessCss/reviewWrite.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+        <form method="post" action="${ contextPath }/business/review/insert">
     <table id="reviewWrite">
-        <form method="POST">
         <tr >
             <td id="star">
                 <h3>후기</h3> 
@@ -26,13 +26,13 @@
             </td>
         </tr>
         <tr>
-            <td><textarea name="reviewInput" id="reviewInput" style="resize: none;" placeholder="가게 이용 후기를 자유롭게 작성해 주세요."></textarea></td>
+            <td><textarea name="content" id="reviewInput" style="resize: none;" placeholder="가게 이용 후기를 자유롭게 작성해 주세요."></textarea></td>
         </tr>
         <tr id="btnArea">
             <td><button id="finalBtn" type="submit">완료</button></td>
         </tr>
-    </form>
     </table>
+    </form>
     <script>
           // 별 색 채워짐 이벤트
           $('#star a').click(function(){ 

@@ -205,3 +205,53 @@
         	border-top-left-radius: 20px;
     		border-top-right-radius: 20px;
         }
+        #reviewWrite{
+            padding-top: 10px;
+            margin: auto;
+            width: 80%;
+            height: 369px;
+        }
+
+        #btnArea{
+            text-align: center;
+        }
+    
+        #reviewInput{
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            border: solid 1px #c4c4c4;
+            background-color: #ffffff;
+            padding-top: 10px;
+            padding-left: 10px;
+            margin-top: 10px;
+        }
+        #reviewInsertBtn{
+            width: 85px;
+            height: 43px;
+            border-radius: 27px;
+            border: none;
+            background-color: black;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+            font-family: 'yg-jalnan';
+        }
+        /* 별점 */
+        #star a{
+            text-decoration: none;
+            color: rgb(172, 172, 172);
+            font-size: 20px;
+            padding-right: 0;
+        }
+
+        #star a.on {
+            color: #37bbda;
+        }
+        .review-body{
+        	position: relative;
+	    flex: 1 1 auto;
+	    padding: 1rem;
+}
+        }

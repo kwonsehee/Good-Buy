@@ -22,4 +22,5 @@ public class Reply {
 	private String rstatus;
 	private int ref_rid;
 	private String user_id;
+	private int grade;
 }
