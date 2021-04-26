@@ -106,7 +106,7 @@
                 <ul class="menuUl">
                     <li><a href="${contextPath }/goods/list">중고거래</a></li>
                     <li><a href="${contextPath }/business/list">내근처</a></li>
-                    <li><a href="#">동네생활</a></li>
+                    <li><a href="${ contextPath }/board/main">동네생활</a></li>
                     <li><a href="#">공지사항</a></li>
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
                    
