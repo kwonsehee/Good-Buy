@@ -22,7 +22,7 @@
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
-  
+
    <section id="gbSection">
         <p id="pg_title">상품 수정</p>
   	  <form action="${ contextPath }/goods/edit" method="post" name="myForm" enctype="multipart/form-data">

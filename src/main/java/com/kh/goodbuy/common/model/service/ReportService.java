@@ -37,6 +37,8 @@ public interface ReportService {
 	public int selectMyReportedCount(String user_id);
 	// 내가 당한 신고 리스트 
 	public List<Report> selectReportedList(String user_id, PageInfo pi);
+	//user 신고
+	public int insertUserReport(Report r);
 
 
 	

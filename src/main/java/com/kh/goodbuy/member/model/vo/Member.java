@@ -29,4 +29,6 @@ public class Member {
 	private Date enroll_date;
 	private String admin_memo;
 	private String  is_business;
+	private String  user_comment;
+	
 }
