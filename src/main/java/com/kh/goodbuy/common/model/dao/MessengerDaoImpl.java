@@ -50,4 +50,14 @@ public class MessengerDaoImpl implements MessengerDao{
 		return sqlSession.insert("msgMapper.insertMsg2",msg);
 	}
 
+	@Override
+	public int insertMsgUser(String mcontent, String user_id, String seller) {
+		Map<String, Object>map = new HashMap<String, Object>();
+		map.put("mcontent", mcontent);
+		map.put("caller", user_id);
+		map.put("seller", seller);
+		
+		return sqlSession.insert("msgMapper.insertMsgUser",map);
+	}
+
 }

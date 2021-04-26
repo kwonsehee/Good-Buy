@@ -57,6 +57,8 @@ public class GoodsController {
 			 Model model) {
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		Town myTown = (Town) request.getSession().getAttribute("townInfo");
+		System.out.println("list 뽑을때 myTown : "+myTown);
+		
 		int listCount=0;
 		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
 		List<Goods> glist;
@@ -194,18 +196,37 @@ public class GoodsController {
 	}
 	// 판매자 정보 페이지로
 	@GetMapping("/sellerInfo")
-	public String gosellerInfoView() {
+	public String gosellerInfoView(String seller, Model model, HttpServletRequest request) {
+		System.out.println("sellerInfo ; "+seller);
+		Member sellerInfo = mService.selectMemberDetail(seller);
+		System.out.println(sellerInfo);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		//로그인 유저가 해당 셀러를 follow하는지 확인
+		int follow = mService.isFollow(seller, loginUser.getUser_id());
+		
+		model.addAttribute("follow", follow);
+		model.addAttribute("seller", sellerInfo);
 		return "goods/sellerInfo";
 	}
 
 	// 판매자 following 페이지로
 	@GetMapping("/sellerfollowing")
-	public String gosellerfollowingView() {
+	public String gosellerfollowingView(String seller, Model model, HttpServletRequest request) {
+		Member sellerInfo = mService.selectMemberDetail(seller);
+		System.out.println(sellerInfo);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		//로그인 유저가 해당 셀러를 follow하는지 확인
+		int follow = mService.isFollow(seller, loginUser.getUser_id());
+		
+		model.addAttribute("follow", follow);
+		model.addAttribute("seller", sellerInfo);
 		return "goods/sellerfollowing";
 	}
 	// 판매자에게 메세지 보내는 팝업 페이지로
 	@GetMapping("/sendToseller")
-	public String gosendmsgView() {
+	public String gosendmsgView(String seller, Model model) {
+		System.out.println(seller);
+		model.addAttribute("seller", seller);
 		return "goods/sendToseller";
 	}
 	// 판매자에게 상품 메세지 보내는 팝업 페이지로
@@ -231,15 +252,15 @@ public class GoodsController {
 		// 업로드 파일 서버에 저장
 		// 파일이 첨부되었다면
 		 for(int i=0; i<fileup.length; i++) {
-	            System.out.println("================== file start ==================");
-	            System.out.println("파일 이름: "+fileup[i].getName());
-	            System.out.println("파일 실제 이름: "+fileup[i].getOriginalFilename());
-	            System.out.println("파일 크기: "+fileup[i].getSize());
-	            System.out.println("content type: "+fileup[i].getContentType());
-	            System.out.println("================== file   END ==================");
+//	            System.out.println("================== file start ==================");
+//	            System.out.println("파일 이름: "+fileup[i].getName());
+//	            System.out.println("파일 실제 이름: "+fileup[i].getOriginalFilename());
+//	            System.out.println("파일 크기: "+fileup[i].getSize());
+//	            System.out.println("content type: "+fileup[i].getContentType());
+//	            System.out.println("================== file   END ==================");
 	   
 		if (!fileup[i].getOriginalFilename().equals("")) {
-			System.out.println("여기오니?");
+			// System.out.println("여기오니?");
 			// 파일 저장 메소드 별도로 작성 - 리네임명 리턴
 			String renameFileName = saveFile(fileup[i], request);
 			// DB에 저장하기 위한 파일명 세팅
@@ -253,7 +274,7 @@ public class GoodsController {
 					a.setFile_level(0);
 				}
 				list.add(a);
-				System.out.println(renameFileName);
+				// System.out.println(renameFileName);
 			}
 		}
 		 }
@@ -266,6 +287,23 @@ public class GoodsController {
 		System.out.println(g);
 		
 		int result = gService.insertGoods(g, list);
+		
+		// 키워드 부분 미완성
+		/*
+		// 1) 넘어온 gtitle 공백 단위로 쪼갬
+		String[] gArr = g.getGtitle().split(" ");
+
+		for(int i = 0; i < gArr.length; i++) {
+			System.out.println("gArr : " + gArr[i]);
+		}
+		// 2) keyword테이블에 제목 포함된 행 있는지 대조
+		List<Keyword> klist = gService.searchKeyword(gArr);
+		
+		System.out.println("klist : " + klist);
+		
+		// 3) ALARM DB에 keyword,user_id,gno.currval 넣어줌
+		*/
+		
 		if(result>0) {
 			
 			return "redirect:/goods/list";
@@ -454,8 +492,9 @@ public class GoodsController {
 	@PostMapping("/edit")
 	public String GoodsEdit(@ModelAttribute Goods g, MultipartFile[] fileup, @ModelAttribute Gcate c,
 			HttpServletRequest request, Model model) {
+		
 		List<Addfile> list = new ArrayList<Addfile>();
-
+		
 		// 업로드 파일 서버에 저장
 		// 파일이 첨부되었다면
 		for (int i = 0; i < fileup.length; i++) {
@@ -485,14 +524,15 @@ public class GoodsController {
 				}
 			}
 		}
-		
+		System.out.println("여기오니 ");
+		System.out.println(c);
 		int cno = gService.selectCateNo(c);
 		g.setCno(cno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		g.setUser_id(loginUser.getUser_id());
 		System.out.println(g);
 
-		int result = gService.updateGoods(g, list);
+		int result = gService.updateGoods(g , list);
 		if (result > 0) {
 			model.addAttribute("gno", g.getGno());
 			return "redirect:/goods/mydetail";
@@ -500,5 +540,59 @@ public class GoodsController {
 			throw new GoodsExcpetion("게시글 수정에 실패하였습니다.");
 		}
 
+	}
+
+	// 파일삭제
+	@RequestMapping(value = "deleteFile", method = RequestMethod.POST)
+	public void test1(String index, HttpServletResponse response) {
+		System.out.println("여기오니?" + index);
+		int result = gService.deleteFile(index);
+		try {
+			PrintWriter out = response.getWriter();
+			if (result > 0) {
+
+				out.write("success");
+			} else {
+				out.write("fail");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// 중고상품검색
+	@GetMapping("/search")
+	public String GoodsSearch(String search, @RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+			HttpServletRequest request, Model model) {
+		Town myTown = (Town) request.getSession().getAttribute("townInfo");
+		System.out.println("search myTown"+myTown);
+		int listCount=0;
+		int boardLimit = 10;	// 한 페이지 보여질 게시글 개수
+		List<Goods> glist;
+		PageInfo pi;
+		if(myTown !=null) {
+			listCount = gService.selectMySearchCount(search, myTown);
+			System.out.println("search : "+listCount);
+			System.out.println("로그인 유저 있을때 search : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectMySearchList(pi, search, myTown);
+//			glist = gService.selectSearchList(pi, search);
+			System.out.println("로그인 유저 있을때 search: glist"+ glist);
+			
+		}else {
+			listCount = gService.selectSearchCount(search);
+			System.out.println("search : "+listCount);
+			System.out.println("로그인 유저 없을때 search : listCount"+ listCount);
+			pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			glist = gService.selectSearchList(pi, search);
+			System.out.println("로그인 유저 없을때 search: glist"+ glist);
+			
+		}
+		model.addAttribute("glist", glist);
+		model.addAttribute("pi", pi);
+		
+		return "goods/goodslist";
 	}
 }

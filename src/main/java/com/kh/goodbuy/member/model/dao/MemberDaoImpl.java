@@ -10,6 +10,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -137,7 +140,56 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.deleteMember",user_id);
 	}
 
-	
+	@Override
+	public int insertKeyword(Keyword k) {
+		return sqlSession.insert("memberMapper.insertKeyword", k);
+	}
+
+	@Override
+	public List<Keyword> selectKeyword(String user_id) {
+		return sqlSession.selectList("memberMapper.selectKeyword",user_id);
+	}
+
+	@Override
+	public List<Reply> selectReplyList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("memberMapper.selectReplyList",user_id,rowBounds);
+	}
+
+	@Override
+	public int selectReplyCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectReplyCount",user_id);
+	}
+
+	@Override
+	public int deleteReply(Reply r) {
+		return sqlSession.update("memberMapper.deleteReply", r);
+	}
+
+	@Override
+	public int insertFollow(String user_id, String seller) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		return sqlSession.insert("memberMapper.insertFollow", map);
+	}
+
+	@Override
+	public int isFollow(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		return sqlSession.selectOne("memberMapper.isFollow", map);
+	}
+
+	@Override
+	public int canselFollow(String user_id, String seller) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		return sqlSession.delete("memberMapper.canselFollow", map);
+	}
 
 
 	

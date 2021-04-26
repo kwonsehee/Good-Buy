@@ -19,6 +19,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="is_business" column="IS_BUSINESS"/>
 	</resultMap>
 	
+	<resultMap type="Keyword" id="keywordResultSet">
+		<id property="user_id" column="USER_ID"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rno" column="R_NO"/>
+		<result property="rcontent" column="RCONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="rstatus" column="R_STATUS"/>
+		<result property="ref_rid" column="REF_RID"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="gtitle" column="G_TITLE"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="gno" column="G_NO"/>
+	</resultMap>
+	
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
@@ -41,6 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 	   USER_ID = #{user_id}
 		<!--  암호화 적용 이후 삭제 : AND PWD = #{pwd} -->
 		   AND USTATUS = 'Y'
+		   
 	
 	</select>
 	<insert id="insertMember" parameterType="Member">
@@ -108,6 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     
    <select id="searchList" parameterType="Search" resultMap="memberResultSet">
 		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
+		
 		SELECT
 		     USER_ID
 			 , USER_PWD
@@ -127,7 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<where>
 			<choose>
 				<when test="searchCondition == 'common'">
-				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'N')
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'N' AND ENROLL_DATE between #{date1} and #{date2})
 				</when>
 				<when test="searchCondition == 'business'">
 				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'Y')
@@ -314,7 +334,90 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE 
 	 		USER_ID = #{user_id}
 	</update>
+	
+	<insert id="insertKeyword" parameterType="Keyword">
+		INSERT INTO KEYWORD
+		VALUES(
+			#{user_id}
+		  , #{keyword}
+		  , DEFAULT
+		)
+	
+	</insert>
+	
+	<select id="selectKeyword" parameterType="string" resultMap="keywordResultSet">
+		SELECT
+				USER_ID
+			  , KEYWORD
+			  , CREATE_DATE
+		  FROM
+		  		KEYWORD
+		 WHERE
+		 		USER_ID = #{user_id}
+	</select>
 
-				
-
+	<select id="selectReplyCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(R_NO)
+	  FROM 	
+	  		REPLY
+	 WHERE 
+	 		USER_ID = #{user_id}
+	   AND
+	   		R_STATUS = 'Y'
+	</select>
+	
+	<select id="selectReplyList" parameterType="string" resultMap="replyResultSet">
+	SELECT 
+			R_NO,REPLY.CREATE_DATE,G_NO,G_TITLE,RCONTENT,CHANGE_NAME
+	  FROM 
+	  		REPLY
+	  JOIN 
+	  		GOODS_REPLY USING(R_NO)
+	  JOIN 
+	  		GOODS USING(G_NO)
+	  JOIN 
+	  		GOODSFILE USING(G_NO)
+	  JOIN 
+	  		ADDFILE USING(F_NO)
+	 WHERE 
+	 		REPLY.USER_ID = #{user_id}
+	   AND
+	   		R_STATUS = 'Y'
+	
+	</select>
+	
+	<update id="deleteReply" parameterType="Reply">
+	UPDATE 
+			REPLY
+	   SET 
+	   		R_STATUS = 'N'
+	 WHERE
+	 	   	USER_ID = #{user_id}
+	   AND 
+	   		R_NO = #{rno}
+	
+	
+	
+	</update>
+	<insert id="insertFollow"  parameterType="java.util.Map">
+	INSERT INTO
+	FOLLOW
+	(FOLLOWER, FOLLOWING)
+	VALUES
+	(#{user_id}, #{seller})
+	
+	</insert>
+	<select id="isFollow" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		  FROM FOLLOW
+		 WHERE FOLLOWER =#{user_id}
+		   AND FOLLOWING =#{seller}
+	</select>
+	<delete id="canselFollow" parameterType="java.util.Map">
+		DELETE FROM FOLLOW 
+	    WHERE FOLLOWER = #{user_id}
+   		  AND FOLLOWING = #{seller}
+	
+	</delete>
 </mapper>

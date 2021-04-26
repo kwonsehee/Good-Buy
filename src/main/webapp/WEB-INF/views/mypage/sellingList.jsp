@@ -31,13 +31,18 @@
                     <li class="dot">•</li>
                     <li class="createDate">${ slist.createDate }</li>
                 </ul>
-                <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${slist.gno})">
+                <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${slist.gno},this)">
                 <div class="gStatus"><p class="statusText">판매중</p></div>
                 <p class="gprice">${ slist.gprice }</p>
                 <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
                 <p class="replyCount">${ slist.rep_cnt }</p>
                 <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
                 <p class="likeCount">${ slist.like_cnt }</p>
+                 <div class="subMenu">
+                 	<a href="#">게시글 수정</a>
+		            <a href="#">숨김으로 변경</a>
+		            <a href="#">삭제</a>
+       			 </div>
             </div>
         </c:forEach>
         </div>
@@ -108,25 +113,20 @@
         
         </c:if>
         
-        <div class="subMenu">
-            <a href="#">게시글 수정</a>
-            <a href="#">숨기기</a>
-            <a href="#">삭제</a>
-        </div>
+       
     </section>
 	
 	<jsp:include page="../common/footer.jsp"/>
 	
 	 <script>
 	<!-- more 버튼 클릭 시 -->
-       function showMenu(gno){
-    	// 이벤트 전파 버블링 방지
-			event.stopPropagation();
-            $(".subMenu").slideDown(200);
-            goUpdateGoods(gno);
-            changeStatus(gno);
-            goDeleteGoods(gno);
-            console.log(gno);
+       function showMenu(gno,e){
+    	  // 이벤트 전파 버블링 방지
+  		  event.stopPropagation();
+          $(e).siblings(".subMenu").slideDown(200);
+          goUpdateGoods(gno);
+          changeStatus(gno);
+          goDeleteGoods(gno);
        }
        
        /* gbSection클릭 시 more메뉴 닫힘 */
@@ -144,7 +144,7 @@
        function goUpdateGoods(gno){
     	   $(".subMenu a:nth-child(1)").on('click',function(){
     		   console.log(gno);
-    		  /*  location.href=""; */
+    		   location.href="${contextPath}/goods//editView?gno="+gno;
     	   });
        }
        

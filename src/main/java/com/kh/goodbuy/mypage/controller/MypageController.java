@@ -25,7 +25,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.MessengerService;
+import com.kh.goodbuy.common.model.service.ReportService;
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
+import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.service.MemberService;
@@ -50,6 +54,9 @@ public class MypageController {
 	private GoodsService gService;
 	@Autowired
 	private MessengerService msgService;
+	@Autowired
+	private ReportService reService;
+	
 	
 	// 마이페이지 메인 화면으로
 	@GetMapping("/main")
@@ -201,7 +208,6 @@ public class MypageController {
 	@GetMapping("/sellingList")
 	public ModelAndView showSellingList(ModelAndView mv,
 										@ModelAttribute("loginUser") Member loginUser, 
-										Model model,
 										@RequestParam(value="page", required=false, defaultValue="1") int currentPage){
 		int listCount = 0;
 		int boardLimit = 5;
@@ -233,12 +239,14 @@ public class MypageController {
 
 		int result = gService.changeGoodsStatus(g,status);
 		
+		System.out.println("상품 상태 변경됐니?" + result);
+		
 		if(result > 0) {
+			return "redirect:/mypage/sellingList";
 		}else {
 			return "common/errorpage";
 		}
 		
-		return "redirect:/mypage/sellingList";
 	}
 
 	
@@ -552,7 +560,13 @@ public class MypageController {
 		
 		// 세션에 다시 저장
 		model.addAttribute("mtlist", mtlist);
-		
+		// 바뀐 동네 정보 세션에 다시 담아주기
+		Town townInfo2 = tService.selectUserTown(loginUser.getUser_id());
+				
+		if(townInfo2 != null) {
+			model.addAttribute("townInfo", townInfo2);
+			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo2);
+		}
 		
 		System.out.println("contextPath넘어왔나 : " + contextPath);
 		
@@ -579,7 +593,7 @@ public class MypageController {
 		// 바뀐 동네 정보 세션에 다시 담아주기
 		Town townInfo2 = tService.selectUserTown(loginUser.getUser_id());
 		
-		if(townInfo != null) {
+		if(townInfo2 != null) {
 			model.addAttribute("townInfo", townInfo2);
 			System.out.println("세션에 저장되는 타운 범위 바뀌나 : " + townInfo2);
 		}
@@ -605,17 +619,37 @@ public class MypageController {
 	
 	// 키워드 알림 설정 화면
 	@GetMapping("/setKeyword")
-	public ModelAndView showSetKeyword(ModelAndView mv,String key,@ModelAttribute("loginUser") Member loginUser) {
-		
-		System.out.println("키워드 넘어오니  : " + key);
-		
-		
-		
-		
-		
-		
+	public ModelAndView showSetKeyword(ModelAndView mv,Model model,@ModelAttribute("loginUser") Member loginUser) {
+		// insert 후 키워드 조회 후 화면에 뿌리기
+		List<Keyword> list = mService.selectKeyword(loginUser.getUser_id());
+		System.out.println("키워드 리스트 : " + list);
+		mv.addObject("list", list);
 		mv.setViewName("mypage/setKeyword");
 		return mv;
+	}
+	
+	// 키워드 DB insert
+	@GetMapping("/insertKey")
+	public String insertKey(String key,@ModelAttribute("loginUser") Member loginUser,Model model) {
+		System.out.println("키워드 넘어오니  : " + key);
+		
+		Keyword k = new Keyword();
+		k.setUser_id(loginUser.getUser_id());
+		k.setKeyword(key);
+		
+		// 키워드 DB insert
+		int result = mService.insertKeyword(k);
+		
+		System.out.println("키워드 디비 들어감? " + result);
+		System.out.println("k : " + k);
+		
+		// insert 후 키워드 조회 후 화면에 뿌리기
+		List<Keyword> list = mService.selectKeyword(loginUser.getUser_id());
+		System.out.println("키워드 리스트 : " + list);
+		model.addAttribute("list", list);
+		
+		return "redirect:/mypage/setKeyword";
+		
 	}
 	
 	// 키워드 안내 팝업 화면
@@ -641,22 +675,99 @@ public class MypageController {
 	
 	// 내글/댓글 - 중고거래 댓글 화면
 	@GetMapping("/myGoodsReplyList")
-	public ModelAndView showMyGoodsReplyList(ModelAndView mv) {
+	public ModelAndView showMyGoodsReplyList(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser,
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 10;
+		PageInfo pi;
+		listCount = mService.selectReplyCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Reply> list = mService.selectReplyList(loginUser.getUser_id(),pi);
+		
+		System.out.println("댓글 리스트 : " + list);
+		
+		mv.addObject("list", list);
+		mv.addObject("pi",pi);
 		mv.setViewName("mypage/myGoodsReplyList");
+
 		return mv;
 	}
+	
+	// 중고상품 댓글 삭제
+	@GetMapping("deleteReply")
+	public String deleteReply(int rno,@ModelAttribute("loginUser") Member loginUser) {
+		
+		Reply r = new Reply();
+		r.setRno(rno);
+		r.setUser_id(loginUser.getUser_id());
+		
+		int result = mService.deleteReply(r);
+		
+		if(result > 0) {
+			return "redirect:/mypage/myGoodsReplyList";
+		} else {
+			return "common/errorpage";
+		}
+	}
+	
+	
 	
 	// 내가 한 신고 화면
 	@GetMapping("/reportList")
-	public ModelAndView showReportList(ModelAndView mv) {
-		mv.setViewName("mypage/reportList");
+	public ModelAndView showReportList(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser,
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		listCount = reService.selectMyReportCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Report> rlist = reService.selectMyReportList(loginUser.getUser_id(),pi);
+		
+		System.out.println("신고리스트 : " + rlist);
+		System.out.println("신고 갯수 : " + listCount);
+		
+		
+		if(rlist != null) {
+			mv.addObject("rlist", rlist);
+			mv.addObject("pi", pi);
+			mv.setViewName("mypage/reportList");
+		}
+		
 		return mv;
 	}
 	
+	
 	// 내가 당한 신고 화면
 	@GetMapping("/reportedList")
-	public ModelAndView showReportedList(ModelAndView mv) {
-		mv.setViewName("mypage/reportedList");
+	public ModelAndView showReportedList(ModelAndView mv,
+									    @ModelAttribute("loginUser") Member loginUser,
+										@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		listCount = reService.selectMyReportedCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Report> rlist = reService.selectReportedList(loginUser.getUser_id(),pi);
+		
+
+		System.out.println("신고당한리스트 : " + rlist);
+		System.out.println("신고 당한횟수 : " + listCount);
+		
+		if(rlist != null) {
+			mv.addObject("rlist", rlist);
+			mv.addObject("pi", pi);
+			mv.setViewName("mypage/reportedList");
+		}
+		
 		return mv;
 	}
 	

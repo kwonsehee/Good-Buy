@@ -17,4 +17,6 @@ public interface MessengerDao {
 	Messenger selectOneMsg(int mno);
 
 	int insertMsg2(Messenger msg);
+	//seller에게 쪽지보내기
+	int insertMsgUser(String mcontent, String user_id, String seller);
 }

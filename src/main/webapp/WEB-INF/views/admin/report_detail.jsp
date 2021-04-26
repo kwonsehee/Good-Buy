@@ -101,6 +101,7 @@
           <button id="createButton2" onClick="location.href='admin_product_detail.html'">상품 상세</button>
           <form action="${ contextPath }/admin/reportupdate" id="writeForm" method="post">
           <input type="hidden" name="re_no" value="${ report.re_no }"/>
+          <input type="hidden" name="reported_id" value="${ report.reported_id }">
           <input type="hidden" name="re_result" value="Y"/>
           <button id="createButton2">신고 처리</button>
           </form>

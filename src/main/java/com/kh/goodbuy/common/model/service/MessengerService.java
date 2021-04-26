@@ -18,5 +18,7 @@ public interface MessengerService {
 	Messenger selectOneMsg(int mno);
 	// msg답장보내기
 	int insertMsg2(Messenger msg);
+	//seller에게 쪽지보내기
+	int insertMsgUser(String mcontent, String user_id, String seller);
 
 }

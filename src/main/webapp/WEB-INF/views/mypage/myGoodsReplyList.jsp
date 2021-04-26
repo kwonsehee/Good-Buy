@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,62 +20,97 @@
             <li><a id="sub_goods" href="myGoodsReplyList.html">중고거래 댓글</a></li>
         </ul>
 
-
+		<!-- 리스트 있을 때 -->
+		<c:if test="${ list != null }">
         <div class="listWrap">
+        <c:forEach var="l" items="${ list }">
             <div class="eachListWrap">
-                <img src="${ contextPath }/resources/images/mypage/ex2.jpeg" class="gPhoto">
+                <img src="${ contextPath }/resources/images/goodupload/${l.changeName}" class="gPhoto">
                 <ul class="goods_ul">
-                    <li>강아지 노즈워크 IQ트레이닝 돌돌이 장난감</li>  
-                    <li><img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu()"></li>  
+                    <li>${ l.gtitle }</li>  
+                    <li><img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${l.rno},this)"></li>  
                 </ul>
                
                 <ul class="content_ul">
-                    <li>토요일 오후 1시 시간 괜찮으세요?</li>                  
-                    <li>에서 2hours ago 작성</li>
-                </ul>                         
+                    <li>${ l.rcontent }</li>                  
+                    <li>${ l.createDate }</li>
+                </ul>     
+                <div class="subMenu">
+               		 <a href="#">삭제</a>
+            	</div>                    
             </div>
-            <div class="eachListWrap">
-                <img src="${ contextPath }/resources/images/mypage/ex2.jpeg" class="gPhoto">
-                <ul class="goods_ul">
-                    <li>강아지 노즈워크 IQ트레이닝 돌돌이 장난감</li>  
-                    <li><img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu()"></li>  
-                </ul>
-               
-                <ul class="content_ul">
-                    <li>토요일 오후 1시 시간 괜찮으세요?</li>                  
-                    <li>에서 2hours ago 작성</li>
-                </ul>                         
-            </div>
-            <div class="eachListWrap">
-                <img src="${ contextPath }/resources/images/mypage/ex1.jpeg" class="gPhoto">
-                <ul class="goods_ul">
-                    <li>단열 에어캡</li>  
-                    <li><img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu()"></li>  
-                </ul>
-               
-                <ul class="content_ul">
-                    <li>토요일 오후 1시 시간 괜찮으세요?</li>                  
-                    <li>에서 2hours ago 작성</li>
-                </ul>                         
-            </div>
-            <div class="eachListWrap">
-                <img src="${ contextPath }/resources/images/mypage/ex3.jpeg" class="gPhoto">
-                <ul class="goods_ul">
-                    <li>강아지 계단 3단</li>  
-                    <li><img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu()"></li>  
-                </ul>
-               
-                <ul class="content_ul">
-                    <li>토요일 오후 1시 시간 괜찮으세요?</li>                  
-                    <li>에서 2hours ago 작성</li>
-                </ul>                         
-            </div>
-
-            <div class="subMenu">
-                <a href="#">삭제</a>
-            </div>
-               
+        </c:forEach>
         </div>
+        </c:if>
+        
+         <!-- 리스트 없을 때 -->
+		<c:if test="${ list.size() == 0 }">
+		 <div class="listWrap">
+			 <div id="textWrap">
+				<h2 id="NullListText">리스트가 없습니다 :(</h2>
+			 </div>
+		 </div>
+		</c:if>
+        
+        <!-- 리스트 있을때만 페이징 나타나게하기 -->
+		<c:if test="${ list.size() != 0 }">
+        <div id="pageArea">
+           <c:if test="${pi.currentPage <= 0}">
+            <a> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > 0}">
+            	<c:url var="start" value="/mypage/myGoodsReplyList">
+            		<c:param name="page" value="1"/>
+            	</c:url>
+           		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage <= pi.startPage}">
+            <a> &lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > pi.startPage }">
+            	<c:url var="before" value="/mypage/myGoodsReplyList">
+            		<c:param name="page" value="${pi.currentPage -1}"/>
+            	</c:url>
+           		 <a href="${before }"> &lt;&nbsp; </a>
+            </c:if>
+           <!-- 페이지 숫자 -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
+				</c:if>
+				<c:if test="${ p ne pi.currentPage }">
+					<c:url var="pagination" value="/mypage/myGoodsReplyList">
+						<c:param name="page" value="${ p }" />
+					</c:url>
+					<a href="${ pagination }">${ p }</a> &nbsp;
+				</c:if>
+			</c:forEach>
+			<c:if test="${pi.currentPage  >= pi.maxPage}">
+            <a> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage }">
+            	<c:url var="after" value="/mypage/myGoodsReplyList">
+            		<c:param name="page" value="${pi.currentPage +1}"/>
+            	</c:url>
+           		 <a href="${ after }"> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage >= pi.maxPage }">
+            <a> &gt;&gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage  }">
+            	<c:url var="end" value="/mypage/myGoodsReplyList">
+            		<c:param name="page" value="${pi.endPage}"/>
+            	</c:url>
+           		 <a href="${end}"> &gt;&gt;&nbsp; </a>
+            </c:if>
+           
+        </div>
+        
+        </c:if>
+        
+        
+        
+        
     </section>
 	
 	
@@ -83,8 +119,24 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
 	 <script>
-       function showMenu(){
-            $(".subMenu").css("display","block");
+       function showMenu(rno,e){
+    	 // 이벤트 전파 버블링 방지
+   		 event.stopPropagation();
+   		 console.log(rno);
+   		 $(e).parent().parent().siblings(".subMenu").slideDown(100);
+         goDeleteReply(rno);
+       }
+       
+       /* gbSection클릭 시 more메뉴 닫힘 */
+       $("#gbSection").on('click',function(){
+    	   $(".subMenu").slideUp(200);
+       });
+       
+       function goDeleteReply(rno){
+    	   $(".subMenu a").on('click',function(){
+	    	   console.log(rno);
+	    	   location.href="${contextPath}/mypage/deleteReply?rno="+rno;
+    	   });
        }
     </script>
 	

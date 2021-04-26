@@ -6,11 +6,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<resultMap type="Report" id="reportResultSet">
 		<id property = "re_no" column ="RE_NO"/>
 		<result property="retitle" column="RETITLE"/>
-		<result property="reported_id" column="REPORTED_ID"/>
 		<result property="re_content" column="RE_CONTENT"/>
 		<result property="create_date" column="CREATE_DATE"/>
 		<result property="re_status" column="RE_STATUS"/>
 		<result property="re_result" column="RE_RESULT"/>
+		<result property="report_id" column="REPORT_ID"/>
+		<result property="reported_id" column="REPORTED_ID"/>
+		<result property="re_cate" column="RE_CATE"/>
 	</resultMap>
 	<select id="selectReportList" resultMap="reportResultSet">
 		SELECT
@@ -78,20 +80,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		   RE_NO
 		 , RETITLE
-		 , REPORTED_ID
 		 , RE_CONTENT
 		 , CREATE_DATE
 		 , RE_STATUS
-		 , RE_RESULT)
+		 , RE_RESULT
+		 , REPORT_ID
+		 , REPORTED_ID
+		 , RE_CATE)
 		VALUES
 		(
 		  REPORT_SEQ.NEXTVAL
 		, #{r.retitle}
-		, #{r.reported_id}
 		, #{r.re_content}
 		, DEFAULT
 		, DEFAULT
 		, DEFAULT
+		, #{r.report_id}
+		, #{r.reported_id}
+		, 1
 		)
 		INTO GOODS_REPORT
 		VALUES
@@ -115,4 +121,194 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		SELECT * FROM DUAL
 	</insert>
 	
+	<select id="selecMyReportCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(RE_NO)
+	  FROM 
+	  		REPORT
+	 WHERE 
+		    REPORT_ID = #{user_id} 
+	   AND
+		    RE_STATUS = 'Y'
+		</select>
+	
+	<select id="selectMyReportList" parameterType="string" resultMap="reportResultSet">
+	SELECT 
+		   RE_NO
+		 , RETITLE
+		 , RE_CONTENT
+		 , CREATE_DATE
+		 , RE_STATUS
+		 , RE_RESULT
+		 , REPORT_ID
+		 , REPORTED_ID
+		 , RE_CATE
+	  FROM 
+	  		REPORT
+	 WHERE 
+	 		REPORT_ID = #{user_id}
+	   AND
+		    RE_STATUS = 'Y'
+  ORDER BY 
+  			CREATE_DATE DESC
+	
+	</select>
+	
+	<update id="deleteReport" parameterType="_int">
+	UPDATE 
+			REPORT
+	   SET 
+	   		RE_STATUS = 'N'
+	 WHERE 
+	 		RE_NO = #{re_no}
+	
+	</update>
+	<select id="selectReport1List" resultMap="reportResultSet">
+		SELECT
+		       RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+		  FROM
+		       REPORT
+		  WHERE
+		  		RE_CATE = 1
+      ORDER BY
+               RE_NO ASC
+	</select>
+	<select id="selectReport2List" resultMap="reportResultSet">
+		SELECT
+		       RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+		  FROM
+		       REPORT
+		       WHERE
+		  		RE_CATE = 2
+      ORDER BY
+               RE_NO ASC
+	</select>
+	<select id="selectReport3List" resultMap="reportResultSet">
+		SELECT
+		       RE_NO
+		     , RETITLE
+		     , REPORTED_ID
+		     , RE_CONTENT
+		     , CREATE_DATE
+		     , RE_STATUS
+		     , RE_RESULT
+		  FROM
+		       REPORT
+		       WHERE
+		  		RE_CATE = 3
+      ORDER BY
+               RE_NO ASC
+	</select>
+	
+	<select id="selectMyReportedCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(RE_NO)
+	  FROM
+			REPORT
+	 WHERE 
+	 		REPORTED_ID = #{user_id}
+	</select>
+	
+	<select id="selectReportedList" parameterType="string" resultMap="reportResultSet">
+	SELECT 
+			RE_NO, RETITLE, REPORTED_ID, REPORT_ID, RE_CONTENT, CREATE_DATE, RE_STATUS, RE_RESULT, RE_CATE
+	  FROM 
+	  		REPORT
+	 WHERE 
+	 		REPORTED_ID = #{user_id}
+  ORDER BY 
+  			CREATE_DATE DESC
+	</select>
+
+  <update id="addCountReported" parameterType="string">
+	UPDATE 
+			USER_INFO
+	   SET 
+	   		REPORTED = REPORTED + 1,
+            REP_DATE = CASE WHEN MOD(REPORTED+1,3) = 0  THEN SYSDATE ELSE REP_DATE END
+	 WHERE
+	 		USER_ID = #{reporte_id}
+	</update>
+	
+	<select id="selectMyReportedDate" parameterType="string" resultType="string">
+	SELECT
+			REP_DATE
+	  FROM
+	  		USER_INFO
+	 WHERE
+	 		USER_ID = #{user_id}		
+	  		
+	</select>
+	
+	<update id="updateReportedDate" parameterType="string">
+	UPDATE 
+			USER_INFO
+	   SET 
+	   		REP_DATE = CASE WHEN REP_DATE+15 &lt; SYSDATE THEN NULL ELSE REP_DATE END
+	 WHERE 
+	 		USER_ID = #{user_id}
+	
+	</update>
+	
+	
+	<insert id="insertUserReport" parameterType="Report">
+		INSERT ALL
+		INTO REPORT
+		(
+		   RE_NO
+		 , RETITLE
+		 , RE_CONTENT
+		 , CREATE_DATE
+		 , RE_STATUS
+		 , RE_RESULT
+		 , REPORT_ID
+		 , REPORTED_ID
+		 , RE_CATE
+		 )
+		VALUES
+		(
+		  REPORT_SEQ.NEXTVAL
+		, #{retitle}
+		, #{re_content}
+		, DEFAULT
+		, DEFAULT
+		, DEFAULT
+		, #{report_id}
+		, #{reported_id}
+		, 1
+		)
+		INTO USER_REPORT
+		VALUES
+		(REPORT_SEQ.CURRVAL, #{reported_id})
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 2
+		, #{reported_id}
+		, DEFAULT
+		
+		)
+		SELECT * FROM DUAL
+	</insert>
+
 </mapper>

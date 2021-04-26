@@ -140,22 +140,23 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// 신고 메인페이지 이동
 	@GetMapping("/report")
-		public ModelAndView ReportMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
-			
-			int listCount = rService.selectListCount();
-			int boardLimit = 7;	// 한 페이지 보여질 게시글 개수
-			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
-			List<Report> list = rService.selectReportList(pi);
-			if (list != null) {
-				mv.addObject("list", list);
-				mv.addObject("pi", pi);
-				mv.setViewName("admin/report_main");
-			} else {
-				mv.addObject("msg", "회원 목록 조회에 실패하였습니다.");
-				mv.setViewName("common/error_page");
-			}
-			return mv;
+
+	public ModelAndView ReportMainView(ModelAndView mv) {
+		List<Report> list1 = rService.selectReport1List();
+		List<Report> list2 = rService.selectReport2List();
+		List<Report> list3 = rService.selectReport3List();
+		if (list1 != null) {
+			mv.addObject("list1", list1);
+			mv.addObject("list2", list2);
+			mv.addObject("list3", list3);
+			mv.setViewName("admin/report_main");
+		} else {
+			mv.addObject("msg", "공지사항 목록 조회에 실패하였습니다.");
+			mv.setViewName("common/error_page");
 		}
+		return mv;
+
+	}
 
 	// 신고 메인페이지 이동
 	@GetMapping("/reportdetail")
@@ -179,6 +180,12 @@ public class AdminController {
 		
 		int result = rService.updateReport(r);
 		
+		System.out.println("신고당한사람 : " + r.getReported_id());
+		System.out.println("r : " + r);
+		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
+		int result2 = rService.addCountReported(r.getReported_id());
+		
+		System.out.println("유저인포 reported+1 됐나 : " + result2);
 		
 		if (result > 0) {
 			return "redirect:/admin/report";
@@ -196,10 +203,11 @@ public class AdminController {
 		public ModelAndView ProductMainView(ModelAndView mv, @RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
 			
 			int listCount = mService.selectListCount();
-			List<Goods> glist;
+			
 			int boardLimit = 7;	// 한 페이지 보여질 게시글 개수
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 			List<Goods> list = gService.selectGoodsList(pi);
+			System.out.println(list);
 			if (list != null) {
 				mv.addObject("list", list);
 				
@@ -230,7 +238,34 @@ public class AdminController {
 			}
 		
 	}
-	
+	// 공지사항 삭제
+		@GetMapping("/productdelete")
+		public String productDelete(int gno, HttpServletRequest request) {
+			
+			
+			int result = gService.updateProduct2(gno);
+
+			if (result > 0) {
+				return "redirect:/admin/product";
+			} else {
+				throw new NoticeException("공지사항 삭제에 실패하였습니다.");
+			}
+		}
+	// 업데이트
+	@GetMapping("/productupdate")
+	public String productUpdate(int gno, HttpServletRequest request) {
+		
+		
+		int result = gService.updateProduct(gno);
+		
+		
+		if (result > 0) {
+			return "redirect:/admin/product";
+		} else {
+			throw new NoticeException("상품수정에 실패하였습니다.");
+		}
+		
+	}
 	// 상품관리 검색
 	@GetMapping("/productsearch")
 	public String procductSearch(@ModelAttribute Search search,
@@ -305,11 +340,14 @@ public class AdminController {
 		@GetMapping("/search")
 		public String memberSearch(@ModelAttribute Search search,
 								   Model model) {
-			// 체크 박스가 체크 된 경우 on
-			// 체크 박스가 체크 되지 않은 경우 null
+			System.out.println("search : " + search);
 			List<Member> searchList = mService.searchList(search);
 			
 			model.addAttribute("list", searchList);
+			model.addAttribute("start", search.getDate1());
+			model.addAttribute("end", search.getDate2());
+			
+			
 			System.out.println(searchList);
 			return "admin/member_main";
 		}

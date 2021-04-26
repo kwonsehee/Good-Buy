@@ -90,6 +90,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       <result property="createDate" column="CREATE_DATE"/>
       
    </resultMap>
+   
+   <resultMap type="Keyword" id="keywordResultSet">
+		<id property="user_id" column="USER_ID"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
 	
 	
 	<select id="selectCate" resultMap="cateSet">
@@ -175,7 +181,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	<select id="selectAllCount" resultType= "_int">
 		SELECT COUNT(*)
-	      FROM GOODS	
+	      FROM GOODS
+	     WHERE G_STATUS = 'Y'	
 
 	</select>
 	<select id="selectListCount" parameterType="Town"  resultType= "_int">
@@ -196,7 +203,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		</if>
 		<if test='area lt 2'>
 		AND ADDRESS_3 =#{address_3}
-		</if>
+		</if>	
 	</select>
 	<select id="selectAllList" resultMap="GoodsResultSet">
 		SELECT 
@@ -286,9 +293,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  AND F.FILE_LEVEL = 1
 		  AND G.USER_ID =#{user_id}
 		  AND G_STATUS = 'Y'
-		  AND G_PLACE IN (SELECT T_NO
-                 		   FROM MY_TOWN
-                 		  WHERE USER_ID =#{user_id})
 	 ORDER BY
         	   G.CREATE_DATE DESC
 	</select>
@@ -316,11 +320,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 						WHERE G.G_NO = GF.G_NO
 						  AND GF.F_NO = F.F_NO     
 						  AND F.FILE_LEVEL = 1
-						  AND G.USER_ID = #{user_id}
-						  AND G_PLACE = (SELECT T_NO
-				                 		   FROM MY_TOWN
-				                 		  WHERE MYTOWN_TYPE=1
-				                 			AND USER_ID = #{user_id}))A 
+						  AND G.USER_ID = #{user_id})A 
 					                            
 				  LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 				  GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -369,11 +369,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 						WHERE G.G_NO = GF.G_NO
 						  AND GF.F_NO = F.F_NO     
 						  AND F.FILE_LEVEL = 1
-						  AND G.USER_ID = #{user_id}
-						  AND G_PLACE = (SELECT T_NO
-				                 		   FROM MY_TOWN
-				                 		  WHERE MYTOWN_TYPE=1
-				                 			AND USER_ID = #{user_id}))A 
+						  AND G.USER_ID = #{user_id})A 
 					                            
 				  LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 				  GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -433,13 +429,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			   AND GF.F_NO = F.F_NO
 			   AND F.FILE_LEVEL = 1)
 		WHERE G_STATUS = 'Y'
-			<if test='area lt 4'>
+			<if test='myTown.area lt 4'>
 			AND ADDRESS_1 = #{myTown.address_1}
 			</if>
-			<if test='area lt 3'>
+			<if test='myTown.area lt 3'>
 			AND ADDRESS_2 = #{myTown.address_2}
 			</if>
-			<if test='area lt 2'>
+			<if test='myTown.area lt 2'>
 			AND ADDRESS_3 =#{myTown.address_3}
 			</if>
         AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
@@ -470,13 +466,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         		  AND GF.F_NO = F.F_NO
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
-			<if test='area lt 4'>
+			<if test='myTown.area lt 4'>
 			AND ADDRESS_1 = #{myTown.address_1}
 			</if>
-			<if test='area lt 3'>
+			<if test='myTown.area lt 3'>
 			AND ADDRESS_2 = #{myTown.address_2}
 			</if>
-			<if test='area lt 2'>
+			<if test='myTown.area lt 2'>
 			AND ADDRESS_3 =#{myTown.address_3}
 			</if>
         AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
@@ -738,6 +734,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , CREATE_DATE
 			  , USER_ID
+			  , G_STATUS
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -750,7 +747,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         		WHERE G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
         		  AND F.FILE_LEVEL = 1)
-		  WHERE G_STATUS = 'Y'
+		 
 	   ORDER BY CREATE_DATE DESC
    
    </select>
@@ -821,6 +818,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , T.ADDRESS_2 ADDRESS_2
 			  , T.ADDRESS_3 ADDRESS_3
 			  , G.G_STATUS G_STATUS
+			  , G.CREATE_DATE CREATE_DATE
 		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
 		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
 		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
@@ -837,6 +835,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , CREATE_DATE
 			  , USER_ID
+			  , G_STATUS
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -850,7 +849,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         		  AND GF.F_NO = F.F_NO
         		  AND F.FILE_LEVEL = 1)
 		<where>
-		G_STATUS = 'Y'
 			<choose>
 				<when test="searchCondition == 'proname'">
 				AND (G_TITLE LIKE #{sv} )
@@ -863,8 +861,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		ORDER BY CREATE_DATE DESC
 	</select>
 
-	<delete id="deleteFile" parameterType="_int">
-		DELETE FROM GOODSFILE WHERE G_NO = #{gno}
+	<delete id="deleteFile" parameterType="string">
+		DELETE
+		  FROM GOODSFILE
+		 WHERE F_NO = (SELECT F_NO
+		  				 FROM ADDFILE
+		  				WHERE CHANGE_NAME= #{index})
 	</delete>
   
 	<insert id="updateFile" parameterType="java.util.Map">
@@ -906,7 +908,137 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
+	
+	<!-- <select id="searchKeyword" parameterType="map" resultMap="keywordResultSet">
+		SELECT 
+				USER_ID
+			  , KEYWORD
+	      FROM 
+	      		KEYWORD
+	     WHERE 
+	     		<foreach collection="gArr" item="gtitle" open="'" close="'" separator="|">
+	     		REGEXP_LIKE(KEYWORD, #{gtitle.value})
+	    		</foreach>
+	
+	</select> -->
+	
+	
+	
 
+	
+	<update id="updateProduct" parameterType="Goods">
+		UPDATE GOODS
+		SET G_STATUS = 'R'
+		WHERE G_NO = #{gno}
+	
+	
+	</update>
+
+<update id="updateProduct2" parameterType="Goods">
+		UPDATE GOODS
+		SET G_STATUS = 'N'
+		WHERE G_NO = #{gno}
+		
+	</update>
+
+	<select id="selectSearchCount" parameterType="string" resultType="_int">
+		<bind name="searchb" value="'%'+_parameter+'%'"/>
+		SELECT COUNT(*)
+		FROM GOODS
+		WHERE G_TITLE LIKE #{searchb}
+	
+	</select>
+	<select id="selectSearchList" parameterType="string" resultMap = "GoodsResultSet">
+		<bind name="searchb" value="'%'+_parameter+'%'"/>
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  	AND G_TITLE LIKE  #{searchb}
+	   ORDER BY CREATE_DATE
+	  </select>
+	<select id="selectMySearchCount" parameterType="java.util.Map" resultType="_int">
+		<bind name="searchb" value="'%'+_parameter.search+'%'"/>
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+			   WHERE G.G_PLACE = T.T_NO
+			   AND G.G_NO = GF.G_NO
+			   AND GF.F_NO = F.F_NO
+			   AND F.FILE_LEVEL = 1)
+		WHERE G_STATUS = 'Y'
+        AND G_TITLE LIKE #{searchb}
+		<if test='myTown.area lt 4'>
+		AND ADDRESS_1 = #{myTown.address_1}
+		</if>
+		<if test='myTown.area lt 3'>
+		AND ADDRESS_2 = #{myTown.address_2}
+		</if>
+		<if test='myTown.area lt 2'>
+		AND ADDRESS_3 =#{myTown.address_3}
+		</if>
+
+	</select>
+	<select id="selectMySearchList" parameterType="java.util.Map" resultMap="GoodsResultSet">
+		<bind name="searchb" value="'%'+_parameter.search+'%'"/>
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , USER_ID
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G.C_NO C_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  AND G_TITLE LIKE #{searchb}
+			<if test='myTown.area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='myTown.area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='myTown.area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
+	   ORDER BY CREATE_DATE DESC
+	</select>
 </mapper>
 
 

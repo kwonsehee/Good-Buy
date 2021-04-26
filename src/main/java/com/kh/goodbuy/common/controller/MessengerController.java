@@ -64,7 +64,23 @@ public class MessengerController {
 		
 		return "mypage/msgList";
 	}
-	
+	// 유저에게 메세지 보내기
+	@PostMapping("/userinsert")
+	public String sendMsgToseller(HttpServletRequest request, String mcontent,String seller,
+			Model model) {
+		System.out.println("r : " + mcontent+"seller"+seller);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		
+		int result = msgService.insertMsgUser(mcontent, loginUser.getUser_id(), seller);
+		if(result>0) {
+			model.addAttribute("msg", "success");
+		}else {
+			
+			model.addAttribute("msg", "fail");
+		}
+		
+		return "goods/sendmsgPopup";
+	}
 	
 	
 	

@@ -104,7 +104,7 @@
                      카테고리 : ${g.goodcate.lfilter}-> ${g.goodcate.mfilter}-> ${g.goodcate.sfilter}
                 </td>
                 <td colspan="3" id="selectTown" style="text-align: right;">
-              	    <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo">판매자 정보</a>&nbsp;
+              	    <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo?seller=${g.user_id }">판매자 정보</a>&nbsp;
                     <c:if test="${ !empty loginUser }">
                     <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
                    	</c:if>
@@ -413,7 +413,7 @@
 				<div class="modal-body">
 					<form method="POST" action="${ contextPath }/report/goodsinsert">
 					<input type="hidden" name="gno" value="${g.gno }">
-					<input type="hidden" name="report_id" value="${g.user_id }">
+					<input type="hidden" name="reported_id" value="${g.user_id }">
 						<table id="report_tb">
 							<tr>
 								<td colspan="2"><img src="${ contextPath }/resources/images/logo.png" width="40%;"
@@ -470,7 +470,7 @@
                   if(data == "success"){
                 	  values ="<button type='button' class='btn_small' id='dislikegoods'>" 
                 		  +"<img src='${ contextPath }/resources/images/heart.png'/>"
-                          +"<p>&nbsp;&nbsp;찜하기</p>"
+                          +"<p>&nbsp;&nbsp;찜하기</p></button>"
                 	  
                 	  
                 	  $("#like_area").html(values);
@@ -500,7 +500,7 @@
                   if(data == "success"){
                 	  values ="<button type='button' class='btn_small' id='likegoods'>" 
                 		  +"<img src='${ contextPath }/resources/images/fillHeart1.png' id='likes'/>"
-                          +"<p>&nbsp;&nbsp;찜 취소</p>"
+                          +"<p>&nbsp;&nbsp;찜 취소</p></button>"
                       
              
                 	  $("#like_area").html(values);
@@ -560,6 +560,7 @@ imageAlt: 'Custom image',
 		function goPayment(way){
 			location.href='${contextPath }/goods/pay?way='+way;
 		}
+		
 		
 	</script>
      	<jsp:include page="../common/footer.jsp"/>

@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
@@ -303,7 +304,7 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectList("goodsMapper.searchList", search);
   }
  @Override
-	public int deleteFile(int gno) {
+	public int deleteFile(String gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("goodsMapper.deleteFile", gno);
 	}
@@ -327,4 +328,59 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.updateReply", rno);
 
 	}
+
+	@Override
+	public List<Keyword> searchKeyword(String[] gArr) {
+		Map<String, String> map = new HashMap <String, String>();
+		for(int i = 0; i<gArr.length; i++) {
+			map.put("gArr",gArr[i]);
+			System.out.println("map : " + map);
+		}
+		return sqlSession.selectList("goodsMapper.searchKeyword",map);
+  }
+  
+	@Override
+	public int updateProduct(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct", gno);
+	}
+
+	@Override
+	public int updateProduct2(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.updateProduct2", gno);
+	}
+
+	@Override
+	public int selectSearchCount(String search) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.selectSearchCount", search);
+	}
+
+	@Override
+	public List<Goods> selectSearchList(PageInfo pi, String search) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("goodsMapper.selectSearchList",search, rowBounds);
+
+	}
+
+	@Override
+	public int selectMySearchCount(String search, Town myTown) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("search",search);
+		map.put("myTown", myTown);
+		return sqlSession.selectOne("goodsMapper.selectMySearchCount", map);
+	}
+
+	@Override
+	public List<Goods> selectMySearchList(PageInfo pi, String search, Town myTown) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("search",search);
+		map.put("myTown", myTown);
+		return sqlSession.selectList("goodsMapper.selectMySearchList", map, rowBounds);
+	}
+
 }
