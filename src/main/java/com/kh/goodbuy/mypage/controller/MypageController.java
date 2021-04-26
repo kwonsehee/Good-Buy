@@ -762,8 +762,12 @@ public class MypageController {
 		System.out.println("신고당한리스트 : " + rlist);
 		System.out.println("신고 당한횟수 : " + listCount);
 		
+		if(rlist != null) {
+			mv.addObject("rlist", rlist);
+			mv.addObject("pi", pi);
+			mv.setViewName("mypage/reportedList");
+		}
 		
-		mv.setViewName("mypage/reportedList");
 		return mv;
 	}
 	

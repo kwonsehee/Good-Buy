@@ -59,6 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 	   USER_ID = #{user_id}
 		<!--  암호화 적용 이후 삭제 : AND PWD = #{pwd} -->
 		   AND USTATUS = 'Y'
+		   
 	
 	</select>
 	<insert id="insertMember" parameterType="Member">

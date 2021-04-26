@@ -111,4 +111,19 @@ public class ReportDaoImpl implements ReportDao{
 
 		return sqlSession.insert("reportMapper.insertUserReport", r);
 	}
+
+	@Override
+	public int addCountReported(String reported_id) {
+		return sqlSession.update("reportMapper.addCountReported", reported_id);
+	}
+
+	@Override
+	public String selectMyReportedDate(String user_id) {
+		return sqlSession.selectOne("reportMapper.selectMyReportedDate", user_id);
+	}
+
+	@Override
+	public int updateReportedDate(String user_id) {
+		return sqlSession.update("reportMapper.updateReportedDate", user_id);
+	}
 }
