@@ -45,9 +45,9 @@ public class ReportServiceImpl implements ReportService{
 	}
 
 	@Override
-	public int insertGoodsReport(Report r, int gno, String report_id) {
+	public int insertGoodsReport(Report r, int gno, String report_id, String reported_id) {
 		// TODO Auto-generated method stub
-		return rDao.insertGoodsReport(r, gno, report_id);
+		return rDao.insertGoodsReport(r, gno, report_id, reported_id);
 	}
 
 	@Override
@@ -81,5 +81,15 @@ public class ReportServiceImpl implements ReportService{
 	public List<Report> selectReport3List() {
 		// TODO Auto-generated method stub
 		return rDao.selectReportList3();
+  }
+  	@Override
+	public int selectMyReportedCount(String user_id) {
+		return rDao.selectMyReportedCount(user_id);
+	}
+
+	@Override
+	public List<Report> selectReportedList(String user_id, PageInfo pi) {
+		return rDao.selectReportedList(user_id, pi);
+
 	}
 }

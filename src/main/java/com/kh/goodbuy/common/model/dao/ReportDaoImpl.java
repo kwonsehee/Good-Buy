@@ -49,10 +49,11 @@ public class ReportDaoImpl implements ReportDao{
 	}
 
 	@Override
-	public int insertGoodsReport(Report r, int gno, String reported_id) {
+	public int insertGoodsReport(Report r, int gno, String report_id, String reported_id) {
 		Map<String, Object> map = new HashMap <String, Object>();
 		map.put("r",r);
 		map.put("gno", gno);
+		map.put("report_id", report_id);
 		map.put("reported_id", reported_id);
 		return sqlSession.insert("reportMapper.insertGoodsReport", map);
 	}
@@ -75,6 +76,7 @@ public class ReportDaoImpl implements ReportDao{
 	}
 
 	@Override
+
 	public List<Report> selectReportList1() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("reportMapper.selectReport1List");
@@ -90,5 +92,17 @@ public class ReportDaoImpl implements ReportDao{
 	public List<Report> selectReportList3() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("reportMapper.selectReport3List");
+  }
+  	@Override
+	public int selectMyReportedCount(String user_id) {
+		return sqlSession.selectOne("reportMapper.selectMyReportedCount", user_id);
+	}
+
+	@Override
+	public List<Report> selectReportedList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("reportMapper.selectReportedList",user_id,rowBounds);
+
 	}
 }
