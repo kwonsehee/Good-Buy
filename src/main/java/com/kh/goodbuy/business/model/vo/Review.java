@@ -18,7 +18,7 @@ public class Review {
 	private String status;
 	private String content;
 	private Date reviewDate;
-	private int grade;
+	private String grade;
 	private String userId;
 	private String nickName;
 	

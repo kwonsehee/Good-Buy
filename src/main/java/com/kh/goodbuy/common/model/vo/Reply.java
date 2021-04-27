@@ -25,4 +25,5 @@ public class Reply {
 	private String gtitle;
 	private String changeName;
 	private int gno;
+
 }

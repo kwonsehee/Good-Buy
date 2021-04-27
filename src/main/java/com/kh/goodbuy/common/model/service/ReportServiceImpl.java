@@ -93,5 +93,26 @@ public class ReportServiceImpl implements ReportService{
 
 	}
 
-	
+
+	@Override
+	public int insertUserReport(Report r) {
+		// TODO Auto-generated method stub
+		return rDao.insertUserReport(r);
+	}
+
+	@Override
+	public int addCountReported(String reported_id) {
+		return rDao.addCountReported(reported_id);
+	}
+
+	@Override
+	public String selectMyReportedDate(String user_id) {
+		return rDao.selectMyReportedDate(user_id);
+	}
+
+	@Override
+	public int updateReportedDate(String user_id) {
+		return rDao.updateReportedDate(user_id);
+	}
+
 }

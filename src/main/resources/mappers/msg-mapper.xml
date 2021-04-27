@@ -196,7 +196,46 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</insert>
 	
+	<insert id="insertMsgUser" parameterType="java.util.Map">
+		INSERT ALL
+		INTO MESSENGER
+		(
+		   M_NO
+		, CREATE_DATE
+		, RECEIVER
+		, M_CONTENT
+		
+		, CALLER
+		)
+		VALUES
+		(
+		  M_SEQ.NEXTVAL
+		, DEFAULT
+		, #{seller}
+		, #{mcontent}
 	
+		, #{caller}
+		)
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(	
+		  A_SEQ.NEXTVAL
+		, 7
+		, #{seller}
+		, DEFAULT
+		, M_SEQ.CURRVAL
+		)
+
+		SELECT *FROM DUAL
+	
+	</insert>
 	
 	
 	

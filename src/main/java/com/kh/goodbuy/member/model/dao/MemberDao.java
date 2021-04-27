@@ -66,8 +66,17 @@ public interface MemberDao {
 
 
 
+
 	public int updatememberReport(Member m);
 	
+
+
+	//판매자 팔로우
+	public int insertFollow(String user_id, String seller);
+	//판매자를 팔로우하는지 확인
+	public int isFollow(String seller, String user_id);
+	//팔로우취소
+	public int canselFollow(String user_id, String seller);
 
 
 }

@@ -40,4 +40,10 @@ public class MessengerServiceImpl implements MessengerService{
 	public int insertMsg2(Messenger msg) {
 		return msgDao.insertMsg2(msg);
 	}
+
+	@Override
+	public int insertMsgUser(String mcontent, String user_id, String seller) {
+		// TODO Auto-generated method stub
+		return msgDao.insertMsgUser(mcontent, user_id, seller);
+	}
 }
