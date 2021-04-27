@@ -91,7 +91,7 @@ color: black;
  .start{
     position:relative; 
     bottom: 20px;
-    right: 2%;
+    right: 21%;
      border:1px solid #fff;
      width:100%;
      height: 150px;
@@ -138,18 +138,17 @@ color: black;
        line-height: 40px;
    }
     .kind{
-        position:relative; 
-        top: 30px;
-        right:660%;
+position: relative;
+    top: 45px;
+    right: 917%;
     }
     .title{
-        position:relative; 
-        right: 27%;
-        bottom: 24px;
-       
-       font-size: 24px;    
-       color:#222;
-       margin:0;
+      position: relative;
+ left: 62%;
+    bottom: 17px;
+    font-size: 24px;
+    color: #222;
+    margin: 0;
     }
     
     .bcontent{
@@ -168,27 +167,27 @@ color: black;
         margin: 3% 0 0 5%;
     }
     .Photo{
-        width: 105px;
-        height: 98px;
-        position:relative; 
-        right: 90%;
-        bottom: 10%;
-        margin-right:5px;
-     
-        border-radius: 50%;
-        overflow: hidden;
+         width: 112px;
+    height: 106px;
+    position: relative;
+    right: 67%;
+    bottom: 10%;
+    margin-right: 5px;
+    border-radius: 50%;
+    overflow: hidden;
     }
     .name{
-        position:relative; 
-       right: 39%;
+     position: relative;
+    right: 21%;
+    top: 43%;
         color: black;
     font-size: 24px;
   
 }
 .Date{
-    position:relative; 
-    top: 180%;
-    right: 49%;
+    position: relative;
+    top: 205%;
+    right: 30%;
     color:#696666d0;
    
 }
@@ -202,16 +201,16 @@ color: black;
 
 #police{
     position:relative; 
-  left: 720px;
-  top: 1090px;
+    left: 748px;
+    top: 995px;
     font-size: 18px;
     color: red;
     
 }
 #mypass{
-    position:relative; 
-    left: 740px;
-    top: 1090px;
+    position: relative;
+    left: 748px;
+    top: 995px;
     font-size: 18px;
     color:gray;
 }
@@ -238,19 +237,19 @@ color: black;
 }
  .heart{
     position:relative; 
-   bottom: 1070px;
+  bottom: 937px;
    left: 55%;
  }
  .heartstory{
      font-size:14px;
      color:#696666d0;
     position:relative; 
-    bottom: 1060px;
+    bottom: 928px;
     left: 50%;
  }
 .subdate{
     position:relative; 
-    right: 24%;
+    right: 57%;
 }
 
 
