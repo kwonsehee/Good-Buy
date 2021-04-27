@@ -40,6 +40,13 @@
 						<li class="town">${ r.reported_id }</li>
 						<li class="dot">•</li>
 						<li class="createDate">${r.create_date}</li>
+						<li class="dot">•</li>
+						 <c:if test="${r.re_result.equals('Y')}">
+		                <li class="result" style="color:#05AAD1;">처리 완료</li>
+		                </c:if>
+		                <c:if test="${r.re_result.equals('N')}">
+		                <li class="result" style="color:#949999;">처리 대기</li>
+		                </c:if>
 					</ul>
 
 					<img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${r.re_no},this)">
@@ -49,7 +56,7 @@
 					</ul>
 
 					<div class="subMenu">
-						<a href="#">삭제</a>
+						<a href="#">신고 철회</a>
 					</div>
 
 				</div>
