@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
@@ -209,13 +210,16 @@ public class GoodsController {
 		List<Member> fdlist = mService.selectFollowingList(seller, loginUser.getUser_id());
 		//판매자가 판매하는 상품리스트
 		List<Goods> sellingList = gService.selectSellingList(seller);
+		//판매자에게 달린 리뷰리스트
+		List<Review> reList = gService.selectReviewList(seller);
 		System.out.println("followlist : "+flist);
 		model.addAttribute("follow", follow);
 		model.addAttribute("seller", sellerInfo);
 		model.addAttribute("flist", flist);
 		model.addAttribute("fdlist", fdlist);
 		model.addAttribute("sellingList", sellingList);
-		System.out.println("sellingList : "+ sellingList);
+		model.addAttribute("reList", reList);
+		System.out.println("reList : "+ reList);
 		return "goods/sellerInfo";
 	}
 
@@ -603,4 +607,24 @@ public class GoodsController {
 		
 		return "goods/goodslist";
 	}
+
+//	// review 작성
+//	@PostMapping(value = "/insertReview", produces = "application/json; charset= utf-8")
+//	public @ResponseBody String insertReview(Review r, HttpSession session, HttpServletRequest request) {
+//		
+//		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+//
+//		
+//		r.setWriteId(loginUser.getUser_id());
+//
+//		// Service, Dao, board-mapper.xml 코드 추가
+//		// Service - > 댓글insert 후 댓글 select
+//		List<Reply> rlist = gService.insertReply(r, r.getUserId());
+//		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//
+//		// 응답 작성
+//		return gson.toJson(rlist);
+//
+//	}
 }
