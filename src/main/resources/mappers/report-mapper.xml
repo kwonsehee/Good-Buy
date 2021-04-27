@@ -287,7 +287,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, DEFAULT
 		, #{report_id}
 		, #{reported_id}
-		, 1
+		, 2
 		)
 		INTO USER_REPORT
 		VALUES
