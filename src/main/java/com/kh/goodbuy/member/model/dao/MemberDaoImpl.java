@@ -197,6 +197,24 @@ public class MemberDaoImpl implements MemberDao {
 
 	}
 
+	@Override
+	public List<Member> selectFollowList(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		System.out.println("멤버디에오 :"+user_id+"seller : "+seller);
+		return sqlSession.selectList("memberMapper.selectFollowList", map);
+	}
+
+	@Override
+	public List<Member> selectFollowingList(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		System.out.println("멤버디에오 :"+user_id+"seller : "+seller);
+		return sqlSession.selectList("memberMapper.selectFollowingList", map);
+	}
+
 
 	
 

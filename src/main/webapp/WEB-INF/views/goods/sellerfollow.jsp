@@ -17,7 +17,7 @@
 
 	
 	<div id="followlist_area" style="border : 1px solid blue;">
-			<c:forEach var="f" items="${flist }">
+			<c:forEach var="f" items="${fdlist }">
 				<div class="follow_div">
 					<c:if test="${f.photo eq null }">
 						<img src="${ contextPath }/resources/images/image 57.png">

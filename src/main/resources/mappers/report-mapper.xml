@@ -95,7 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 , RE_RESULT
 		 , REPORT_ID
 		 , REPORTED_ID
-		 , RE_CATE)
+		 , RE_CATE
+		 )
 		VALUES
 		(
 		  REPORT_SEQ.NEXTVAL
@@ -188,25 +189,25 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       ORDER BY
                RE_NO ASC
 	</select>
-	<select id="selectReport2List" resultMap="reportResultSet">
-		SELECT
-		      R.RE_NO
-		     , R.RETITLE
-		     , R.REPORTED_ID
-		     , R.RE_CONTENT
-		     , R.CREATE_DATE
-		     , R.RE_STATUS
-		     , R.RE_RESULT
+<select id="selectReport2List" resultMap="reportResultSet">
+      SELECT
+            R.RE_NO
+           , R.RETITLE
+           , R.REPORTED_ID
+           , R.RE_CONTENT
+           , R.CREATE_DATE
+           , R.RE_STATUS
+           , R.RE_RESULT
              , M.REPORTED
-		  FROM
-		       REPORT R, USER_REPORT UR, USER_INFO M
-		       WHERE
+        FROM
+             REPORT R, USER_REPORT UR, USER_INFO M
+             WHERE
                R.RE_NO = UR.REPORT_NO
                AND UR.USER_ID = M.USER_ID
                AND R.RE_CATE = 2
       ORDER BY
                R.RE_NO ASC
-	</select>
+   </select>
 	<select id="selectReport3List" resultMap="reportResultSet">
 		SELECT
 		       RE_NO

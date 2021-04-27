@@ -1,18 +1,4 @@
 @charset "UTF-8";
-#gbSection{
-	margin-top:4%;
-	margin-bottom:3%;
-	
-}
-#seller_tb, #seller_tb tr, #seller_tb td, #seller_tb th{
-    /* border : 1px solid red; */
-}
-#seller_tb{
-    width: 40%;
-    height: 300px;
-    margin: auto;
-    margin-bottom: 50px;
-}
 
 #follow_Section{
     width: 80%;
@@ -29,11 +15,7 @@
 #follow_tb{
     border-collapse: collapse;
 }
-#follow_Section div a{
-    padding-right: 5%;
-    text-decoration: none;
-    color: #9a9999;
-}
+
 #follow_Section div a:hover{
     cursor: pointer;
     color : black;
@@ -107,6 +89,7 @@ margin-top : 6px;
     margin-bottom: 2%;
 
 }
+
 .follow_div p{
     text-align: center;
 }

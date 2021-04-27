@@ -66,14 +66,14 @@ public class ReportController {
 
 	}
 
-	// 중고상품 신고
+	// 유저 신고
 	@PostMapping("/userinsert")
 	public String userinsert(HttpServletRequest request, @ModelAttribute Report r, Model model) {
 
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		r.setReport_id(loginUser.getUser_id());
 
-		System.out.println("r : " + r);
+		System.out.println("유저신고: " + r);
 
 		int result = rService.insertUserReport(r);
 		if (result > 0) {
