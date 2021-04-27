@@ -27,6 +27,7 @@ public class Board {
 	private int fno;
 	private int postno;
 	private String bfile;
+	private String bphoto;
     
 	} 
 	
