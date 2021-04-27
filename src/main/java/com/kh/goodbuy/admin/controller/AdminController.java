@@ -21,6 +21,7 @@ import com.kh.goodbuy.center.model.vo.Notice;
 import com.kh.goodbuy.center.model.vo.QNA;
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.ReportService;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -158,7 +159,7 @@ public class AdminController {
 
 	}
 
-	// 신고 메인페이지 이동
+	// 신고 디테일페이지 이동
 	@GetMapping("/reportdetail")
 		public String ReportDetailView(@RequestParam int re_no, Model model) {
 
@@ -188,6 +189,38 @@ public class AdminController {
 		}
 		
 	}
+	// 회원 신고
+	@PostMapping("/reportmemberupdate")
+	public String reportmemberUpdate(@ModelAttribute Member m, HttpServletRequest request) {
+		
+		
+		int result = mService.updatememberReport(m);
+		
+		
+		if (result > 0) {
+			return "redirect:/admin/report";
+		} else {
+			throw new NoticeException("신고처리에 실패하였습니다.");
+		}
+		
+	}
+	
+	// 중고상품detail 페이지로
+		@GetMapping("/goodsdetail")
+		public String goGoodsDetailView(HttpServletRequest request,
+				 @RequestParam(value="gno", required=false) int gno,
+				 Model model) {
+			//상품 정보셀렉
+			Goods g = gService.Goodsdetail(gno);
+
+			
+			
+			List<Reply>rlist = gService.selectReplyList(g);
+			model.addAttribute("g", g);
+			System.out.println(rlist);
+			model.addAttribute("rlist", rlist);
+			return "goods/goodsdetail";
+		}
 
 	// 상품관리
 	// -------------------------------------------------------------------------------------------

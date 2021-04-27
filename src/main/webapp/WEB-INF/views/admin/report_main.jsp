@@ -42,7 +42,7 @@
             <table id="table1">
                 <thead>
                   <tr>
-                    <th>신고 번호</th><th>신고 제목</th><th>신고 대상자</th><th>신고 내용</th><th>신고 상태</th>
+                    <th>신고 번호</th><th>신고 제목</th><th>신고 대상자</th><th>신고 사유</th><th>신고 상태</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,7 @@
 						<th><button id="createButton" disabled>처리 완료</button></th>
 					</c:if>
 					<c:if test="${ r.re_result == 'N' }">
-						<th><button id="createButton" disabled>처리 전</button></th>
+						<th><button id="createButton">처리 하기</button></th>
 					</c:if>
                     
                   </tr>
@@ -76,25 +76,27 @@
             <table id="table1">
                 <thead>
                   <tr>
-                    <th>신고 번호</th><th>신고 제목</th><th>신고 대상자</th><th>신고 내용</th><th>신고 상태</th>
+                    <th>신고 번호</th><th>신고 제목</th><th>신고 대상자</th><th>신고 내용</th><th>신고당한 횟수</th><th>신고 상태</th>
                   </tr>
                 </thead>
                 <tbody>
-                  
+                  <form action="${ contextPath }/admin/reportmemberupdate" id="writeForm" method="post">
                   <c:forEach var="r" items="${ list2 }">
-               
-               <tr id="tr_hover1" onclick="selectReport(${r.re_no})">
-                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th>
+                <c:if test="${ r.reported > 1 }">
+               <tr id="tr_hover1">
+                	
+                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.reported }</th><th>${ r.re_content }</th>
                     <c:if test="${ r.re_result == 'Y' }">
 						<th><button id="createButton" disabled>처리 완료</button></th>
 					</c:if>
 					<c:if test="${ r.re_result == 'N' }">
-						<th><button id="createButton" disabled>처리 전</button></th>
+						<th><button id="createButton" >알림 보내기</button></th>
 					</c:if>
-                    
+                 
                   </tr>
+                  </c:if>
             </c:forEach>
-                  
+                  </form>
                 </tbody>
               </table>
 

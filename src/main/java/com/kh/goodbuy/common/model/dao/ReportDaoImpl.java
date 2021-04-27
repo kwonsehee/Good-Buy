@@ -105,4 +105,6 @@ public class ReportDaoImpl implements ReportDao{
 		return sqlSession.selectList("reportMapper.selectReportedList",user_id,rowBounds);
 
 	}
+
+	
 }

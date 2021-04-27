@@ -399,5 +399,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
-
+<update id="updatememberReport" parameterType="Report">
+      UPDATE
+            MEMBER
+         SET
+             
+             REPORTED = REPORT_SEQ.NEXTVAL
+           
+      WHERE
+            USER_ID = #{user_id}
+   </update>
 </mapper>

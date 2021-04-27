@@ -125,6 +125,12 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.deleteReply(r);
 	}
 	
+	@Override
+	public int updatememberReport(Member m) {
+		// TODO Auto-generated method stub
+		return mDao.updatememberReport(m);
+	}
+	
 
 	
 	

@@ -92,4 +92,6 @@ public class ReportServiceImpl implements ReportService{
 		return rDao.selectReportedList(user_id, pi);
 
 	}
+
+	
 }

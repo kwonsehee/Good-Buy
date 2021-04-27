@@ -63,6 +63,10 @@ public interface MemberDao {
 	public int selectReplyCount(String user_id);
 	// 마이페이지 중고상품 내댓글 삭제 
 	public int deleteReply(Reply r);
+
+
+
+	public int updatememberReport(Member m);
 	
 
 

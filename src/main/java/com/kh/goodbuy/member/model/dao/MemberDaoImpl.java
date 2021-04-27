@@ -167,6 +167,12 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.deleteReply", r);
 	}
 
+	@Override
+	public int updatememberReport(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updatememberReport",m);
+	}
+
 
 	
 
