@@ -150,6 +150,12 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectFollowingList(seller, user_id);
 	}
 	
+	@Override
+	public int updatememberReport(Member m) {
+		// TODO Auto-generated method stub
+		return mDao.updatememberReport(m);
+	}
+	
 
 	
 	

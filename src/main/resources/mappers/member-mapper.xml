@@ -410,6 +410,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
+
+<update id="updatememberReport" parameterType="Report">
+      UPDATE
+            MEMBER
+         SET
+             
+             REPORTED = REPORT_SEQ.NEXTVAL
+           
+      WHERE
+            USER_ID = #{user_id}
+   </update>
+
 	<insert id="insertFollow"  parameterType="java.util.Map">
 	INSERT INTO
 	FOLLOW
@@ -430,6 +442,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
    		  AND FOLLOWING = #{seller}
 	
 	</delete>
+
 	
 	<select id="selectFollowList" parameterType="java.util.Map" resultMap="Follow">
 		SELECT 
@@ -465,4 +478,5 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  ON (F.FOLLOWING = U.USER_ID)
 	   WHERE F.FOLLOWER =  #{seller}
 	</select>
+
 </mapper>

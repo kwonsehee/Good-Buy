@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.business.model.service.BusinessService;
+import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.MessengerService;
 import com.kh.goodbuy.common.model.service.ReportService;
@@ -56,6 +58,8 @@ public class MypageController {
 	private MessengerService msgService;
 	@Autowired
 	private ReportService reService;
+	@Autowired
+	private BusinessService bService;
 	
 	
 	// 마이페이지 메인 화면으로
@@ -340,12 +344,26 @@ public class MypageController {
 	}
 	
 	
-	
-	
-	
 	// 관심목록 - 지역업체 화면
 	@GetMapping("/likeShopList")
-	public ModelAndView showLikeShopList(ModelAndView mv) {
+	public ModelAndView showLikeShopList(@ModelAttribute("loginUser") Member loginUser,ModelAndView mv,
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		
+		listCount = bService.selectMyFavShopCount(loginUser.getUser_id());
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Business> blist = bService.selectMyFavShopList(loginUser.getUser_id(),pi);
+		
+		System.out.println("단골 추가 가게 카운트  : " + listCount);
+		System.out.println("단골 추가 가게 리스트  : " + blist);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("blist", blist);
+		
 		mv.setViewName("mypage/likeShopList");
 		return mv;
 	}

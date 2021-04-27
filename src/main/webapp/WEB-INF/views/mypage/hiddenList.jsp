@@ -22,21 +22,26 @@
 		<c:if test="${ hiddenList != null }">
         <div class="listWrap">
             <c:forEach var="slist" items="${ hiddenList }">
-            <div class="eachListWrap"  onclick="selectGoods(${slist.gno})" style="cursor:pointer;">
-                <img src="${ contextPath }/resources/images/goodupload/${slist.changeName}" class="gPhoto">
-                <p class="gtitle">${ slist.gtitle }</p>
-                <ul>
+            <div class="eachListWrap" style="cursor:pointer;">
+                <img src="${ contextPath }/resources/images/goodupload/${slist.changeName}" class="gPhoto" onclick="selectGoods(${slist.gno})">
+                <p class="gtitle" onclick="selectGoods(${slist.gno})">${ slist.gtitle }</p>
+                <ul onclick="selectGoods(${slist.gno})">
                     <li class="town">${ slist.address_3 }</li>
                     <li class="dot">•</li>
                     <li class="createDate">${ slist.createDate }</li>
                 </ul>
-                <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${slist.gno})">
+                <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${slist.gno},this)">
                 <div class="gStatus"><p class="statusText">숨김</p></div>
                 <p class="gprice">${ slist.gprice }</p>
                 <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
                 <p class="replyCount">${ slist.rep_cnt }</p>
                 <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
-                <p class="likeCount">${ slist.like_cnt }</p>
+                <p class="likeCount">${ slist.likecnt }</p>
+                 <div class="subMenu">
+		            <a href="#">게시글 수정</a>
+		            <a href="#">판매중으로 변경</a>
+		            <a href="#">삭제</a>
+		        </div>
             </div>
         </c:forEach>
         </div>
@@ -107,11 +112,8 @@
         </div>
         
         </c:if>
-        <div class="subMenu">
-            <a href="#">게시글 수정</a>
-            <a href="#">판매중으로 변경</a>
-            <a href="#">삭제</a>
-        </div>
+        
+       
     </section>
     
 	
@@ -122,10 +124,10 @@
 
 	<script>
 	 <!-- more 버튼 클릭 시 -->
-     function showMenu(gno){
-  	// 이벤트 전파 버블링 방지
+     function showMenu(gno,e){
+  		// 이벤트 전파 버블링 방지
 		  event.stopPropagation();
-          $(".subMenu").slideDown(200);
+		  $(e).siblings(".subMenu").slideDown(200);
           goUpdateGoods(gno);
           changeStatus(gno);
           goDeleteGoods(gno);
@@ -139,7 +141,7 @@
      
        
    	   // 상품 디테일뷰
-       function selectGoods(gno){
+        function selectGoods(gno){
    		location.href="${contextPath}/goods/detail?gno="+gno;
    	   }
     

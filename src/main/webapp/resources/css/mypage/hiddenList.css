@@ -73,6 +73,7 @@
 }
 
 .eachListWrap ul {
+	height:50px;
 	margin: 0;
 	padding: 0;
 	margin-left: 150px;
@@ -170,6 +171,9 @@
 	background: #F9F9F9;
 	text-align: center;
 	display: none;
+	margin-left:101%;
+	margin-top:-60px;
+	z-index:1;
 }
 
 .subMenu a {

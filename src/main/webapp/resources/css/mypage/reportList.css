@@ -86,7 +86,7 @@
 }
 
 .firstUl li:nth-child(2), .firstUl li:nth-child(3), .firstUl li:nth-child(4),
-	.firstUl li:nth-child(5) {
+	.firstUl li:nth-child(5), .firstUl li:nth-child(6) {
 	line-height: 40px;
 }
 

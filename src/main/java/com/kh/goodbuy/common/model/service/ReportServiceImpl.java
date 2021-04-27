@@ -93,6 +93,7 @@ public class ReportServiceImpl implements ReportService{
 
 	}
 
+
 	@Override
 	public int insertUserReport(Report r) {
 		// TODO Auto-generated method stub
@@ -113,4 +114,5 @@ public class ReportServiceImpl implements ReportService{
 	public int updateReportedDate(String user_id) {
 		return rDao.updateReportedDate(user_id);
 	}
+
 }
