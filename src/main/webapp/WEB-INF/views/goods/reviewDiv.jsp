@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,51 +9,33 @@
 </head>
 <body>
       <table id="review_tb">
+      <c:forEach var="r" items="${ reList}">
                 <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
+                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;">
+                    <c:if test="${r.photo eq null }">
+                    <img src="${ contextPath }/resources/images/person.png">
+                	</c:if>
+                	<c:if test="${r.photo ne null }">
+                    <img src="${ contextPath }/resources/images/userProfilePhoto/${r.photo}">
+                	</c:if>
+                	</td>
+                    <td><span>${r.nickName}</span>&nbsp;<span>${r.reviewDate }</span></td>
                     <td class="reviewStar">★ ★ ★ ★ ★</td>
                 </tr> 
                 <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
+                    <td colspan="2">${r.content }</td>
                 </tr>        
-                <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
-                    <td class="reviewStar">★ ★ ★ ★ ★</td>
-                </tr> 
-                <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
-                </tr>        
-                <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
-                    <td class="reviewStar">★ ★ ★ ★ ★</td>
-                </tr> 
-                <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
-                </tr>        
-                <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
-                    <td class="reviewStar">★ ★ ★ ★ ★</td>
-                </tr> 
-                <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
-                </tr>                 
+      </c:forEach>       
+                 
             </table>
        
 		
 
 		
-        <form method="POST">
-           
+        <form method="POST" >
+           <input type="hidden" name="user_id" value="${ seller.user_id } "/>
             <div id="reviewwrite">
-                <span id="star" style="padding-left: 10%;">
+                <span id="star" style="padding-left: 10%;" name="grade">
                     <a value="1" style="padding-right: 0;">★</a> 
                     <a  value="2" style="padding-right: 0;">★</a> 
                     <a  value="3" style="padding-right: 0;">★</a> 
@@ -65,7 +48,7 @@
              <span>데세헤</span> 
             </div>
             
-			<textarea id="reviewWriteArea" placeholder="거래 후기를 작성해 주세요."></textarea>
+			<textarea id="reviewWriteArea" name="content" placeholder="거래 후기를 작성해 주세요."></textarea>
 			<span id="counter" style="padding-left: 10%;">0 / 1000</span>
             <button type="submit" id="writeBtn">등록하기</button>
         

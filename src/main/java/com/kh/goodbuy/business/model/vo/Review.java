@@ -21,5 +21,6 @@ public class Review {
 	private String grade;
 	private String userId;
 	private String nickName;
-	
+	private String writeId;
+	private String photo;
 }

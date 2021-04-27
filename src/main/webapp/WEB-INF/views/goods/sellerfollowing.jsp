@@ -16,7 +16,7 @@
 <body>
 
 	
-	<div id="followlist_area" style="border : 1px solid blue;">
+	
 			<c:forEach var="f" items="${flist }">
 				<div class="follow_div">
 					<c:if test="${f.photo eq null }">
@@ -45,7 +45,7 @@
 				</div>
 			</c:forEach>
 
-</div>
+
 
 
 	<script>
@@ -60,7 +60,7 @@
        /* 	document.getElementById("btn_"+following).value=''; */
       	  
            $.ajax({
-              url : "${contextPath}/member/follow",
+              url : "${contextPath}/member/follow", 
               data : {seller : following},
               type : "post",
               success : function(data){

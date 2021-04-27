@@ -12,7 +12,7 @@
 <body>
 
 	
-	<div id="followlist_area" style="border : 1px solid blue;">
+	
 			<c:forEach var="f" items="${sellingList }">
 				<div class="follow_div">
 					
@@ -28,7 +28,7 @@
 				</div>
 			</c:forEach>
 
-</div>
+
 
 
 	<script>
