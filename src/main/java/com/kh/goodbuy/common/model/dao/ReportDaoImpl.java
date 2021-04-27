@@ -106,6 +106,7 @@ public class ReportDaoImpl implements ReportDao{
 
 	}
 
+
 	@Override
 	public int insertUserReport(Report r) {
 
@@ -126,4 +127,5 @@ public class ReportDaoImpl implements ReportDao{
 	public int updateReportedDate(String user_id) {
 		return sqlSession.update("reportMapper.updateReportedDate", user_id);
 	}
+
 }

@@ -140,6 +140,12 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.canselFollow(user_id, seller);
 	}
 	
+	@Override
+	public int updatememberReport(Member m) {
+		// TODO Auto-generated method stub
+		return mDao.updatememberReport(m);
+	}
+	
 
 	
 	
