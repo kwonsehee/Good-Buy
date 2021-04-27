@@ -27,8 +27,8 @@ public class Report {
 	private String re_result;
 	private String report_id;
 
-
-	private Integer re_cate;
+	
+	private int re_cate;
 
 	private String reported_id;
 	//private int re_cate;

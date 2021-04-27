@@ -61,25 +61,25 @@
            
             	<c:choose>
             	<c:when test="${ g.gstatus eq 'Y'}">
-                  <tr id="tr_hover1" onclick="selectProduct(${g.gno})">
+                  <tr id="tr_hover1">
                     <th><img src="${ contextPath }/resources/images/goodupload/${g.changeName}" id="src1"></th>
                     <th>${ g.gtitle }</th>
                     <th>${ g.gprice }</th>
                     <th>${ g.createDate }</th>
                     <th>${ g.user_id }</th>
-                    <td></td>
-                    <th><button id="createButton1" onclick="location.href='${ contextPath }/admin/productdelete?gno=${ goods.gno }'">상품 삭제하기</button></th>
+                    <td><button id="createButton2" onclick="location.href='${ contextPath }/admin/productupdate?gno=${ g.gno }'">신고 처리하기</button></td>
+                    <th><button id="createButton1" onclick="location.href='${ contextPath }/admin/productdelete?gno=${ g.gno }'">상품 삭제하기</button></th>
                   </tr>
                   </c:when>
                   <c:when test="${ g.gstatus eq 'R'}">
-                  <tr id="tr_hover1" onclick="selectProduct(${g.gno})">
+                  <tr id="tr_hover1" >
                     <th><img src="${ contextPath }/resources/images/goodupload/${g.changeName}" id="src1"></th>
                     <th>${ g.gtitle }</th>
                     <th>${ g.gprice }</th>
                     <th>${ g.createDate }</th>
                     <th>${ g.user_id }</th>
-                    <td><button id="createButton1" disable>신고 처리됨</button></td>
-                    <th><button id="createButton1" onclick="location.href='${ contextPath }/admin/productdelete?gno=${ goods.gno }'">상품 삭제하기</button></th>
+                    <td><button id="createButton3" disable>신고 처리됨</button></td>
+                    <th><button id="createButton1" onclick="location.href='${ contextPath }/admin/productdelete?gno=${ g.gno }'">상품 삭제하기</button></th>
                   </tr>
                   </c:when>
                   </c:choose>

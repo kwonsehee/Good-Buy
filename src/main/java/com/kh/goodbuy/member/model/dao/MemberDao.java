@@ -78,6 +78,7 @@ public interface MemberDao {
 	//팔로우취소
 	public int canselFollow(String user_id, String seller);
 
+
 	//판매자를 팔로우하는 멤버리스트
 	public List<Member> selectFollowList(String seller, String user_id);
 	//판매자가 팔로우하는 멤버리스트
@@ -91,5 +92,6 @@ public interface MemberDao {
 	// 로그인유저의 팔로워 카운트 
 	public int selectMyFollowerCount(String user_id);
 			
+
 
 }
