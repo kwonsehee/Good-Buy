@@ -107,7 +107,6 @@
                     <li><a href="${contextPath }/goods/list">중고거래</a></li>
                     <li><a href="${contextPath }/business/list">내근처</a></li>
                     <li><a href="${ contextPath }/board/main">동네생활</a></li>
-                    <li><a href="#">공지사항</a></li>
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
                    
                      <c:if test="${ !empty sessionScope.loginUser }">
@@ -116,8 +115,9 @@
                     <c:if test="${ empty sessionScope.loginUser }">
                     <li><a href="#" onclick="alert('로그인을 해주세요 :)')">마이페이지</a></li>
                     </c:if>
-                    
+                    <c:if test="${ loginUser.user_type == 0 }">
                     <li><a href="${ contextPath }/admin/join">관리자페이지</a></li>
+                    </c:if>
                 </ul>
             </div>
         </div>

@@ -44,7 +44,6 @@
           padding-top : 60px;
           padding-left: 10%;
           padding-right: 10%;
-          margin-bottom: 50px;
       }
       
   #tr_hover1:hover{
@@ -64,8 +63,9 @@
   }
   #div4{
       vertical-align: top;
-      padding-left: 80%;
-      padding-botton : 10%;
+      text-align : center;
+      padding-left: 67%;
+      padding-bottom : 5%;
   }
   #createButton{
       font-weight: bold;
@@ -80,7 +80,7 @@
         background: black;
         border-radius: 20px;
         color:white;
-     margin-top: 20px;
+     
      margin-left: 50px;
 
 
@@ -99,7 +99,7 @@
           padding-top : 60px;
           padding-left: 10%;
           padding-right: 10%;
-          padding-bottom : 10%;
+          padding-bottom : 5%;
       }
       textarea {
         border: black 2px solid;
@@ -114,3 +114,4 @@
         padding-right: 40px;
  
       }
+      

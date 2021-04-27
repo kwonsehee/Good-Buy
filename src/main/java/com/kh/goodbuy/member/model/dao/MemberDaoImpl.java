@@ -197,6 +197,7 @@ public class MemberDaoImpl implements MemberDao {
 
 	}
 
+
 	@Override
 	public List<Member> selectFollowList(String seller, String user_id) {
 		Map<String, Object> map = new HashMap <String, Object>();
@@ -214,6 +215,7 @@ public class MemberDaoImpl implements MemberDao {
 		System.out.println("멤버디에오 :"+user_id+"seller : "+seller);
 		return sqlSession.selectList("memberMapper.selectFollowingList", map);
 	}
+
 
 
 	

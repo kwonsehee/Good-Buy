@@ -95,6 +95,13 @@ public class TownDaoImpl implements TownDao{
 	}
 
 
+	@Override
+	public List<Town> selectSeoul() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("townMapper.selectSeoul");
+	}
+
+
 
 
 

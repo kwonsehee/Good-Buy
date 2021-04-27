@@ -98,7 +98,7 @@
     
         </div>
         <div id="div5">
-          <button id="createButton2" onClick="location.href='admin_product_detail.html'">상품 상세</button>
+          <button id="createButton2" onclick="location.href='${ contextPath }/admin/goodsdetail?gno=${ report.gno }'">상품 상세</button>
           <form action="${ contextPath }/admin/reportupdate" id="writeForm" method="post">
           <input type="hidden" name="re_no" value="${ report.re_no }"/>
           <input type="hidden" name="reported_id" value="${ report.reported_id }">

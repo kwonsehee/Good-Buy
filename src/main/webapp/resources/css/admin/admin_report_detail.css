@@ -136,8 +136,8 @@ border: 0;
   background: black;
   border-radius: 20px;
   color:white;
-margin-left: 110px;
-margin-right: 110px;
+float: left;
+margin-left : 25%;
 
 
 }
