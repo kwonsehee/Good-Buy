@@ -32,8 +32,9 @@
                 </ul>
                
                 <ul class="content_ul">
-                    <li>${ l.rcontent }</li>                  
-                    <li>${ l.createDate }</li>
+                    <li>${ l.rcontent }</li>   
+                    <c:set var="date" value="${ l.createDate }"/> 
+                    <li>${ date.substring(0,10) }</li>
                 </ul>     
                 <div class="subMenu">
                		 <a href="#">삭제</a>
@@ -138,6 +139,11 @@
 	    	   location.href="${contextPath}/mypage/deleteReply?rno="+rno;
     	   });
        }
+       
+       $(function(){
+    	   var date = $(".date").text();
+    	   console.log(date);
+       });
     </script>
 	
 </body>
