@@ -86,6 +86,8 @@ public interface MemberService {
 		public int isFollow(String seller, String user_id);
 		//팔로우취소
 		public int canselFollow(String user_id, String seller);
+		//통계
+		
 		
 
 }

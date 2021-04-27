@@ -30,7 +30,12 @@
             
             <button id="button1"><a id="a1" href="${ contextPath }/center/join">공지사항</a></button>
             <button id="button1"><a id="a2" href="${ contextPath }/center/FAQ">FAQ</a></button>
+             <c:if test="${ !empty sessionScope.loginUser }">
             <button id="button1"><a id="a3" href="${ contextPath }/center/QNA">문의</a></button>
+            </c:if>
+            <c:if test="${ empty sessionScope.loginUser }">
+            <button id="button1"><a id="a3" href="${ contextPath }/center/QNA">문의1</a></button>
+            </c:if>
         </div>
 
 

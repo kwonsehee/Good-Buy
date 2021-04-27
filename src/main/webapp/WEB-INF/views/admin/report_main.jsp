@@ -38,7 +38,7 @@
         </div>
 
         <div id="div3">
-        <p>상품 신고</p>
+        <h1 id="head1" style="color : black;">상품 신고</h1>
             <table id="table1">
                 <thead>
                   <tr>
@@ -72,7 +72,7 @@
 
         <div id="div3">
             
-        <p>회원 신고</p>
+        <h1 id="head1" style="color : black;">회원 신고</h1>
             <table id="table1">
                 <thead>
                   <tr>
@@ -82,10 +82,10 @@
                 <tbody>
                   <form action="${ contextPath }/admin/reportmemberupdate" id="writeForm" method="post">
                   <c:forEach var="r" items="${ list2 }">
-                <c:if test="${ r.reported > 1 }">
+                
                <tr id="tr_hover1">
                 	
-                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.reported }</th><th>${ r.re_content }</th>
+                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th><th>${ r.reported }</th>
                     <c:if test="${ r.re_result == 'Y' }">
 						<th><button id="createButton" disabled>처리 완료</button></th>
 					</c:if>
@@ -94,7 +94,7 @@
 					</c:if>
                  
                   </tr>
-                  </c:if>
+                  
             </c:forEach>
                   </form>
                 </tbody>
@@ -107,7 +107,7 @@
 
 
         <div id="div3">
-        <p>내 동네 게시글 신고</p>
+        <h1 id="head1" style="color : black;">내 동네 게시글 신고</h1>
             <table id="table1">
                 <thead>
                   <tr>

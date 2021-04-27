@@ -432,5 +432,5 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
    		  AND FOLLOWING = #{seller}
 	
 	</delete>
-
+	
 </mapper>

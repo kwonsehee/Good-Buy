@@ -33,4 +33,6 @@ public interface TownDao {
 
 	int updateMyTown(MyTown mt);
 
+	List<Town> selectSeoul();
+
 }

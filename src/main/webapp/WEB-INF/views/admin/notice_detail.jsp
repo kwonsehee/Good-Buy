@@ -53,7 +53,8 @@
             
             
         </div>
-        
+        </div>
+        <div id="div4">
 	<button id="createButton" type="submit" style="float:left; text-align:center">
                	 수 정
             </button>
@@ -63,8 +64,8 @@
                	 삭 제
             </button>
             
-        </div>
-	
+        
+	</div>
 
         
     </section>

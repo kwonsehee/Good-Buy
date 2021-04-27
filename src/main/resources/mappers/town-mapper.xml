@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="address_1" column="ADDRESS_1"/>
 		<result property="address_2" column="ADDRESS_2"/>
 		<result property="address_3" column="ADDRESS_3"/>
+		<result property="cnt" column="CNT"/>
 	</resultMap>
 
 	
@@ -199,7 +200,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   AND 	
 		   		MYTOWN_TYPE = 1
 	</update>
-	
+	<select id="selectSeoul" parameterType="int" resultMap="townResultSet">
+		SELECT ADDRESS_1, COUNT(ADDRESS_1) CNT
+FROM USER_INFO M, TOWN T, MY_TOWN MT
+WHERE M.USER_ID = MT.USER_ID
+AND MT.T_NO = T.T_NO
+GROUP BY ADDRESS_1
+
+	</select>
 	
 	
 </mapper>

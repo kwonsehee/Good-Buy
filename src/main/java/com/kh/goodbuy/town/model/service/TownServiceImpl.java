@@ -81,6 +81,12 @@ public class TownServiceImpl implements TownService {
 		return tDao.updateMyTown(mt);
 	}
 
+	@Override
+	public List<Town> selectSeoul() {
+		// TODO Auto-generated method stub
+		return tDao.selectSeoul();
+	}
+
 	
 
 	

@@ -45,4 +45,6 @@ public interface TownService {
 	// 회원정보 수정시 마이타운 수정
 	int updateMyTown(MyTown mt);
 	
+	List<Town> selectSeoul();
+	
 }
