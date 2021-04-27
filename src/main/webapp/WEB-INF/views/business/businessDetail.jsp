@@ -91,44 +91,44 @@
                     <label id="reviewTitle">후기</label>
                     <label id="reviewCount">${business.reviewCount }</label>
                     <c:if test="${business.avgGrade == 5 }">
-                    <img src="${contextPath}/resources/images/business/별점5.png" height="12px" >
+                    <img id="avgGrade" src="${contextPath}/resources/images/business/별점5.png" height="12px" >
                     </c:if>
                     <c:if test="${business.avgGrade == 4 }">
-                    <img src="${contextPath}/resources/images/business/별점4.png" height="12px" >
+                    <img id="avgGrade" src="${contextPath}/resources/images/business/별점4.png" height="12px" >
                     </c:if>
                     <c:if test="${business.avgGrade == 3 }">
-                    <img src="${contextPath}/resources/images/business/별점3.png" height="12px" >
+                    <img id="avgGrade" src="${contextPath}/resources/images/business/별점3.png" height="12px" >
                     </c:if>
                     <c:if test="${business.avgGrade == 2 }">
-                    <img src="${contextPath}/resources/images/business/별점2.png" height="12px" >
+                    <img id="avgGrade" src="${contextPath}/resources/images/business/별점2.png" height="12px" >
                     </c:if>
                     <c:if test="${business.avgGrade == 1 }">
-                    <img src="${contextPath}/resources/images/business/별점1.png" height="12px" >
+                    <img id="avgGrade" src="${contextPath}/resources/images/business/별점1.png" height="12px" >
                     </c:if>
                     <c:if test="${business.avgGrade == 0 }">
-                    <img src="${contextPath}/resources/images/business/별점0.png" height="12px" >
+                    <img id="avgGrade" src="${contextPath}/resources/images/business/별점0.png" height="12px" >
             	 	</c:if>
             <c:forEach var="r" items="${ rList }">
                 <div id="firstArea">
 
 	                <label id="writer"><img src="${contextPath}/resources/images/business/미니프로필샘플.png"> ${r.nickName }</label>
 	                 <c:if test="${r.grade == 5 }">
-                    <img src="${contextPath}/resources/images/business/별점5.png" height="12px" >
+                    <img  id="grade" src="${contextPath}/resources/images/business/별점5.png" height="12px" >
                     </c:if>
                     <c:if test="${r.grade == 4 }">
-                    <img src="${contextPath}/resources/images/business/별점4.png" height="12px" >
+                    <img id="grade" src="${contextPath}/resources/images/business/별점4.png" height="12px" >
                     </c:if>
                     <c:if test="${r.grade == 3 }">
-                    <img src="${contextPath}/resources/images/business/별점3.png" height="12px" >
+                    <img id="grade" src="${contextPath}/resources/images/business/별점3.png" height="12px" >
                     </c:if>
                     <c:if test="${r.grade == 2 }">
-                    <img src="${contextPath}/resources/images/business/별점2.png" height="12px" >
+                    <img  id="grade" src="${contextPath}/resources/images/business/별점2.png" height="12px" >
                     </c:if>
-                    <c:if test="${r.grade == 1 }">
-                    <img src="${contextPath}/resources/images/business/별점1.png" height="12px" >
+                    <c:if  test="${r.grade == 1 }">
+                    <img id="grade" src="${contextPath}/resources/images/business/별점1.png" height="12px" >
                     </c:if>
                     <c:if test="${r.grade == 0 }">
-                    <img src="${contextPath}/resources/images/business/별점0.png" height="12px" >
+                    <img id="grade" src="${contextPath}/resources/images/business/별점0.png" height="12px" >
             	 	</c:if>
 	                <p id="reviewInfo">${r.content} </p>
 	                
@@ -228,19 +228,82 @@
       $("#reviewInsertBtn").on("click",function(){
     	  var content = $("#reviewInput").val();
     	  var shopNo =${business.shopNo};
-    	  console.log(grade);
+    	  console.log(grade+1111);
     	  console.log(star);
-    		
-    	
-    	  
+    	  var reviewArea = $(".reviewArea");
+    	  var p = "";
+    	  var div = "";
+
     	  $.ajax({
     		 url : "${ contextPath }/business/review/insert" ,
     		 data : {content : content , shopNo : shopNo, grade : grade},
     		 type : "post",
+    		 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
     		 dataType : "json",
     		 success : function(data){
     			 console.log(data);
-    			 console.log(grade);
+    			
+    			 console.log(data.length);
+    			 
+    			
+    			 
+    			 console.log(reviewArea);
+    			 
+    			 
+
+    			 var grade1 = "";
+    			 
+    			 var reviewCount = $("#reviewCount").text(data[0].reviewCount);
+    			 var avgGrade = "";
+    			 if(data[0].avgGrade == 0){
+    				 avgGrade = $("#avgGrade").attr("src","${contextPath}/resources/images/business/별점0.png");
+    			 }else if(data[0].avgGrade == 1){
+    				 avgGrade = $("#avgGrade").attr("src","${contextPath}/resources/images/business/별점1.png");
+    			 }else if(data[0].avgGrade == 2){
+    				 avgGrade = $("#avgGrade").attr("src","${contextPath}/resources/images/business/별점2.png");
+    			 }else if(data[0].avgGrade == 3){
+    				 avgGrade = $("#avgGrade").attr("src","${contextPath}/resources/images/business/별점3.png");
+    			 }else if(data[0].avgGrade == 4){
+    				 avgGrade = $("#avgGrade").attr("src","${contextPath}/resources/images/business/별점4.png");
+    			 }else if(data[0].avgGrade == 5){
+    				 avgGrade = $("#avgGrade").attr("src","${contextPath}/resources/images/business/별점5.png");
+    			 }
+    			 
+    			 for(var i in data){
+    				 
+    			 console.log(data[i].nickName);
+    			 var writer =$("#writer").text(data[i].nickName);
+    			
+    			 if(data[i].grade == 0){
+    				 grade1 = $("#grade").attr("src","${contextPath}/resources/images/business/별점0.png");
+    			 }else if(data[i].grade == 1){
+    				 grade1 = $("#grade").attr("src","${contextPath}/resources/images/business/별점1.png");
+    			 }else if(data[i].grade == 2){
+    				 grade1 = $("#grade").attr("src","${contextPath}/resources/images/business/별점2.png");
+    			 }else if(data[i].grade == 3){
+    				 grade1 = $("#grade").attr("src","${contextPath}/resources/images/business/별점3.png");
+    			 }else if(data[i].grade == 4){
+    				 grade1 = $("#grade").attr("src","${contextPath}/resources/images/business/별점4.png");
+    			 }else if(data[i].grade == 5){
+    				 grade1 = $("#grade").attr("src","${contextPath}/resources/images/business/별점5.png");
+    			 }
+					
+    			 p = data[i].content;
+    			 $("#reviewInfo").text(p);
+/*     			div = $("#firstArea").append(writer,grade1,p);
+    			 $(".reviewArea").append(reviewCount,avgGrade,div); */
+    			 console.log(reviewCount);
+    			 console.log(avgGrade);
+    			 console.log(div);
+    			 console.log(reviewArea);
+    			 console.log(writer);
+    			 console.log(data[i].content);
+				console.log(data[i].grade);
+    			 
+    			 }
+    			 
+				
+    			 
     		 },
     		 error : function(e){
     			 

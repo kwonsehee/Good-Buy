@@ -11,6 +11,7 @@ import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
+import com.kh.goodbuy.business.model.vo.Payment;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
@@ -224,6 +225,35 @@ public class BusinessDaoImpl implements BusinessDao {
 	}
 
 	@Override
+	public int cashInsert(Payment p) {
+		
+		return sqlSession.insert("businessMapper.cashInsert",p);
+	}
+
+	@Override
+	public int cashUpdate(Payment p) {
+		
+		return sqlSession.update("businessMapper.cashUpdate",p);
+	}
+
+	@Override
+	public int selectViewCnt(int shopNo) {
+		
+		return sqlSession.selectOne("businessMapper.selectViewCnt",shopNo);
+	}
+
+	@Override
+	public int updateCashUse(Map<String, Integer> map) {
+		
+		return sqlSession.update("businessMapper.updateCashUse",map);
+	}
+
+	@Override
+	public int updateViewCnt(Map<String, Integer> map) {
+		
+		return sqlSession.update("businessMapper.updateViewCnt",map);
+  }
+  @Override
 	public int selectMyFavShopCount(String user_id) {
 		return sqlSession.selectOne("businessMapper.selectMyFavShopCount",user_id);
 	}
@@ -231,6 +261,7 @@ public class BusinessDaoImpl implements BusinessDao {
 	@Override
 	public List<Business> selectMyFavShopList(String user_id, PageInfo pi) {
 		return sqlSession.selectList("businessMapper.selectMyFavShopList",user_id);
+
 	}
 
 	

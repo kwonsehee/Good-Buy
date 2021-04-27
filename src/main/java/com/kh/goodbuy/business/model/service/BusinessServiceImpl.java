@@ -11,6 +11,7 @@ import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
+import com.kh.goodbuy.business.model.vo.Payment;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
@@ -269,16 +270,55 @@ public class BusinessServiceImpl implements BusinessService{
 
 
 	@Override
+	public int cashInsert(Payment p) {
+		
+		return bDao.cashInsert(p);
+  }
+  	@Override
 	public int selectMyFavShopCount(String user_id) {
 		return bDao.selectMyFavShopCount(user_id);
+
 	}
 
 
 
 
 	@Override
+	public int cashUpdate(Payment p) {
+		
+		return bDao.cashUpdate(p);
+	}
+
+
+
+
+	@Override
+	public int selectViewCnt(int shopNo) {
+		
+		return bDao.selectViewCnt(shopNo);
+	}
+
+
+
+
+	@Override
+	public int updateCashUse(Map<String, Integer> map) {
+		
+		return bDao.updateCashUse(map);
+	}
+
+
+
+
+	@Override
+	public int updateViewCnt(Map<String, Integer> map) {
+		
+		return bDao.updateViewCnt(map);
+  }
+  @Override
 	public List<Business> selectMyFavShopList(String user_id, PageInfo pi) {
 		return bDao.selectMyFavShopList(user_id, pi);
+
 	}
 
 

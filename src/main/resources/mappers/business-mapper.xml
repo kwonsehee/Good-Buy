@@ -74,6 +74,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="grade" column="GRADE"/>
 		<result property="userId" column="USER_ID"/>
 		<result property="nickName" column="NICKNAME"/>
+		<result property="reviewCount" column="후기수"/>
+		<result property="avgGrade" column="평균별점"/>
 	</resultMap>
 
 
@@ -639,6 +641,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			,GRADE
 			,R.USER_ID
 			,NICKNAME
+             ,(SELECT COUNT(R.REVIEW_NO)
+              FROM REVIEW R
+              JOIN BUS_REVIEW BR ON(R.REVIEW_NO = BR.REVIEW_NO)
+              WHERE BR.SHOP_NO = B.SHOP_NO
+              GROUP BY BR.SHOP_NO
+              )후기수
+              ,(SELECT ROUND(AVG(GRADE))
+              FROM REVIEW R 
+              JOIN BUS_REVIEW BR ON(R.REVIEW_NO = BR.REVIEW_NO) 
+              WHERE BR.SHOP_NO = B.SHOP_NO
+              GROUP BY BR.SHOP_NO
+              )평균별점
 		FROM REVIEW R
 		JOIN BUS_REVIEW BR ON(BR.REVIEW_NO = R.REVIEW_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = BR.SHOP_NO)
@@ -974,6 +988,74 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</insert>
 	
+
+	<insert id="cashInsert" parameterType="Payment">
+		INSERT ALL 
+		INTO PAYMENT
+		(
+		    PID
+		  ,	PAYMENT
+		  , PAY_DATE
+		  , PAY_WAY
+		)
+		VALUES
+		(
+		    PAY_SEQ.NEXTVAL
+		  , #{payment}
+		  , DEFAULT
+		  , 1	
+		)
+		INTO AD_CHARGE
+		(
+		     PID
+		   , SHOP_NO
+		)
+		VALUES
+		(
+			  PAY_SEQ.CURRVAL
+		   , #{shopNo}
+		)
+		SELECT * FROM DUAL
+	</insert>
+	
+	<update id="cashUpdate" parameterType="Payment">
+		UPDATE
+			BUS_INFO
+		SET
+			AD_CASH = AD_CASH + #{payment}
+		WHERE
+			SHOP_NO	 = #{shopNo}
+	</update>
+	
+	<select id="selectViewCnt" parameterType="_int" resultType="_int">
+		SELECT
+			VIEW_CNT
+		FROM
+			 AD
+		WHERE
+			SHOP_NO =  #{shopNo}
+		
+	
+	</select>
+	
+	<update id="updateCashUse" parameterType="java.util.Map">
+		UPDATE
+			BUS_INFO
+		SET
+			AD_CASH = AD_CASH - #{cash}
+		WHERE
+			SHOP_NO = #{shopNo}
+	</update>
+	
+	<update id="updateViewCnt" parameterType="java.util.Map">
+		UPDATE
+			AD
+		SET
+			VIEW_CNT = VIEW_CNT + #{viewCnt}
+		WHERE
+			SHOP_NO	= #{shopNo}
+	</update>
+
 	<select id="selectMyFavShopCount" resultType="_int" parameterType="string">
 		SELECT 
 				COUNT(USER_ID)
@@ -1006,4 +1088,5 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	
+
 </mapper>
