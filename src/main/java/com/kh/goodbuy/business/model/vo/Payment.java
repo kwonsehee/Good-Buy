@@ -7,21 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Review {
+public class Payment {
 	private int shopNo;
-	private int reviewNo;
-	private String status;
-	private String content;
-	private Date reviewDate;
-	private String grade;
-	private String userId;
-	private String nickName;
-	private int reviewCount;
-	private int avgGrade;
+	private int pid;
+	private int payment;
+	private Date payDate;
+	private int payWay;
 	
 }

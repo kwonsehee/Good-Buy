@@ -11,6 +11,7 @@ import com.kh.goodbuy.business.model.vo.Attachment;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
 import com.kh.goodbuy.business.model.vo.NewsAttachment;
+import com.kh.goodbuy.business.model.vo.Payment;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
@@ -220,6 +221,36 @@ public class BusinessDaoImpl implements BusinessDao {
 	public int insertReview(Review r) {
 		
 		return sqlSession.insert("businessMapper.insertReview",r);
+	}
+
+	@Override
+	public int cashInsert(Payment p) {
+		
+		return sqlSession.insert("businessMapper.cashInsert",p);
+	}
+
+	@Override
+	public int cashUpdate(Payment p) {
+		
+		return sqlSession.update("businessMapper.cashUpdate",p);
+	}
+
+	@Override
+	public int selectViewCnt(int shopNo) {
+		
+		return sqlSession.selectOne("businessMapper.selectViewCnt",shopNo);
+	}
+
+	@Override
+	public int updateCashUse(Map<String, Integer> map) {
+		
+		return sqlSession.update("businessMapper.updateCashUse",map);
+	}
+
+	@Override
+	public int updateViewCnt(Map<String, Integer> map) {
+		
+		return sqlSession.update("businessMapper.updateViewCnt",map);
 	}
 
 	
