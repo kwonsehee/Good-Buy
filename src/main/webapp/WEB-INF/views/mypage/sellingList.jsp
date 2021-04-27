@@ -165,16 +165,6 @@
       }
        
        
-       // 원화 콤마 출력
-       function makeComma(price){
-    	   str = String(price);
-
-    	   return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-
-       }
-       
-       
-       
        
     </script>
 </body>
