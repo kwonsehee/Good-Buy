@@ -156,6 +156,25 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updatememberReport(m);
 	}
 
+	@Override
+	public List<Member> selectMyFollowingList(String user_id) {
+		return mDao.selectMyFollowingList(user_id);
+	}
+	@Override
+	public int selectMyFollowingCount(String user_id) {
+		return mDao.selectMyFollowingCount(user_id);
+	}
+	@Override
+	public List<Member> selectMyFollowerList(String user_id) {
+		return mDao.selectMyFollowerList(user_id);
+	}
+	@Override
+	public int selectMyFollowerCount(String user_id) {
+		return mDao.selectMyFollowerCount(user_id);
+	}
+
+
+
 	
 
 	

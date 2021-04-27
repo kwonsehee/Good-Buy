@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,8 +32,8 @@ import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.business.model.service.BusinessService;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.business.model.vo.News;
+import com.kh.goodbuy.business.model.vo.Payment;
 import com.kh.goodbuy.business.model.vo.Review;
-import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
@@ -317,7 +316,15 @@ public class BusinessController {
 
 	// 광고하기 페이지
 	@GetMapping("/ad")
-	public String adPage() {
+	public String adPage(Model model , HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId= loginUser.getUser_id();
+		int shopNo = bService.selectshopNo(userId);
+		Business b = bService.selectBusinessInfo(userId);
+		int viewCnt = bService.selectViewCnt(shopNo);
+		model.addAttribute("business",b);
+		model.addAttribute("viewCnt",viewCnt);
+		
 		return "business/adPage";
 	}
 	
@@ -483,8 +490,10 @@ public class BusinessController {
 		return  "redirect:/business/list";
 	}
 	@PostMapping(value="/review/insert", produces="application/json; charset=utf-8")
-	public @ResponseBody String reviewInsert(Review r, HttpSession session, HttpServletRequest request) {
+	public @ResponseBody String reviewInsert(Review r, HttpSession session, HttpServletRequest request
+											) {
 		 // 글 작성자 loginUser에서 가져옴
+
 	      Member loginUser = (Member)session.getAttribute("loginUser");
 	      String userId = loginUser.getUser_id();
 	      String grade = request.getParameter("grade");
@@ -508,6 +517,47 @@ public class BusinessController {
 	               .create();
 	      
 	      return gson.toJson(rlist);
+	}
+	
+	@GetMapping("cash")
+	public String cashInsert(int amount,HttpServletRequest request,HttpSession session,
+			Model model, Payment p) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId= loginUser.getUser_id();
+		int shopNo = bService.selectshopNo(userId);
+		p.setShopNo(shopNo);
+		p.setPayment(amount);
+			int result = bService.cashInsert(p);
+			if(result >0) {
+				int result2 = bService.cashUpdate(p);
+			}
+		return "redirect:/business/ad";
+	}
+	
+	@GetMapping("ad/create")
+	public String adCreate(HttpSession session,int cash) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId= loginUser.getUser_id();
+		int shopNo = bService.selectshopNo(userId);
+		String shopNo2 = Integer.toString(shopNo);
+		Map<String, Integer> map = new HashMap<>();
+		int viewCnt = 0;
+		if(cash == 5000) {
+			viewCnt = 500;
+		}else if(cash == 10000) {
+			viewCnt = 1000;
+		}else if(cash == 13000) {
+			viewCnt = 1500;
+		}else if(cash == 15000) {
+			viewCnt = 2000;
+		}
+		map.put("viewCnt", viewCnt);
+		map.put("cash", cash);
+		map.put("shopNo", shopNo);
+		int result = bService.updateCashUse(map);
+		int result2 = bService.updateViewCnt(map);
+		
+		return "redirect:/business/ad";
 	}
 		
 }

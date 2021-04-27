@@ -72,7 +72,13 @@ public class MypageController {
 		List<String> mtlist = tService.selectMyTownList(loginUser.getUser_id());
 		System.out.println("mtlist : " + mtlist);
 		
+		int followingCnt = mService.selectMyFollowingCount(loginUser.getUser_id());
+		int followerCnt = mService.selectMyFollowerCount(loginUser.getUser_id());
+		
+		
 		if(mtlist != null) {
+			mv.addObject("followingCnt", followingCnt);
+			mv.addObject("followerCnt", followerCnt);
 			mv.addObject("mtlist",mtlist);
 			mv.setViewName("mypage/mypageMain");
 		}
@@ -82,10 +88,42 @@ public class MypageController {
 
 	// 팔로잉 팝업창 화면 
 	@GetMapping("/following")
-	public ModelAndView showFollowing(ModelAndView mv) {
+	public ModelAndView showFollowing(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser) {
+		System.out.println("팔로잉 팝업 로그인유저 : " + loginUser.getUser_id());
+		
+		List<Member> flist = mService.selectMyFollowingList(loginUser.getUser_id());
+		
+		int cnt = mService.selectMyFollowingCount(loginUser.getUser_id());
+		
+		System.out.println("팔로잉 갯수 : " + cnt);
+		System.out.println("팔로잉 list : " + flist);
+		
+		
+		mv.addObject("flist", flist);
+		mv.addObject("cnt",cnt);
 		mv.setViewName("mypage/followingPopup");
 		return mv;
 	}
+	// 팔로워 팝업창 화면 
+	@GetMapping("/follower")
+	public ModelAndView showFollower(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser) {
+		System.out.println("팔로잉 팝업 로그인유저 : " + loginUser.getUser_id());
+		
+		List<Member> flist = mService.selectMyFollowerList(loginUser.getUser_id());
+		
+		int cnt = mService.selectMyFollowerCount(loginUser.getUser_id());
+		
+		System.out.println("팔로워 갯수 : " + cnt);
+		System.out.println("팔로워 list : " + flist);
+		
+		
+		mv.addObject("flist", flist);
+		mv.addObject("cnt",cnt);
+		mv.setViewName("mypage/followerPopup");
+		return mv;
+	}
+	
+	
 	
 	// 프로필 수정 화면
 	@GetMapping("/updateMember")
@@ -788,12 +826,6 @@ public class MypageController {
 		
 		return mv;
 	}
-	
-	// 비즈프로필 생성 화면으로 넘기기(비즈프로필 없을 시)
-	
-	// 비즈프로필 조회 화면으로 넘기기(비즈프로필 있을 시)
-	
-	
 	
 	
 	
