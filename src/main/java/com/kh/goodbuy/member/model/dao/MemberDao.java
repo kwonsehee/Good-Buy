@@ -69,5 +69,9 @@ public interface MemberDao {
 	public int isFollow(String seller, String user_id);
 	//팔로우취소
 	public int canselFollow(String user_id, String seller);
-
+	//판매자를 팔로우하는 멤버리스트
+	public List<Member> selectFollowList(String seller, String user_id);
+	//판매자가 팔로우하는 멤버리스트
+	public List<Member> selectFollowingList(String seller, String user_id);
+			
 }

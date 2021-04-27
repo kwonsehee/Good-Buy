@@ -10,6 +10,7 @@
 <title>Good-Buy</title>
 <!-- css -->
 <link href="${ contextPath }/resources/css/goods/sellerInfo.css" rel="stylesheet" type="text/css">
+<link href="${ contextPath }/resources/css/goods/sellerfollowing.css" rel="stylesheet" type="text/css">
   <!--sweetalert2-->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <!--https://sweetalert2.github.io/ 에 다양하게 사용할 수 있는 방법이 나와있다.-->
@@ -52,7 +53,7 @@
    		<c:remove var="msg" />
    </c:if>
         
-        <h3 style="display: inline-block; margin-left: 45%; ">판매자 페이지</h3>
+        <h3 style="display: inline-block; margin-left: 45%; margin-top: 4%; ">판매자 페이지</h3>
         <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
         <table id="seller_tb">
             <tr>
@@ -249,101 +250,62 @@
              })
           })
         </script>
-        <div id="reviewSection">
-            <div style="text-align: center; padding-bottom: 2%;">
-                <a href="${ contextPath }/goods/myglist">상품</a>
-                <a href="${ contextPath }/goods/sellerInfo"style="color : black;font-weight: bold;">거래후기</a>
-                <a href="${ contextPath }/goods/sellerfollowing?seller=${seller.user_id}">팔로윙</a>
-                <a href="팔로윙.html">팔로우</a> 
-            </div>
-            <table id="review_tb">
-                <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
-                    <td class="reviewStar">★ ★ ★ ★ ★</td>
-                </tr> 
-                <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
-                </tr>        
-                <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
-                    <td class="reviewStar">★ ★ ★ ★ ★</td>
-                </tr> 
-                <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
-                </tr>        
-                <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
-                    <td class="reviewStar">★ ★ ★ ★ ★</td>
-                </tr> 
-                <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
-                </tr>        
-                <tr>
-                    <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;"><img src="${ contextPath }/resources/images/person.png"></td>
-                
-                    <td><span>삼산경찰서</span>&nbsp;<span>2021.03.09</span></td>
-                    <td class="reviewStar">★ ★ ★ ★ ★</td>
-                </tr> 
-                <tr>
-                    <td colspan="2">딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^딱 사진 그대로구요! 착한 가격에 아들 웃게해줬네요~^^</td>
-                </tr>                 
-            </table>
-       
-		
+        
+  	<div id="reviewSection" style="border : 1px solid red;">
+		<div style="text-align: center; padding-bottom: 2%;">
+			<a href="${ contextPath }/goods/myglist" onclick="changeMenu(0)">상품</a>
+			<a href="${ contextPath }/goods/sellerInfo"  onclick="changeMenu(0)">거래후기</a>
+			<a href="${ contextPath }/goods/sellerfollowing" onclick="changeMenu(0)">팔로윙</a> 
+			<a onclick="changeMenu(0)">팔로우</a>
+		</div>
+        <!-- 판매자를 팔로우하는 list 부분 -->
+        <%-- <jsp:include page="../goods/sellerfollowing.jsp"/>--%>
+        <!-- 판매자를 팔로우하는 list 부분 -->
+		<%--<jsp:include page="../goods/reviewDiv.jsp"/>    --%>
+        <!-- 판매자가 팔로우하는 list 부분 -->
+    	<%--<jsp:include page="../goods/sellerfollow.jsp"/>  --%>  
+        <!-- 판매자의 상품 list 부분 -->
+        <jsp:include page="../goods/sellerGoods.jsp"/>   
 
 		
-        <form method="POST">
-           
-            <div id="reviewwrite">
-                <span id="star" style="padding-left: 10%;">
-                    <a value="1" style="padding-right: 0;">★</a> 
-                    <a  value="2" style="padding-right: 0;">★</a> 
-                    <a  value="3" style="padding-right: 0;">★</a> 
-                    <a  value="4" style="padding-right: 0;">★</a>
-                    <a value="5" style="padding-right: 0;">★</a>
-                </span>
-                <br>
-            <div id="review_writer">
-             <img src="${ contextPath }/resources/images/person.png" ><br>
-             <span>데세헤</span> 
-            </div>
-            
-			<textarea id="reviewWriteArea" placeholder="거래 후기를 작성해 주세요."></textarea>
-			<span id="counter" style="padding-left: 10%;">0 / 1000</span>
-            <button type="submit" id="writeBtn">등록하기</button>
-        
-		</div>
-        </form>
-		<!--  글자수 실시간 카운팅 -->
-		<script>
-		$('#reviewWriteArea').keyup(function (e){
-		    var content = $(this).val();
-		    $('#counter').html("("+content.length+" / 1000)");   
-		    
-		    if(content.length > 1000){
-		    	alert('최대 1000자까지 입력 가능합니다.');
-		    	$(this).val(content.substring(0, 1000));
-		    	$('#counter').html("(1000 / 1000)");
-		    	
-		    }
-		 });
-		  // 별 색 채워짐 이벤트
-          $('#star a').click(function(){ 
-            $(this).parent().children("a").removeClass("on"); 
-            $(this).addClass("on").prevAll("a").addClass("on"); 
-            console.log($(this).attr("value")); 
-            star = $(this).attr("value");
-        });   
-		</script>
-	
-        </div> 
-        
+	</div>
+       
+    <script type="text/javascript">
+    $(function(){
+        $(document).on("click","#followBtn",function(){
+        	var seller_id = $("#seller_id").text();
+       
+        console.log(seller_id);
+       	 document.getElementById("follow_area").value='';
+      	  
+           $.ajax({
+              url : "${contextPath}/member/follow",
+              data : {seller : seller_id},
+              type : "post",
+              success : function(data){
+                 if(data == "success"){
+               	  values ="<button type='button' class='btn_small' id='canselfollowBtn'>" 
+               		 
+                         +"<p>&nbsp;&nbsp;&nbsp;&nbsp;팔로우&nbsp;&nbsp;취소</p></button>"
+               	  
+                         
+               	   $("#follow_area").html(values);
+               		
+                 }  
+                 else{
+                	
+                	 alert("옮기기 실패!");
+                 }
+                    
+              },
+              error : function(e){
+                 alert("error code : " + e.status + "\n"
+                       + "message : "+ e.responseText);
+              }
+           })
+        })
+     })
+    </script>
     </section>
 
 	<jsp:include page="../common/footer.jsp"/>

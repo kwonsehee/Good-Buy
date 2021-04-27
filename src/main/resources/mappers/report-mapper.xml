@@ -86,7 +86,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 , RE_RESULT
 		 , REPORT_ID
 		 , REPORTED_ID
-		 , RE_CATE)
+		 , RE_CATE
+		 )
 		VALUES
 		(
 		  REPORT_SEQ.NEXTVAL
@@ -190,8 +191,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		     , RE_RESULT
 		  FROM
 		       REPORT
-		       WHERE
-		  		RE_CATE = 2
+		 WHERE
+		  	   RE_CATE = 2
       ORDER BY
                RE_NO ASC
 	</select>

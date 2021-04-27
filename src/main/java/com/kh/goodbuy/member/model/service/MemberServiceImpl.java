@@ -139,6 +139,16 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.canselFollow(user_id, seller);
 	}
+	@Override
+	public List<Member> selectFollowList(String seller, String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectFollowList(seller, user_id);
+	}
+	@Override
+	public List<Member> selectFollowingList(String seller, String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectFollowingList(seller, user_id);
+	}
 	
 
 	

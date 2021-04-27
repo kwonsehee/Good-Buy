@@ -314,4 +314,10 @@ public class GoodsServiceImpl implements GoodsService {
 		return gDao.selectMySearchList(pi, search, myTown);
 	}
 
+	@Override
+	public List<Goods> selectSellingList(String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.selectSellingList(user_id);
+	}
+
 }
