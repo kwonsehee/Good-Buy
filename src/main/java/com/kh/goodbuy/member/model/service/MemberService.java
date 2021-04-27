@@ -90,6 +90,14 @@ public interface MemberService {
 		public List<Member> selectFollowList(String seller, String user_id);
 		//판매자가 팔로우하는 멤버리스트
 		public List<Member> selectFollowingList(String seller, String user_id);
+		// 로그인유저의 팔로잉 리스트 
+		public List<Member> selectMyFollowingList(String user_id);
+		// 로그인유저의 팔로잉 카운트 
+		public int selectMyFollowingCount(String user_id);
+		// 로그인유저의 팔로워 리스트 
+		public List<Member> selectMyFollowerList(String user_id);
+		// 로그인유저의 팔로워 카운트 
+		public int selectMyFollowerCount(String user_id);
 		
 
 }

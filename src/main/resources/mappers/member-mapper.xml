@@ -46,6 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="goodsCnt" column="GOODSCNT"/>
 		<result property="isfollow" column="ISFOLLOW"/>
 	</resultMap>
+	<resultMap type="Member" id="MyFollow">
+		<id property="user_id" column="USER_ID"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="photo" column="PHOTO"/>
+	</resultMap>
 	
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
@@ -478,5 +483,48 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  ON (F.FOLLOWING = U.USER_ID)
 	   WHERE F.FOLLOWER =  #{seller}
 	</select>
+	
+	<select id="selectMyFollowingCount" parameterType="string" resultType="_int">
+	
+	SELECT COUNT(FOLLOWING) CNT
+	  FROM FOLLOW
+     WHERE FOLLOWER = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowingList" parameterType="string" resultMap="MyFollow">
+	SELECT 
+			FOLLOWING USER_ID, 
+			NICKNAME, 
+			PHOTO
+	  FROM 
+	  		FOLLOW
+	  JOIN 
+	  		USER_INFO ON(FOLLOWING = USER_ID)
+	  WHERE 
+	  		FOLLOWER = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowerCount" parameterType="string" resultType="_int">
+	
+	SELECT COUNT(FOLLOWER) CNT
+	  FROM FOLLOW
+     WHERE FOLLOWING = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowerList" parameterType="string" resultMap="MyFollow" >
+	SELECT 
+			FOLLOWER USER_ID, 
+			NICKNAME, 
+			PHOTO
+	  FROM 
+	  		FOLLOW
+	  JOIN 
+	  		USER_INFO ON(FOLLOWER = USER_ID)
+	 WHERE 
+	 		FOLLOWING = #{user_id}
+	</select>
+	
+	
+	
 
 </mapper>

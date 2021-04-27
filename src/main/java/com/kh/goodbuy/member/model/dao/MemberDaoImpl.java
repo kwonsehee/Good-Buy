@@ -215,6 +215,26 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectList("memberMapper.selectFollowingList", map);
 	}
 
+	@Override
+	public List<Member> selectMyFollowingList(String user_id) {
+		return sqlSession.selectList("memberMapper.selectMyFollowingList", user_id);
+	}
+
+	@Override
+	public int selectMyFollowingCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectMyFollowingCount", user_id);
+	}
+
+	@Override
+	public List<Member> selectMyFollowerList(String user_id) {
+		return sqlSession.selectList("memberMapper.selectMyFollowerList",user_id);
+	}
+
+	@Override
+	public int selectMyFollowerCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectMyFollowerCount",user_id);
+	}
+
 
 	
 

@@ -76,8 +76,8 @@
             <p>${loginUser.nickname}</p><br>
             <p>${ mtlist.get(0) }</p>
             <p>${loginUser.user_id}</p>
-            <p><a onclick="showFollowing()">팔로잉 6</a></p>
-            <p><a onclick="showFollower()">팔로워 15</a></p>
+            <p><a onclick="showFollowing()">팔로잉 ${ followingCnt }</a></p>
+            <p><a onclick="showFollower()">팔로워 ${ followerCnt }</a></p>
             <p><a href="${ contextPath }/mypage/pointList">1,500 P</a></p>
         </div>
 
@@ -165,7 +165,7 @@
        }
 
        function showFollower(){
-            var url = "${contextPath}/mypage/following";
+            var url = "${contextPath}/mypage/follower";
             var _width = '400';
             var _height = '500';
 
