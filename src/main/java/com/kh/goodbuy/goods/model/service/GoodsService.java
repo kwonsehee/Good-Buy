@@ -115,6 +115,10 @@ public interface GoodsService {
 	//user 있을떄 검색 리스트 셀렉
 	public List<Goods> selectMySearchList(PageInfo pi, String search, Town myTown);
 
+	//판매자가 파는 상품리스트 셀렉
+	public List<Goods> selectSellingList(String user_id);
+
+
 
 
 

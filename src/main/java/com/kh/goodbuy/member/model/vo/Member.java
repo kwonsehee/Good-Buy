@@ -30,5 +30,8 @@ public class Member {
 	private String admin_memo;
 	private String  is_business;
 	private String  user_comment;
+	private int  followCnt;
+	private int  goodsCnt;
+	private int  isfollow;
 	
 }

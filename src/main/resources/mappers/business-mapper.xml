@@ -973,4 +973,37 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		SELECT * FROM DUAL
 	
 	</insert>
+	
+	<select id="selectMyFavShopCount" resultType="_int" parameterType="string">
+		SELECT 
+				COUNT(USER_ID)
+		FROM
+				FAVORITE
+	   WHERE 
+	   			USER_ID = #{user_id}
+	</select>
+	
+	<select id="selectMyFavShopList" resultMap="businessResultSet" parameterType="string">
+		SELECT 
+				SHOP_NO,
+				SHOP_NAME,
+				SHOP_ADD,
+				단골수,
+				후기수,
+				CHANGE_NAME,
+				SHOP_TIME3
+	     FROM 
+	     		V_BUS_INFO
+		 JOIN 
+		 		FAVORITE USING(SHOP_NO)
+		WHERE 
+				FAVORITE.USER_ID = #{user_id}
+	</select>
+	
+	
+	
+	
+	
+	
+	
 </mapper>

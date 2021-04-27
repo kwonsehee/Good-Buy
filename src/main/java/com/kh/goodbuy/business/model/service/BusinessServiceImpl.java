@@ -14,6 +14,7 @@ import com.kh.goodbuy.business.model.vo.NewsAttachment;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
+import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.town.model.vo.Town;
 
 @Service
@@ -262,6 +263,22 @@ public class BusinessServiceImpl implements BusinessService{
 	public List<Review> insertReview(Review r) {
 			bDao.insertReview(r);
 		return bDao.selectDetailReview(r.getShopNo());
+	}
+
+
+
+
+	@Override
+	public int selectMyFavShopCount(String user_id) {
+		return bDao.selectMyFavShopCount(user_id);
+	}
+
+
+
+
+	@Override
+	public List<Business> selectMyFavShopList(String user_id, PageInfo pi) {
+		return bDao.selectMyFavShopList(user_id, pi);
 	}
 
 

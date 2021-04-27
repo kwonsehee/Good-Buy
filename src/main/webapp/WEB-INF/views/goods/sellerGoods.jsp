@@ -8,40 +8,23 @@
 <meta charset="UTF-8">
 
 <title>Good-Buy</title>
-<!-- css -->
-<link href="${ contextPath }/resources/css/goods/sellerfollowing.css"
-	rel="stylesheet" type="text/css">
-
 </head>
 <body>
 
 	
 	<div id="followlist_area" style="border : 1px solid blue;">
-			<c:forEach var="f" items="${flist }">
+			<c:forEach var="f" items="${sellingList }">
 				<div class="follow_div">
-					<c:if test="${f.photo eq null }">
-						<img src="${ contextPath }/resources/images/image 57.png">
-					</c:if>
-
-					<c:if test="${f.photo ne null }">
-						<img src="${ contextPath }/resources/images/userProfilePhoto/${f.photo }">
-					</c:if>
-					<p>${f.nickname }</p>
-					<p>상품 ${f.followCnt }&nbsp;팔로워 ${f.goodsCnt}</p>
-					<div id="btn_${f.user_id }">
-					<c:if test="${ f.isfollow ==0 }">
-					<button type="button" class="btn_sq" onclick="follow_btn('${f.user_id }')">
-						<img src="${ contextPath }/resources/images/follower.png" />
-						<p>&nbsp;&nbsp;&nbsp;팔로우</p>
-					</button>
-					</c:if>
-					<c:if test="${ f.isfollow >0 }">
-					<button type="button" class="btn_sq" onclick="unfollow_btn('${f.user_id }')" >
 					
-						<p>&nbsp;&nbsp;팔로우&nbsp;취소</p>
+					<img src="${ contextPath }/resources/images/goodupload/${f.changeName }" class="goodsPhoto">
+					
+					<p>${f.gtitle }</p>
+					<p> ${f.address_3 }&nbsp;${f.gprice}원</p>
+					
+					<button type="button" class="btn_sq" onclick="location.href='${ contextPath }/goods/detail?gno=${f.gno }'" >
+						<p>&nbsp;상품 상세보기</p>
 					</button>
-					</c:if>
-					</div>
+					
 				</div>
 			</c:forEach>
 

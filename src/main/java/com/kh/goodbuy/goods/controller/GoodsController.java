@@ -203,9 +203,19 @@ public class GoodsController {
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		//로그인 유저가 해당 셀러를 follow하는지 확인
 		int follow = mService.isFollow(seller, loginUser.getUser_id());
-		
+		//판매자의 팔로워 리스트 뽑기
+		List<Member> flist = mService.selectFollowList(seller, loginUser.getUser_id());
+		//판매자가 팔로우하는 리스트 뽑기
+		List<Member> fdlist = mService.selectFollowingList(seller, loginUser.getUser_id());
+		//판매자가 판매하는 상품리스트
+		List<Goods> sellingList = gService.selectSellingList(seller);
+		System.out.println("followlist : "+flist);
 		model.addAttribute("follow", follow);
 		model.addAttribute("seller", sellerInfo);
+		model.addAttribute("flist", flist);
+		model.addAttribute("fdlist", fdlist);
+		model.addAttribute("sellingList", sellingList);
+		System.out.println("sellingList : "+ sellingList);
 		return "goods/sellerInfo";
 	}
 
@@ -333,7 +343,7 @@ public class GoodsController {
 		
 		return renameFileName;
 	}
-	 // 1. Stream을 이용한 text 응답
+	 // 1. Stream을 이용한 text 응답 상품 찜하기 취소
 	  @RequestMapping(value="likegoods", method=RequestMethod.POST)
 	  public void likegoods( int gno, HttpServletResponse response, HttpServletRequest request) {
 	      try {
@@ -351,7 +361,7 @@ public class GoodsController {
 	      }
 	      
 	   }
-	  // 1. Stream을 이용한 text 응답
+	  // 1. Stream을 이용한 text 응답 상품 찜하기
 	  @RequestMapping(value="dislikegoods", method=RequestMethod.POST)
 	  public void dislikegoods( int gno, HttpServletResponse response, HttpServletRequest request) {
 	      try {
@@ -514,11 +524,9 @@ public class GoodsController {
 					Addfile a = new Addfile();
 					a.setOriginName(fileup[i].getOriginalFilename());
 					a.setChangeName(renameFileName);
-					if (i == 0) {
-						a.setFile_level(1);
-					} else {
-						a.setFile_level(0);
-					}
+
+					a.setFile_level(0);
+				
 					list.add(a);
 					System.out.println(renameFileName);
 				}

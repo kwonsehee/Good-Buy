@@ -26,9 +26,9 @@
         <div class="listWrap">
         <c:forEach var="list" items="${ likeList }">
             <div class="eachListWrap">
-                <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto">
-                <p class="gtitle">${ list.gtitle }</p>
-                <ul>
+                <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto"  onclick="selectGoods(${list.gno})">
+                <p class="gtitle"  onclick="selectGoods(${list.gno})">${ list.gtitle }</p>
+                <ul onclick="selectGoods(${list.gno})">
                     <li class="town">${ list.address_3 }</li>
                     <li class="dot">•</li>
                     <li class="createDate">${ list.createDate }</li>
@@ -39,7 +39,7 @@
                 <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
                 <p class="replyCount">${ list.rep_cnt }</p>
                 <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
-                <p class="likeCount">${ list.like_cnt }</p>
+                <p class="likeCount">${ list.likecnt }</p>
             </div>
 		</c:forEach>
         </div>
@@ -122,6 +122,12 @@
 		console.log(gno);
 		location.href="${contextPath}/mypage/cancelLikeOfGoods?gno="+gno;
 	}
+	
+
+    // 상품 디테일뷰
+     function selectGoods(gno){
+		location.href="${contextPath}/goods/detail?gno="+gno;
+	   } 
 	
 	</script>
 	
