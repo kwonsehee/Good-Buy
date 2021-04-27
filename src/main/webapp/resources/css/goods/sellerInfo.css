@@ -1,8 +1,7 @@
 @charset "UTF-8";
 #gbSection{
-    margin-top: 4%;
 
-    margin-bottom: 3%;
+      padding-bottom: 30px;
 }
 #seller_tb, #seller_tb tr, #seller_tb td, #seller_tb th{
     /* border : 1px solid red; */
@@ -214,3 +213,38 @@ margin-top : 10px;
       font-weight: bold;
        
       }
+#followlist_area{
+	padding-top : 20px;
+	 background-color:#fafafa; 
+	
+}
+.btn_sq{
+    width: 100px;
+    height: 30px;
+    border-radius: 3px;
+    border: solid 1px #c4c4c4;
+  	background-color: #ffffff;
+    margin-left: 20%;
+}
+.btn_sq img{
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-left: 10%;
+    margin-top : 5px;
+  
+}
+
+.btn_sq p{
+display: inline;
+font-size: 12px;
+padding-left: 10px;
+float: left;
+margin-top : 6px;
+
+}
+.goodsPhoto{
+	 width : 150px !important;
+	 hegiht : 150px !important;
+	 margin-left : 20px !important;
+}

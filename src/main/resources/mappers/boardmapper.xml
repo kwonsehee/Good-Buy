@@ -7,78 +7,132 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 
 
-<resultMap id="boardResultSet" type="Board">
-  <id property="bno" column="B_NO"/><!-- 게시글번호 -->
-  <result property="bstatus" column="B_STATUS"/><!-- 게시글상태 -->
-   <result property="btitle" column="B_TITLE"/><!-- 제목-->
-    <result property="bhistory" column="B_HISTORY"/><!-- 내용 -->
-     <result property="bmodifydate" column="B_MODIFY_DATE"/><!-- 수정일 -->
-      <result property="bcreatedate" column="B_CREATE_DATE"/><!-- 작성일-->
-       <result property="bcate" column="B_CATE"/><!-- 카테고리 -->
-        <result property="userid" column="USER_ID"/><!-- 아이디 -->
-        <result property="bfile" column="B_FILE"/><!-- 이미지 -->
-        <result property="bcatename" column="B_NAME"/><!-- 닉네임 -->
-        
-   </resultMap>
+	<resultMap id="boardResultSet" type="Board">
+		<id property="bno" column="B_NO" /><!-- 게시글번호 -->
+		<result property="bstatus" column="B_STATUS" /><!-- 게시글상태 -->
+		<result property="btitle" column="B_TITLE" /><!-- 제목 -->
+		<result property="bhistory" column="B_HISTORY" /><!-- 내용 -->
+		<result property="bmodifydate" column="B_MODIFY_DATE" /><!-- 수정일 -->
+		<result property="bcreatedate" column="B_CREATE_DATE" /><!-- 작성일 -->
+		<result property="bcate" column="B_CATE" /><!-- 카테고리 -->
+		<result property="userid" column="USER_ID" /><!-- 아이디 -->
+		<result property="bfile" column="B_FILE" /><!-- 이미지 -->
+		<result property="bcatename" column="B_NAME" /><!-- 닉네임 -->
+		<result property="bphoto" column="PHOTO" /> <!-- 프로필 사진 -->
 
-<select id="selectList" resultMap="boardResultSet">
-SELECT 
-     TOWN_BOARD.B_NO
-    ,B_STATUS
-    ,B_TITLE
-    ,B_HISTORY
-    ,B_MODIFY_DATE
-    ,B_CREATE_DATE
-    ,B_NAME
-    ,USER_ID
-    ,B_FILE
-   FROM 
-       TOWN_BOARD
-       JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO) 
-    WHERE 
-        B_STATUS ='Y'
-    ORDER BY
-       B_NO DESC
-</select>
- 
- <insert id="insertboard" parameterType="Board">
-      INSERT 
-         INTO TOWN_BOARD 
-    ( 
-     B_NO
-    ,B_STATUS
-    ,B_TITLE
-    ,B_HISTORY
-    ,B_MODIFY_DATE
-    ,B_CREATE_DATE
-    ,B_CATE
-    ,USER_ID
-    ,B_FILE
-    )
-    VALUES
-    (
-    BOARD_SEQ.NEXTVAL 
-    ,DEFAULT
-    ,#{btitle}
-    ,#{bhistory}
-    ,SYSDATE
-    ,SYSDATE
-    ,#{bcate}
-    ,#{userid}
-    ,#{bfile}
-    )
- </insert>
-<select id="selectListCount" resultType="_int">
-      SELECT 
-            COUNT(*)
-          FROM
-                TOWN_BOARD
-         WHERE
-               B_STATUS = 'Y'
-   </select>
- 
+	</resultMap>
+
+	<resultMap id="boardlike" type="like">
+		<id property="luserid" column="USER_ID" />
+		<result property="postno" column="POST_NO" />
+	</resultMap>
 
 
 
-	
+
+	<select id="selectList" resultMap="boardResultSet">
+		SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON
+		(TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+		ORDER BY
+		B_NO DESC
+	</select>
+
+	<insert id="insertlike" parameterType="boardlike">
+		INSERT
+		INTO LIKE_TOWN
+		(
+		USER_ID
+		,POST_NO
+		)
+		VALUES
+		(
+		#{luserid}
+		,#{lpostno}
+		);
+
+	</insert>
+
+
+
+
+
+	<insert id="insertboard" parameterType="Board">
+		INSERT
+		INTO TOWN_BOARD
+		(
+		B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_CATE
+		,USER_ID
+		,B_FILE
+		)
+		VALUES
+		(
+		BOARD_SEQ.NEXTVAL
+		,DEFAULT
+		,#{btitle}
+		,#{bhistory}
+		,SYSDATE
+		,SYSDATE
+		,#{bcate}
+		,#{userid}
+		,#{bfile}
+		)
+	</insert>
+	<select id="selectListCount" resultType="_int">
+		SELECT
+		COUNT(*)
+		FROM
+		TOWN_BOARD
+		WHERE
+		B_STATUS = 'Y'
+	</select>
+	<select id="selectdetail" resultMap="boardResultSet">
+		SELECT
+		TOWN_BOARD.B_NO B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,TOWN_BOARD.USER_ID USER_ID
+		,PHOTO
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE
+		ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		JOIN USER_INFO
+		ON(TOWN_BOARD.USER_ID=USER_INFO.USER_ID)
+		WHERE
+		TOWN_BOARD.B_NO=#{bno}
+		AND
+		B_STATUS ='Y'
+
+
+	</select>
+	<update id="deleteboard" parameterType="_int">
+
+		UPDATE TOWN_BOARD SET B_STATUS = 'N';
+		WHERE B_NO = #{bno}
+	</update>
 </mapper>

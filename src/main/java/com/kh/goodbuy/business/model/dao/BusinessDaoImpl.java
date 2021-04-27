@@ -15,6 +15,7 @@ import com.kh.goodbuy.business.model.vo.Payment;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
+import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.town.model.vo.Town;
 @Repository
 public class BusinessDaoImpl implements BusinessDao {
@@ -251,6 +252,16 @@ public class BusinessDaoImpl implements BusinessDao {
 	public int updateViewCnt(Map<String, Integer> map) {
 		
 		return sqlSession.update("businessMapper.updateViewCnt",map);
+  }
+  @Override
+	public int selectMyFavShopCount(String user_id) {
+		return sqlSession.selectOne("businessMapper.selectMyFavShopCount",user_id);
+	}
+
+	@Override
+	public List<Business> selectMyFavShopList(String user_id, PageInfo pi) {
+		return sqlSession.selectList("businessMapper.selectMyFavShopList",user_id);
+
 	}
 
 	

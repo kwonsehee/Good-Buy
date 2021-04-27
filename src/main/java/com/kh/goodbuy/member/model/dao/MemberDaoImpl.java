@@ -168,6 +168,11 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+
+	public int updatememberReport(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updatememberReport",m);
+	}
 	public int insertFollow(String user_id, String seller) {
 		Map<String, Object> map = new HashMap <String, Object>();
 		map.put("user_id",user_id);
@@ -189,7 +194,48 @@ public class MemberDaoImpl implements MemberDao {
 		map.put("user_id",user_id);
 		map.put("seller", seller);
 		return sqlSession.delete("memberMapper.canselFollow", map);
+
 	}
+
+
+	@Override
+	public List<Member> selectFollowList(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		System.out.println("멤버디에오 :"+user_id+"seller : "+seller);
+		return sqlSession.selectList("memberMapper.selectFollowList", map);
+	}
+
+	@Override
+	public List<Member> selectFollowingList(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("seller", seller);
+		System.out.println("멤버디에오 :"+user_id+"seller : "+seller);
+		return sqlSession.selectList("memberMapper.selectFollowingList", map);
+	}
+
+	@Override
+	public List<Member> selectMyFollowingList(String user_id) {
+		return sqlSession.selectList("memberMapper.selectMyFollowingList", user_id);
+	}
+
+	@Override
+	public int selectMyFollowingCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectMyFollowingCount", user_id);
+	}
+
+	@Override
+	public List<Member> selectMyFollowerList(String user_id) {
+		return sqlSession.selectList("memberMapper.selectMyFollowerList",user_id);
+	}
+
+	@Override
+	public int selectMyFollowerCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectMyFollowerCount",user_id);
+	}
+
 
 
 	

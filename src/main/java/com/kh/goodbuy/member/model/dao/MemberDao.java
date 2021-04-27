@@ -63,11 +63,35 @@ public interface MemberDao {
 	public int selectReplyCount(String user_id);
 	// 마이페이지 중고상품 내댓글 삭제 
 	public int deleteReply(Reply r);
+
+
+
+
+	public int updatememberReport(Member m);
+	
+
+
 	//판매자 팔로우
 	public int insertFollow(String user_id, String seller);
 	//판매자를 팔로우하는지 확인
 	public int isFollow(String seller, String user_id);
 	//팔로우취소
 	public int canselFollow(String user_id, String seller);
+
+
+	//판매자를 팔로우하는 멤버리스트
+	public List<Member> selectFollowList(String seller, String user_id);
+	//판매자가 팔로우하는 멤버리스트
+	public List<Member> selectFollowingList(String seller, String user_id);
+	// 로그인유저의 팔로잉 리스트 
+	public List<Member> selectMyFollowingList(String user_id);
+	// 로그인유저의 팔로잉 카운트 
+	public int selectMyFollowingCount(String user_id);
+	// 로그인유저의 팔로워 리스트 
+	public List<Member> selectMyFollowerList(String user_id);
+	// 로그인유저의 팔로워 카운트 
+	public int selectMyFollowerCount(String user_id);
+			
+
 
 }

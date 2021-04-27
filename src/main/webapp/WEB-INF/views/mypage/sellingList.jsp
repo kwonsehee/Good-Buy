@@ -23,10 +23,10 @@
 		<c:if test="${ sellingList != null }">
         <div class="listWrap">
         <c:forEach var="slist" items="${ sellingList }">
-            <div class="eachListWrap" onclick="selectGoods(${slist.gno})" style="cursor:pointer;" >
-                <img src="${ contextPath }/resources/images/goodupload/${slist.changeName}" class="gPhoto">
-                <p class="gtitle">${ slist.gtitle }</p>
-                <ul>
+            <div class="eachListWrap" style="cursor:pointer;" >
+                <img src="${ contextPath }/resources/images/goodupload/${slist.changeName}" class="gPhoto" onclick="selectGoods(${slist.gno})">
+                <p class="gtitle" onclick="selectGoods(${slist.gno})">${ slist.gtitle }</p>
+                <ul onclick="selectGoods(${slist.gno})">
                     <li class="town">${ slist.address_3 }</li>
                     <li class="dot">•</li>
                     <li class="createDate">${ slist.createDate }</li>
@@ -37,7 +37,7 @@
                 <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
                 <p class="replyCount">${ slist.rep_cnt }</p>
                 <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
-                <p class="likeCount">${ slist.like_cnt }</p>
+                <p class="likeCount">${ slist.likecnt }</p>
                  <div class="subMenu">
                  	<a href="#">게시글 수정</a>
 		            <a href="#">숨김으로 변경</a>
@@ -136,9 +136,9 @@
        
 
        // 상품 디테일뷰
-       function selectGoods(gno){
+        function selectGoods(gno){
    		location.href="${contextPath}/goods/detail?gno="+gno;
-   	   }
+   	   } 
        
        // 상품 수정폼으로 이동
        function goUpdateGoods(gno){
@@ -163,16 +163,6 @@
     		   location.href="${contextPath}/goods/delete?gno="+gno+"&pageName=mypage"; 
     	   });
       }
-       
-       
-       // 원화 콤마 출력
-       function makeComma(price){
-    	   str = String(price);
-
-    	   return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-
-       }
-       
        
        
        

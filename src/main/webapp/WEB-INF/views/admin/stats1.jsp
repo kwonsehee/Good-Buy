@@ -11,7 +11,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- 공통 UI -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- 차트 링크 --> <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <link href="${ contextPath }/resources/css/admin/admin_stats.css?"
 	rel="stylesheet" type="text/css">
 <style>
@@ -63,7 +68,7 @@
 			</button>
 			<br>
 			<button id="button1" disabled>
-				<a style="color: black;">그래프</a>
+				<a style="color: black;">그래프${ Seoul[0].cnt }</a>
 			</button>
 
 		</div>
@@ -72,169 +77,26 @@
 
 
 		<div id="div4">
-			<img src="${ contextPath }/resources/images/admin/그래프.png">
+			 <div class="container">
+  <canvas id="myChart"></canvas>
+   </div>
 
 
-		</div>
-		<div id="div5">
-			<a style="font-weight: bolder; font-size: 20px;">등급별 통계</a>
-			<table id="table1">
-				<thead>
-					<tr style="background-color: rgb(205, 245, 255);">
-						<th>등급</th>
-						<th>회원 수</th>
-						<th>비율</th>
-						<td>비율 그래프</td>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr id="tr_hover1">
-						<td>일반</td>
-						<td>600</td>
-						<td>60%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>일반</td>
-						<td>400</td>
-						<td>40%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
+		
 
 
-				</tbody>
-			</table>
-
-		</div>
-
-		<div id="div5">
-			<a style="font-weight: bolder; font-size: 20px;">지역별 통계</a>
-			<table id="table1">
-				<thead>
-					<tr style="background-color: rgb(205, 245, 255);">
-						<th>지역</th>
-						<th>회원 수</th>
-						<th>비율</th>
-						<td>비율 그래프</td>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr id="tr_hover1">
-						<td>서울</td>
-						<td>100</td>
-						<td>6%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>경기</td>
-						<td>200</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover1">
-						<td>인천</td>
-						<td>300</td>
-						<td>6%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>대구</td>
-						<td>400</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover1">
-						<td>대전</td>
-						<td>500</td>
-						<td>6%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>광주</td>
-						<td>600</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover1">
-						<td>울산</td>
-						<td>700</td>
-						<td>6%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>제주</td>
-						<td>800</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover1">
-						<td>강원</td>
-						<td>900</td>
-						<td>6%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>경북</td>
-						<td>800</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover1">
-						<td>경남</td>
-						<td>700</td>
-						<td>6%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>전북</td>
-						<td>600</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover1">
-						<td>전남</td>
-						<td>500</td>
-						<td>6%</td>
-						<td>■■■■■■□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>충북</td>
-						<td>400</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-					<tr id="tr_hover2">
-						<td>충남</td>
-						<td>400</td>
-						<td>4%</td>
-						<td>■■■■□□□□□□</td>
-						<td></td>
-					</tr>
-
-				</tbody>
-			</table>
-
-		</div>
-
-
+   
+   
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+ crossorigin="anonymous"></script>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+   integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+    
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+       crossorigin="anonymous"></script>
 
 
 
@@ -245,6 +107,34 @@
 	</section>
 
 	<jsp:include page="../common/footer.jsp" />
+<script>
+//var seoulcnt =  Seoul[0].cnt
+//console.log(seoulcnt);
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, { type: 'bar', data: { labels: ['${ Seoul[0].address_1}', '${ Seoul[1].address_1}', '강원', '충청', '전라', '경상'],
+	datasets: [{ label: '지역 별 회원 수',
+		data: [${ Seoul[0].cnt},
+			${ Seoul[1].cnt},
+			3,
+			5,
+			2,
+			3],
+		backgroundColor: [ 'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)' ],
+		borderColor: [ 'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)' ],
+		borderWidth: 1 }] },
+		options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } } }); 
+		</script>
+
 
 </body>
 </html>

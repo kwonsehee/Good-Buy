@@ -383,4 +383,10 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectList("goodsMapper.selectMySearchList", map, rowBounds);
 	}
 
+	@Override
+	public List<Goods> selectSellingList(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("goodsMapper.selectSellingList", user_id);
+	}
+
 }

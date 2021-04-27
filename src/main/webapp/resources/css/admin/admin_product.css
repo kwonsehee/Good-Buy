@@ -81,6 +81,34 @@ a:visited {
 	border-radius: 20px;
 	color: white;
 }
+#createButton2 {
+	font-weight: bold;
+	font-family: 'Nanum Myeongjo', serif;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 0;
+	outline: 0;
+	background: #9ddce2;
+	border-radius: 20px;
+	color: black;
+}
+#createButton3 {
+	font-weight: bold;
+	font-family: 'Nanum Myeongjo', serif;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 0;
+	outline: 0;
+	background: #c5adff;
+	border-radius: 20px;
+	color: black;
+}
 
 #div3 {
 	font-family: 'Nanum Myeongjo', serif;

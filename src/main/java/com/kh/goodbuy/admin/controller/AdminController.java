@@ -21,6 +21,7 @@ import com.kh.goodbuy.center.model.vo.Notice;
 import com.kh.goodbuy.center.model.vo.QNA;
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.ReportService;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.service.GoodsService;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -28,6 +29,8 @@ import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.member.model.vo.Search;
+import com.kh.goodbuy.town.model.service.TownService;
+import com.kh.goodbuy.town.model.vo.Town;
 
 
 
@@ -44,6 +47,8 @@ public class AdminController {
 	private QnaService qService;
 	@Autowired
 	private GoodsService gService;
+	@Autowired
+	private TownService tService;
 
 	// 관리자 페이지 메인페이지 이동
 	@GetMapping("/join")
@@ -158,7 +163,7 @@ public class AdminController {
 
 	}
 
-	// 신고 메인페이지 이동
+	// 신고 디테일페이지 이동
 	@GetMapping("/reportdetail")
 		public String ReportDetailView(@RequestParam int re_no, Model model) {
 
@@ -194,6 +199,38 @@ public class AdminController {
 		}
 		
 	}
+	// 회원 신고
+	@PostMapping("/reportmemberupdate")
+	public String reportmemberUpdate(@ModelAttribute Member m, HttpServletRequest request) {
+		
+		
+		int result = mService.updatememberReport(m);
+		
+		
+		if (result > 0) {
+			return "redirect:/admin/report";
+		} else {
+			throw new NoticeException("신고처리에 실패하였습니다.");
+		}
+		
+	}
+	
+	// 중고상품detail 페이지로
+		@GetMapping("/goodsdetail")
+		public String goGoodsDetailView(HttpServletRequest request,
+				 @RequestParam(value="gno", required=false) int gno,
+				 Model model) {
+			//상품 정보셀렉
+			Goods g = gService.Goodsdetail(gno);
+
+			
+			
+			List<Reply>rlist = gService.selectReplyList(g);
+			model.addAttribute("g", g);
+			System.out.println(rlist);
+			model.addAttribute("rlist", rlist);
+			return "goods/goodsdetail";
+		}
 
 	// 상품관리
 	// -------------------------------------------------------------------------------------------
@@ -238,7 +275,7 @@ public class AdminController {
 			}
 		
 	}
-	// 공지사항 삭제
+	// 상품 삭제
 		@GetMapping("/productdelete")
 		public String productDelete(int gno, HttpServletRequest request) {
 			
@@ -248,14 +285,14 @@ public class AdminController {
 			if (result > 0) {
 				return "redirect:/admin/product";
 			} else {
-				throw new NoticeException("공지사항 삭제에 실패하였습니다.");
+				throw new NoticeException("상품 삭제에 실패하였습니다.");
 			}
 		}
 	// 업데이트
 	@GetMapping("/productupdate")
 	public String productUpdate(int gno, HttpServletRequest request) {
 		
-		
+		System.out.println(gno);
 		int result = gService.updateProduct(gno);
 		
 		
@@ -475,8 +512,21 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// 통계1 페이지 이동
 	@GetMapping("/stats")
-	public String stats1View() {
-		return "admin/stats1";
+		// 관리자 공지사항 디테일페이지 이동
+
+		public ModelAndView stats1View(ModelAndView mv) {
+			List<Town> Seoul = tService.selectSeoul();
+			System.out.println(Seoul);   
+			if (Seoul != null) {
+				mv.addObject("Seoul", Seoul);
+				
+				mv.setViewName("admin/stats1");
+			} else {
+				mv.addObject("msg", "공지사항 목록 조회에 실패하였습니다.");
+				mv.setViewName("common/error_page");
+			}
+			return mv;
+		
 	}
 
 	// 통계2 페이지 이동

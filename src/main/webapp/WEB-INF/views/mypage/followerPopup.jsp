@@ -11,7 +11,7 @@
 <body>
 <div class="titleWrap">
         <span class="circle"></span>
-        <span class="Following">Following</span>
+        <span class="Following">Follower</span>
         <span class="Following">•</span>
         <span class="Following">${ cnt }</span>
         <span class="circle"></span>
@@ -37,12 +37,13 @@
        </c:forEach>
     </div>
     
-    <script>
+     <script>
     function goSellerPage(seller){
     	window.opener.location.href="${contextPath}/goods/sellerInfo?seller="+seller;
-    	window.close();
+		window.close();
     }
     </script>
+    
 
 </body>
 </html>

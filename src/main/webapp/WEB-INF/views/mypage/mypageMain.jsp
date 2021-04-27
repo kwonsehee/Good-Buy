@@ -76,8 +76,8 @@
             <p>${loginUser.nickname}</p><br>
             <p>${ mtlist.get(0) }</p>
             <p>${loginUser.user_id}</p>
-            <p><a onclick="showFollowing()">팔로잉 6</a></p>
-            <p><a onclick="showFollower()">팔로워 15</a></p>
+            <p><a onclick="showFollowing()">팔로잉 ${ followingCnt }</a></p>
+            <p><a onclick="showFollower()">팔로워 ${ followerCnt }</a></p>
             <p><a href="${ contextPath }/mypage/pointList">1,500 P</a></p>
         </div>
 
@@ -97,7 +97,7 @@
            <div class="secondLineBtn" onclick="location.href='${contextPath}/business/create'"><img src="${contextPath}/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
            </c:if>
            <c:if test="${loginUser.is_business == 'Y' }">
-            <div class="secondLineBtn" onclick="location.href='${contextPath}/business/detail'"><img src="${contextPath}/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
+            <div class="secondLineBtn" onclick="location.href='${contextPath}/business/change'"><img src="${contextPath}/resources/images/mypage/shop.png"><p>비즈프로필</p></div>
            </c:if>
            <div class="secondLineBtn" onclick="location.href='${contextPath}/mypage/reportList'"><img src="${ contextPath }/resources/images/mypage/alarm2.png"><p>신고</p></div>
         </div>
@@ -165,7 +165,7 @@
        }
 
        function showFollower(){
-            var url = "${contextPath}/mypage/following";
+            var url = "${contextPath}/mypage/follower";
             var _width = '400';
             var _height = '500';
 

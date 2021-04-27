@@ -13,6 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="report_id" column="REPORT_ID"/>
 		<result property="reported_id" column="REPORTED_ID"/>
 		<result property="re_cate" column="RE_CATE"/>
+		<result property="gno" column="G_NO"/>
+		<result property="change_name" column="CHANGE_NAME"/>
+		<result property="reported" column="REPORTED"/>
 	</resultMap>
 	<select id="selectReportList" resultMap="reportResultSet">
 		SELECT
@@ -29,18 +32,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                RE_NO ASC
 	</select>
 	<select id="selectReport" parameterType="_int" resultMap="reportResultSet">
-      SELECT
-            RE_NO
-		     , RETITLE
-		     , REPORTED_ID
-		     , RE_CONTENT
-		     , CREATE_DATE
-		     , RE_STATUS
-		     , RE_RESULT
-        FROM
-             REPORT
-       WHERE 
-            RE_NO = #{re_no}
+      SELECT 
+            G.G_NO,
+			R.RE_NO,
+            AF.CHANGE_NAME,
+            R.REPORTED_ID,
+            R.RE_CONTENT,
+            R.CREATE_DATE,
+            R.RE_STATUS,
+            R.RE_RESULT,
+            R.RETITLE
+		 FROM GOODS G, GOODS_REPORT GR, REPORT R, GOODSFILE GF, ADDFILE AF
+		WHERE G.G_NO = GR.G_NO
+		  AND GR.R_NO = R.RE_NO
+          AND G.G_NO = GF.G_NO
+          AND GF.F_NO = AF.F_NO
+		  AND R.RE_NO = #{re_no}
+        ORDER BY R.RE_NO DESC
+          
    </select>
 	<update id="updateReport" parameterType="Report">
       UPDATE
@@ -86,7 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 , RE_RESULT
 		 , REPORT_ID
 		 , REPORTED_ID
-		 , RE_CATE)
+		 , RE_CATE
+		 )
 		VALUES
 		(
 		  REPORT_SEQ.NEXTVAL
@@ -179,22 +189,25 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       ORDER BY
                RE_NO ASC
 	</select>
-	<select id="selectReport2List" resultMap="reportResultSet">
-		SELECT
-		       RE_NO
-		     , RETITLE
-		     , REPORTED_ID
-		     , RE_CONTENT
-		     , CREATE_DATE
-		     , RE_STATUS
-		     , RE_RESULT
-		  FROM
-		       REPORT
-		       WHERE
-		  		RE_CATE = 2
+<select id="selectReport2List" resultMap="reportResultSet">
+      SELECT
+            R.RE_NO
+           , R.RETITLE
+           , R.REPORTED_ID
+           , R.RE_CONTENT
+           , R.CREATE_DATE
+           , R.RE_STATUS
+           , R.RE_RESULT
+             , M.REPORTED
+        FROM
+             REPORT R, USER_REPORT UR, USER_INFO M
+             WHERE
+               R.RE_NO = UR.REPORT_NO
+               AND UR.USER_ID = M.USER_ID
+               AND R.RE_CATE = 2
       ORDER BY
-               RE_NO ASC
-	</select>
+               R.RE_NO ASC
+   </select>
 	<select id="selectReport3List" resultMap="reportResultSet">
 		SELECT
 		       RE_NO
@@ -287,7 +300,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, DEFAULT
 		, #{report_id}
 		, #{reported_id}
-		, 1
+		, 2
 		)
 		INTO USER_REPORT
 		VALUES
@@ -310,5 +323,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 		SELECT * FROM DUAL
 	</insert>
+
 
 </mapper>

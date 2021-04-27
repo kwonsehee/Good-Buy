@@ -36,6 +36,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="gno" column="G_NO"/>
 	</resultMap>
+	<resultMap type="Member" id="Follow">
+		<id property="user_id" column="USER_ID"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="followCnt" column="FOLLOWCNT"/>
+		<result property="goodsCnt" column="GOODSCNT"/>
+		<result property="isfollow" column="ISFOLLOW"/>
+	</resultMap>
+	<resultMap type="Member" id="MyFollow">
+		<id property="user_id" column="USER_ID"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="photo" column="PHOTO"/>
+	</resultMap>
 	
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
@@ -400,6 +415,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	</update>
+
+<update id="updatememberReport" parameterType="Report">
+      UPDATE
+            MEMBER
+         SET
+             
+             REPORTED = REPORT_SEQ.NEXTVAL
+           
+      WHERE
+            USER_ID = #{user_id}
+   </update>
+
 	<insert id="insertFollow"  parameterType="java.util.Map">
 	INSERT INTO
 	FOLLOW
@@ -420,4 +447,86 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
    		  AND FOLLOWING = #{seller}
 	
 	</delete>
+
+
+	
+	<select id="selectFollowList" parameterType="java.util.Map" resultMap="Follow">
+		SELECT 
+			    U.USER_ID USER_ID
+			  , NICKNAME
+			  , EMAIL
+			  , PHONE
+			  , PHOTO
+			  , (SELECT COUNT(*) FROM FOLLOW WHERE FOLLOWING = U.USER_ID) FOLLOWCNT
+			  , (SELECT COUNT(*) FROM GOODS WHERE USER_ID = U.USER_ID) GOODSCNT
+			  , (SELECT COUNT(*) 
+			  	   FROM FOLLOW 
+			  	  WHERE FOLLOWING =U.USER_ID
+		   			AND FOLLOWER = #{user_id}) ISFOLLOW
+   		 FROM FOLLOW F JOIN USER_INFO U 
+		   ON (F.FOLLOWER = U.USER_ID)
+   		WHERE F.FOLLOWING = #{seller}
+	</select>
+	<select id="selectFollowingList" parameterType="java.util.Map" resultMap="Follow">
+		SELECT 
+			    U.USER_ID USER_ID
+			  , NICKNAME
+			  , EMAIL
+			  , PHONE
+			  , PHOTO
+			  , (SELECT COUNT(*) FROM FOLLOW WHERE FOLLOWING = U.USER_ID) FOLLOWCNT
+			  , (SELECT COUNT(*) FROM GOODS WHERE USER_ID = U.USER_ID) GOODSCNT
+			  , (SELECT COUNT(*)
+		 		   FROM FOLLOW
+				  WHERE FOLLOWING =U.USER_ID
+				    AND FOLLOWER =#{user_id}) ISFOLLOW
+		FROM FOLLOW F JOIN USER_INFO U 
+		  ON (F.FOLLOWING = U.USER_ID)
+	   WHERE F.FOLLOWER =  #{seller}
+	</select>
+	
+	<select id="selectMyFollowingCount" parameterType="string" resultType="_int">
+	
+	SELECT COUNT(FOLLOWING) CNT
+	  FROM FOLLOW
+     WHERE FOLLOWER = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowingList" parameterType="string" resultMap="MyFollow">
+	SELECT 
+			FOLLOWING USER_ID, 
+			NICKNAME, 
+			PHOTO
+	  FROM 
+	  		FOLLOW
+	  JOIN 
+	  		USER_INFO ON(FOLLOWING = USER_ID)
+	  WHERE 
+	  		FOLLOWER = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowerCount" parameterType="string" resultType="_int">
+	
+	SELECT COUNT(FOLLOWER) CNT
+	  FROM FOLLOW
+     WHERE FOLLOWING = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowerList" parameterType="string" resultMap="MyFollow" >
+	SELECT 
+			FOLLOWER USER_ID, 
+			NICKNAME, 
+			PHOTO
+	  FROM 
+	  		FOLLOW
+	  JOIN 
+	  		USER_INFO ON(FOLLOWER = USER_ID)
+	 WHERE 
+	 		FOLLOWING = #{user_id}
+	</select>
+	
+	
+	
+
+
 </mapper>

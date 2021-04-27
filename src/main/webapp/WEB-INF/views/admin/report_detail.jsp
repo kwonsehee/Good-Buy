@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                   <tr id="tr_hover1" onClick="location.href='admin_report_detail.html'">
-                    <th>${ report.re_no }</th><th>${ report.retitle }</th><th>${ report.reported_id }</th><th>${ report.retitle }</th>
+                    <th>${ report.re_no }</th><th>${ report.retitle }</th><th>${ report.reported_id }</th><th>${ report.re_content }</th>
                     <c:if test="${ report.re_result == 'Y' }">
 						<th><button id="createButton" disabled>처리 완료</button></th>
 					</c:if>
@@ -71,10 +71,10 @@
             <div id="div4_1">
               <div id="div4_1_1">
             <label id="la1">상품 정보</label><br>
-            <label id="la2">상품 번호 </label><br>
+            <label id="la2">상품 번호 ${ report.gno }</label><br>
           </div>
           <div id="div4_1_2">
-            <img id="src1" src="images/아이패드.jpg"><br>
+            <img id="src1" src="${ contextPath }/resources/images/goodupload/${report.change_name}"><br>
             
             </div>
             
@@ -98,7 +98,7 @@
     
         </div>
         <div id="div5">
-          <button id="createButton2" onClick="location.href='admin_product_detail.html'">상품 상세</button>
+          <button id="createButton2" onclick="location.href='${ contextPath }/admin/goodsdetail?gno=${ report.gno }'">상품 상세</button>
           <form action="${ contextPath }/admin/reportupdate" id="writeForm" method="post">
           <input type="hidden" name="re_no" value="${ report.re_no }"/>
           <input type="hidden" name="reported_id" value="${ report.reported_id }">

@@ -11,6 +11,7 @@ import com.kh.goodbuy.business.model.vo.Payment;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
+import com.kh.goodbuy.member.model.vo.PageInfo;
 import com.kh.goodbuy.town.model.vo.Town;
 
 public interface BusinessService {
@@ -73,6 +74,7 @@ public interface BusinessService {
 
 	public List<Review> insertReview(Review r);
 
+
 	public int cashInsert(Payment p);
 
 	public int cashUpdate(Payment p);
@@ -82,6 +84,12 @@ public interface BusinessService {
 	public int updateCashUse(Map<String, Integer> map);
 
 	public int updateViewCnt(Map<String, Integer> map);
+
+	public int selectMyFavShopCount(String user_id);
+
+	public List<Business> selectMyFavShopList(String user_id, PageInfo pi);
+
+
 
 	
 
