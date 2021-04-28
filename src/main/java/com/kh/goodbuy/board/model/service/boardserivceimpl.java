@@ -9,8 +9,6 @@ import com.kh.goodbuy.board.model.dao.BoardDao;
 import com.kh.goodbuy.board.model.vo.Board;
 import com.kh.goodbuy.board.model.vo.BoardAddfile;
 import com.kh.goodbuy.board.model.vo.BoardCate;
-import com.kh.goodbuy.goods.model.dao.GoodsDao;
-import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 @Service
@@ -35,25 +33,34 @@ public class boardserivceimpl implements BoardService {
 
 
 	@Override
-	public List<Board> selectList() {
+	public List<Board> selectList(PageInfo pi) {
 	
-		return bDao.selectList();
+		return bDao.selectList(pi);
 	}
 
 
 
 	@Override
 	public int selectListCount() {
-		// TODO Auto-generated method stub
+	
 		return bDao.selectListCount();
 		}
+
 
 
 
 	@Override
 	public int selectMyBoardListCount(String user_id) {
 		return bDao.selectMyBoardListCount(user_id);
+
+//디테일페이지
+	@Override
+	public Board BoardDetail(int bno) {
+		
+		return  bDao.BoardDetail(bno);
+
 	}
+
 
 
 
@@ -68,6 +75,10 @@ public class boardserivceimpl implements BoardService {
 	public int deleteBoard(int bno) {
 		return bDao.deleteBoard(bno);
 	}
+
+
+
+
 	}
 
 	

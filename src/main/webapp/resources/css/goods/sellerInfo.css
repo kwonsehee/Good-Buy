@@ -43,11 +43,11 @@
 #reviewSection div a{
     padding-right: 5%;
     text-decoration: none;
-    color: #9a9999;
+    
 }
 #reviewSection div a:hover{
     cursor: pointer;
-    color : black;
+    color : black !important;
 }
 .reviewStar{
     text-align: right;
@@ -247,4 +247,7 @@ margin-top : 6px;
 	 width : 150px !important;
 	 hegiht : 150px !important;
 	 margin-left : 20px !important;
+}
+.following_div, .follower_div, .review_div{
+	display:none;
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.dao.GoodsDao;
@@ -318,6 +319,12 @@ public class GoodsServiceImpl implements GoodsService {
 	public List<Goods> selectSellingList(String user_id) {
 		// TODO Auto-generated method stub
 		return gDao.selectSellingList(user_id);
+	}
+
+	@Override
+	public List<Review> selectReviewList(String seller) {
+		// TODO Auto-generated method stub
+		return gDao.selectReviewList(seller);
 	}
 
 }

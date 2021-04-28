@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.board.model.exception.BoardExcepotion;
 import com.kh.goodbuy.board.model.service.BoardService;
 import com.kh.goodbuy.board.model.vo.Board;
 import com.kh.goodbuy.common.Pagination;
@@ -40,12 +42,13 @@ public class boardController {
 
 		// 게시글 개수 구하기
 		int listCount = bService.selectListCount();
-		 System.out.println(listCount);
+		System.out.println(listCount);
 
 		// 요청 페이지에 맞는 게시글 리스트 조회
-		PageInfo pi = Pagination.getPageInfo(currentPage,listCount,4);
-		List<Board> list = bService.selectList();
- System.out.println(list);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 4);
+		List<Board> list = bService.selectList(pi);
+
+		System.out.println(list);
 		if (list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
@@ -72,6 +75,9 @@ public class boardController {
 	 * mv.setViewName("board/boardWrite"); return mv; }
 	 */
 
+	
+	
+	
 	// 게시글 작성
 	@PostMapping("/insert")
 	public String BoardInsert(@ModelAttribute Board b, MultipartFile fileup, HttpServletRequest request) {
@@ -129,10 +135,17 @@ public class boardController {
 	}
 
 	/* 디테일 페이지 */
-	@GetMapping("detail")
-	public String boarddetailview() {
+	@GetMapping("/detail")
+	public String boarddetailview(HttpServletRequest request, @RequestParam(value = "bno", required = false) int bno,
+			Model model) {
+		System.out.println(bno);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		Board b = bService.BoardDetail(bno);
+		model.addAttribute("b", b);
 		return "board/boardDetail";
 	}
+
+	
 
 	/* 검색 */
 	@GetMapping("/serch")
@@ -140,6 +153,7 @@ public class boardController {
 		return "board/boardSerch";
 	}
 	
+
 	@GetMapping("/delete")
 	public String DeleteBoard(int bno, String pageName) {
 		
@@ -156,5 +170,34 @@ public class boardController {
 		}
 		
 	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

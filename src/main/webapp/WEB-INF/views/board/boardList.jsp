@@ -30,7 +30,7 @@
         </select>
         <div class="list">
          <c:forEach var="b" items="${ list }">
-         <div class="start" onclick="location.href='${contextPath }/board/detail'">
+         <div class="start" onclick="location.href='${contextPath }/board/detail?bno=${b.bno }'">
                 <ul>
                     <li><div class="kind"><p class="subject">${b.bcatename}</p></div></li>
                     <li><p class="title">${b.btitle}</p></li>
@@ -43,8 +43,9 @@
                 <img src="${contextPath}/resources/images/boardupload/${b.bfile}" class="Photo">
                 <p class="bcontent">${b.bhistory}</p>
             </div>
+            <br> <br>
              </c:forEach>
-            <br><br>
+       
  
               
             <br><br><br>

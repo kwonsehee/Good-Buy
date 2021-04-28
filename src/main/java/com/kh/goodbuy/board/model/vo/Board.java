@@ -30,6 +30,7 @@ public class Board {
 	private String nickname;
 	private int like_cnt;
 	private int rep_cnt;
+	private String bphoto;
     
 	} 
 	

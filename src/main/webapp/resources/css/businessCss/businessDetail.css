@@ -12,6 +12,7 @@
             font-family: 'yg-jalnan';
             margin-bottom: 30px;
             margin-top: 30px;
+            
         }
         .photoArea{
             width: 655px;
@@ -191,10 +192,10 @@
             color: #05aad1 ;
             font-size: 20px;
         }
-        #writer{
+        .writer{
             margin-left: 17px;
         }
-        #reviewInfo{
+        .reviewInfo{
             margin-left: 17px;
             font-family: 'yg-jalnan';
         }
@@ -254,4 +255,12 @@
 	    flex: 1 1 auto;
 	    padding: 1rem;
 }
+        }
+        .userPhoto{
+        	width:20px;
+        	height:20px;	
+        }
+        #plusReviewBtnArea{
+        	border : 1px solid #c4c4c4;
+        	text-align:center;
         }

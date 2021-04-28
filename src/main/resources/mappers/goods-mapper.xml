@@ -98,6 +98,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="createDate" column="CREATE_DATE"/>
 	</resultMap>
 	
+	 <resultMap type="Review" id="ReviewResult">
+		<id property="userId" column="USER_ID"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="content" column="CONTENT"/>
+		<result property="reviewDate" column="REVIEW_DATE"/>
+		<result property="grade" column="GRADE"/>
+	</resultMap>
+	
 	
 	<select id="selectCate" resultMap="cateSet">
 		SELECT
@@ -1073,7 +1082,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE G_STATUS = 'Y'
 	 ORDER BY CREATE_DATE DESC
 	</select>
-	
+	<select id="selectReviewList" parameterType="string" resultMap="ReviewResult">
+		SELECT 
+				R.USER_ID USER_ID
+			  , NICKNAME 
+			  , U.PHOTO PHOTO
+			  , R.CONTENT CONTENT
+			  , R.REVIEW_DATE REVIEW_DATE
+			  , R.GRADE GRADE
+		 FROM REVIEW R JOIN USER_REVIEW UR
+		   ON (R.REVIEW_NO = UR.REVIEW_NO)
+		 JOIN USER_INFO U
+		   ON (R.USER_ID = U.USER_ID)
+	  	WHERE UR.USER_ID = #{user_id}
+	  	  AND R.STATUS = 'Y'
+	</select>
 </mapper>
 
 

@@ -2,6 +2,7 @@ package com.kh.goodbuy.goods.model.service;
 
 import java.util.List;
 
+import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.vo.Addfile;
@@ -117,6 +118,8 @@ public interface GoodsService {
 
 	//판매자가 파는 상품리스트 셀렉
 	public List<Goods> selectSellingList(String user_id);
+	//판매자에게 달린 리뷰리스트
+	public List<Review> selectReviewList(String seller);
 
 
 
