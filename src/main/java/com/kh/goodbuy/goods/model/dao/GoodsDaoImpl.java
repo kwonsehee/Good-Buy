@@ -331,16 +331,6 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
-	public List<Keyword> searchKeyword(String[] gArr) {
-		Map<String, String> map = new HashMap <String, String>();
-		for(int i = 0; i<gArr.length; i++) {
-			map.put("gArr",gArr[i]);
-			System.out.println("map : " + map);
-		}
-		return sqlSession.selectList("goodsMapper.searchKeyword",map);
-  }
-  
-	@Override
 	public int updateProduct(int gno) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("goodsMapper.updateProduct", gno);
@@ -394,6 +384,11 @@ public class GoodsDaoImpl implements GoodsDao{
 	public List<Review> selectReviewList(String seller) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("goodsMapper.selectReviewList", seller);
+	}
+
+	@Override
+	public int insertKeywordAlarm(Goods g) {
+		return sqlSession.insert("goodsMapper.insertKeywordAlarm",g);
 	}
 
 }

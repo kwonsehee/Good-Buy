@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.goods.model.exception.GoodsExcpetion;
 import com.kh.goodbuy.goods.model.service.GoodsService;
@@ -303,20 +304,11 @@ public class GoodsController {
 		int result = gService.insertGoods(g, list);
 		
 		// 키워드 부분 미완성
-		/*
-		// 1) 넘어온 gtitle 공백 단위로 쪼갬
-		String[] gArr = g.getGtitle().split(" ");
-
-		for(int i = 0; i < gArr.length; i++) {
-			System.out.println("gArr : " + gArr[i]);
-		}
-		// 2) keyword테이블에 제목 포함된 행 있는지 대조
-		List<Keyword> klist = gService.searchKeyword(gArr);
 		
-		System.out.println("klist : " + klist);
+		// 인서트 된 상품 제목 키워드 대조 후 알람 DB 인서트 
+		int result2 = gService.insertKeywordAlarm(g);
 		
-		// 3) ALARM DB에 keyword,user_id,gno.currval 넣어줌
-		*/
+		System.out.println("키워드 알림 들어감? : " + result2);
 		
 		if(result>0) {
 			

@@ -97,9 +97,6 @@ public interface GoodsService {
 
 	//댓글삭제
 	public List<Reply> updateReply(int rno, Goods g);
-	
-	// 키워드 대조
-	public List<Keyword> searchKeyword(String[] gArr);
 
 	// 관리자 상품 관리
 	public int updateProduct(int gno);
@@ -120,6 +117,8 @@ public interface GoodsService {
 	public List<Goods> selectSellingList(String user_id);
 	//판매자에게 달린 리뷰리스트
 	public List<Review> selectReviewList(String seller);
+	// 로그인유저의 키워드 알림DB 인서트 
+	public int insertKeywordAlarm(Goods g);
 
 
 

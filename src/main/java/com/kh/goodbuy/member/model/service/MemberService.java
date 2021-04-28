@@ -100,6 +100,8 @@ public interface MemberService {
 		public List<Member> selectMyFollowerList(String user_id);
 		// 로그인유저의 팔로워 카운트 
 		public int selectMyFollowerCount(String user_id);
+		// 키워드 삭제 
+		public int deleteKey(Keyword k);
 		
 
 

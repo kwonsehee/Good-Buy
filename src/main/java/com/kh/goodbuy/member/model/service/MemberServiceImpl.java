@@ -172,6 +172,10 @@ public class MemberServiceImpl implements MemberService {
 	public int selectMyFollowerCount(String user_id) {
 		return mDao.selectMyFollowerCount(user_id);
 	}
+	@Override
+	public int deleteKey(Keyword k) {
+		return mDao.deleteKey(k);
+	}
 
 
 

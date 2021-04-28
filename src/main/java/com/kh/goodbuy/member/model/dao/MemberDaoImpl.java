@@ -236,6 +236,11 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectOne("memberMapper.selectMyFollowerCount",user_id);
 	}
 
+	@Override
+	public int deleteKey(Keyword k) {
+		return sqlSession.delete("memberMapper.deleteKey", k);
+	}
+
 
 
 	

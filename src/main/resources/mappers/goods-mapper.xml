@@ -917,22 +917,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</update>
 	
-	<!-- <select id="searchKeyword" parameterType="map" resultMap="keywordResultSet">
-		SELECT 
-				USER_ID
-			  , KEYWORD
-	      FROM 
-	      		KEYWORD
-	     WHERE 
-	     		<foreach collection="gArr" item="gtitle" open="'" close="'" separator="|">
-	     		REGEXP_LIKE(KEYWORD, #{gtitle.value})
-	    		</foreach>
-	
-	</select> -->
-	
-	
-	
-
 	
 	<update id="updateProduct" parameterType="Goods">
 		UPDATE GOODS
@@ -1097,6 +1081,38 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	  	WHERE UR.USER_ID = #{user_id}
 	  	  AND R.STATUS = 'Y'
 	</select>
+	
+	<insert id="insertKeywordAlarm" parameterType="Goods">
+	INSERT INTO ALARM
+			(
+			  ALARM_NO
+			, ALARM_TYPE
+	        , ALARM_CONTENT
+			, USER_ID
+			, ALARM_DATE
+			, REF_NO
+			)
+	SELECT 
+			A_SEQ.NEXTVAL, 5, CONCAT(KEYWORD, ' 키워드가 포함된 게시글이 등록되었습니다.'), USER_ID, SYSDATE, G_SEQ.CURRVAL
+	  FROM 
+	  		KEYWORD
+	 WHERE 
+	 		#{gtitle} LIKE '%'||KEYWORD||'%'
+
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
 
 
