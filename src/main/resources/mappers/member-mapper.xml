@@ -525,7 +525,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 		FOLLOWING = #{user_id}
 	</select>
 	
-	
+	<delete id="deleteKey" parameterType="Keyword">
+		DELETE 
+		  FROM 
+		  		KEYWORD 
+	     WHERE 
+	     		KEYWORD = #{keyword}
+	       AND 
+	       		USER_ID = #{user_id}
+	</delete>
 	
 
 

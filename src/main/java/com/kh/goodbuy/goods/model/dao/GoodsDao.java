@@ -105,8 +105,6 @@ public interface GoodsDao {
 	public int updateFile(List<Addfile> list, int gno);
 	//댓글삭제
 	public int updateReply(int rno);
-	//키워드 대조
-	public List<Keyword> searchKeyword(String[] gArr);
 
 	// 관리자 상품 관리
 	public int updateProduct(int gno);
@@ -127,6 +125,9 @@ public interface GoodsDao {
 	public List<Goods> selectSellingList(String user_id);
 	//판매자에게 달린 리뷰리스트
 	public List<Review> selectReviewList(String seller);
+
+	// 로그인유저의 키워드 알림DB 인서트 
+	public int insertKeywordAlarm(Goods g);
 	//리뷰 인서트
 	public int insertReview(Review r);
 	//리뷰 삭제 

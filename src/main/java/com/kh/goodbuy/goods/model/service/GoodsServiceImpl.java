@@ -268,10 +268,6 @@ public class GoodsServiceImpl implements GoodsService {
 		return gDao.selectReplyList(g);
 	}
 
-	@Override
-	public List<Keyword> searchKeyword(String[] gArr) {
-		return gDao.searchKeyword(gArr);
-	}
 
 	@Override
 	public int updateProduct(int gno) {
@@ -329,7 +325,10 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public List<Review> insertReview(Review r, String userId) {
+	public int insertKeywordAlarm(Goods g) {
+		return gDao.insertKeywordAlarm(g);
+
+    public List<Review> insertReview(Review r, String userId) {
 		//댓글 인서트 먼저
 		int result = gDao.insertReview(r);
 		if(result>0) {

@@ -705,10 +705,31 @@ public class MypageController {
 		
 		// insert 후 키워드 조회 후 화면에 뿌리기
 		List<Keyword> list = mService.selectKeyword(loginUser.getUser_id());
-		System.out.println("키워드 리스트 : " + list);
+		//System.out.println("키워드 리스트 : " + list);
 		model.addAttribute("list", list);
 		
 		return "redirect:/mypage/setKeyword";
+		
+	}
+	
+	// 키워드 삭제
+	@GetMapping("/deleteKey")
+	public String deleteKey(String key,@ModelAttribute("loginUser") Member loginUser,Model model) {
+		System.out.println("키워드 넘어오니  : " + key);
+		
+		Keyword k = new Keyword();
+		k.setKeyword(key);
+		k.setUser_id(loginUser.getUser_id());
+		
+		int result = mService.deleteKey(k);
+		
+		System.out.println("키워드 지워짐 ? " + result);
+		
+		if(result > 0) {
+			return "redirect:/mypage/setKeyword";
+		} else {
+			return "common/errorpage";
+		}
 		
 	}
 	

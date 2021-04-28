@@ -33,7 +33,7 @@
 		<c:forEach items="${ list }" var="klist">
 			<div class='eachKeywordWrap'>
 			${klist.keyword }&nbsp; &nbsp;
-				<button class='cancelBtn' onclick='cancelKeyword()'>X</button>
+				<button class='cancelBtn' onclick="cancelKeyword('${klist.keyword}')">X</button>
 			</div>
 		</c:forEach>
 		</c:if>
@@ -80,11 +80,15 @@
        }
 
        // 키워드 X 클릭 -> 취소
-       function cancelKeyword(){
+       function cancelKeyword(key){
            const div = $("#cancelBtn").parent();
            div.remove();
            keyCount = $(".eachKeywordWrap").length;
            $("#keyCount").html(keyCount);
+           
+           console.log(key);
+          
+           location.href="${contextPath}/mypage/deleteKey?key="+key;
        }
        
     </script>
