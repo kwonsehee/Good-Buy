@@ -282,18 +282,6 @@ public class MemberController {
 
 	}
 	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	// 아이디 비밀번호 찾기
 	@GetMapping("/find")
@@ -411,4 +399,34 @@ public class MemberController {
 		      }
 		      
 		   }
+		  
+	// 아이디 찾기
+	@PostMapping("/findId")
+	public ModelAndView findId(String email,ModelAndView mv) {
+		
+		String user_id = mService.findeUserId(email);
+		
+		System.out.println("아이디 찾아오니? " + user_id);
+		
+		if(user_id != null) {
+			String nextId = user_id.substring(3,user_id.length());
+			String star = "";
+			for(int i = 0; i < nextId.length(); i++) {
+				star += "*";
+			}
+			user_id = user_id.substring(0,3) + star;
+			mv.addObject("user_id",user_id);
+			mv.setViewName("member/findUserInfo");
+		} else {
+			mv.setViewName("member/findUserInfo");
+		}
+		
+		System.out.println(user_id);
+		
+		return mv;
+		
+	}
+	
+		  
+		  
 }

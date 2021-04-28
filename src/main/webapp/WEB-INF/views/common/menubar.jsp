@@ -164,7 +164,7 @@
 					</div>
 					<div class="modal-footer">
 					
-						<a href="${ contextPath }/member/find" id="find_id_pwd">아이디/비밀번호 찾기</a>
+						<a href="${ contextPath }/member/find" id="find_id_pwd" style="color:black;">아이디/비밀번호 찾기</a>
 						<!-- 새 창 띄우기-->
 
 						<button type="button" id="closeBtn" data-bs-dismiss="modal">닫기</button>

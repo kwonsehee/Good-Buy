@@ -176,6 +176,10 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteKey(Keyword k) {
 		return mDao.deleteKey(k);
 	}
+	@Override
+	public String findeUserId(String email) {
+		return mDao.findUserId(email);
+	}
 
 
 

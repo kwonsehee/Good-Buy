@@ -241,6 +241,11 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.delete("memberMapper.deleteKey", k);
 	}
 
+	@Override
+	public String findUserId(String email) {
+		return sqlSession.selectOne("memberMapper.findUserId",email);
+	}
+
 
 
 	
