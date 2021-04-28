@@ -7,7 +7,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 
 
-	<resultMap id="boardResultSet" type="Board">
+
+<resultMap id="boardResultSet" type="Board">
+  <id property="bno" column="B_NO"/><!-- 게시글번호 -->
+  <result property="bstatus" column="B_STATUS"/><!-- 게시글상태 -->
+   <result property="btitle" column="B_TITLE"/><!-- 제목-->
+    <result property="bhistory" column="B_HISTORY"/><!-- 내용 -->
+     <result property="bmodifydate" column="B_MODIFY_DATE"/><!-- 수정일 -->
+      <result property="bcreatedate" column="B_CREATE_DATE"/><!-- 작성일-->
+       <result property="bcate" column="B_CATE"/><!-- 카테고리 -->
+        <result property="userid" column="USER_ID"/><!-- 아이디 -->
+        <result property="bfile" column="B_FILE"/><!-- 이미지 -->
+        <result property="bcatename" column="B_NAME"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="like_cnt" column="LIKE_CNT"/>
+        <result property="rep_cnt" column="REP_CNT"/>
+   </resultMap>
+  
+  	<resultMap id="boardResultSet2" type="Board">
 		<id property="bno" column="B_NO" /><!-- 게시글번호 -->
 		<result property="bstatus" column="B_STATUS" /><!-- 게시글상태 -->
 		<result property="btitle" column="B_TITLE" /><!-- 제목 -->
@@ -19,9 +36,115 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="bfile" column="B_FILE" /><!-- 이미지 -->
 		<result property="bcatename" column="B_NAME" /><!-- 닉네임 -->
 		<result property="bphoto" column="PHOTO" /> <!-- 프로필 사진 -->
-        <result property="bpostno" column="POST_NO"/>
+    <result property="bpostno" column="POST_NO"/>
          
 	</resultMap>
+
+
+
+<select id="selectList" resultMap="boardResultSet">
+SELECT 
+     TOWN_BOARD.B_NO
+    ,B_STATUS
+    ,B_TITLE
+    ,B_HISTORY
+    ,B_MODIFY_DATE
+    ,B_CREATE_DATE
+    ,B_NAME
+    ,USER_ID
+    ,B_FILE
+   FROM 
+       TOWN_BOARD
+       JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO) 
+    WHERE 
+        B_STATUS ='Y'
+    ORDER BY
+       B_NO DESC
+</select>
+ 
+ <insert id="insertboard" parameterType="Board">
+      INSERT 
+         INTO TOWN_BOARD 
+    ( 
+     B_NO
+    ,B_STATUS
+    ,B_TITLE
+    ,B_HISTORY
+    ,B_MODIFY_DATE
+    ,B_CREATE_DATE
+    ,B_CATE
+    ,USER_ID
+    ,B_FILE
+    )
+    VALUES
+    (
+    BOARD_SEQ.NEXTVAL 
+    ,DEFAULT
+    ,#{btitle}
+    ,#{bhistory}
+    ,SYSDATE
+    ,SYSDATE
+    ,#{bcate}
+    ,#{userid}
+    ,#{bfile}
+    )
+ </insert>
+<select id="selectListCount" resultType="_int">
+      SELECT 
+            COUNT(*)
+          FROM
+                TOWN_BOARD
+         WHERE
+               B_STATUS = 'Y'
+   </select>
+ 
+ <select id="selectMyBoardListCount" parameterType="string" resultType="_int">
+ 	SELECT 
+ 			COUNT(B_NO)
+	  FROM 
+	  		TOWN_BOARD
+	 WHERE 
+	 		USER_ID = #{user_id}
+	   AND
+	   		B_STATUS = 'Y'
+ </select>
+ 
+ <select id="selectMyBoardList" parameterType="string" resultMap="boardResultSet">
+ 	SELECT 
+ 			TOWN_BOARD.B_NO,
+ 			B_NAME,
+ 			B_TITLE,
+ 			B_HISTORY,
+ 			B_MODIFY_DATE,
+ 			B_CREATE_DATE,
+ 			NICKNAME,
+ 			B_FILE,
+ 			B_STATUS,
+ 			(SELECT COUNT(USER_ID) FROM LIKE_TOWN WHERE TOWN_BOARD.B_NO = POST_NO)LIKE_CNT,
+ 			(SELECT COUNT(R_NO) FROM TOWN_REPLY WHERE TOWN_BOARD.B_NO = POST_NO)REP_CNT
+	  FROM 
+	  		TOWN_BOARD
+	  JOIN 
+	  		TOWN_CATE ON(B_CATE = TOWN_CATE.B_NO)
+	  JOIN
+	  		USER_INFO USING(USER_ID)
+	 WHERE 
+	 		USER_ID = #{user_id}
+	   AND
+	   		B_STATUS = 'Y'
+ 
+ </select>
+ 
+ <update id="deleteBoard" parameterType="_int">
+ 	UPDATE 
+ 			TOWN_BOARD
+ 	   SET
+ 	   		B_STATUS = 'N'
+ 	 WHERE
+ 	 		B_NO = #{bno}
+ 	  
+ </update>
+
 
 
 
@@ -89,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE
 		B_STATUS = 'Y'
 	</select>
-	<select id="selectdetail" resultMap="boardResultSet">
+	<select id="selectdetail" resultMap="boardResultSet2">
 		SELECT
 		TOWN_BOARD.B_NO B_NO
 		,B_STATUS

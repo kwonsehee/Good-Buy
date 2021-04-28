@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.goodbuy.board.model.service.BoardService;
+import com.kh.goodbuy.board.model.vo.Board;
 import com.kh.goodbuy.business.model.service.BusinessService;
 import com.kh.goodbuy.business.model.vo.Business;
 import com.kh.goodbuy.common.Pagination;
@@ -60,6 +62,8 @@ public class MypageController {
 	private ReportService reService;
 	@Autowired
 	private BusinessService bService;
+	@Autowired
+	private BoardService boService;
 	
 	
 	// 마이페이지 메인 화면으로
@@ -717,7 +721,25 @@ public class MypageController {
 	
 	// 내글/댓글 - 동네생활 글 화면
 	@GetMapping("/myBoardList")
-	public ModelAndView showMyBoardList(ModelAndView mv) {
+	public ModelAndView showMyBoardList(ModelAndView mv,@ModelAttribute("loginUser") Member loginUser,
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 10;
+		PageInfo pi;
+		listCount = boService.selectMyBoardListCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Board> blist = boService.selectMyBoardList(loginUser.getUser_id(),pi);
+		
+		System.out.println("내가 쓴 글 listCount : " + listCount);
+		System.out.println("내가 쓴 글 list : " + blist);
+		
+		
+		mv.addObject("pi", pi);
+		mv.addObject("blist", blist);
+		
 		mv.setViewName("mypage/myBoardList");
 		return mv;
 	}

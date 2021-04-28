@@ -27,6 +27,9 @@ public class Board {
 	private int fno;
 	private int postno;
 	private String bfile;
+	private String nickname;
+	private int like_cnt;
+	private int rep_cnt;
 	private String bphoto;
     
 	} 

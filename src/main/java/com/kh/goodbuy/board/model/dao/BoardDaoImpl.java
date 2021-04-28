@@ -53,7 +53,29 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlSession.selectOne("boardmapper.selectdetail", bno);
 	}
 
-	
+
+@Override
+public int selectMyBoardListCount(String user_id) {
+	return sqlSession.selectOne("boardmapper.selectMyBoardListCount",user_id);
+}
+
+
+
+@Override
+public List<Board> selectMyBoardList(String user_id,PageInfo pi) {
+	int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+	RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+	return sqlSession.selectList("boardmapper.selectMyBoardList",user_id,rowBounds);
+}
+
+
+
+@Override
+public int deleteBoard(int bno) {
+	return sqlSession.update("boardmapper.deleteBoard",bno);
+}
+
+
 
 
 }

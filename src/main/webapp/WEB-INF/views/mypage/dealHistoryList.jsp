@@ -29,7 +29,7 @@
                 </ul>
                
                 <div class="gStatus"><p class="statusText">거래 완료</p></div>
-                <p class="gprice">8,000원</p>
+                <p class="gprice">${ dlist.gprice }원</p>
                 <a class="reviewBtn" onclick="goReviewPage(${dlist.gno})">후기 쓰러 가기 > </a>
             </div>
 		</c:forEach>

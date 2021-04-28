@@ -153,29 +153,38 @@ public class boardController {
 		return "board/boardSerch";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*@GetMapping("/delete")
-	public String boarddelete(int bno,@RequestParam(value="pageName",required=false,defaultValue="null")String pageName) {
+
+	@GetMapping("/delete")
+	public String DeleteBoard(int bno, String pageName) {
 		
-		int result =bService.deleteboard(bno);
+		System.out.println("넘어온 bno : " + bno);
 		
-		System.out.println("페이지,"+pageName);
+		System.out.println("넘어온 페이지 : " + pageName);
 		
-		return "redirect:/board/boardlist";
-		*/
+		int result = bService.deleteBoard(bno);
+		
+		if(pageName.equals("mypage")) {
+			return "redirect:/mypage/myBoardList";
+		}else {
+			return "board/list";
+		}
+		
+	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	
 	
@@ -190,5 +199,5 @@ public class boardController {
 	
 	
 	
-	
+
 }

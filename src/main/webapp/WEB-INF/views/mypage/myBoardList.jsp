@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,85 +20,140 @@
             <li><a id="sub_goods" href="${contextPath}/mypage/myGoodsReplyList">중고거래 댓글</a></li>
         </ul>
 
+		<!-- 리스트 있을 때 -->
+		<c:if test="${ blist != null }">
         <div class="listWrap">
+         <c:forEach var="b" items="${ blist }">
             <div class="eachListWrap">
-                <ul>
-                <li><div class="bCategory"><p class="cateName">우리동네질문</p></div></li>
-                <li><p class="gtitle">둔촌동 세탁소 추천 해주세요~</p></li>
-                <li class="town">둔촌동 피바다</li>
-                <li class="dot">•</li>
-                <li class="createDate">Yesterday</li>
-                </ul>
-
-                <img src="${ contextPath }/resources/images/mypage/more.png" class="likeIcon" onclick="showMenu()">
-                <p class="bcontent">한동안 크린토피아 이용했었는데...친절은 하지만 옷은 세탁이 잘 되는지 모르겠어서 다른곳  이용해볼까 하...</p>
-                <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
-                <p class="replyCount">10</p>
-                <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
-                <p class="likeCount">1</p>
-            </div>
-
-            <div class="eachListWrap">
-                <ul>
-                    <li><div class="bCategory"><p class="cateName">기타</p></div></li>
-                    <li><p class="gtitle">천호공원에 주인 없는 강아지가 있어요</p></li>
-                    <li class="town">강철 딱지맘</li>
+                <ul onclick="selectBoard(${b.bno})">
+                    <li><div class="bCategory"><p class="cateName">${ b.bcatename }</p></div></li>
+                    <li><p class="gtitle">${ b.btitle }</p></li>
+                    <li class="town">${ b.nickname }</li>
                     <li class="dot">•</li>
-                    <li class="createDate">Yesterday</li>
+                    <li class="createDate">${ b.bcreatedate }</li>
                 </ul>
     
-                <img src="${ contextPath }/resources/images/mypage/more.png" class="likeIcon" onclick="showMenu()">
-                <p class="bcontent">저희 강아지랑 산책하다가 만낫는데 만지지도 못해서 동물병원도 못 데려 가고 잇는 상황입니다</p>
-                <img src="${ contextPath }/resources/images/mypage/ex7.jpeg" class="contentPhoto">
-                <img src="${ contextPath }/resources/images/mypage/ex8.jpeg" class="contentPhoto">
-                <!-- <img src="images/speech-bubble.png" class="replyIcon">
-                <p class="replyCount">3</p> -->
-                <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
-                <p class="likeCount">5</p>
-            </div>
-
-            <div class="eachListWrap">
-                <ul>
-                    <li><div class="bCategory"><p class="cateName">동네소식</p></div></li>
-                    <li><p class="gtitle">타코야끼 출몰했나요???</p></li>
-                    <li class="town">불주먹웅앵웅</li>
-                    <li class="dot">•</li>
-                    <li class="createDate">2hours ago</li>
-                </ul>
-                <img src="${ contextPath }/resources/images/mypage/more.png" class="likeIcon" onclick="showMenu()">
-                <p class="bcontent">3월 6일 타코야끼 출몰 지역 있나요? 타코야끼가 넘 먹고싶은데 요즘 잘 안보이네여😭😭😭😭</p>
+                <img src="${ contextPath }/resources/images/mypage/more.png" class="likeIcon" onclick="showMenu(${b.bno},this)">
+                <p class="bcontent">${ b.bhistory }</p>
+                <c:if test="${ b.bfile != null }">
+                <img src="${ contextPath }/resources/images/boardupload/${b.bfile}" class="contentPhoto">
+				</c:if>
                 <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
-                <p class="replyCount">2</p>
+                <p class="replyCount">${ b.rep_cnt }</p>
                 <img src="${ contextPath }/resources/images/mypage/heart.png" class="heartIcon">
-                <p class="likeCount">3</p>
+                <p class="likeCount">${ b.like_cnt }</p>
+                 <div class="subMenu">
+		            <a href="#">게시글 수정</a>
+		            <a href="#">삭제</a>
+		        </div>
             </div>
+		</c:forEach>
         </div>
+        </c:if>
+        
+         <!-- 리스트 없을 때 -->
+		<c:if test="${ blist.size() == 0 }">
+		 <div class="listWrap">
+			 <div id="textWrap">
+				<h2 id="NullListText">리스트가 없습니다 :(</h2>
+			 </div>
+		 </div>
+		</c:if>
 
-        <div class="pagingArea">
-            <ul>
-                <li><a href="#">&lt;&lt;</a></li>
-                <li><a href="#">&lt;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
-                <li><a href="#">&gt;&gt;</a></li>
-            </ul>
+        <!-- 리스트 있을때만 페이징 나타나게하기 -->
+		<c:if test="${ blist.size() != 0 }">
+        <div id="pageArea">
+           <c:if test="${pi.currentPage <= 0}">
+            <a> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > 0}">
+            	<c:url var="start" value="/mypage/myBoardList">
+            		<c:param name="page" value="1"/>
+            	</c:url>
+           		 <a href="${ start }"> &lt;&lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage <= pi.startPage}">
+            <a> &lt;&nbsp; </a>
+            </c:if>
+             <c:if test="${pi.currentPage > pi.startPage }">
+            	<c:url var="before" value="/mypage/myBoardList">
+            		<c:param name="page" value="${pi.currentPage -1}"/>
+            	</c:url>
+           		 <a href="${before }"> &lt;&nbsp; </a>
+            </c:if>
+           <!-- 페이지 숫자 -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<font color="#05AAD1" size="4">${ p }</font> &nbsp;
+				</c:if>
+				<c:if test="${ p ne pi.currentPage }">
+					<c:url var="pagination" value="/mypage/myBoardList">
+						<c:param name="page" value="${ p }" />
+					</c:url>
+					<a href="${ pagination }">${ p }</a> &nbsp;
+				</c:if>
+			</c:forEach>
+			<c:if test="${pi.currentPage  >= pi.maxPage}">
+            <a> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage }">
+            	<c:url var="after" value="/mypage/myBoardList">
+            		<c:param name="page" value="${pi.currentPage +1}"/>
+            	</c:url>
+           		 <a href="${ after }"> &gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage >= pi.maxPage }">
+            <a> &gt;&gt;&nbsp; </a>
+            </c:if>
+            <c:if test="${pi.currentPage < pi.maxPage  }">
+            	<c:url var="end" value="/mypage/myBoardList">
+            		<c:param name="page" value="${pi.endPage}"/>
+            	</c:url>
+           		 <a href="${end}"> &gt;&gt;&nbsp; </a>
+            </c:if>
+           
         </div>
-        <div class="subMenu">
-            <a href="#">게시글 수정</a>
-            <a href="#">삭제</a>
-        </div>
+        
+        </c:if>
+       
     </section>
     
 	<jsp:include page="../common/footer.jsp"/>
 	
 	 <script>
-       function showMenu(){
-            $(".subMenu").css("display","block");
+       function showMenu(bno,e){
+    	  // 이벤트 전파 버블링 방지
+   		  event.stopPropagation();
+          $(e).siblings(".subMenu").slideDown(200);
+          goBoardUpdate(bno);
+          goDeleteBoard(bno);
+         // console.log(bno);
        }
+       
+       /* gbSection클릭 시 more메뉴 닫힘 */
+       $("#gbSection").on('click',function(){
+    	   $(".subMenu").slideUp(200);
+       });
+       
+       function goBoardUpdate(bno){
+    	   $(".subMenu a:nth-child(1)").on('click',function(){
+    		   console.log(bno);
+    		  // location.href="${contextPath}/board/editView?bno="+bno;
+    	   });
+       }
+       
+       function goDeleteBoard(bno){
+    	   $(".subMenu a:nth-last-child(1)").on('click',function(){
+    		   console.log(bno);
+    		   location.href="${contextPath}/board/delete?bno="+bno+"&pageName=mypage"; 
+    	   });
+       }
+       
+       function selectBoard(bno){
+    	   location.href="${contextPath}/board/detail?bno="+bno;
+       }
+       
+       
     </script>
 
 	

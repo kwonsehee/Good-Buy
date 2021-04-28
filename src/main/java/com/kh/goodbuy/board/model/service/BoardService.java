@@ -14,6 +14,15 @@ public interface BoardService {
 	
 	public int insertBoard(Board b);
 	
-	public Board BoardDetail(int bno);
+
+	// 마이페이지 내가 쓴 글 리스트 카운트 
+	public int selectMyBoardListCount(String user_id);
 	
+	// 마이페이지 내가 쓴 글 리스트 
+	public List<Board> selectMyBoardList(String user_id,PageInfo pi);
+	// 게시글 지우기 
+	public int deleteBoard(int bno);
+
+	public Board BoardDetail(int bno);
+
 }
