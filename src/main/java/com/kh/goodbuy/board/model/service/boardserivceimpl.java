@@ -47,6 +47,27 @@ public class boardserivceimpl implements BoardService {
 		// TODO Auto-generated method stub
 		return bDao.selectListCount();
 		}
+
+
+
+	@Override
+	public int selectMyBoardListCount(String user_id) {
+		return bDao.selectMyBoardListCount(user_id);
+	}
+
+
+
+	@Override
+	public List<Board> selectMyBoardList(String user_id,PageInfo pi) {
+		return bDao.selectMyBoardList(user_id,pi);
+	}
+
+
+
+	@Override
+	public int deleteBoard(int bno) {
+		return bDao.deleteBoard(bno);
+	}
 	}
 
 	

@@ -139,5 +139,22 @@ public class boardController {
 	public String Serchview() {
 		return "board/boardSerch";
 	}
+	
+	@GetMapping("/delete")
+	public String DeleteBoard(int bno, String pageName) {
+		
+		System.out.println("넘어온 bno : " + bno);
+		
+		System.out.println("넘어온 페이지 : " + pageName);
+		
+		int result = bService.deleteBoard(bno);
+		
+		if(pageName.equals("mypage")) {
+			return "redirect:/mypage/myBoardList";
+		}else {
+			return "board/list";
+		}
+		
+	}
 
 }

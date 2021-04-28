@@ -17,8 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
        <result property="bcate" column="B_CATE"/><!-- 카테고리 -->
         <result property="userid" column="USER_ID"/><!-- 아이디 -->
         <result property="bfile" column="B_FILE"/><!-- 이미지 -->
-        <result property="bcatename" column="B_NAME"/><!-- 닉네임 -->
-        
+        <result property="bcatename" column="B_NAME"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="like_cnt" column="LIKE_CNT"/>
+        <result property="rep_cnt" column="REP_CNT"/>
    </resultMap>
 
 <select id="selectList" resultMap="boardResultSet">
@@ -77,6 +79,52 @@ SELECT
                B_STATUS = 'Y'
    </select>
  
+ <select id="selectMyBoardListCount" parameterType="string" resultType="_int">
+ 	SELECT 
+ 			COUNT(B_NO)
+	  FROM 
+	  		TOWN_BOARD
+	 WHERE 
+	 		USER_ID = #{user_id}
+	   AND
+	   		B_STATUS = 'Y'
+ </select>
+ 
+ <select id="selectMyBoardList" parameterType="string" resultMap="boardResultSet">
+ 	SELECT 
+ 			TOWN_BOARD.B_NO,
+ 			B_NAME,
+ 			B_TITLE,
+ 			B_HISTORY,
+ 			B_MODIFY_DATE,
+ 			B_CREATE_DATE,
+ 			NICKNAME,
+ 			B_FILE,
+ 			B_STATUS,
+ 			(SELECT COUNT(USER_ID) FROM LIKE_TOWN WHERE TOWN_BOARD.B_NO = POST_NO)LIKE_CNT,
+ 			(SELECT COUNT(R_NO) FROM TOWN_REPLY WHERE TOWN_BOARD.B_NO = POST_NO)REP_CNT
+	  FROM 
+	  		TOWN_BOARD
+	  JOIN 
+	  		TOWN_CATE ON(B_CATE = TOWN_CATE.B_NO)
+	  JOIN
+	  		USER_INFO USING(USER_ID)
+	 WHERE 
+	 		USER_ID = #{user_id}
+	   AND
+	   		B_STATUS = 'Y'
+ 
+ </select>
+ 
+ <update id="deleteBoard" parameterType="_int">
+ 	UPDATE 
+ 			TOWN_BOARD
+ 	   SET
+ 	   		B_STATUS = 'N'
+ 	 WHERE
+ 	 		B_NO = #{bno}
+ 	  
+ </update>
 
 
 

@@ -18,7 +18,14 @@ public interface BoardDao {
 	public List<Board> selectList();
 	
 	//1.게시글 수 카운트 
-	   public int selectListCount(); 
+	   public int selectListCount();
+	
+	// 마이페이지 내가 쓴 글 리스트 카운트 
+	public int selectMyBoardListCount(String user_id);
+	// 마이페이지 내가 쓴 글 리스트 
+	public List<Board> selectMyBoardList(String user_id,PageInfo pi);
+	// 게시글 지우
+	public int deleteBoard(int bno); 
 	   
 	
 	}
