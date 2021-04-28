@@ -1085,7 +1085,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	
+	 <select id="selectFaUserList" parameterType="java.util.Map" resultType="_int">
+		SELECT
+			COUNT(USER_ID)
+		FROM 
+			FAVORITE
+		WHERE
+			SHOP_NO = #{shopNo}
+		AND
+			USER_ID = #{userId}
+	</select>
 	
+	<delete id="deleteFaCount" parameterType="java.util.Map" >
+		DELETE FROM FAVORITE
+		WHERE 
+			SHOP_NO = #{shopNo}
+		AND 
+			USER_ID = #{userId}
+	</delete> 
 	
 	
 	

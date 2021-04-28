@@ -89,6 +89,14 @@ public interface BusinessService {
 
 	public List<Business> selectMyFavShopList(String user_id, PageInfo pi);
 
+	public int selectFaUserList(Map<String, String> map);
+
+	public int deleteFacount(Map<String, String> map);
+
+
+
+
+
 
 
 	

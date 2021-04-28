@@ -16,13 +16,18 @@
         }
         .photoArea{
             width: 655px;
-            height: 632px;
+            height: 316px;
             border: 1px solid #e0e0e0;
             border-radius: 40px 40px 0px 0px;
         }
+        .allArea{
+        	width: 655px;
+            height: auto;
+            border: 1px solid #e0e0e0;
+        }
         .infoArea{
             width: 655px;
-            height: 233px;
+            height: auto;
             border: 1px solid #e0e0e0;
         }
         .priceArea{
@@ -54,23 +59,20 @@
             height: auto;
             border: 1px solid #e0e0e0;
             text-align: left;
-            
 
         }
+
         #profileImg{
-            position: relative;
-            left: -10%;
+			width:80px;
+			height:80px;
+			margin-top: 4px;
         }
         #name{
-            position: relative;
-            top: -3%;
-            left: -8%;
+
         }
 
         #likeBtn{
-            position: relative;
-            left: -19%;
-            top: 3%;
+
             width: 74px;
             height: 31px;
             border: none;
@@ -81,69 +83,46 @@
             font-family: 'yg-jalnan';
         }
         #call{
-            position: relative;
-            top: 18%;
-            left: -30%;
+
         }
         #callLabel{
-            position: relative;
-            top: 25%;
-            left: -40%;
+			margin-right:95px;
         }
         #line{
-            position: relative;
-            top: 21%;
-            left: -18%;
+			    width: 1px;
+		    height: 83px;
+		    margin-right: 100px;
+		    /* padding-right: 50px; */
+		    margin-left: 100px;
         }
         #review{
-            position: relative;
-            top: 18%;
-            left: 2%;
+
 
         }
         #reviewLabel{
-            position: relative;
-            top: 25%;
-            left: -8%;
+			margin-left:97px;
         }
         #infoLabel{
-            position: relative;
-            top: -1%;
-            left: -44%;
+
             font-size: 24px;
         }
         #info{
-            position: relative;
-            top: 4%;
-            left: -1%;
-            text-align: -webkit-auto;
-            /* min-width: 136px; */
+            min-width: 136px; 
             max-width: 608px;
-            margin: 0;
-            padding: 0;
-            margin-bottom: 18px;
         }
         #addressImg{
-            position: relative;
-            top: 20%;
-            left: -45%;
+		    margin-right: 10px;
         }
         #shopAddress{
-            position: relative;
-            top: 8%;
-            left: -35%;
+
             margin: 0;
             padding: 0;
         }
         #clockImg{
-            position: relative;
-            top: 15%;
-            left: -45%;
+			margin-right: 10px;
         }
         #shopTime{
-            position: relative;
-            top: 4%;
-            left: -30%;
+
             margin: 0;
             padding: 0;
         }
@@ -203,8 +182,8 @@
         #thumbnail{
         	width:654px;
         	height:316px;
-        	border-top-left-radius: 20px;
-    		border-top-right-radius: 20px;
+        	border-top-left-radius: 40px;
+    		border-top-right-radius: 40px;
         }
         #reviewWrite{
             padding-top: 10px;
@@ -254,7 +233,7 @@
         	position: relative;
 	    flex: 1 1 auto;
 	    padding: 1rem;
-}
+
         }
         .userPhoto{
         	width:20px;
@@ -264,3 +243,59 @@
         	border : 1px solid #c4c4c4;
         	text-align:center;
         }
+         #plusNewsBtnArea{
+         	width : 655px;
+        	border : 1px solid #c4c4c4;
+        	text-align:center;
+        }
+        .firstArea{
+        	display:none;
+        }
+         .firstAreaflex{
+        	display:block;
+        }
+        .callformWrap{
+        	
+        	text-align:center;
+        	font-family: 'yg-jalnan';
+        }
+        #phoneP{
+        	margin-top : 15px;
+        	font-size:20px;
+        }
+        
+        #userPhotoArea{
+      		display: flex;
+    		margin-left: 20px;
+        }
+        
+        #shopNameArea{
+        	margin-left: 20px;
+		    display: grid;
+		    margin-top: 10px;
+        }
+        
+        #modalArea{
+        margin:0px;
+        }
+		#labelArea{
+			margin-bottom:20px;
+		}
+		#IntroArea{
+			text-align: left;
+   		 	margin-left: 17px;
+		}
+		#addressArea{
+			display: flex;
+    		margin-bottom: 20px;
+    		margin-left: 17px;
+		}
+		#timeArea{
+			display: flex;
+    		margin-bottom: 20px;
+    		margin-left: 17px;
+		}
+		#infoLabelArea{
+			text-align: left;
+    		margin-left: 17px;
+		}

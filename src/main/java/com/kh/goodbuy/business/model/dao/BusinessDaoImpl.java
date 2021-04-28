@@ -264,6 +264,20 @@ public class BusinessDaoImpl implements BusinessDao {
 
 	}
 
+	@Override
+	public int selectFaUserList(Map<String, String> map) {
+		
+		return sqlSession.selectOne("businessMapper.selectFaUserList",map);
+	}
+
+	@Override
+	public int deleteFaCount(Map<String, String> map) {
+		
+		return sqlSession.delete("businessMapper.deleteFaCount",map);
+	}
+
+
+
 	
 
 	
