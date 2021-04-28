@@ -59,9 +59,9 @@
 				<p>${b.bhistory}</p>
 			</div>
 			<div id="hearts">
-				<img class="heart"
-					src="${contextPath }/resources/images/board/heart.png"
-					style="width: 42px; height: 39px;">
+	
+<input type="image" id="heart" src="${contextPath }/resources/images/board/heart.png"style="width: 42px; height: 39px;">
+
 			</div>
 			<div class="heartstory">좋아요를 눌러주세요!"</div>
 		</div>

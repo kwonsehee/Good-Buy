@@ -19,13 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="bfile" column="B_FILE" /><!-- 이미지 -->
 		<result property="bcatename" column="B_NAME" /><!-- 닉네임 -->
 		<result property="bphoto" column="PHOTO" /> <!-- 프로필 사진 -->
-
+        <result property="bpostno" column="POST_NO"/>
+         
 	</resultMap>
 
-	<resultMap id="boardlike" type="like">
-		<id property="luserid" column="USER_ID" />
-		<result property="postno" column="POST_NO" />
-	</resultMap>
 
 
 
@@ -51,20 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		B_NO DESC
 	</select>
 
-	<insert id="insertlike" parameterType="boardlike">
-		INSERT
-		INTO LIKE_TOWN
-		(
-		USER_ID
-		,POST_NO
-		)
-		VALUES
-		(
-		#{luserid}
-		,#{lpostno}
-		);
-
-	</insert>
+	
 
 
 
