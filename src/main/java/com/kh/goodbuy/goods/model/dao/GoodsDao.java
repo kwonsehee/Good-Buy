@@ -127,6 +127,11 @@ public interface GoodsDao {
 	public List<Goods> selectSellingList(String user_id);
 	//판매자에게 달린 리뷰리스트
 	public List<Review> selectReviewList(String seller);
+	//리뷰 인서트
+	public int insertReview(Review r);
+	//리뷰 삭제 
+	public int deleteReview(int rno);
+	
 
 
 }

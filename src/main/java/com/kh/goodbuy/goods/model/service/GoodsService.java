@@ -120,6 +120,10 @@ public interface GoodsService {
 	public List<Goods> selectSellingList(String user_id);
 	//판매자에게 달린 리뷰리스트
 	public List<Review> selectReviewList(String seller);
+	//리뷰 인서트 후 리뷰 목록 셀렉
+	public List<Review> insertReview(Review r, String userId);
+	//리뷰삭제 후 리뷰 목록 셀렉
+	public List<Review> deleteReview(int rno, String seller);
 
 
 

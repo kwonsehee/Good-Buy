@@ -105,6 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="content" column="CONTENT"/>
 		<result property="reviewDate" column="REVIEW_DATE"/>
 		<result property="grade" column="GRADE"/>
+		<result property="reviewNo" column="REVIEW_NO"/>
 	</resultMap>
 	
 	
@@ -1084,19 +1085,67 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	<select id="selectReviewList" parameterType="string" resultMap="ReviewResult">
 		SELECT 
-				R.USER_ID USER_ID
+				UR.USER_ID USER_ID
 			  , NICKNAME 
 			  , U.PHOTO PHOTO
 			  , R.CONTENT CONTENT
 			  , R.REVIEW_DATE REVIEW_DATE
 			  , R.GRADE GRADE
+			  , R.REVIEW_NO REVIEW_NO
 		 FROM REVIEW R JOIN USER_REVIEW UR
 		   ON (R.REVIEW_NO = UR.REVIEW_NO)
 		 JOIN USER_INFO U
-		   ON (R.USER_ID = U.USER_ID)
-	  	WHERE UR.USER_ID = #{user_id}
+		   ON (UR.USER_ID = U.USER_ID)
+	  	WHERE R.USER_ID = #{user_id}
 	  	  AND R.STATUS = 'Y'
+	 ORDER BY REVIEW_DATE DESC
 	</select>
+	<insert id="insertReview" parameterType="Review" >
+		INSERT ALL
+		INTO REVIEW
+		(
+		  REVIEW_NO
+		, STATUS
+		, CONTENT
+		, REVIEW_DATE
+		, GRADE
+		, USER_ID
+		)
+		VALUES
+		(  
+		  REVIEW_SEQ.NEXTVAL
+		, DEFAULT
+		, #{content}
+		, SYSDATE
+		, #{grade}
+		, #{userId}
+		)
+		INTO USER_REVIEW
+		VALUES ( REVIEW_SEQ.CURRVAL,#{writerId})
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 11
+		, #{userId}
+		, SYSDATE
+		, REVIEW_SEQ.CURRVAL
+		)
+		SELECT * FROM DUAL
+	
+	
+	</insert>
+	<update id="deleteReview" parameterType="_int">
+		UPDATE REVIEW SET STATUS = 'N' WHERE REVIEW_NO = #{rno}
+	
+	</update>
 </mapper>
 
 
