@@ -24,6 +24,6 @@ public class Review {
 	private int reviewCount;
 	private int avgGrade;
 	private String photo;
-	
+	private String writerId;
 
 }

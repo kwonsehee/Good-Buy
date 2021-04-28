@@ -389,6 +389,9 @@ public class GoodsDaoImpl implements GoodsDao{
 	@Override
 	public int insertKeywordAlarm(Goods g) {
 		return sqlSession.insert("goodsMapper.insertKeywordAlarm",g);
+	}
+	
+	@Override
 	public int insertReview(Review r) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("goodsMapper.insertReview", r);

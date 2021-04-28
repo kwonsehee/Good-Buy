@@ -327,7 +327,8 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public int insertKeywordAlarm(Goods g) {
 		return gDao.insertKeywordAlarm(g);
-
+	}
+	@Override
     public List<Review> insertReview(Review r, String userId) {
 		//댓글 인서트 먼저
 		int result = gDao.insertReview(r);
