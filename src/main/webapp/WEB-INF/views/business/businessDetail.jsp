@@ -27,28 +27,56 @@
                 <c:if test="${ business.filePath == null}">
                 <img  id="thumbnail" src="${contextPath}/resources/images/business/기본썸네일.png">
                 </c:if>
-                <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
-                <label id="name">${ business.shopName }</label>
-                <button id="likeBtn" onclick="updateFaCount(${business.shopNo})">+단골${ business.faCount}</button>
-                <img id="call" src="${contextPath}/resources/images/business/전화기.png" width="50px" height="50px">
-                <label id="callLabel">전화문의</label>
-                <img id="line" src="${contextPath}/resources/images/business/선.png" >
-                <img id="review" src="${contextPath}/resources/images/business/연필.png" width="50px" height="50px">
-                <label id="reviewLabel" data-bs-toggle="modal" data-bs-target="#reviewModal">후기작성</label>
             </div>
+            
+            <div class="allArea">
+            	<div id="userPhotoArea">
+                <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
+                <div id="shopNameArea">
+              	<c:if test="${ faCount == 0 }">
+                <button id="likeBtn" onclick="updateFaCount(${business.shopNo})">+단골</button>
+                </c:if> 
+               <c:if test="${ faCount > 0 }">
+                <button id="likeBtn" onclick="deleteFaCount(${business.shopNo})">-단골</button>
+                </c:if> 
+                <label id="name">${ business.shopName }</label>
+                </div>
+                </div>
+                <div id="modalArea">
+                <img id="call" src="${contextPath}/resources/images/business/전화기.png" width="50px" height="50px" data-bs-toggle="modal" data-bs-target="#callModal">
+
+                <img id="line" src="${contextPath}/resources/images/business/선.png" data-bs-toggle="modal" data-bs-target="#callModal" >
+                <img id="review" src="${contextPath}/resources/images/business/연필.png" width="50px" height="50px" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                </div>
+                <div id="labelArea">
+                <label id="callLabel" data-bs-toggle="modal" data-bs-target="#callModal">전화문의</label>
+                <label id="reviewLabel" data-bs-toggle="modal" data-bs-target="#reviewModal">후기작성</label>
+                </div>
+            </div>
+            
             <div class="infoArea">
+            	<div id="infoLabelArea">
                 <label id="infoLabel">정보</label>
+                </div>
+                <div id="IntroArea">
                 <p id="info">${business.shopIntro }</p>
+                </div>
+                <div id="addressArea">
                 <img id="addressImg"src="${contextPath}/resources/images/business/주소.png" width="30px" height="30px">
                 <p id="shopAddress">${business.shopAdd }</p>
+                </div>
+                <div id="timeArea">
                 <img id="clockImg" src="${contextPath}/resources/images/business/시계.png" width="30px" height="30px">
                 <p id="shopTime">${ business.shopTime1 } ~ ${ business.shopTime2 } <c:if test="${business.shopTime3 !=null }">매주 ${b.shopTime3 } 휴무</c:if></p>
+                </div>
             </div>
+            
             <div class="priceArea">
                 <label id="priceLabel">가격</label>
                 <label id="titleMenu">대표 메뉴 : ${ business.topMenu }</label>
                 <p id="menuInfo"> ${ business.menuInfo } </p>
             </div>
+            
             <c:if test="${ !empty news  }">
             <c:forEach var="n" items="${ news }">
             <div class="newsArea">
@@ -59,19 +87,24 @@
                 <c:if test="${ n.changeName == null }">
                 <img id="newsPhoto" src="${contextPath}/resources/images/business/기본썸네일.png">
                 </c:if>
-                <img id="oneBtn"src="${contextPath}/resources/images/business/원버튼.png">
                 <label id="newsTitle">${n.newsTitle }</label>
                 <p id="newsInfo">${n.shopNews }</p>
             </div>
             </c:forEach>
+            
+                <div id="plusNewsBtnArea">
+            		▽
+            	</div>
+            	
             </c:if>
+            
              <script>
 			        $(document).ready(function(){
 						size_div = $('.newsArea').length;
 						
 						x = 1;
 						$('.newsArea:lt('+x+')').addClass('newsAreaflex');
-						$('#oneBtn').click(function(){
+						$('#plusNewsBtnArea').click(function(){
 							x= (x+1 <= size_div)? x+1 : size_div;
 							$('.newsArea:lt('+x+')').addClass('newsAreaflex');
 						
@@ -81,7 +114,12 @@
 					});
 			        
 			        function updateFaCount(shopNo){
+			        	alert("단골 가게로 등록 하시겠습니까?");
 			    		location.href='${contextPath}/business/updateFaCount?shopNo=' + shopNo;
+			    	}
+			        function deleteFaCount(shopNo){
+			        	alert("단골 등록을 취소 하시겠습니까?");
+			    		location.href='${contextPath}/business/deleteFaCount?shopNo=' + shopNo;
 			    	}
         
         	  </script>
@@ -110,8 +148,13 @@
             	 	</c:if>
             <c:forEach var="r" items="${ rList }">
                 <div class="firstArea">
-
-	                <label class="writer"><img src="${contextPath}/resources/images/business/미니프로필샘플.png"> ${r.nickName }</label>
+                
+          			<c:if test="${r.photo != null }">
+	                <label class="writer"><img class="userPhoto" src="${contextPath}/resources/images/userProfilePhoto/${r.photo}"> ${r.nickName }</label>
+	                </c:if>
+					<c:if test="${r.photo == null }">
+	                <label class="writer"><img class="userPhoto" src="${contextPath}/resources/images/mypage/unknownUser.png"> ${r.nickName }</label>
+	                </c:if>
 	                 <c:if test="${r.grade == 5 }">
                     <img  class="grade" src="${contextPath}/resources/images/business/별점5.png" height="12px" >
                     </c:if>
@@ -171,7 +214,7 @@
 							
 								 <table id="reviewWrite">
 							        <tr >
-							            <td id="star">
+							            <td id="star2">
 							                <span id="star">
 							                    <a value=1 style="padding-right: 0;">★</a> 
 							                    <a  value=2 style="padding-right: 0;">★</a> 
@@ -185,7 +228,7 @@
 							            <td><textarea name="content" id="reviewInput" style="resize: none;" placeholder="가게 이용 후기를 자유롭게 작성해 주세요."></textarea></td>
 							        </tr>
 							        <tr id="btnArea">
-							            <td><button id="reviewInsertBtn">완료</button></td>
+							            <td><button id="reviewInsertBtn" data-bs-dismiss="modal">완료</button></td>
 							        </tr>
 							    </table>
 						
@@ -200,6 +243,34 @@
 			</div>
 		</div>
 	</div>
+	
+	     <!--전화문의 Modal -->
+	<div class="modal fade" id="callModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="titleWrap">
+						<span class="circle"></span> <span class="welcome">전화 번호</span>
+						<span class="circle"></span>
+					</div>
+				</div>
+
+				
+					<div class="call-body">
+						<div class="callformWrap">
+							<p id="phoneP">${business.shopPhone }<p>
+							<p>${business.shopName } 가게의 전화번호 입니다.<p>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+					
+						<button type="button" id="closeBtn" data-bs-dismiss="modal">닫기</button>
+					</div>
+			</div>
+		</div>
+	</div>  
        
     </section>
 
@@ -207,16 +278,6 @@
    <jsp:include page="../common/footer.jsp"/>
     <script>
      
-      /* $("#review").click(function(){
-            var url = "${contextPath}/business/reviewWrite";
-            var name = "정보관리";
-            var _width = '500';
-            var _height = '400';
-            // 팝업을 가운데 위치시키기 위해 아래와 같이 값 구하기
-            var _left = Math.ceil(( window.screen.width - _width )/2);
-            var _top = Math.ceil(( window.screen.height - _height )/2); 
-            window.open(url, name, 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top );
-       }); */
        
        // 별 색 채워짐 이벤트
        $('#star a').click(function(){ 
@@ -237,6 +298,7 @@
     	  console.log(star);
     	  var reviewArea = $(".reviewArea");
 		  reviewArea.html("");
+		  $('#star a').parent().children("a").removeClass("on");
 
     	  $.ajax({
     		 url : "${ contextPath }/business/review/insert" ,
@@ -245,33 +307,14 @@
     		 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
     		 dataType : "json",
     		 success : function(data){
-    			 console.log(data);
-    			
-    			 console.log(data.length);
-    			 
-    			
-    			 
-    			 console.log(reviewArea);
-    			 
- /*    			 <label id="reviewTitle">후기</label>
-                 <label id="reviewCount">${business.reviewCount }</label>
-                 <label class="writer"><img src="${contextPath}/resources/images/business/미니프로필샘플.png"> ${r.nickName }</label>
-    			 <!— 프사 있을 때 —>
-    	            <c:if test="${ !empty loginUser.photo }">
-    	            <img src="${ contextPath }/resources/images/userProfilePhoto/${loginUser.photo}" id="userPhoto">
-    	            </c:if>
-    	             <!— 프사 없을 때 —>
-    	            <c:if test="${ empty loginUser.photo }">
-    	            <img src="${ contextPath }/resources/images/mypage/unknownUser.png" id="userPhoto">
-    	            </c:if>
-					 */
+ 
 					 
 				 var reviewTitle = $("<label id='reviewTitle'>").text("후기");
     			 var reviewCount = $("<label id='reviewCount'>").text(data[0].reviewCount);
 				 var userPhoto;	 
     			 var grade1;
     			 var avgGrade;
-    			 
+    			 $(".reviewArea").append(reviewTitle,reviewCount); 
     			
     			 
     			 if(data[0].avgGrade == 0){
@@ -290,8 +333,8 @@
     			 
     			 for(var i in data){
     		     var div = $("<div class='firstArea'>");
-    		     var p = $("<p class=''>").text(data[i].content);
-    			 var writer =$("<p class='writer'>").text(data[i].nickName);
+    		     var p = $("<p class='reviewInfo'>").text(data[i].content);
+    			 var writer =$("<label class='writer'>").text(data[i].nickName);
     			 var Photo = data[i].photo;
     			 if( Photo !=null){
     			     userPhoto = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/userProfilePhoto/data[i].photo");
@@ -317,12 +360,12 @@
     			 }
 				writer.append(userPhoto);	
  				div.append(writer,grade1,p);
-    			 $(".reviewArea").append(reviewCount,avgGrade,div); 
+    			 $(".reviewArea").append(div); 
 
     			 
     			 }
     			 
-				
+    			 plusReview();
     			 
     		 },
     		 error : function(e){
@@ -332,6 +375,25 @@
     	  });
       }); 
        
+       
+       function plusReview (){
+    	   size_div = $('.firstArea').length;
+			
+			x = 5;
+			$('.firstArea:lt('+x+')').addClass('firstAreaflex');
+			$('#plusReviewBtnArea').click(function(){
+				x= (x+1 <= size_div)? x+5 : size_div;
+				$('.firstArea:lt('+x+')').addClass('firstAreaflex');
+			
+			
+			});
+       }
+    	   
+       $(document).ready(function(){
+    	   plusReview();
+
+		});  
+		
     </script>
 
 

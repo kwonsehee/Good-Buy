@@ -324,6 +324,29 @@ public class BusinessServiceImpl implements BusinessService{
 
 
 
+@Override
+public int selectFaUserList(Map<String, String> map) {
+
+	return bDao.selectFaUserList(map);
+}
+
+
+
+
+@Override
+public int deleteFacount(Map<String, String> map) {
+	
+	return bDao.deleteFaCount(map);
+}
+
+
+
+
+
+
+
+
+
 	
 
 
