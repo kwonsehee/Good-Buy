@@ -93,6 +93,8 @@ public interface MemberDao {
 	public int selectMyFollowerCount(String user_id);
 	// 키워드 삭제 
 	public int deleteKey(Keyword k);
+	// 아이디 찾기 
+	public String findUserId(String email);
 			
 
 

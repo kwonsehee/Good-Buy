@@ -102,6 +102,8 @@ public interface MemberService {
 		public int selectMyFollowerCount(String user_id);
 		// 키워드 삭제 
 		public int deleteKey(Keyword k);
+		// 아이디 찾기 
+		public String findeUserId(String email);
 		
 
 
