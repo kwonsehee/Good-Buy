@@ -36,8 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="bfile" column="B_FILE" /><!-- 이미지 -->
 		<result property="bcatename" column="B_NAME" /><!-- 닉네임 -->
 		<result property="bphoto" column="PHOTO" /> <!-- 프로필 사진 -->
-    <result property="bpostno" column="POST_NO"/>
-         
+   		<result property="bpostno" column="POST_NO"/>
 	</resultMap>
 
 
@@ -88,7 +87,7 @@ SELECT
     ,#{userid}
     ,#{bfile}
     )
- </insert>
+ </insert> 
 <select id="selectListCount" resultType="_int">
       SELECT 
             COUNT(*)
@@ -135,83 +134,7 @@ SELECT
  
  </select>
  
- <update id="deleteBoard" parameterType="_int">
- 	UPDATE 
- 			TOWN_BOARD
- 	   SET
- 	   		B_STATUS = 'N'
- 	 WHERE
- 	 		B_NO = #{bno}
- 	  
- </update>
 
-
-
-
-
-
-	<select id="selectList" resultMap="boardResultSet">
-		SELECT
-		TOWN_BOARD.B_NO
-		,B_STATUS
-		,B_TITLE
-		,B_HISTORY
-		,B_MODIFY_DATE
-		,B_CREATE_DATE
-		,B_NAME
-		,USER_ID
-		,B_FILE
-		FROM
-		TOWN_BOARD
-		JOIN TOWN_CATE ON
-		(TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
-		WHERE
-		B_STATUS ='Y'
-		ORDER BY
-		B_NO DESC
-	</select>
-
-	
-
-
-
-
-
-	<insert id="insertboard" parameterType="Board">
-		INSERT
-		INTO TOWN_BOARD
-		(
-		B_NO
-		,B_STATUS
-		,B_TITLE
-		,B_HISTORY
-		,B_MODIFY_DATE
-		,B_CREATE_DATE
-		,B_CATE
-		,USER_ID
-		,B_FILE
-		)
-		VALUES
-		(
-		BOARD_SEQ.NEXTVAL
-		,DEFAULT
-		,#{btitle}
-		,#{bhistory}
-		,SYSDATE
-		,SYSDATE
-		,#{bcate}
-		,#{userid}
-		,#{bfile}
-		)
-	</insert>
-	<select id="selectListCount" resultType="_int">
-		SELECT
-		COUNT(*)
-		FROM
-		TOWN_BOARD
-		WHERE
-		B_STATUS = 'Y'
-	</select>
 	<select id="selectdetail" resultMap="boardResultSet2">
 		SELECT
 		TOWN_BOARD.B_NO B_NO
@@ -237,9 +160,16 @@ SELECT
 
 
 	</select>
-	<update id="deleteboard" parameterType="_int">
-
-		UPDATE TOWN_BOARD SET B_STATUS = 'N';
-		WHERE B_NO = #{bno}
-	</update>
+	
+	
+ <update id="deleteBoard" parameterType="_int">
+ 	UPDATE 
+ 			TOWN_BOARD
+ 	   SET
+ 	   		B_STATUS = 'N'
+ 	 WHERE
+ 	 		B_NO = #{bno}
+ 	  
+ </update>
+	
 </mapper>
