@@ -320,12 +320,40 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public List<Review> selectReviewList(String seller) {
 		// TODO Auto-generated method stub
+		System.out.println("seller는 : "+seller);
 		return gDao.selectReviewList(seller);
 	}
 
 	@Override
 	public int insertKeywordAlarm(Goods g) {
 		return gDao.insertKeywordAlarm(g);
+
+    public List<Review> insertReview(Review r, String userId) {
+		//댓글 인서트 먼저
+		int result = gDao.insertReview(r);
+		if(result>0) {
+			System.out.println("seller는 : "+userId);
+			return gDao.selectReviewList(userId);
+		}
+		else {
+			
+			return null;
+		}
+	}
+
+	@Override
+	public List<Review> deleteReview(int rno, String seller) {
+		// 댓글 삭제 
+		int result = gDao.deleteReview(rno);
+		
+		if(result>0) {
+			System.out.println("seller는 : "+seller);
+			return gDao.selectReviewList(seller);
+		}
+		else {
+			
+			return null;
+		}
 	}
 
 }

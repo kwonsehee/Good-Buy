@@ -55,6 +55,7 @@
         
         <h3 style="display: inline-block; margin-left: 45%; margin-top: 4%; ">판매자 페이지</h3>
         <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
+      
         <table id="seller_tb">
             <tr>
                 <td>

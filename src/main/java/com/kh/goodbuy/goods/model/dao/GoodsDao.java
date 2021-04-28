@@ -125,8 +125,14 @@ public interface GoodsDao {
 	public List<Goods> selectSellingList(String user_id);
 	//판매자에게 달린 리뷰리스트
 	public List<Review> selectReviewList(String seller);
+
 	// 로그인유저의 키워드 알림DB 인서트 
 	public int insertKeywordAlarm(Goods g);
+	//리뷰 인서트
+	public int insertReview(Review r);
+	//리뷰 삭제 
+	public int deleteReview(int rno);
+	
 
 
 }

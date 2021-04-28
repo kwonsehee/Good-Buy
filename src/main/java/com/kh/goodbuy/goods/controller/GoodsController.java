@@ -600,23 +600,40 @@ public class GoodsController {
 		return "goods/goodslist";
 	}
 
-//	// review 작성
-//	@PostMapping(value = "/insertReview", produces = "application/json; charset= utf-8")
-//	public @ResponseBody String insertReview(Review r, HttpSession session, HttpServletRequest request) {
-//		
-//		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-//
-//		
-//		r.setWriteId(loginUser.getUser_id());
-//
-//		// Service, Dao, board-mapper.xml 코드 추가
-//		// Service - > 댓글insert 후 댓글 select
-//		List<Reply> rlist = gService.insertReply(r, r.getUserId());
-//		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
-//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//
-//		// 응답 작성
-//		return gson.toJson(rlist);
-//
-//	}
+	// review 작성
+	@PostMapping(value = "/reviewInsert", produces = "application/json; charset= utf-8")
+	public @ResponseBody String insertReview(Review r, HttpSession session, HttpServletRequest request) {
+		
+		System.out.println("여기오니 ? review"+r);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+
+		
+		r.setWriterId(loginUser.getUser_id());
+		
+		// Service - > 댓글insert 후 댓글 select
+		List<Review> rlist=gService.insertReview(r, r.getUserId());
+		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		System.out.println("새로 뽑은 리뷰 : "+rlist);
+		// 응답 작성
+		return gson.toJson(rlist);
+
+	}
+	// review 삭제
+	@PostMapping(value = "/reviewDelete", produces = "application/json; charset= utf-8")
+	public @ResponseBody String deleteReview(int rno,String seller,  HttpSession session, HttpServletRequest request) {
+
+		System.out.println("여기오니 ? review" + rno+"seller"+seller);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+
+
+		// Service - > 댓글insert 후 댓글 select
+		List<Review> rlist = gService.deleteReview(rno, seller);
+		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		System.out.println("새로 뽑은 리뷰 : " + rlist);
+		// 응답 작성
+		return gson.toJson(rlist);
+
+	}
 }

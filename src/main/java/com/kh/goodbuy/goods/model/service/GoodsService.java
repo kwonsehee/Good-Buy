@@ -119,6 +119,10 @@ public interface GoodsService {
 	public List<Review> selectReviewList(String seller);
 	// 로그인유저의 키워드 알림DB 인서트 
 	public int insertKeywordAlarm(Goods g);
+	//리뷰 인서트 후 리뷰 목록 셀렉
+	public List<Review> insertReview(Review r, String userId);
+	//리뷰삭제 후 리뷰 목록 셀렉
+	public List<Review> deleteReview(int rno, String seller);
 
 
 
