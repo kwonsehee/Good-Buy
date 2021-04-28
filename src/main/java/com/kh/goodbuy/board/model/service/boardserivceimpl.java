@@ -52,8 +52,10 @@ public class boardserivceimpl implements BoardService {
 	@Override
 	public int selectMyBoardListCount(String user_id) {
 		return bDao.selectMyBoardListCount(user_id);
+	}
 
-//디테일페이지
+	
+	//디테일페이지
 	@Override
 	public Board BoardDetail(int bno) {
 		
