@@ -3,6 +3,7 @@ package com.kh.goodbuy.member.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -283,11 +284,6 @@ public class MemberController {
 	}
 	
 	
-	// 아이디 비밀번호 찾기
-	@GetMapping("/find")
-	public String goFindIdPwdView() {
-		return "member/findUserInfo";
-	}
 
 	// 로그아웃 컨트롤러 (세션 만료)
 	@GetMapping("/logout")
@@ -400,9 +396,17 @@ public class MemberController {
 		      
 		   }
 		  
+
+	// 아이디 비밀번호 찾기
+	@GetMapping("/find")
+	public ModelAndView goFindIdPwdView(ModelAndView mv) {
+		mv.setViewName("member/findUserInfo");
+		return mv;
+	}
+		  
 	// 아이디 찾기
 	@PostMapping("/findId")
-	public ModelAndView findId(String email,ModelAndView mv) {
+	public String findId(String email,ModelAndView mv, Model model,RedirectAttributes rd) {
 		
 		String user_id = mService.findeUserId(email);
 		
@@ -415,15 +419,64 @@ public class MemberController {
 				star += "*";
 			}
 			user_id = user_id.substring(0,3) + star;
-			mv.addObject("user_id",user_id);
-			mv.setViewName("member/findUserInfo");
+			System.out.println(user_id);
+		//	model.addAttribute("user_id", user_id);
+			rd.addAttribute("user_id", user_id);
+			//mv.setViewName("member/findUserInfo");
+			return "redirect:/member/find";
 		} else {
-			mv.setViewName("member/findUserInfo");
+			//mv.setViewName("member/findUserInfo");
+			return "redirect:/member/find";
 		}
 		
-		System.out.println(user_id);
+		//return mv;
 		
-		return mv;
+	}
+	
+	// 비밀번호 찾기
+	@PostMapping("/findPwd")
+	public ModelAndView findPwd(String user_id, String email,
+						Model model,ModelAndView mv) {
+		
+		System.out.println("비번 찾 넘어온 user_id : " + user_id);
+		System.out.println("비번 찾 넘어온 email : " + email);
+		
+	    double ran1 = Math.random();
+	    double ran2 = Math.random();
+	    double ran3 = Math.random();
+
+	    char ranPwd1 = (char)((ran1 * 26) + 65);  // 대문자 랜덤
+	    char ranPwd2 = (char)((ran2 * 26) + 65);  // 대문자 랜덤
+	    int ranPwd3 = (int)((ran3 * 1000000) + 1);  // 숫자 랜덤
+	    
+	    String finalPwd = ranPwd1 + "" + ranPwd2 + "" + ranPwd3;
+
+	    System.out.println("임시비번 : " + finalPwd);
+
+
+		String encPwd = bcryptPasswordEncoder.encode(finalPwd);
+		
+		// 전달받은 아이디, 이메일 일치하는 유저의 비밀번호 -> 입시비번으로 업데이트 
+		Member m = new Member();
+		m.setUser_id(user_id);
+		m.setEmail(email);
+		m.setUser_pwd(encPwd);
+		
+		int result = mService.updateRandomPwd(m);
+		
+		mv.addObject("m", m);
+		if(result > 0) {
+			mv.addObject("msg", "success");
+			mv.setViewName("member/findUserInfo");
+			return mv;
+			//model.addAttribute("m", m);
+			//return "redirect:/member/find";
+		}else {
+			mv.addObject("msg", "fail");
+			mv.setViewName("member/findUserInfo");
+			return mv;
+			//return "redirect:/member/find";
+		}
 		
 	}
 	

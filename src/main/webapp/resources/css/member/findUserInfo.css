@@ -45,7 +45,7 @@
 	font-size: 14px;
 }
 
-#okBtn{
+.okBtn{
 	margin-top:50px;
 	width: 130px;
 	height: 47px;
@@ -61,4 +61,5 @@
 	margin-top:70px;
 	color:#949999;
 	font-size:14px;
+	display:none;
 }

@@ -180,6 +180,10 @@ public class MemberServiceImpl implements MemberService {
 	public String findeUserId(String email) {
 		return mDao.findUserId(email);
 	}
+	@Override
+	public int updateRandomPwd(Member m) {
+		return mDao.updateRandomPwd(m);
+	}
 
 
 
