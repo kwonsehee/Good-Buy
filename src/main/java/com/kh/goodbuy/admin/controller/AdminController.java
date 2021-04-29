@@ -1,6 +1,8 @@
 package com.kh.goodbuy.admin.controller;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.goodbuy.admin.model.exception.NoticeException;
+import com.kh.goodbuy.business.model.service.BusinessService;
+import com.kh.goodbuy.business.model.vo.Payment;
 import com.kh.goodbuy.center.model.service.NoticeService;
 import com.kh.goodbuy.center.model.service.QnaService;
 import com.kh.goodbuy.center.model.vo.Notice;
@@ -49,6 +54,8 @@ public class AdminController {
 	private GoodsService gService;
 	@Autowired
 	private TownService tService;
+	@Autowired
+	private BusinessService bService;
 
 	// 관리자 페이지 메인페이지 이동
 	@GetMapping("/join")
@@ -531,7 +538,35 @@ public class AdminController {
 
 	// 통계2 페이지 이동
 	@GetMapping("/stats2")
-	public String stats2View() {
-		return "admin/stats2";
+		public ModelAndView stats2View(ModelAndView mv) {
+			List<Payment> busis = bService.selectBusis();
+			List<Payment> revs = bService.selectRevs();
+			List<Payment> sumbu = bService.selectSumBu();
+			List<Payment> sumre = bService.selectSumRe();
+			System.out.println("sumbu : " + sumbu);
+			System.out.println("sumre : " + sumre);
+			if (busis != null) {
+				mv.addObject("busis", busis);
+				mv.addObject("revs", revs);
+				mv.addObject("sumbu", sumbu);
+				mv.addObject("sumre", sumre);
+				mv.setViewName("admin/stats2");
+			} else {
+				mv.addObject("msg", "공지사항 목록 조회에 실패하였습니다.");
+				mv.setViewName("common/error_page");
+			}
+			return mv;
+	}
+	
+	@RequestMapping(value = "/excelConvert", method = RequestMethod.GET)
+	public ModelAndView excelConvert(Locale locale, Model model) {
+		List<Town> Seoul = tService.selectSeoul();
+				
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("Seoul", Seoul);
+		mv.setViewName("admin/excelConvert");
+		
+		return mv;
+		
 	}
 }
