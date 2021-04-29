@@ -247,6 +247,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 
+	@Override
+	public int updateRandomPwd(Member m) {
+		return sqlSession.update("memberMapper.updateRandomPwd",m);
+	}
+
+
 
 	
 

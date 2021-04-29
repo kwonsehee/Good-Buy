@@ -545,5 +545,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 		EMAIL = #{email}
 	
 	</select>
+	
+	<update id="updateRandomPwd" parameterType="Member">
+	UPDATE 
+			USER_INFO
+       SET
+       		USER_PWD = #{user_pwd}
+     WHERE
+     		USER_ID = #{user_id}
+       AND
+       		EMAIL = #{email}
+	</update>
 
 </mapper>

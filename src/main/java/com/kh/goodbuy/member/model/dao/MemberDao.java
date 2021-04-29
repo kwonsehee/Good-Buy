@@ -95,6 +95,8 @@ public interface MemberDao {
 	public int deleteKey(Keyword k);
 	// 아이디 찾기 
 	public String findUserId(String email);
+	// 임시 비밀번호 업데이트 
+	public int updateRandomPwd(Member m);
 			
 
 
