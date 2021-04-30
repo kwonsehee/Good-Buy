@@ -103,7 +103,11 @@
           <input type="hidden" name="re_no" value="${ report.re_no }"/>
           <input type="hidden" name="reported_id" value="${ report.reported_id }">
           <input type="hidden" name="re_result" value="Y"/>
-          <button id="createButton2">신고 처리</button>
+ 
+					<c:if test="${ report.re_result == 'N' }">
+						<button id="createButton2" onclick="location.href='${ contextPath }/admin/productupdate?gno=${ report.gno }'">신고 처리</button>
+					</c:if>
+         
           </form>
 
 
