@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
-import com.kh.goodbuy.common.model.vo.Report;
-import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.dao.MemberDao;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -177,7 +176,13 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.deleteKey(k);
 	}
 	@Override
-	public String findeUserId(String email) {
+	public List<Messenger> selectMsgList(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectMsgList(user_id);
+  }
+  
+	@Override
+    public String findeUserId(String email) {
 		return mDao.findUserId(email);
 	}
 	@Override

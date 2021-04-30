@@ -404,4 +404,10 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.deleteReview", rno);
 	}
 
+	@Override
+	public int insertPoint(String user_id) {
+		return sqlSession.update("goodsMapper.insertPoint", user_id);
+		
+	}
+
 }
