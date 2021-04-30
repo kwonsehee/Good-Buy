@@ -547,9 +547,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , RECEIVER
 			  , M_CONTENT
 			  , G_NO
-			  , CALLER
-			  , M_STATUS
-		  FROM MESSENGER
+			  , M_STATUS      
+			  , U.NICKNAME CALLER
+		  FROM MESSENGER M JOIN USER_INFO U ON(M.CALLER =U.USER_ID)
 		 WHERE RECEIVER = #{user_id}
 		   AND M_STATUS = 'Y'
 	
@@ -576,5 +576,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
        AND
        		EMAIL = #{email}
 	</update>
-
+	<update id="checkMsg" parameterType="_int" >
+		UPDATE MESSENGER
+		   SET M_STATUS='N'
+		 WHERE M_NO = #{mno}
+	</update>
 </mapper>

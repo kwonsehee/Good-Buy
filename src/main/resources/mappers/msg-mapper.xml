@@ -107,6 +107,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            AND 
           		F.FILE_LEVEL = 1
            AND 
+                M.M_STATUS = 'Y'
+           AND 
           		RECEIVER = #{user_id}
       ORDER BY 
            		CREATE_DATE DESC

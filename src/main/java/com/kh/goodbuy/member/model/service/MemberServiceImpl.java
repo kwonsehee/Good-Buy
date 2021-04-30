@@ -184,6 +184,11 @@ public class MemberServiceImpl implements MemberService {
 	public int updateRandomPwd(Member m) {
 		return mDao.updateRandomPwd(m);
 	}
+	@Override
+	public List<Messenger> selectMsgListMno(int mno, String user_id) {
+		int result = mDao.checkMsg(mno);
+		return mDao.selectMsgList(user_id);
+	}
 
 
 

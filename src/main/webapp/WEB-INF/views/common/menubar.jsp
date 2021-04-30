@@ -21,12 +21,6 @@
  
 </head>
 <body>
-<!-- 메세지가 있다면 출력하고 지우기 -->
-  <%--  <c:if test="${ !empty msg }">
-   		<script>alert('${ msg }')</script>
-   		<c:remove var="msg" />
-   </c:if> --%>
-   
    <header id="gbHeader">
         <div class="nav_container">
             <ul class="common_ul">
@@ -79,8 +73,8 @@
                 </li>
                 
                 <!-- 쪽지 -->
-                <li class="li_5">
-                	<a id="msgContent" onclick="msgPopup()">
+                <li class="li_5" id="msgContent">
+                	<a onclick="msgPopup()" style="border : 1px solid black;">
                 	<img src="${ contextPath }/resources/images/messenger.png" id="truck">
                 	</a>
               
@@ -210,7 +204,7 @@
 		}
 		/* 쪽지관련 */
 		$(document).ready(function(){
-			
+		if(${ !empty sessionScope.loginUser }){
 			 $.ajax({
 				   url : "${contextPath}/member/msgCount",
 				  type : "post",
@@ -222,26 +216,22 @@
 						tableBody = $("#msgContent");
 			            tableBody.html("");
 						console.log("여기오니?");
-						var a = "<img src='${ contextPath }/resources/images/onmessenger.png' id='truck'>"; 
+						var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
 						a+="<div id='msgArea'>";
 						for(var i in data){
-						  /* 	<div id="msgArea" >
-	                		<div onclick="" class="msgDiv">
-	                			<img src="${ contextPath }/resources/images/messenger.png"class="msgImg" >
-	                			<span> 쪽지내용 </span>
-	                			
-	                		</div>
-	                		<div onclick="" class="msgDiv">
-	                			<img src="${ contextPath }/resources/images/messenger.png"class="msgImg" >
-	                			<span> 쪽지내용 </span>
-	                			
-	                		</div>
-	                		
-	                	</div> */
-	                	a +="<div onclick='' class='msgDiv'>";
+						var m_no = data[i].mno;
+						if(data[i].gno>0){
+							
+	                	a +="<div onclick=\"location.href=\'${contextPath}/mypage/msgList\'\" class='msgDiv'>";
+						}else{
+							a +="<div onclick='' class='msgDiv'>";
+						}
 	                	a+="<span>";
-	                	a+=data[i].mcontent;
-	                	a+="</span></div>";
+	                	a+=data[i].caller;
+	                	
+	                	a+="님이 메세지를 보냈습니다.</span></div><button onclick='closemsgDiv(";
+	                	a+=m_no;
+	                	a+=")' id='deleteMsg'>X</button>";
 	                	
 	                	
 						}
@@ -256,11 +246,65 @@
              
 				  
 			});
+		}
 		});
+		
 		function msgPopup(){
-			
-			 $("#msgArea").toggle();
+			var control = document.getElementById("msgArea");   
+			if (control.style.display == 'block') {
+	               control.style.display = 'none';
+	           } else {
+	               control.style.display = 'block';
+	           }
     		
+		}
+		function closemsgDiv(mno){
+			console.log(mno);
+			 $.ajax({
+				   url : "${contextPath}/member/checkMsg",
+				  type : "post",
+				  data : {mno : mno},
+				  dataType : "json",
+				  success : function(data){
+					 console.log("쪽지확인함"+data);
+					 if(Object.keys(data).length>0){
+							
+							tableBody = $("#msgContent");
+				            tableBody.html("");
+							console.log("여기오니?");
+							var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
+							a+="<div id='msgArea'>";
+							for(var i in data){
+							var m_no = data[i].mno;
+							if(data[i].gno>0){
+								
+							 	a +="<div onclick=\"location.href=\'${contextPath}/mypage/msgList\'\" class='msgDiv'>";
+								}else{
+									a +="<div onclick='' class='msgDiv'>";
+								}
+		                	a+="<span>";
+		                	a+=data[i].caller;
+		                	
+		                	a+="님이 메세지를 보냈습니다.</span></div><button onclick='closemsgDiv(";
+		                	a+=m_no;
+		                	a+=")' id='deleteMsg'>X</button>";
+		                	
+		                	
+							}
+							a+="</div>"
+							tableBody.append(a);
+							var control2 = document.getElementById("msgArea");   
+							control2.style.display == 'block';
+						 }else{
+							 
+						alert(data);
+						 }
+		                     
+				  }
+           
+				  
+			});
+   		
 		}
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
 		$(document).ready(function(){

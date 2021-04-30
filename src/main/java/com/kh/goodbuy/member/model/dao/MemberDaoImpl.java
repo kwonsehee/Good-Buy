@@ -255,6 +255,12 @@ public class MemberDaoImpl implements MemberDao {
 
 	}
 
+	@Override
+	public int checkMsg(int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.checkMsg",mno);
+	}
+
 
 
 	
