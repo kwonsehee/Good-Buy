@@ -241,7 +241,7 @@
 	                	a +="<div onclick='' class='msgDiv'>";
 	                	a+="<span>";
 	                	a+=data[i].mcontent;
-	                	a+="/<span></div>";
+	                	a+="</span></div>";
 	                	
 	                	
 						}
@@ -258,6 +258,7 @@
 			});
 		});
 		function msgPopup(){
+			
 			 $("#msgArea").toggle();
     		
 		}

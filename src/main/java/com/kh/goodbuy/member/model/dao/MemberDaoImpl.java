@@ -169,11 +169,6 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-
-	public int updatememberReport(Member m) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("memberMapper.updatememberReport",m);
-	}
 	public int insertFollow(String user_id, String seller) {
 		Map<String, Object> map = new HashMap <String, Object>();
 		map.put("user_id",user_id);

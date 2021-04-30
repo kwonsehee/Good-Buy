@@ -51,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         ORDER BY R.RE_NO DESC
           
    </select>
+   <!--  -->
 	<update id="updateReport" parameterType="Report">
       UPDATE
             REPORT

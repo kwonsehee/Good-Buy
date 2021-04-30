@@ -68,7 +68,6 @@ public interface MemberDao {
 
 
 
-	public int updatememberReport(Member m);
 	
 
 

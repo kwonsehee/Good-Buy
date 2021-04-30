@@ -189,8 +189,9 @@ public class AdminController {
 	@PostMapping("/reportupdate")
 	public String reportUpdate(@ModelAttribute Report r, HttpServletRequest request) {
 		
-		
+		//신고처리
 		int result = rService.updateReport(r);
+		
 		
 		System.out.println("신고당한사람 : " + r.getReported_id());
 		System.out.println("r : " + r);
@@ -210,11 +211,13 @@ public class AdminController {
 	@PostMapping("/reportmemberupdate")
 	public String reportmemberUpdate(@ModelAttribute Member m, HttpServletRequest request) {
 		
+		System.out.println("신고당한사람 : " + m.getUser_id());
+		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
+		int result2 = rService.addCountReported(m.getUser_id());
 		
-		int result = mService.updatememberReport(m);
+		System.out.println("유저인포 reported+1 됐나 : " + result2);
 		
-		
-		if (result > 0) {
+		if (result2 > 0) {
 			return "redirect:/admin/report";
 		} else {
 			throw new NoticeException("신고처리에 실패하였습니다.");
@@ -230,8 +233,6 @@ public class AdminController {
 			//상품 정보셀렉
 			Goods g = gService.Goodsdetail(gno);
 
-			
-			
 			List<Reply>rlist = gService.selectReplyList(g);
 			model.addAttribute("g", g);
 			System.out.println(rlist);
