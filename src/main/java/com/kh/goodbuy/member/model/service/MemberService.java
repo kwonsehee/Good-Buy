@@ -78,7 +78,7 @@ public interface MemberService {
 		// 마이페이지 중고상품 댓글 삭제 
 		public int deleteReply(Reply r);
 
-		public int updatememberReport(Member m);
+	
 		
 		//판매자 팔로우
 		public int insertFollow(String user_id, String seller);
