@@ -4,210 +4,212 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="townMapper">
 	<resultMap type="Town" id="townResultSet">
-		<id property = "t_no" column ="T_NO"/>
-		<result property="address_1" column="ADDRESS_1"/>
-		<result property="address_2" column="ADDRESS_2"/>
-		<result property="address_3" column="ADDRESS_3"/>
-		<result property="cnt" column="CNT"/>
+		<id property="t_no" column="T_NO" />
+		<result property="address_1" column="ADDRESS_1" />
+		<result property="address_2" column="ADDRESS_2" />
+		<result property="address_3" column="ADDRESS_3" />
+		<result property="cnt" column="CNT" />
 	</resultMap>
 
-	
+
 	<resultMap type="Town" id="townResultSet2">
-		<id property = "t_no" column ="T_NO"/>
-		<result property="area" column="AREA"/>
-		<result property="address_1" column="ADDRESS_1"/>
-		<result property="address_2" column="ADDRESS_2"/>
-		<result property="address_3" column="ADDRESS_3"/>
+		<id property="t_no" column="T_NO" />
+		<result property="area" column="AREA" />
+		<result property="address_1" column="ADDRESS_1" />
+		<result property="address_2" column="ADDRESS_2" />
+		<result property="address_3" column="ADDRESS_3" />
 	</resultMap>
-	
-	 <resultMap type="MyTown" id="MytownResultSet">
-		<id property = "mytown_type" column ="MYTOWN_TYPE"/>
-		<id property = "user_id" column ="USER_ID"/>
-		<result property="t_no" column="T_NO"/>
-		<result property="area" column="AREA"/>
+
+	<resultMap type="MyTown" id="MytownResultSet">
+		<id property="mytown_type" column="MYTOWN_TYPE" />
+		<id property="user_id" column="USER_ID" />
+		<result property="t_no" column="T_NO" />
+		<result property="area" column="AREA" />
 	</resultMap>
-	
+
 	<!-- 전국 동네 정보 조회용 -->
 	<select id="selectAllTown1" resultMap="townResultSet">
 		SELECT
-			 	DISTINCT ADDRESS_1
-		  FROM
-		  		TOWN
-	  ORDER BY
-	 			ADDRESS_1
-		 
+		DISTINCT ADDRESS_1
+		FROM
+		TOWN
+		ORDER BY
+		ADDRESS_1
+
 	</select>
 	<select id="selectAllTown2" resultMap="townResultSet">
 		SELECT
-			 	DISTINCT ADDRESS_2
-		  FROM
-		  		TOWN
- 	  ORDER BY
-	 			ADDRESS_2
+		DISTINCT ADDRESS_2
+		FROM
+		TOWN
+		ORDER BY
+		ADDRESS_2
 	</select>
 	<select id="selectAllTown3" resultMap="townResultSet">
 		SELECT
-			 	ADDRESS_3
-		  FROM
-		  		TOWN
-		  		
-	  ORDER BY
-	 			ADDRESS_3  		
+		ADDRESS_3
+		FROM
+		TOWN
+
+		ORDER BY
+		ADDRESS_3
 	</select>
-	
+
 	<!-- t_no 조회용 -->
-	<select id="selectTownNo" parameterType="string" resultType="_int">
+	<select id="selectTownNo" parameterType="string"
+		resultType="_int">
 		SELECT
-				T_NO
-		  FROM
-		  		TOWN
-		 WHERE  
-		 		ADDRESS_3 = #{address_3}
+		T_NO
+		FROM
+		TOWN
+		WHERE
+		ADDRESS_3 = #{address_3}
 	</select>
-	
+
 	<!-- 회원가입 시 동네 insert -->
 	<insert id="insertMyTown" parameterType="MyTown">
-		INSERT 
+		INSERT
 		INTO MY_TOWN
 		(
-			MYTOWN_TYPE
-		  , USER_ID
-		  , T_NO
-		  , AREA
+		MYTOWN_TYPE
+		, USER_ID
+		, T_NO
+		, AREA
 		)
 		VALUES
 		(
-			DEFAULT
-		  , #{user_id}
-		  , #{t_no}
-		  , DEFAULT
+		DEFAULT
+		, #{user_id}
+		, #{t_no}
+		, DEFAULT
 		)
 	</insert>
-	
+
 	<!-- 내동네 설정에서 두번째 동네 추가 시 -->
 	<insert id="insertMyNewTown" parameterType="MyTown">
-		INSERT 
+		INSERT
 		INTO MY_TOWN
 		(
-			MYTOWN_TYPE
-		  , USER_ID
-		  , T_NO
-		  , AREA
+		MYTOWN_TYPE
+		, USER_ID
+		, T_NO
+		, AREA
 		)
 		VALUES
 		(
-			2
-		  , #{user_id}
-		  , #{t_no}
-		  , DEFAULT
+		2
+		, #{user_id}
+		, #{t_no}
+		, DEFAULT
 		)
 	</insert>
-	
+
 	<!-- 내 동네1,2 address_3만 조회용 -->
 	<select id="selectMyTownList" resultType="string">
-		SELECT 
-				ADDRESS_3
-		  FROM 
-		  		MY_TOWN
-		  JOIN 
-		   		TOWN USING(T_NO)
-		 WHERE
-		 		USER_ID = #{user_id}
-	  ORDER BY	
-	  			MYTOWN_TYPE
+		SELECT
+		ADDRESS_3
+		FROM
+		MY_TOWN
+		JOIN
+		TOWN USING(T_NO)
+		WHERE
+		USER_ID = #{user_id}
+		ORDER BY
+		MYTOWN_TYPE
 	</select>
-	
+
 	<!-- 내동네 설정에서 동네 삭제 시 -->
 	<delete id="deleteTown" parameterType="MyTown">
-		DELETE  
-		  FROM 
-				MY_TOWN
-		 WHERE 
-		 		T_NO = #{t_no}
-		   AND 
-		   		USER_ID = #{user_id}
+		DELETE
+		FROM
+		MY_TOWN
+		WHERE
+		T_NO = #{t_no}
+		AND
+		USER_ID = #{user_id}
 	</delete>
 
-	
+
 	<!-- 로그인 유저의 기본 동네 조회용(세션에 저장) -->
-	<select id="selectUserTown" parameterType="string" resultMap="townResultSet2">
-		SELECT 
-				T_NO
-			  , AREA     
-			  , ADDRESS_1
-			  , ADDRESS_2
-			  , ADDRESS_3      
-			  
-		  FROM 
-		  		MY_TOWN
-		  JOIN 
-		  		TOWN USING(T_NO)
-		  WHERE 
-		  		USER_ID = #{user_id}
-		    AND 
-		    	MYTOWN_TYPE = 1
+	<select id="selectUserTown" parameterType="string"
+		resultMap="townResultSet2">
+		SELECT
+		T_NO
+		, AREA
+		, ADDRESS_1
+		, ADDRESS_2
+		, ADDRESS_3
+
+		FROM
+		MY_TOWN
+		JOIN
+		TOWN USING(T_NO)
+		WHERE
+		USER_ID = #{user_id}
+		AND
+		MYTOWN_TYPE = 1
 	</select>
-	
-	<!-- 내동네 중 하나 삭제 시 남은 하나가 기본동네로 업데이트 무조건 1로  -->
+
+	<!-- 내동네 중 하나 삭제 시 남은 하나가 기본동네로 업데이트 무조건 1로 -->
 	<update id="changeTownType" parameterType="string">
-		UPDATE 
-				MY_TOWN
-		   SET 
-		   		MYTOWN_TYPE = 1
-		 WHERE 
-		 		USER_ID = #{user_id}
-		   AND 
-		   		MYTOWN_TYPE = 2
+		UPDATE
+		MY_TOWN
+		SET
+		MYTOWN_TYPE = 1
+		WHERE
+		USER_ID = #{user_id}
+		AND
+		MYTOWN_TYPE = 2
 	</update>
-	
+
 	<!-- 내동네 설정에서 기본동네 바꿀 때 타입 상호 업데이트 -->
 	<update id="changeTownType2" parameterType="string">
-		UPDATE 
-				MY_TOWN
-		   SET  
-		   		MYTOWN_TYPE =
-	 CASE WHEN 
-	 			MYTOWN_TYPE = 1 THEN 2
-		  WHEN 
-		  		MYTOWN_TYPE = 2 THEN 1
-		        END
-		 WHERE  
-		 		USER_ID = #{user_id}
-		
+		UPDATE
+		MY_TOWN
+		SET
+		MYTOWN_TYPE =
+		CASE WHEN
+		MYTOWN_TYPE = 1 THEN 2
+		WHEN
+		MYTOWN_TYPE = 2 THEN 1
+		END
+		WHERE
+		USER_ID = #{user_id}
+
 	</update>
-	
+
 	<!-- 내동네 범위 변경 -->
 	<update id="changeArea" parameterType="MyTown">
-		UPDATE 
-				MY_TOWN
-		   SET 
-				AREA = #{area}
-		 WHERE 
-				USER_ID = #{user_id}
-		   AND 
-				T_NO = #{t_no}
-	
+		UPDATE
+		MY_TOWN
+		SET
+		AREA = #{area}
+		WHERE
+		USER_ID = #{user_id}
+		AND
+		T_NO = #{t_no}
+
 	</update>
-	
+
 	<!-- 회원 정보 수정시 기본 동네 수정 -->
 	<update id="updateMyTown" parameterType="MyTown">
-		UPDATE 
-				MY_TOWN
-		   SET 
-		   		T_NO = #{t_no}
-		 WHERE 
-		 		USER_ID = #{user_id}
-		   AND 	
-		   		MYTOWN_TYPE = 1
+		UPDATE
+		MY_TOWN
+		SET
+		T_NO = #{t_no}
+		WHERE
+		USER_ID = #{user_id}
+		AND
+		MYTOWN_TYPE = 1
 	</update>
-	<select id="selectSeoul" parameterType="int" resultMap="townResultSet">
+	<select id="selectSeoul" resultMap="townResultSet">
 		SELECT ADDRESS_1, COUNT(ADDRESS_1) CNT
-FROM USER_INFO M, TOWN T, MY_TOWN MT
-WHERE M.USER_ID = MT.USER_ID
-AND MT.T_NO = T.T_NO
-GROUP BY ADDRESS_1
+		FROM USER_INFO M, TOWN T, MY_TOWN MT
+		WHERE M.USER_ID = MT.USER_ID
+		AND MT.T_NO = T.T_NO
+		GROUP BY ADDRESS_1
 
 	</select>
-	
-	
+
+
 </mapper>

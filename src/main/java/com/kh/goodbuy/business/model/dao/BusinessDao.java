@@ -101,6 +101,14 @@ public interface BusinessDao {
 
 	public int deleteFaCount(Map<String, String> map);
 
+	public List<Payment> selectBusis();
+
+	public List<Payment> selectRevs();
+
+	public List<Payment> selectSumBu();
+
+	public List<Payment> selectSumRe();
+
 
 
 

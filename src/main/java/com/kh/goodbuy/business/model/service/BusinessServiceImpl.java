@@ -342,6 +342,42 @@ public int deleteFacount(Map<String, String> map) {
 
 
 
+@Override
+public List<Payment> selectBusis() {
+	// TODO Auto-generated method stub
+	return bDao.selectBusis();
+}
+
+
+
+
+@Override
+public List<Payment> selectRevs() {
+	// TODO Auto-generated method stub
+	return bDao.selectRevs();
+}
+
+
+
+
+@Override
+public List<Payment> selectSumBu() {
+	// TODO Auto-generated method stub
+	return bDao.selectSumBu();
+}
+
+
+
+
+@Override
+public List<Payment> selectSumRe() {
+	// TODO Auto-generated method stub
+	return bDao.selectSumRe();
+}
+
+
+
+
 
 
 
