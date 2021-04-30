@@ -418,7 +418,7 @@ public class MypageController {
 		return mv;
 	}
 	
-	// 내 쪽지함 화면
+	// 내 쪽지함(상품)
 	@GetMapping("/msgList")
 	public ModelAndView showMsgList(ModelAndView mv,
 									@ModelAttribute("loginUser") Member loginUser,
@@ -437,14 +437,45 @@ public class MypageController {
 		mlist = msgService.selectMsgList(loginUser.getUser_id(),pi);
 		System.out.println("쪽지 리스트  : "+mlist);
 		System.out.println("pi " +pi);
+		
 		mv.addObject("pi", pi);
 		mv.addObject("mlist", mlist);
-		
+				
 		mv.setViewName("mypage/msgList");
 		return mv;
 	}
 	
-	// 쪽지 답장 팝업 화면
+	// 내 쪽지함(판매자쪽지)
+	@GetMapping("/userMsgList")
+	public ModelAndView userMsgList(ModelAndView mv,
+									@ModelAttribute("loginUser") Member loginUser,
+									@RequestParam(value="page", required=false, defaultValue="1") int currentPage
+									) {
+		
+		int listCount = 0;
+		int boardLimit = 10;
+		PageInfo pi;
+		listCount = msgService.selectUserMsgCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Messenger> mlist;
+		
+		System.out.println("쪽지 갯수  : " + listCount);
+		mlist = msgService.selectUserMsgList(loginUser.getUser_id(),pi);
+		System.out.println("쪽지 리스트  : "+mlist);
+		System.out.println("pi " +pi);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("mlist", mlist);
+				
+		mv.setViewName("mypage/userMsgList");
+		
+		return mv;
+		
+	}
+	
+	// 쪽지 답장 팝업 화면(상품)
 	@GetMapping("/msgReply")
 	public ModelAndView showMsgReply(ModelAndView mv,int mno) {
 		System.out.println("mno넘어왔니 : " + mno);
@@ -459,6 +490,25 @@ public class MypageController {
 		
 		return mv;
 	}
+	
+	// 쪽지 답장 팝업 화면(판매자)
+	@GetMapping("/msgReply2")
+	public ModelAndView showMsgReply2(ModelAndView mv, int mno) {
+		System.out.println("mno넘어왔니 : " + mno);
+		
+		
+		Messenger m = msgService.selectOneMsg2(mno);
+		
+		System.out.println("m 조회됐니 : " + m);
+		
+		mv.addObject("m", m);
+		mv.setViewName("mypage/msgReply2");
+		
+		return mv;
+	}
+	
+	
+	
 	
 	
 	// 내가 쓴 후기 화면

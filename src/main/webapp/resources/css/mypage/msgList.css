@@ -16,6 +16,23 @@
 	margin-bottom: 50px;
 }
 
+.subCategory_ul {
+	list-style: none;
+	width: 500px;
+	height: 50px;
+	margin: 0;
+	padding: 0;
+	margin-left: 50%;
+	margin-top: 40px;
+	transform: translate(-50%);
+}
+
+.subCategory_ul li {
+	float: left;
+	margin-right: 15%;
+	margin-left: 15%;
+}
+
 .listWrap {
 	border: 1px solid #fff;
 	width: 55%;
