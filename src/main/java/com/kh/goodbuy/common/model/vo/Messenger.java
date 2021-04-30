@@ -28,4 +28,5 @@ public class Messenger {
 	private String gprice;
 	private String address_3;
 	private String photo;
+	private String mstatus;
 }

@@ -36,7 +36,12 @@
                 <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
                 <form action="${ contextPath }/goods/search" method="get">
+                    <c:if test="${search eq null }">
                     <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
+                    </c:if>
+                     <c:if test="${search ne null }">
+                    <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!"  value="${search }" style=" color:#05AAD1;">
+                    </c:if>
                     <button type="submit">검색</button>
                 </form>
                 </li>
@@ -72,8 +77,25 @@
                 <a href="${ contextPath }/mypage/main"><img src="${ contextPath }/resources/images/person.png" id="person"></a>
                 </c:if>
                 </li>
-                <li class="li_5"><a href="${ contextPath }/mypage/dealHistoryList"><img src="${ contextPath }/resources/images/truck.png" id="truck"></a></li>
-                <li class="li_6"><a href="#"><img src="${ contextPath }/resources/images/alarm.png" id="alarm"></a></li>
+                
+                <!-- 쪽지 -->
+                <li class="li_5">
+                	<a id="msgContent" onclick="msgPopup()">
+                	<img src="${ contextPath }/resources/images/messenger.png" id="truck">
+                	</a>
+              
+                </li>
+                
+                <li class="li_6">
+                <a href="#">
+                <c:if test="${ empty sessionScope.loginUser }">
+                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" >
+                </c:if>
+                <c:if test="${ !empty sessionScope.loginUser }">
+                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" onclick="alarm('${loginUser.user_id}')">
+                </c:if>
+                </a>
+                </li>
                 <li class="li_7"><a href="${ contextPath }/mypage/likeGoodsList"><img src="${ contextPath }/resources/images/heart.png" id="heart"></a></li>
             </ul>
 
@@ -178,8 +200,62 @@
 		function showNavi() {
 			$(".sidebar").css("left", "0px");
 		}
-		
-		
+		function alarm(user_id){
+			console.log(user_id);
+		}
+		/* 쪽지관련 */
+		$(document).ready(function(){
+			
+			 $.ajax({
+				   url : "${contextPath}/member/msgCount",
+				  type : "post",
+				  dataType : "json",
+				  success : function(data){
+					 console.log("쪽지관련"+data);
+					 if(Object.keys(data).length>0){
+					
+						tableBody = $("#msgContent");
+			            tableBody.html("");
+						console.log("여기오니?");
+						var a = "<img src='${ contextPath }/resources/images/onmessenger.png' id='truck'>"; 
+						a+="<div id='msgArea'>";
+						for(var i in data){
+						  /* 	<div id="msgArea" >
+	                		<div onclick="" class="msgDiv">
+	                			<img src="${ contextPath }/resources/images/messenger.png"class="msgImg" >
+	                			<span> 쪽지내용 </span>
+	                			
+	                		</div>
+	                		<div onclick="" class="msgDiv">
+	                			<img src="${ contextPath }/resources/images/messenger.png"class="msgImg" >
+	                			<span> 쪽지내용 </span>
+	                			
+	                		</div>
+	                		
+	                	</div> */
+	                	a +="<div onclick='' class='msgDiv'>";
+	                	a+="<span>";
+	                	a+=data[i].mcontent;
+	                	a+="/<span></div>";
+	                	
+	                	
+						}
+						a+="</div>"
+						tableBody.append(a);
+					 }else{
+						 
+					alert(data);
+					 }
+	                     
+				  }
+             
+				  
+			});
+		});
+		function msgPopup(){
+			 $("#msgArea").toggle();
+    		
+		}
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
 		$(document).ready(function(){
 			$(".userTownli2").click(function(){

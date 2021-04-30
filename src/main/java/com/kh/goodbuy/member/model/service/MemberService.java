@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.member.model.vo.Member;
@@ -102,6 +103,8 @@ public interface MemberService {
 		public int selectMyFollowerCount(String user_id);
 		// 키워드 삭제 
 		public int deleteKey(Keyword k);
+		//안읽은 쪽지 list
+		public List<Messenger> selectMsgList(String user_id);
 		
 
 

@@ -52,6 +52,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="photo" column="PHOTO"/>
 	</resultMap>
 	
+	<resultMap type="Messenger" id="MessengerResult">
+		<id property="mno" column="M_NO"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="receiver" column="RECEIVER"/>
+		<result property="mcontent" column="M_CONTENT"/>
+		<result property="gno" column="G_NO"/>
+		<result property="caller" column="CALLER"/>
+		<result property="mstatus" column="M_STATUS"/>
+	</resultMap>
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
@@ -290,6 +299,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, USER_ID
 		, ALARM_DATE
 		, REF_NO
+		, A_STATUS
 		)
 		VALUES
 		(
@@ -298,6 +308,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, (SELECT USER_ID FROM GOODS WHERE G_NO = #{gno})
 		, DEFAULT
 		, #{gno}
+		, DEFAULT
 		)
 		SELECT *FROM DUAL
 	</insert>
@@ -428,12 +439,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
    </update>
 
 	<insert id="insertFollow"  parameterType="java.util.Map">
-	INSERT INTO
-	FOLLOW
+	INSERT ALL
+	INTO FOLLOW
 	(FOLLOWER, FOLLOWING)
 	VALUES
 	(#{user_id}, #{seller})
-	
+	  INTO ALARM
+    (ALARM_NO, ALARM_TYPE, ALARM_CONTENT, USER_ID, ALARM_DATE, REF_NO, A_STATUS)
+    VALUES
+    (A_SEQ.NEXTVAL, 12, CONCAT(#{user_id},'님이 팔로우신청을 하였습니다.'), #{seller}, SYSDATE,#{user_id}, DEFAULT)
+    SELECT *FROM DUAL
 	</insert>
 	<select id="isFollow" parameterType="java.util.Map" resultType="_int">
 		SELECT COUNT(*)
@@ -534,7 +549,20 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       AND 
 	       		USER_ID = #{user_id}
 	</delete>
+	<select id="selectMsgList" parameterType="string" resultMap="MessengerResult">
+		SELECT 
+			    M_NO
+			  , CREATE_DATE
+			  , RECEIVER
+			  , M_CONTENT
+			  , G_NO
+			  , CALLER
+			  , M_STATUS
+		  FROM MESSENGER
+		 WHERE RECEIVER = #{user_id}
+		   AND M_STATUS = 'Y'
 	
+	</select>
 
 
 </mapper>

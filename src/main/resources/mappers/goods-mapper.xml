@@ -615,6 +615,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, USER_ID
 		, ALARM_DATE
 		, REF_NO
+		, A_STATUS
 		)
 		VALUES
 		(
@@ -623,6 +624,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, #{g.user_id}
 		, DEFAULT
 		, R_SEQ.CURRVAL
+		, DEFAULT
 		)
 		SELECT *FROM DUAL
 	</insert>
@@ -1105,17 +1107,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<insert id="insertReview" parameterType="Review" >
 		INSERT ALL
 		INTO REVIEW
@@ -1130,7 +1121,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		VALUES
 		(  
 		  REVIEW_SEQ.NEXTVAL
-		, DEFAULT
+		, DEFAULT                                                                                                                   
 		, #{content}
 		, SYSDATE
 		, #{grade}
@@ -1145,6 +1136,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, USER_ID
 		, ALARM_DATE
 		, REF_NO
+		, A_STATUS
 		)
 		VALUES
 		(
@@ -1153,6 +1145,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, #{userId}
 		, SYSDATE
 		, REVIEW_SEQ.CURRVAL
+		, DEFAULT          
 		)
 		SELECT * FROM DUAL
 	
@@ -1160,6 +1153,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	<update id="deleteReview" parameterType="_int">
 		UPDATE REVIEW SET STATUS = 'N' WHERE REVIEW_NO = #{rno}
+	
+	</update>
+	<update id="insertPoint" parameterType="string">
+		UPDATE USER_INFO SET POINT = POINT + 10 WHERE USER_ID = #{user_id}
 	
 	</update>
 </mapper>

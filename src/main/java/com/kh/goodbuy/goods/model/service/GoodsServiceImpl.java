@@ -159,7 +159,10 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public List<Reply> insertReply(Reply r, Goods g) {
-		gDao.insertReply(r, g);
+		int result = gDao.insertReply(r, g);
+		if(result >0) {
+			gDao.insertPoint(r.getUser_id());
+		}
 		return gDao.selectReplyList(g);
 	}
 

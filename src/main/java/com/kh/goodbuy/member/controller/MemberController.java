@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.common.model.service.ReportService;
+import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -369,46 +373,70 @@ public class MemberController {
 	}
 
 	
-	 // 1. Stream을 이용한 text 응답
-	  @RequestMapping(value="follow", method=RequestMethod.POST)
-	  public void follow(String seller, HttpServletResponse response, HttpServletRequest request) {
-		  System.out.println("여기오니?" + seller);
-		  try {
-	         PrintWriter out = response.getWriter();
-	     	Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-	     	System.out.println("dd"+seller+"ddd"+loginUser.getUser_id());
-	     	int result = mService.insertFollow(loginUser.getUser_id(), seller);
-
-	         if(result>0) {
-	            out.write("success");
-	         } else {
-	            out.write("fail");
-	         }
-	         
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      }
-	      
-	   }
 	// 1. Stream을 이용한 text 응답
-		  @RequestMapping(value="unfollow", method=RequestMethod.POST)
-		  public void unfollow(  String seller, HttpServletResponse response, HttpServletRequest request) {
-			  System.out.println("여기오니?" + seller);
-			  try {
-		         PrintWriter out = response.getWriter();
-		     	Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-		     	System.out.println("dd"+seller+"ddd"+loginUser.getUser_id());
-		     	int result = mService.canselFollow(loginUser.getUser_id(), seller);
+	@RequestMapping(value = "follow", method = RequestMethod.POST)
+	public void follow(String seller, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("여기오니?" + seller);
+		try {
+			PrintWriter out = response.getWriter();
+			Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+			System.out.println("dd" + seller + "ddd" + loginUser.getUser_id());
+			int result = mService.insertFollow(loginUser.getUser_id(), seller);
 
-		         if(result>0) {
-		            out.write("success");
-		         } else {
-		            out.write("fail");
-		         }
-		         
-		      } catch (IOException e) {
-		         e.printStackTrace();
-		      }
-		      
-		   }
+			if (result > 0) {
+				out.write("success");
+			} else {
+				out.write("fail");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// 1. Stream을 이용한 text 응답
+	@RequestMapping(value = "unfollow", method = RequestMethod.POST)
+	public void unfollow(String seller, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("여기오니?" + seller);
+		try {
+			PrintWriter out = response.getWriter();
+			Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+			System.out.println("dd" + seller + "ddd" + loginUser.getUser_id());
+			int result = mService.canselFollow(loginUser.getUser_id(), seller);
+			
+			if (result > 0) {
+				out.write("success");
+			} else {
+				out.write("fail");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// 1. Stream을 이용한 text 응답 상품 찜하기 취소
+	@PostMapping(value = "msgCount",produces = "application/json; charset= utf-8")
+	public @ResponseBody String selectMsgCount(HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("쪽지관련 오니?");
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		List<Messenger> mlist = null;
+		Gson gson = null;
+		if(loginUser!=null) {
+			System.out.println("loginUser ; "+loginUser.getUser_id());
+			
+			mlist = mService.selectMsgList(loginUser.getUser_id());
+			// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			System.out.println("새 쪽지dddd : "+mlist);
+			
+		}
+		
+		System.out.println("새 쪽지 : "+mlist);
+		// 응답 작성
+		return gson.toJson(mlist);
+	}
+
 }

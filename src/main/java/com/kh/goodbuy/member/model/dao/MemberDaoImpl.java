@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.vo.Addfile;
@@ -239,6 +240,12 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int deleteKey(Keyword k) {
 		return sqlSession.delete("memberMapper.deleteKey", k);
+	}
+
+	@Override
+	public List<Messenger> selectMsgList(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberMapper.selectMsgList", user_id);
 	}
 
 

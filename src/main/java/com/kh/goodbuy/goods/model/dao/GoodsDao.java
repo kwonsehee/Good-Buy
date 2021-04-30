@@ -132,6 +132,8 @@ public interface GoodsDao {
 	public int insertReview(Review r);
 	//리뷰 삭제 
 	public int deleteReview(int rno);
+	//댓글 단 사람 포인트 주기
+	public int insertPoint(String user_id);
 	
 
 
