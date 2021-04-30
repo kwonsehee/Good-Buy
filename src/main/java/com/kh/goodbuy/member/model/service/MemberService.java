@@ -109,6 +109,8 @@ public interface MemberService {
 		public String findeUserId(String email);
 		// 임시 비밀번호 업데이트 
 		public int updateRandomPwd(Member m);
+		//선택한 msg지우고 msg 셀렉해오기
+		public List<Messenger> selectMsgListMno(int mno, String user_id);
 		
 
 

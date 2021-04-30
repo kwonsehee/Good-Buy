@@ -101,6 +101,8 @@ public interface MemberDao {
 	public String findUserId(String email);
 	// 임시 비밀번호 업데이트 
 	public int updateRandomPwd(Member m);
+	//msg봤다고 확인하기
+	public int checkMsg(int mno);
 
 			
 

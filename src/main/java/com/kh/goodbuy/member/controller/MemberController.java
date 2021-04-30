@@ -505,7 +505,19 @@ public class MemberController {
 		}
 		
 	}
-	
-		  
+
+	//msg확인했다는 표시 
+	@PostMapping(value = "checkMsg", produces = "application/json; charset= utf-8")
+	public @ResponseBody String checkMsgCount(int mno, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("mno오니?"+mno);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		List<Messenger> mlist= mService.selectMsgListMno(mno, loginUser.getUser_id());
+		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		System.out.println("새 쪽지확인하고 다시 셀렉: " + mlist);
+
+		// 응답 작성
+		return gson.toJson(mlist);
+	}
 
 }
