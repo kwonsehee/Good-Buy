@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -409,5 +410,13 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.insertPoint", user_id);
 		
 	}
+
+	@Override
+	public int productreportupdate(int gno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("goodsMapper.productreportupdate", gno);
+	}
+
+	
 
 }

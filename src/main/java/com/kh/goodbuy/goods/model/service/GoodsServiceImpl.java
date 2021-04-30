@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.dao.GoodsDao;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
@@ -359,5 +360,13 @@ public class GoodsServiceImpl implements GoodsService {
 			return null;
 		}
 	}
+
+	@Override
+	public int productreportupdate(int gno) {
+		// TODO Auto-generated method stub
+	 return gDao.productreportupdate(gno);
+	}
+
+	
 
 }
