@@ -264,6 +264,44 @@ public class BusinessDaoImpl implements BusinessDao {
 
 	}
 
+	@Override
+	public int selectFaUserList(Map<String, String> map) {
+		
+		return sqlSession.selectOne("businessMapper.selectFaUserList",map);
+	}
+
+	@Override
+	public int deleteFaCount(Map<String, String> map) {
+		
+		return sqlSession.delete("businessMapper.deleteFaCount",map);
+	}
+
+	@Override
+	public List<Payment> selectBusis() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectBusis");
+	}
+
+	@Override
+	public List<Payment> selectRevs() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectRevs");
+	}
+
+	@Override
+	public List<Payment> selectSumBu() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectSumBu");
+	}
+
+	@Override
+	public List<Payment> selectSumRe() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectSumRe");
+	}
+
+
+
 	
 
 	

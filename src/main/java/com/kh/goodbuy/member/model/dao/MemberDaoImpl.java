@@ -246,6 +246,18 @@ public class MemberDaoImpl implements MemberDao {
 	public List<Messenger> selectMsgList(String user_id) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("memberMapper.selectMsgList", user_id);
+  }
+  
+	@Override
+	public String findUserId(String email) {
+		return sqlSession.selectOne("memberMapper.findUserId",email);
+	}
+
+
+	@Override
+	public int updateRandomPwd(Member m) {
+		return sqlSession.update("memberMapper.updateRandomPwd",m);
+
 	}
 
 

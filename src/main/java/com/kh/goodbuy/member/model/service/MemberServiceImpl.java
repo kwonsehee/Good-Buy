@@ -179,6 +179,15 @@ public class MemberServiceImpl implements MemberService {
 	public List<Messenger> selectMsgList(String user_id) {
 		// TODO Auto-generated method stub
 		return mDao.selectMsgList(user_id);
+  }
+  
+	@Override
+    public String findeUserId(String email) {
+		return mDao.findUserId(email);
+	}
+	@Override
+	public int updateRandomPwd(Member m) {
+		return mDao.updateRandomPwd(m);
 	}
 
 

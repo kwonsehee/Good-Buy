@@ -94,8 +94,15 @@ public interface MemberDao {
 	public int selectMyFollowerCount(String user_id);
 	// 키워드 삭제 
 	public int deleteKey(Keyword k);
+
 	//안읽은 쪽지list
 	public List<Messenger> selectMsgList(String user_id);
+
+	// 아이디 찾기 
+	public String findUserId(String email);
+	// 임시 비밀번호 업데이트 
+	public int updateRandomPwd(Member m);
+
 			
 
 

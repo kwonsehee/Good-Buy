@@ -54,6 +54,8 @@ public class BusinessController {
 		String userId = loginUser.getUser_id();
 		Town townInfo = (Town)session.getAttribute("townInfo");
 
+		
+		
 
 		List<Business> bList = bService.selectbList(townInfo);
 		List<News> nList = bService.selectnList(townInfo);		
@@ -75,8 +77,11 @@ public class BusinessController {
 	   	 Member loginUser2 = mService.loginMember(loginUser);
 	   	 mv.addObject("loginUser", loginUser2);
 		mv.setViewName("business/myNear");
+		
+		
 
 		return mv;
+		
 	}
 	
 
@@ -86,7 +91,7 @@ public class BusinessController {
 	public String BusinessDetailView(int shopNo,
 									HttpServletRequest request,
 									HttpServletResponse response,
-									Model model) {
+									Model model, HttpSession session) {
 		boolean flagbList = false;
 		boolean flagshopNo = false;
 		
@@ -123,12 +128,21 @@ public class BusinessController {
 	         e.printStackTrace();
 	      }
 		 
+		 Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId = loginUser.getUser_id();
+		String shopNo2 = Integer.toString(shopNo);
+		
+		Map<String, String > map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("shopNo", shopNo2);
 		 Business b = bService.selectDetail(shopNo, !flagshopNo);
 		 List<News> nList= bService.selectDetailNews(shopNo);
 		 List<Review> rList = bService.selectDetailReview(shopNo);
+		 int faCount = bService.selectFaUserList(map);
 		 model.addAttribute("business",b);
 		 model.addAttribute("news",nList);
 		 model.addAttribute("rList",rList);
+		 model.addAttribute("faCount",faCount);
 		 System.out.println("b: " +b);
 		 System.out.println("n: " +nList);
 		 System.out.println("rList : " + rList);
@@ -474,9 +488,28 @@ public class BusinessController {
 			map.put("shopNo", shopNo);
 			
 			int result = bService.updateFacount(map);
-		
-		return "redirect:/business/list";
+			
+		return "redirect:/business/detail?shopNo="+shopNo;
 	}
+	
+	@GetMapping("deleteFaCount")
+	public String deleteFaCount(String shopNo, HttpSession session,String pageName) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			String userId = loginUser.getUser_id();
+			Map<String, String> map = new HashMap<>();
+			map.put("userId", userId);
+			map.put("shopNo", shopNo);
+			
+			int result = bService.deleteFacount(map);
+			
+			if(result > 0 && pageName.equals("mypage")) {
+				return"redirect:/mypage/likeShopList";
+			}else {
+				return "redirect:/business/detail?shopNo="+shopNo;
+			}
+			
+	}
+	
 	@GetMapping("delete")
 	public String deleteBusiness( HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");

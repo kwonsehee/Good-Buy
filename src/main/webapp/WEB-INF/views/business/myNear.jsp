@@ -171,6 +171,13 @@
         </script>
      
 		 </c:if>
+		 
+		 <c:if test="${empty bList }">
+		        <div class="logoArea">
+	       		<img src="${contextPath}/resources/images/logo2.png">
+	            <p>추천 가게가 없습니다.</p>
+        		</div>
+	     </c:if>
         <div class="btnArea">
         	<c:if test="${ loginUser.is_business eq 'Y' }">
             <button id="businessBtn"><img src="${contextPath}/resources/images/business/shop 1.png"><label onclick="location.href='${contextPath}/business/change'">비즈 프로필 관리</label></button>
@@ -180,13 +187,6 @@
             </c:if>
            
         </div>
-		 
-		 <c:if test="${empty bList }">
-		        <div class="logoArea">
-	       		<img src="${contextPath}/resources/images/logo2.png">
-	            <p>추천 가게가 없습니다.</p>
-        		</div>
-	     </c:if>
         <!--이웃들의 추천 가게 끝-->
        
     </section>

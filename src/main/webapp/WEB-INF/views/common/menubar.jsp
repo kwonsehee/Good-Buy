@@ -127,7 +127,12 @@
                 </div>      
                 <ul class="menuUl">
                     <li><a href="${contextPath }/goods/list">중고거래</a></li>
+                    <c:if test="${ !empty sessionScope.loginUser }">
                     <li><a href="${contextPath }/business/list">내근처</a></li>
+                    </c:if>
+                    <c:if test="${ empty sessionScope.loginUser }">
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">내근처</a></li>
+                    </c:if>
                     <li><a href="${ contextPath }/board/main">동네생활</a></li>
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
                    
@@ -181,7 +186,7 @@
 					</div>
 					<div class="modal-footer">
 					
-						<a href="${ contextPath }/member/find" id="find_id_pwd">아이디/비밀번호 찾기</a>
+						<a href="${ contextPath }/member/find" id="find_id_pwd" style="color:black;">아이디/비밀번호 찾기</a>
 						<!-- 새 창 띄우기-->
 
 						<button type="button" id="closeBtn" data-bs-dismiss="modal">닫기</button>

@@ -410,6 +410,7 @@ public class MypageController {
 		return mv;
 	}
 	
+	
 	// 관심목록 - 동네생활 화면
 	@GetMapping("/likeBoardList")
 	public ModelAndView showLikeBoardList(ModelAndView mv) {
