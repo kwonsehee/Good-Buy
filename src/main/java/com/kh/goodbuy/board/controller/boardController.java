@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,13 +18,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.goodbuy.board.model.exception.BoardExcepotion;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.board.model.service.BoardService;
 import com.kh.goodbuy.board.model.vo.Board;
+
 import com.kh.goodbuy.common.Pagination;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
@@ -33,8 +39,10 @@ public class boardController {
 	@Autowired
 	private BoardService bService;
 
-	/* 리스트 */
 
+	
+
+	
 	@GetMapping("/list")
 	public ModelAndView boardList(ModelAndView mv,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int currentPage) {
@@ -142,6 +150,11 @@ public class boardController {
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		Board b = bService.BoardDetail(bno);
 		model.addAttribute("b", b);
+		
+		List<Reply>rlist = bService.selectReplyList(b);
+		model.addAttribute("b", b);
+		System.out.println(rlist);
+		model.addAttribute("rlist", rlist);
 		return "board/boardDetail";
 	}
 
@@ -168,36 +181,113 @@ public class boardController {
 		}else {
 			return "board/list";
 		}
+	
+
+		 
 		
+		
+	}
+
+	
+
+
+	//추천수 증가 insert
+	@PostMapping("/count")
+	public @ResponseBody int likecount(int bno, HttpSession session){
+		System.out.println(bno+"bno");
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		System.out.println(loginUser.getUser_id());
+		int result = bService.insertlike(bno,loginUser.getUser_id());
+		
+		return result;
 	}
 
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//추천수 삭제 
+	@PostMapping("/countCancel")
+	public @ResponseBody int deletecount(int bno,HttpSession session) {
+		System.out.println(bno+"bno");
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		System.out.println(loginUser.getUser_id());
+		int result = bService.deletelike(bno,loginUser.getUser_id());
+		return result;
+	}
 
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 댓글 작성
+	@PostMapping(value = "/insertReply", produces = "application/json; charset= utf-8")
+	public @ResponseBody String insertReply(Reply r,Board b, HttpSession session, HttpServletRequest request) {
 
+		System.out.println("b : "+b);
+		Member loginUser =(Member)request.getSession().getAttribute("loginUser");
+		System.out.println("loginUser : " + loginUser );
+		
+		r.setRno(b.getBno());
+		r.setUser_id(loginUser.getUser_id());
+		
+		List<Reply> rlist =bService.insertReply(r,b);
+		System.out.println("rlist : " + rlist);
+		Gson gson = new GsonBuilder()
+				.setDateFormat("yyyy-MM-dd")
+				.create();
+		
+		//응답작성 
+		return gson.toJson(rlist);
+	}
+	 
+	
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

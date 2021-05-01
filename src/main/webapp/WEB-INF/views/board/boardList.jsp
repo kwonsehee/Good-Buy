@@ -37,7 +37,8 @@
                     <br>
                     <li class="name" style="color: black;">${b.userid }</li>
                     <li class="Date">${b.bcreatedate}</li>
-                    <li class="hearts"><img src="${contextPath}/resources/images/mypage/heart.png" style="width:24px; height:21px;"></li>
+                    <li class="hearts"><img src="${contextPath}/resources/images/mypage/heart.png" style="width:24px; height:21px;">
+                    ${b.postno}</li>
                 </ul>
                 
                 <img src="${contextPath}/resources/images/boardupload/${b.bfile}" class="Photo">

@@ -235,10 +235,11 @@ position: relative;
     bottom: 220px;
 
 }
- #heart{
+ #hearts{
     position:relative; 
   bottom: 937px;
    left: 55%;
+  
  }
  .heartstory{
      font-size:14px;
