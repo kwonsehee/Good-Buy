@@ -36,6 +36,8 @@ import com.kh.goodbuy.member.model.vo.MyTown;
 import com.kh.goodbuy.town.model.service.TownService;
 import com.kh.goodbuy.town.model.vo.Town;
 
+import net.sf.json.JSONObject;
+
 @Controller
 @RequestMapping("/member")
 @SessionAttributes({ "loginUser", "msg", "townInfo","mtlist", "writeActive", "kakaoMember"})
@@ -450,15 +452,10 @@ public class MemberController {
 			}
 			user_id = user_id.substring(0,3) + star;
 			System.out.println(user_id);
-			//model.addAttribute("user_id", user_id);
 			mv.addObject("user_id", user_id);
-			//rd.addAttribute("user_id", user_id);
 			mv.setViewName("member/findUserInfo");
-			//return "redirect:/member/find";
 		} else {
-			//mv.addObject("msg", "조회된 아이디가 없습니다.");
 			mv.setViewName("member/findUserInfo");
-			//return "redirect:/member/find";
 		}
 		
 		return mv;
@@ -467,9 +464,9 @@ public class MemberController {
 	
 	// 비밀번호 찾기
 	@PostMapping("/findPwd")
-	public ModelAndView findPwd(String user_id, String email,
-						Model model,ModelAndView mv) {
-		
+	public  @ResponseBody void findPwd(String user_id, String email,
+						Model model,HttpServletResponse response) {
+		 response.setContentType("application/json; charset=utf-8");
 		System.out.println("비번 찾 넘어온 user_id : " + user_id);
 		System.out.println("비번 찾 넘어온 email : " + email);
 		
@@ -496,18 +493,19 @@ public class MemberController {
 		
 		int result = mService.updateRandomPwd(m);
 		
-		mv.addObject("m", m);
 		if(result > 0) {
-			mv.addObject("msg", "success");
-			mv.setViewName("member/findUserInfo");
-			return mv;
-			//model.addAttribute("m", m);
-			//return "redirect:/member/find";
-		}else {
-			mv.addObject("msg", "fail");
-			mv.setViewName("member/findUserInfo");
-			return mv;
-			//return "redirect:/member/find";
+			JSONObject user = new JSONObject();
+			
+			user.put("user_id", m.getUser_id());
+			user.put("email", m.getEmail());
+			user.put("user_pwd", finalPwd);
+			
+			try {
+				PrintWriter out = response.getWriter();
+				out.print(user);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
