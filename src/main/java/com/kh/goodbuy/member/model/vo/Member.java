@@ -33,5 +33,5 @@ public class Member {
 	private int  followCnt;
 	private int  goodsCnt;
 	private int  isfollow;
-	
+	private String reported_id;
 }

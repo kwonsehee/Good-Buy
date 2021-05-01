@@ -191,7 +191,7 @@ public class AdminController {
 		
 		//신고처리
 		int result = rService.updateReport(r);
-		
+		int result3 = rService.insertAlarmproduct(r);
 		
 		System.out.println("신고당한사람 : " + r.getReported_id());
 		System.out.println("r : " + r);
@@ -201,7 +201,7 @@ public class AdminController {
 		
 		System.out.println("유저인포 reported+1 됐나 : " + result2);
 		
-		if (result > 0) {
+		if (result3 > 0) {
 			return "redirect:/admin/report";
 		} else {
 			throw new NoticeException("신고처리에 실패하였습니다.");
@@ -225,10 +225,11 @@ public class AdminController {
 		}
 	// 회원 신고
 	@PostMapping("/reportmemberupdate")
-	public String reportmemberUpdate(@ModelAttribute Member m, HttpServletRequest request) {
+	public String reportmemberUpdate(@ModelAttribute Member m,@ModelAttribute Report r, HttpServletRequest request) {
 		
 		System.out.println("신고당한사람 : " + m.getUser_id());
 		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
+		int result = rService.insertAlarmMember(r);
 		int result2 = rService.addCountReported(m.getUser_id());
 		
 		System.out.println("유저인포 reported+1 됐나 : " + result2);

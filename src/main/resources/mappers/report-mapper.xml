@@ -308,6 +308,44 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 		SELECT * FROM DUAL
 	</insert>
-
+<insert id="insertAlarmproduct" parameterType="java.util.Map">
+		INSERT
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 2
+		, #{reported_id}
+		, DEFAULT
+		, #{gno}
+		)
+	</insert>
+	
+	<insert id="insertAlarmMember" parameterType="java.util.Map">
+		INSERT
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 13
+		, #{reported_id}
+		, DEFAULT
+		, #{reported_id}
+		)
+	</insert>
 
 </mapper>

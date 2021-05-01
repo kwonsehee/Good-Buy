@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.vo.Goods;
+import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 public interface ReportService {
@@ -47,6 +48,10 @@ public interface ReportService {
 	
 	//user 신고
 	public int insertUserReport(Report r);
+
+	public int insertAlarmproduct(Report r);
+
+	public int insertAlarmMember(Report r);
 
 
 
