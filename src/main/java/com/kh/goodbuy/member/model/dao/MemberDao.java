@@ -122,6 +122,10 @@ public interface MemberDao {
 
 	//kakao join
 	public int insertKakaoMember(Member km);
+
+	public int selectReportedCount(String report_id);
+
+	public int insertwriteAlarm(String report_id);
 			
 
 

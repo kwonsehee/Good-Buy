@@ -123,9 +123,9 @@ public class ReportServiceImpl implements ReportService{
 	}
 
 	@Override
-	public int insertAlarmMember(Report r) {
+	public int insertAlarmMember(String reported_id) {
 		// TODO Auto-generated method stub
-		return rDao.insertAlarmMember(r);
+		return rDao.insertAlarmMember(reported_id);
 	}
 
 }

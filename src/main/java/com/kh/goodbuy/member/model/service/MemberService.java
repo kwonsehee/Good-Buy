@@ -128,6 +128,8 @@ public interface MemberService {
 		public int deleteShopReview(Review r);
 		//kakao join
 		public int insertKakaoMember(Member km);
+
+		public int selectReportedCount(String report_id);
 		
 
 

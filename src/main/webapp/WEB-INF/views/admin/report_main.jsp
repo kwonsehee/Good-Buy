@@ -80,27 +80,27 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <form action="${ contextPath }/admin/reportmemberupdate" id="writeForm" method="post">
+                 
                   <c:forEach var="r" items="${ list2 }">
                 
                <tr id="tr_hover1">
                 	
-                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th><input type="hidden" name="reported_id" value="${ r.reported_id }"/>${ r.reported_id }</th><th>${ r.re_content }</th><th>${ r.reported }</th>
+                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th><th>${ r.reported }</th>
                      
-                     
+                    
                     <c:if test="${ r.re_result == 'Y' }">
 						<th><button id="createButton" disabled>처리 완료</button></th>
 					</c:if>
 					
 					<c:if test="${ r.re_result == 'N' }">
 					
-						<th><button id="createButton" >알림 보내기</button></th>
+						<th><button id="createButton" onclick="selectReportMember('${r.reported_id}')">신고 처리</button></th>
 					</c:if>
                  
                   </tr>
                   
             </c:forEach>
-                  </form>
+                  
                 </tbody>
               </table>
 
@@ -147,6 +147,10 @@
          location.href='${contextPath}/admin/reportdetail?re_no=' + re_no + '&page=${ pi.currentPage }';
          // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
       }
+      function selectReportMember(reported_id){
+          location.href='${contextPath}/admin/reportmemberupdate?reported_id=' + reported_id;
+          // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
+       }
    </script>
 
 </body>

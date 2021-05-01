@@ -224,6 +224,16 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.insertKakaoMember(km);
 	}
+	@Override
+	public int selectReportedCount(String report_id) {
+		int result = mDao.selectReportedCount(report_id);
+		if (result >= 3) {
+			return mDao.insertwriteAlarm(report_id);
+		}else {
+			return 0;
+		}
+		
+	}
 
 
 

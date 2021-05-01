@@ -328,7 +328,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 	</insert>
 	
-	<insert id="insertAlarmMember" parameterType="java.util.Map">
+	<insert id="insertAlarmMember" parameterType="string">
 		INSERT
 		INTO ALARM
 		(

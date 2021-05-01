@@ -744,7 +744,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	)
 	
 	</insert>
-	
-	
+	<select id="selectReportedCount" parameterType="string" resultType="_int">
+	SELECT REPORTED
+	FROM USER_INFO
+	WHERE USER_ID = #{user_id}
+	</select>
+	<insert id="insertwriteAlarm" parameterType="string">
+	INSERT INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+        , ALARM_CONTENT
+		, USER_ID
+		, ALARM_DATE
+		
+		)
+		VALUES
+		(	
+		  A_SEQ.NEXTVAL
+		, 13
+        , '신고 횟수가 3회가 되어 글쓰기가 비활성화 되었습니다.'
+		, #{user_id}
+		, DEFAULT
+
+		)
+	</insert>
 	
 </mapper>
