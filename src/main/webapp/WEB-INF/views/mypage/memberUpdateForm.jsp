@@ -79,9 +79,9 @@
  					// 비밀번호 일치 시 수정하기 버튼 활성화 불일치 시 버튼 비활성화 
  					 if(data == "success"){
  						$("#submitBtn").removeAttr("disabled");
+ 						
  					}else {
- 						$("#submitBtn").removeAttr("disabled");
- 						//$("#submitBtn").attr("disabled",true);
+ 						$("#submitBtn").attr("disabled",true);
  						alert("기존 비밀번호를 맞게 입력해주세요!");
  					} 
  				},

@@ -432,7 +432,7 @@ public class MemberController {
 		  
 	// 아이디 찾기
 	@PostMapping("/findId")
-	public String findId(String email,ModelAndView mv, Model model,RedirectAttributes rd) {
+	public ModelAndView findId(String email,ModelAndView mv, Model model,RedirectAttributes rd) {
 		
 		String user_id = mService.findeUserId(email);
 		
@@ -446,16 +446,18 @@ public class MemberController {
 			}
 			user_id = user_id.substring(0,3) + star;
 			System.out.println(user_id);
-		//	model.addAttribute("user_id", user_id);
-			rd.addAttribute("user_id", user_id);
-			//mv.setViewName("member/findUserInfo");
-			return "redirect:/member/find";
+			//model.addAttribute("user_id", user_id);
+			mv.addObject("user_id", user_id);
+			//rd.addAttribute("user_id", user_id);
+			mv.setViewName("member/findUserInfo");
+			//return "redirect:/member/find";
 		} else {
-			//mv.setViewName("member/findUserInfo");
-			return "redirect:/member/find";
+			//mv.addObject("msg", "조회된 아이디가 없습니다.");
+			mv.setViewName("member/findUserInfo");
+			//return "redirect:/member/find";
 		}
 		
-		//return mv;
+		return mv;
 		
 	}
 	
