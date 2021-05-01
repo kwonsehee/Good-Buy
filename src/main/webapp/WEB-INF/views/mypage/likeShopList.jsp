@@ -31,7 +31,7 @@
                     <li class="dot">•</li>
                     <li class="createDate">${ b.shopTime3 }</li>
                 </ul>
-                <img src="${ contextPath }/resources/images/mypage/fillHeart.png" class="likeIcon" onclick="cancelLike()">
+                <img src="${ contextPath }/resources/images/mypage/fillHeart.png" class="likeIcon" onclick="cancelLike(${b.shopNo})">
                
                 <img src="${ contextPath }/resources/images/mypage/speech-bubble.png" class="replyIcon">
                 <p class="replyCount">${ b.reviewCount }</p>
@@ -113,8 +113,9 @@
 <jsp:include page="../common/footer.jsp"/>
 
  	<script>
-       function cancelLike(){
-
+       function cancelLike(shopNo){
+    	   console.log(shopNo);
+    	   location.href='${contextPath}/business/deleteFaCount?shopNo=' + shopNo + "&pageName=mypage";
        }
        
        // 가게 디테일뷰

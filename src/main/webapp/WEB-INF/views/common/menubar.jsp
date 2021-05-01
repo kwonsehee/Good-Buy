@@ -21,12 +21,6 @@
  
 </head>
 <body>
-<!-- 메세지가 있다면 출력하고 지우기 -->
-  <%--  <c:if test="${ !empty msg }">
-   		<script>alert('${ msg }')</script>
-   		<c:remove var="msg" />
-   </c:if> --%>
-   
    <header id="gbHeader">
         <div class="nav_container">
             <ul class="common_ul">
@@ -36,7 +30,12 @@
                 <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
                 <form action="${ contextPath }/goods/search" method="get">
+                    <c:if test="${search eq null }">
                     <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
+                    </c:if>
+                     <c:if test="${search ne null }">
+                    <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!"  value="${search }" style=" color:#05AAD1;">
+                    </c:if>
                     <button type="submit">검색</button>
                 </form>
                 </li>
@@ -72,8 +71,25 @@
                 <a href="${ contextPath }/mypage/main"><img src="${ contextPath }/resources/images/person.png" id="person"></a>
                 </c:if>
                 </li>
-                <li class="li_5"><a href="${ contextPath }/mypage/dealHistoryList"><img src="${ contextPath }/resources/images/truck.png" id="truck"></a></li>
-                <li class="li_6"><a href="#"><img src="${ contextPath }/resources/images/alarm.png" id="alarm"></a></li>
+                
+                <!-- 쪽지 -->
+                <li class="li_5" id="msgContent">
+                	<a onclick="msgPopup()" style="border : 1px solid black;">
+                	<img src="${ contextPath }/resources/images/messenger.png" id="truck">
+                	</a>
+              
+                </li>
+                
+                <li class="li_6">
+                <a href="#">
+                <c:if test="${ empty sessionScope.loginUser }">
+                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" >
+                </c:if>
+                <c:if test="${ !empty sessionScope.loginUser }">
+                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" onclick="alarm('${loginUser.user_id}')">
+                </c:if>
+                </a>
+                </li>
                 <li class="li_7"><a href="${ contextPath }/mypage/likeGoodsList"><img src="${ contextPath }/resources/images/heart.png" id="heart"></a></li>
             </ul>
 
@@ -109,16 +125,24 @@
                     <li><a href="${contextPath }/business/list">내근처</a></li>
                     </c:if>
                     <c:if test="${ empty sessionScope.loginUser }">
-                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">내근처</a></li>
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">내근처</a></li>
                     </c:if>
-                    <li><a href="${ contextPath }/board/main">동네생활</a></li>
+                    <c:if test="${ !empty sessionScope.loginUser }">
+                    <li><a href="${contextPath }/board/main">동네생활</a></li>
+                    </c:if>
+                    <c:if test="${ empty sessionScope.loginUser }">
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">동네생활</a></li>
+                    </c:if>
+                    
+                    
+                  
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
                    
                      <c:if test="${ !empty sessionScope.loginUser }">
                     <li><a href="${ contextPath }/mypage/main">마이페이지</a></li>
                     </c:if>
                     <c:if test="${ empty sessionScope.loginUser }">
-                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">마이페이지</a></li>
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">마이페이지</a></li>
                     </c:if>
                     <c:if test="${ loginUser.user_type == 0 }">
                     <li><a href="${ contextPath }/admin/join">관리자페이지</a></li>
@@ -150,7 +174,7 @@
 								<p class="simLog_p">간편 로그인</p>
 								<div class="imgWrap">
 									<a href="#"><img src="${ contextPath }/resources/images/google.png"></a>
-								    <a href="#"><img src="${ contextPath }/resources/images/kakao.png"></a> 
+								    <a href="https://kauth.kakao.com/oauth/authorize?client_id=5a7a733b7acbd667518c7886e00f1231&redirect_uri=http://localhost:8082/goodbuy/member/auth/kakao/callback&response_type=code"><img src="${ contextPath }/resources/images/kakao.png"></a> 
 								    <a href="#"><img src="${ contextPath }/resources/images/facebook.png"></a>
 								</div>
 								<button type="submit" style="font-weight: bold;">Log in</button>
@@ -164,7 +188,7 @@
 					</div>
 					<div class="modal-footer">
 					
-						<a href="${ contextPath }/member/find" id="find_id_pwd">아이디/비밀번호 찾기</a>
+						<a href="${ contextPath }/member/find" id="find_id_pwd" style="color:black;">아이디/비밀번호 찾기</a>
 						<!-- 새 창 띄우기-->
 
 						<button type="button" id="closeBtn" data-bs-dismiss="modal">닫기</button>
@@ -183,8 +207,136 @@
 		function showNavi() {
 			$(".sidebar").css("left", "0px");
 		}
+		function alarm(user_id){
+			console.log(user_id);
+		}
+		/* 쪽지관련 */
+		$(document).ready(function(){
+		if(${ !empty sessionScope.loginUser }){
+			 $.ajax({
+				   url : "${contextPath}/member/msgCount",
+				  type : "post",
+				  dataType : "json",
+				  success : function(data){
+					 console.log("쪽지관련"+data);
+					 if(Object.keys(data).length>0){
+					
+						tableBody = $("#msgContent");
+			            tableBody.html("");
+						console.log("여기오니?");
+						var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
+						a+="<div id='msgArea'>";
+						for(var i in data){
+						var m_no = data[i].mno;
+						if(data[i].gno>0){
+	                	a +="<div class='msgDiv' onclick='gotomsgDiv1(";
+	                	a+=m_no;
+	                	a+=")'>";
+	                	
+						}else{
+							a +="<div class='msgDiv' onclick='gotomsgDiv2(";
+		                	a+=m_no;
+		                	a+=")'>";
+							
+						}
+	                	a+="<span>";
+	                	a+=data[i].caller;
+	                	
+	                	a+="님이 메세지를 보냈습니다.</span></div><button onclick='closemsgDiv(";
+	                	a+=m_no;
+	                	a+=")' id='deleteMsg'>X</button>";
+	                	
+	                	
+						}
+						a+="</div>"
+						tableBody.append(a);
+					 }else{
+						 
+					/* alert(data); */
+					console.log(data);
+					 }
+	                     
+				  }
+             
+				  
+			});
+		}
+		});
 		
-		
+		function msgPopup(){
+			var control = document.getElementById("msgArea");   
+			if (control.style.display == 'block') {
+	               control.style.display = 'none';
+	           } else {
+	               control.style.display = 'block';
+	           }
+    		
+		}
+		function closemsgDiv(mno){
+			console.log(mno);
+			 $.ajax({
+				   url : "${contextPath}/member/checkMsg",
+				  type : "post",
+				  data : {mno : mno},
+				  dataType : "json",
+				  success : function(data){
+					 console.log("쪽지확인함"+data);
+					 if(Object.keys(data).length>0){
+							
+							tableBody = $("#msgContent");
+				            tableBody.html("");
+							console.log("여기오니?");
+							var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
+							a+="<div id='msgArea'>";
+							for(var i in data){
+							var m_no = data[i].mno;
+							if(data[i].gno>0){
+			                	a +="<div class='msgDiv' onclick='gotomsgDiv1(";
+			                	a+=m_no;
+			                	a+=")'>";
+			                	
+								}else{
+									a +="<div class='msgDiv' onclick='gotomsgDiv2(";
+				                	a+=m_no;
+				                	a+=")'>";
+									
+								}
+		                	a+="<span>";
+		                	a+=data[i].caller;
+		                	
+		                	a+="님이 메세지를 보냈습니다.</span></div><button onclick='closemsgDiv(";
+		                	a+=m_no;
+		                	a+=")' id='deleteMsg'>X</button>";
+		                	
+		                	
+							}
+							a+="</div>"
+							tableBody.append(a);
+							var control2 = document.getElementById("msgArea");   
+							control2.style.display == 'block';
+						 }else{
+							 
+						alert(data);
+						 }
+		                     
+				  }
+           
+				  
+			});
+   		
+		}
+		function gotomsgDiv1(mno){
+			console.log(mno);
+			closemsgDiv(mno);
+			location.href='${contextPath}/mypage/msgList';
+   		
+		}
+		function gotomsgDiv2(mno){
+			console.log(mno);
+			closemsgDiv(mno);
+			location.href='${contextPath}/mypage/userMsgList';
+   		
+		}
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
 		$(document).ready(function(){
 			$(".userTownli2").click(function(){
@@ -258,6 +410,30 @@
 		});
 		
 	</script>
+	<!-- <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script>
+		//d1adf014b3056ac5a17a91d128256bce
+		window.Kakao.init("d1adf014b3056ac5a17a91d128256bce");
+		
+		function kakaoLogin(){
+			window.Kakao.Auth.login({
+				scope:'profile, account_email',
+				success:function(authObj){
+					console.log(authObj);
+					window.Kakao.API.request({
+						url : '/v2/user/me', 
+						success:res =>{
+							const kakao_account = res.kakao_account;
+							console.log(kakao_account);
+						
+						}
+					});
+				}
+			});
+			
+		}
+	</script>
+	 -->
     
 	<!-- Optional JavaScript; choose one of the two! -->  
     <!-- Option 1: Bootstrap Bundle with Popper -->

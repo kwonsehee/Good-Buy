@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -123,6 +124,11 @@ public interface GoodsService {
 	public List<Review> insertReview(Review r, String userId);
 	//리뷰삭제 후 리뷰 목록 셀렉
 	public List<Review> deleteReview(int rno, String seller);
+	// 스테이터스 n
+	public int productreportupdate(int gno);
+	//판매자에게 리뷰달수있는지 여부
+	public int reviewOk(String seller, String user_id);
+	
 
 
 

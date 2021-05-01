@@ -213,6 +213,8 @@ public class GoodsController {
 		List<Goods> sellingList = gService.selectSellingList(seller);
 		//판매자에게 달린 리뷰리스트
 		List<Review> reList = gService.selectReviewList(seller);
+		//판매자에게 리뷰달수있는지 여부
+		int ReviewOk = gService.reviewOk(seller, loginUser.getUser_id());
 		System.out.println("followlist : "+flist);
 		model.addAttribute("follow", follow);
 		model.addAttribute("seller", sellerInfo);
@@ -220,7 +222,10 @@ public class GoodsController {
 		model.addAttribute("fdlist", fdlist);
 		model.addAttribute("sellingList", sellingList);
 		model.addAttribute("reList", reList);
-		System.out.println("reList : "+ reList);
+		model.addAttribute("ReviewOk", ReviewOk);
+		
+		System.out.println("ReviewOk : "+ ReviewOk);
+		
 		return "goods/sellerInfo";
 	}
 
@@ -596,6 +601,7 @@ public class GoodsController {
 		}
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
+		model.addAttribute("search", search);
 		
 		return "goods/goodslist";
 	}
@@ -604,12 +610,12 @@ public class GoodsController {
 	@PostMapping(value = "/reviewInsert", produces = "application/json; charset= utf-8")
 	public @ResponseBody String insertReview(Review r, HttpSession session, HttpServletRequest request) {
 		
-		System.out.println("여기오니 ? review"+r);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 
 		
 		r.setWriterId(loginUser.getUser_id());
 		
+		System.out.println("여기오니 ? review"+r);
 		// Service - > 댓글insert 후 댓글 select
 		List<Review> rlist=gService.insertReview(r, r.getUserId());
 		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성

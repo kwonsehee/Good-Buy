@@ -27,6 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="status" column="STATUS"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="shopName" column="SHOP_NAME"/>
+		<result property="month1" column="MONTH1"/>
+		<result property="busicash" column="BUSICASH"/>
 		
 	</resultMap>
 	<!-- <resultMap type="Attachment" id="AttachmentResultSet">
@@ -1188,6 +1190,39 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE
 			N_NO = #{nNo}
 	</update>
+
+  <select id="selectBusis" parameterType="_int" resultMap="businessResultSet">
+		SELECT TO_CHAR(P.PAY_DATE, 'YYYY.MM') MONTH1, SUM(P.PAYMENT) BUSICASH
+	FROM AD_CHARGE AC JOIN PAYMENT P
+	ON(AC.PID = P.PID)
+	WHERE TO_CHAR(P.PAY_DATE, 'YYYY.MM')  = TO_CHAR(SYSDATE, 'YYYY.MM')
+	OR  TO_CHAR(P.PAY_DATE, 'YYYY.MM')  = TO_CHAR(ADD_MONTHS(SYSDATE,-1),'YYYY.MM')
+	GROUP BY TO_CHAR(P.PAY_DATE, 'YYYY.MM')
+	ORDER BY TO_CHAR(P.PAY_DATE, 'YYYY.MM') ASC
+	</select> 
+	
+	<select id="selectRevs" parameterType="_int" resultMap="businessResultSet">
+		SELECT TO_CHAR(P.PAY_DATE, 'YYYY.MM') MONTH1, SUM(P.PAYMENT) BUSICASH
+FROM PAYMENT P JOIN DEAL_PAYMENT DP
+ON( DP.PID = P.PID)
+WHERE P.PAY_WAY = 1
+AND (TO_CHAR(P.PAY_DATE, 'YYYY.MM')  = TO_CHAR(SYSDATE, 'YYYY.MM')
+OR  TO_CHAR(P.PAY_DATE, 'YYYY.MM')  = TO_CHAR(ADD_MONTHS(SYSDATE,-1),'YYYY.MM'))
+GROUP BY TO_CHAR(P.PAY_DATE, 'YYYY.MM')
+ORDER BY TO_CHAR(P.PAY_DATE, 'YYYY.MM') ASC
+	</select> 
+	
+	<select id="selectSumBu" parameterType="_int" resultMap="businessResultSet">
+	SELECT sum(P.PAYMENT) busicash
+FROM PAYMENT P, AD_CHARGE ac
+WHERE P.PID = ac.PID
+	</select> 
+	
+	<select id="selectSumRe" parameterType="_int" resultMap="businessResultSet">
+	SELECT sum(P.PAYMENT) busicash
+FROM PAYMENT P, DEAL_PAYMENT DP
+WHERE P.PID = DP.PID
+	</select> 
 	
 	
 

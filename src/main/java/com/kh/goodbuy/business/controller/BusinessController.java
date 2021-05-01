@@ -496,7 +496,7 @@ public class BusinessController {
 	}
 	
 	@GetMapping("deleteFaCount")
-	public String deleteFaCount(String shopNo, HttpSession session) {
+	public String deleteFaCount(String shopNo, HttpSession session,String pageName) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			String userId = loginUser.getUser_id();
 			Map<String, String> map = new HashMap<>();
@@ -505,7 +505,12 @@ public class BusinessController {
 			
 			int result = bService.deleteFacount(map);
 			
-		return "redirect:/business/detail?shopNo="+shopNo;
+			if(result > 0 && pageName.equals("mypage")) {
+				return"redirect:/mypage/likeShopList";
+			}else {
+				return "redirect:/business/detail?shopNo="+shopNo;
+			}
+			
 	}
 	
 	@GetMapping("delete")

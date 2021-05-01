@@ -27,5 +27,7 @@ public class Review {
 	private String writerId;
 	private String shopName;
 	private String buserId;
+	private String changeName;
+	private String shopName;
 
 }

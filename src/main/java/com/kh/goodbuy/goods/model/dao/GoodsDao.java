@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
 import com.kh.goodbuy.goods.model.vo.Goods;
@@ -132,6 +133,13 @@ public interface GoodsDao {
 	public int insertReview(Review r);
 	//리뷰 삭제 
 	public int deleteReview(int rno);
+	//댓글 단 사람 포인트 주기
+	public int insertPoint(String user_id);
+	// n
+	public int productreportupdate(int gno);
+	//판매자에게 리뷰달수있는지 여부
+	public int reviewOk(String seller, String user_id);
+	
 	
 
 

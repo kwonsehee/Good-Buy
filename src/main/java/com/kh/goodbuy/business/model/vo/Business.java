@@ -1,5 +1,7 @@
 package com.kh.goodbuy.business.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,4 +52,6 @@ public class Business {
 	private int fNo;
 	private String shopName;
 	private int fileLevel;
+	private String month1;
+	private int busicash;
 }

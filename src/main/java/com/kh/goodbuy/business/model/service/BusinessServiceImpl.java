@@ -350,7 +350,12 @@ public int deleteReview(String reviewNo) {
 			}else {
 				return 0;
 			}
-	
+}
+  
+ @Override
+ public List<Payment> selectBusis() {
+	// TODO Auto-generated method stub
+	return bDao.selectBusis();
 }
 
 
@@ -362,6 +367,12 @@ public int updateUserPoint(String userId) {
 	return bDao.updateUserPoint(userId);
 }
 
+ @Override
+ public List<Payment> selectRevs() {
+	// TODO Auto-generated method stub
+	return bDao.selectRevs();
+}
+
 
 
 
@@ -370,10 +381,20 @@ public int deleteNews(int nNo) {
 	
 	return bDao.deleteNews(nNo);
 }
+@Override
+public List<Payment> selectSumBu() {
+	// TODO Auto-generated method stub
+	return bDao.selectSumBu();
+}
 
 
 
 
+@Override
+public List<Payment> selectSumRe() {
+	// TODO Auto-generated method stub
+	return bDao.selectSumRe();
+}
 
 
 

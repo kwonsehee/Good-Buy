@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
-import com.kh.goodbuy.common.model.vo.Report;
-import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.member.model.dao.MemberDao;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
@@ -150,12 +150,7 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectFollowingList(seller, user_id);
 	}
 	
-	@Override
-	public int updatememberReport(Member m) {
-		// TODO Auto-generated method stub
-		return mDao.updatememberReport(m);
-	}
-
+	
 	@Override
 	public List<Member> selectMyFollowingList(String user_id) {
 		return mDao.selectMyFollowingList(user_id);
@@ -175,6 +170,59 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int deleteKey(Keyword k) {
 		return mDao.deleteKey(k);
+	}
+	@Override
+	public List<Messenger> selectMsgList(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectMsgList(user_id);
+  }
+  
+	@Override
+    public String findeUserId(String email) {
+		return mDao.findUserId(email);
+	}
+	@Override
+	public int updateRandomPwd(Member m) {
+		return mDao.updateRandomPwd(m);
+	}
+	@Override
+	public Member kakaoLogin(String userId) {
+		// TODO Auto-generated method stub
+		return mDao.kakaoLogin(userId);
+  }
+  @Override
+  public List<Messenger> selectMsgListMno(int mno, String user_id) {
+		int result = mDao.checkMsg(mno);
+		return mDao.selectMsgList(user_id);
+	}
+	@Override
+	public int selectUserReviewCount(String user_id) {
+		return mDao.selectUserReviewCount(user_id);
+	}
+	@Override
+	public List<Review> selectUserReviewList(String user_id, PageInfo pi) {
+		return mDao.selectUserReviewList(user_id,pi);
+	}
+	@Override
+	public int selectShopReviewCount(String user_id) {
+		return mDao.selectShopReviewCount(user_id);
+	}
+	@Override
+	public List<Review> selectShopReviewList(String user_id, PageInfo pi) {
+		return mDao.selectShopReviewList(user_id,pi);
+	}
+	@Override
+	public int deleteUserReview(Review r) {
+		return mDao.deleteUserReview(r);
+	}
+	@Override
+	public int deleteShopReview(Review r) {
+		return mDao.deleteShopReview(r);
+	}
+	@Override
+	public int insertKakaoMember(Member km) {
+		// TODO Auto-generated method stub
+		return mDao.insertKakaoMember(km);
 	}
 
 

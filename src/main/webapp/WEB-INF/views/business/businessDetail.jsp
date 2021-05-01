@@ -121,7 +121,7 @@
 			    	}
 			        function deleteFaCount(shopNo){
 			        	alert("단골 등록을 취소 하시겠습니까?");
-			    		location.href='${contextPath}/business/deleteFaCount?shopNo=' + shopNo;
+			    		location.href='${contextPath}/business/deleteFaCount?shopNo=' + shopNo + "&pageName=shopDetail";
 			    	}
         
         	  </script>

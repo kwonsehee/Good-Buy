@@ -51,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         ORDER BY R.RE_NO DESC
           
    </select>
+   <!--  -->
 	<update id="updateReport" parameterType="Report">
       UPDATE
             REPORT
@@ -112,22 +113,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		INTO GOODS_REPORT
 		VALUES
 		(#{gno},REPORT_SEQ.CURRVAL)
-		INTO ALARM
-		(
-		  ALARM_NO
-		, ALARM_TYPE
-		, USER_ID
-		, ALARM_DATE
-		, REF_NO
-		)
-		VALUES
-		(
-		  A_SEQ.NEXTVAL
-		, 1
-		, #{reported_id}
-		, DEFAULT
-		, #{gno}
-		)
 		SELECT * FROM DUAL
 	</insert>
 	

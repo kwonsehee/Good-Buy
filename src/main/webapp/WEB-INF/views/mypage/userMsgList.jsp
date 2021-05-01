@@ -25,7 +25,7 @@
 			  imageWidth: 232,
 			  imageHeight: 90,
 			  imageAlt: 'Custom image',
-		  }).then(function(){
+          }).then(function(){
 				window.close();
 		  });
           
@@ -53,10 +53,11 @@
 	 
         <img src="${ contextPath }/resources/images/mypage/left-arrow.png" id ="backBtn" onclick="location.href='${ contextPath }/mypage/main'">
         <h1 class="title_h1">내 쪽지함</h1>
-           <ul class="subCategory_ul">
-            <li><a id="selling" href="${ contextPath }/mypage/msgList" style="color:black;">상품 문의 쪽지</a></li>
-            <li><a id="hidden" href="${ contextPath }/mypage/userMsgList" style="color:#949999;">판매자 1:1 쪽지</a></li>
+         <ul class="subCategory_ul">
+            <li><a id="selling" href="${ contextPath }/mypage/msgList" style="color:#949999;">상품 문의 쪽지</a></li>
+            <li><a id="hidden" href="${ contextPath }/mypage/userMsgList" style="color:black;">판매자 1:1 쪽지</a></li>
         </ul>
+         
 
 		<!-- 리스트 있을 때 -->
 		<c:if test="${ mlist != null }">
@@ -74,15 +75,12 @@
                
                 <ul>
                     <li class="nickname">${list.nickname}</li>
-                    <li class="town">${ list.address_3 }</li>
                     <li class="dot">•</li>
                     <li class="createDate">${ list.createDate }</li>
                 </ul>
                 <div class="mcontentWrap">
                     <p class="mcontent">${ list.mcontent }</p>
                 </div>
-              
-                <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto">
             </div>
          </c:forEach>
         </div>
@@ -163,7 +161,7 @@
 	 <script>
        // 쪽지 보내기 팝업 창 띄우기
        function sendReply(mno){
-            var url = "${contextPath}/mypage/msgReply?mno="+mno;
+            var url = "${contextPath}/mypage/msgReply2?mno="+mno;
             var _width = '400';
             var _height = '640';
 

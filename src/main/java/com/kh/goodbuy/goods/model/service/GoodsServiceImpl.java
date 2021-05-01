@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Reply;
+import com.kh.goodbuy.common.model.vo.Report;
 import com.kh.goodbuy.goods.model.dao.GoodsDao;
 import com.kh.goodbuy.goods.model.vo.Addfile;
 import com.kh.goodbuy.goods.model.vo.Gcate;
@@ -159,7 +160,11 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public List<Reply> insertReply(Reply r, Goods g) {
-		gDao.insertReply(r, g);
+		System.out.println("댓글작성자 "+r);
+		int result = gDao.insertReply(r, g);
+		if(result >0) {
+			gDao.insertPoint(r.getUser_id());
+		}
 		return gDao.selectReplyList(g);
 	}
 
@@ -356,5 +361,19 @@ public class GoodsServiceImpl implements GoodsService {
 			return null;
 		}
 	}
+
+	@Override
+	public int productreportupdate(int gno) {
+		// TODO Auto-generated method stub
+	 return gDao.productreportupdate(gno);
+	}
+
+	@Override
+	public int reviewOk(String seller, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.reviewOk(seller, user_id);
+	}
+
+	
 
 }

@@ -300,6 +300,29 @@ public class BusinessDaoImpl implements BusinessDao {
 		return sqlSession.update("businessMapper.deleteNews",nNo);
 	}
 
+	@Override
+	public List<Payment> selectBusis() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectBusis");
+	}
+
+	@Override
+	public List<Payment> selectRevs() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectRevs");
+	}
+
+	@Override
+	public List<Payment> selectSumBu() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectSumBu");
+	}
+
+	@Override
+	public List<Payment> selectSumRe() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("businessMapper.selectSumRe");
+	}
 
 
 
