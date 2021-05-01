@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.common.model.service.ReportService;
@@ -33,10 +36,12 @@ import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.member.model.vo.NaverLoginBO;
 import com.kh.goodbuy.town.model.service.TownService;
 import com.kh.goodbuy.town.model.vo.Town;
 
 import net.sf.json.JSONObject;
+
 
 @Controller
 @RequestMapping("/member")
@@ -53,6 +58,16 @@ public class MemberController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	KakaoAPI kakaoApi = new KakaoAPI();
+	
+	/* NaverLoginBO */
+    private NaverLoginBO naverLoginBO;
+    private String apiResult = null;
+    
+    @Autowired
+    private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+        this.naverLoginBO = naverLoginBO;
+    }
+
 	// 3_2. 일반 로그인 컨트롤러 (DB select)
 	@PostMapping("/login") // 일반 로그인 post 방식
 	public String userLogin(@ModelAttribute Member m, Model model,HttpServletRequest request) {
@@ -648,5 +663,70 @@ public class MemberController {
 		return gson.toJson(mlist);
 
 	}
+	
+	
+	//네이버 로그인 성공시 callback호출 메소드
+    @RequestMapping(value = "/auth/naver/callback", method = { RequestMethod.GET, RequestMethod.POST })
+    public String callback(Model model, @RequestParam String code, @RequestParam String state,HttpServletResponse response, HttpSession session)
+            throws IOException {
+        System.out.println("여기는 callback");
+     // response를 위한 정의
+     	PrintWriter writer = response.getWriter();
+        OAuth2AccessToken oauthToken;
+        oauthToken = naverLoginBO.getAccessToken(session, code, state);
+        //로그인 사용자 정보를 읽어온다.
+        apiResult = naverLoginBO.getUserProfile(oauthToken);
+        System.out.println(naverLoginBO.getUserProfile(oauthToken).toString());
+        model.addAttribute("result", apiResult);
+        System.out.println("result : "+apiResult);
+		// 2. String형식인 apiResult를 json형태로 바꿈
+		JSONParser parser = new JSONParser();
+		Object obj;
+		try {
+			obj = parser.parse(apiResult);
+			org.json.simple.JSONObject jsonObj = (org.json.simple.JSONObject) obj;
+			// 3. 데이터 파싱
+			// Top레벨 단계 _response 파싱
+			org.json.simple.JSONObject response_obj = (org.json.simple.JSONObject) jsonObj.get("response");
+			// 네이버에서 주는 고유 ID
+			String naverIfId = (String) response_obj.get("id");
+			
+			// 네이버에서 설정된 사용자 별명
+			String naverNickname = (String) response_obj.get("nickname");
+			// 네이버에서 설정된 이메일
+			String naverEmail = (String) response_obj.get("email");
+			
+			System.out.println("출력 ");
+			System.out.println("naverIfId "+naverIfId);
+			System.out.println("naverNickname "+naverNickname);
+			System.out.println("naverEmail "+naverEmail);
+			
+			int check= mService.userIdCheck(naverIfId);
+			if(check==0){
+				//회원가입 필요
+				UUID garbagePass = UUID.randomUUID();
+				
+				Member naverMember = new Member();
+				naverMember.setUser_id(naverIfId);
+				naverMember.setNickname(naverNickname);
+				naverMember.setEmail(naverEmail);
+				naverMember.setUser_pwd(garbagePass.toString());
+				System.out.println("여기여기 "+naverMember);
 
+				int result = kakaoJoin(naverMember);
+				System.out.println("join성공 ?"+result);
+				
+			}
+			model.addAttribute("kakaoMember", (String)naverIfId);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return "redirect:/member/kakaologin";
+    }
+
+	
 }

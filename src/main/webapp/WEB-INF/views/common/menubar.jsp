@@ -10,17 +10,26 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 구글로그인 -->  
+<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id" content="1037543872234-n1umg3c5vhatclcmg0dodjhdar33s57u.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <title>Good-Buy</title>
 <!--jQuery-->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<!-- naver 로그인 -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <!-- 공통 UI -->
 <link href="${ contextPath }/resources/css/menustyle.css?" rel="stylesheet" type="text/css">
- 
+
 </head>
 <body>
+
    <header id="gbHeader">
         <div class="nav_container">
             <ul class="common_ul">
@@ -173,9 +182,12 @@
 								<input type="password" name="user_pwd" placeholder="PASSWORD"><br>
 								<p class="simLog_p">간편 로그인</p>
 								<div class="imgWrap">
-									<a href="#"><img src="${ contextPath }/resources/images/google.png"></a>
+								<a  href="#"><img src="${ contextPath }/resources/images/google.png"></a> 
+								<!-- <button type="button" onclick="signOut();">Sign out</button> -->
 								    <a href="https://kauth.kakao.com/oauth/authorize?client_id=5a7a733b7acbd667518c7886e00f1231&redirect_uri=http://localhost:8082/goodbuy/member/auth/kakao/callback&response_type=code"><img src="${ contextPath }/resources/images/kakao.png"></a> 
 								    <a href="#"><img src="${ contextPath }/resources/images/facebook.png"></a>
+								    <div id = "naver_id_login"><a href="${url}">
+<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
 								</div>
 								<button type="submit" style="font-weight: bold;">Log in</button>
 							</form>
@@ -222,6 +234,7 @@
 					 if(Object.keys(data).length>0){
 					
 						tableBody = $("#msgContent");
+						
 			            tableBody.html("");
 						console.log("여기오니?");
 						var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
@@ -408,6 +421,7 @@
 		$("#menuicon").mouseleave(function(){
 			$(".li_1 div").css({"background":"#fff"});
 		});
+	
 		
 	</script>
 	<!-- <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
@@ -433,10 +447,79 @@
 			
 		}
 	</script>
-	 -->
+	
+    <script>
+      function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+       /*  console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName()); 
+        console.log("Image URL: " + profile.getImageUrl());*/
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+        if(profile.getId() != null){
+        	 // form
+		console.log("여기오니 ");
+            var form = document.createElement("form");     
+
+            form.setAttribute("method","post");                    
+            form.setAttribute("action","${contextPath}/member/googlelogin");        
+
+            document.body.appendChild(form);                        
+
+            //input
+            var input_id = document.createElement("input");  
+
+            input_id.setAttribute("type", "hidden");                 
+            
+            input_id.setAttribute("user_id",profile.getId());                        
+            input_id.setAttribute("email", profile.getEmail());                          
+            input_id.setAttribute("nickname", profile.getName());                          
+
+            form.appendChild(input_id);
+
+             
+
+            //폼전송
+              form.submit();    
+        }
+      
+       
+      }
+      function signOut(){
+    	  gapi.auth2.getAuthInstance().disconnect();
+      }
+    </script> -->
     
 	<!-- Optional JavaScript; choose one of the two! -->  
     <!-- Option 1: Bootstrap Bundle with Popper -->
+    <!-- <script type="text/javascript">
+  	var naver_id_login = new naver_id_login("KFl4i7obB3Ho4a_pNH32", "http://localhost:8082/member/auth/naver/callback");
+  	var state = naver_id_login.getUniqState();
+  	naver_id_login.setButton("white", 2,40);
+  	naver_id_login.setDomain("http://localhost:8082");
+  	naver_id_login.setState(state);
+  	naver_id_login.setPopup();
+  	naver_id_login.init_naver_id_login();
+  </script>
+  <script type="text/javascript">
+  var naver_id_login = new naver_id_login("KFl4i7obB3Ho4a_pNH32", "http://localhost:8082/member/auth/naver/callback");
+  // 접근 토큰 값 출력
+  alert(naver_id_login.oauthParams.access_token);
+  // 네이버 사용자 프로필 조회
+  naver_id_login.get_naver_userprofile("naverSignInCallback()");
+  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+  function naverSignInCallback() {
+    alert(naver_id_login.getProfileData('email'));
+    alert(naver_id_login.getProfileData('nickname'));
+    alert(naver_id_login.getProfileData('age'));
+  }
+</script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
     

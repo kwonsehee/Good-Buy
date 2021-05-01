@@ -5,10 +5,28 @@
 <head>
 	<title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
 <link href="${ contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
+ <!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 <body>
 	<jsp:include page="common/menubar.jsp"/>
-	
+	   <!-- 간편로그인으로 동네가 없을시 동네설정하라고 하기-->
+ <c:if test="${!empty sessionScope.loginUser && mtlist[0]  eq '동네없음' }">
+   		<script>
+            swal.fire({
+  title: '동네를 설정해주세요',
+  html: '<br>간편로그인시 동네설정이 필요합니다.<br>고객님의 동네를 설정해주세요:)<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+}).then(function(){
+	location.href="${contextPath}/mypage/setMyTown";
+});
+   		
+   		</script>
+   </c:if>
 	<section id="gbSection">
 	
 	<div id="titleWrap">
