@@ -185,7 +185,7 @@
         	img.setAttribute("src", event.target.result); 
         	$(".photo_img").remove();
         	document.querySelector("div#photo_input"+num).append(img);
-        	$("#photo_input"+num).append("<button class='button-delete-file'>삭제</button>");
+        	$("#photo_input"+num).append("<button class='button-delete-file'>X</button>");
         		
         	var a = "<div id='photo_input"+num2+"'><img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick("+num2+");'>" 
         	+"<input type='file' id='file"+num2+"' name='fileup' style='display:none;' onchange='setThumbnail(event, "+num2+");' ></div>";

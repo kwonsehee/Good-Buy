@@ -31,10 +31,10 @@
          <c:forEach var="list" items="${ rlist }" varStatus="status">
             <div class="eachListWrap">
                 
-                <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto">
+                <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto" onclick="goShopDetail(${list.shopNo})">
                
 	                           
-                <ul class="firstUl">
+                <ul class="firstUl" onclick="goShopDetail(${list.shopNo})">
                     <li>${ list.shopName }</li>
                     <li>${ list.reviewDate }</li>
                 </ul>
@@ -54,7 +54,7 @@
                 <span>★</span>
                 </c:if>
                 <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${list.reviewNo},this)">     
-                <p class="rcontent">${ list.content }</p>
+                <p class="rcontent" onclick="goShopDetail(${list.shopNo})">${ list.content }</p>
                 <div class="subMenu">
 		            <a href="#">삭제</a>
 		        </div>
@@ -159,7 +159,10 @@
      	   });
      }
      
-     // 판매자 페이지로 
+     // 가게 디테일 페이지로 
+     function goShopDetail(shopNo){
+    	 location.href="${contextPath}/business/detail?shopNo="+shopNo;
+     }
      
      
     </script>

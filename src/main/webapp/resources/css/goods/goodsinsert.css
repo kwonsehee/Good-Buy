@@ -173,7 +173,16 @@ margin-top: 2.5%;
     
 }
 .button-delete-file{
-	cursor : pointer;
+	width: 30px;
+    height: 30px;
+    color: #949999;
+    border: 1px solid #949999;
+    border-radius: 50px;
+    font-size: 16px;
+    background: #fff;
+    position: absolute;
+  	margin-left: -12px;
+    margin-top: -10px;
 	
 }
 .photo_img{

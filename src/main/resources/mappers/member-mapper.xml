@@ -72,6 +72,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="photo" column="PHOTO"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="shopName" column="SHOP_NAME"/>
+		<result property="shopNo" column="SHOP_NO"/>
+		
 	</resultMap>
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
@@ -677,7 +679,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		        GRADE,
 		        REVIEW_MODIFY,
 		        CHANGE_NAME,
-		        SHOP_NAME
+		        SHOP_NAME,
+		        BR.SHOP_NO
         
 		 FROM 
 		 		REVIEW R, BUS_REVIEW BR, V_BUS_INFO V
