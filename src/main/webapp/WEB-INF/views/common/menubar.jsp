@@ -125,16 +125,24 @@
                     <li><a href="${contextPath }/business/list">내근처</a></li>
                     </c:if>
                     <c:if test="${ empty sessionScope.loginUser }">
-                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">내근처</a></li>
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">내근처</a></li>
                     </c:if>
-                    <li><a href="${ contextPath }/board/main">동네생활</a></li>
+                    <c:if test="${ !empty sessionScope.loginUser }">
+                    <li><a href="${contextPath }/board/main">동네생활</a></li>
+                    </c:if>
+                    <c:if test="${ empty sessionScope.loginUser }">
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">동네생활</a></li>
+                    </c:if>
+                    
+                    
+                  
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
                    
                      <c:if test="${ !empty sessionScope.loginUser }">
                     <li><a href="${ contextPath }/mypage/main">마이페이지</a></li>
                     </c:if>
                     <c:if test="${ empty sessionScope.loginUser }">
-                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">마이페이지</a></li>
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">마이페이지</a></li>
                     </c:if>
                     <c:if test="${ loginUser.user_type == 0 }">
                     <li><a href="${ contextPath }/admin/join">관리자페이지</a></li>
@@ -221,10 +229,15 @@
 						for(var i in data){
 						var m_no = data[i].mno;
 						if(data[i].gno>0){
-							
-	                	a +="<div onclick=\"location.href=\'${contextPath}/mypage/msgList\'\" class='msgDiv'>";
+	                	a +="<div class='msgDiv' onclick='gotomsgDiv1(";
+	                	a+=m_no;
+	                	a+=")'>";
+	                	
 						}else{
-							a +="<div onclick='' class='msgDiv'>";
+							a +="<div class='msgDiv' onclick='gotomsgDiv2(";
+		                	a+=m_no;
+		                	a+=")'>";
+							
 						}
 	                	a+="<span>";
 	                	a+=data[i].caller;
@@ -239,7 +252,8 @@
 						tableBody.append(a);
 					 }else{
 						 
-					alert(data);
+					/* alert(data); */
+					console.log(data);
 					 }
 	                     
 				  }
@@ -277,10 +291,15 @@
 							for(var i in data){
 							var m_no = data[i].mno;
 							if(data[i].gno>0){
-								
-							 	a +="<div onclick=\"location.href=\'${contextPath}/mypage/msgList\'\" class='msgDiv'>";
+			                	a +="<div class='msgDiv' onclick='gotomsgDiv1(";
+			                	a+=m_no;
+			                	a+=")'>";
+			                	
 								}else{
-									a +="<div onclick='' class='msgDiv'>";
+									a +="<div class='msgDiv' onclick='gotomsgDiv2(";
+				                	a+=m_no;
+				                	a+=")'>";
+									
 								}
 		                	a+="<span>";
 		                	a+=data[i].caller;
@@ -304,6 +323,18 @@
            
 				  
 			});
+   		
+		}
+		function gotomsgDiv1(mno){
+			console.log(mno);
+			closemsgDiv(mno);
+			location.href='${contextPath}/mypage/msgList';
+   		
+		}
+		function gotomsgDiv2(mno){
+			console.log(mno);
+			closemsgDiv(mno);
+			location.href='${contextPath}/mypage/userMsgList';
    		
 		}
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */

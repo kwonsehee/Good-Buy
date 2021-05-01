@@ -9,6 +9,9 @@
 <title>Good-Buy</title>
 <!-- css -->
 <link href="${ contextPath }/resources/css/goods/list.css?v=0" rel="stylesheet" type="text/css">
+<!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 </head>
 <body>
@@ -70,13 +73,14 @@
                <td onclick="selectGoods(${a.gno});"> 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg">
                     <br>
-                     <span>${fn:substring(a.gtitle,0,4)}
+                     <span class="title_font">${fn:substring(a.gtitle,0,4)}
                     <c:if test="${fn:length(a.gtitle )>4}">
                     ...
-                    </c:if></span><span>${a.user_id}</span>
+                    </c:if></span>
+                     <p class="id_font">${a.user_id}</p>
                     <br>
-                    <span>${a.gprice}원</span>
-                    <span>${a.createDate}</span>
+                    <p class="price_font">${a.gprice}원</p>
+                    <p class="date_font">${a.createDate}</p>
                 </td>
             </c:forEach>
              <c:if test="${glist.size()< 5 }">
@@ -142,11 +146,26 @@
             </c:if>
 
 		</div>
-		 <c:if test="${ !empty sessionScope.loginUser }">
-       <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insertView'" >중고거래 글쓰기</button>
+		<c:if test="${ !empty sessionScope.loginUser }">
+			<c:if test="${ empty writeActive }">
+      		 <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insertView'" >중고거래 글쓰기</button>
+       		</c:if>
+       		<c:if test="${ !empty writeActive }">
+      		 <button id="writeBtn" onclick="wrierActive();" >중고거래 글쓰기</button>
+       		</c:if>
        </c:if>
     </section>
     <script type="text/javascript">
+    function wrierActive(){
+        Swal.fire({
+title: '글쓰기 비활성화',
+html: '<br>회원님은 신고횟수 3회 이상으로 글쓰기가 비활성화 되었습니다.<br>글쓰기는 신고로부터 15일 이후부터 작성가능합니다.<br>',
+imageUrl: '${ contextPath }/resources/images/logo.png',
+imageWidth: 232,
+imageHeight: 90,
+imageAlt: 'Custom image',
+})
+    }
     function showCate(){
         $(".catebar").css("left","0px");   
    }

@@ -120,7 +120,10 @@ public interface MemberDao {
 	// 가게 리뷰 삭제 
 	public int deleteShopReview(Review r);
 
+	//kakao join
+	public int insertKakaoMember(Member km);
 			
+
 
 
 }

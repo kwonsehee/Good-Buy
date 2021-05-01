@@ -302,6 +302,12 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.deleteShopReview",r);
 	}
 
+	@Override
+	public int insertKakaoMember(Member km) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertKakaoMember", km);
+	}
+
 
 
 	
