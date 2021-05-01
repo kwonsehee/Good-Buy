@@ -25,5 +25,7 @@ public class Review {
 	private int avgGrade;
 	private String photo;
 	private String writerId;
+	private String changeName;
+	private String shopName;
 
 }

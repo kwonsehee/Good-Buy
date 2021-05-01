@@ -25,6 +25,8 @@
 			  imageWidth: 232,
 			  imageHeight: 90,
 			  imageAlt: 'Custom image',
+          }).then(function(){
+				window.close();
 		  });
           
   		</script>

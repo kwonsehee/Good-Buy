@@ -25,23 +25,17 @@
 		<c:if test="${ rlist != null }">
         <div class="listWrap">
         <ul class="subCategory_ul2">
-			<li><a id="" href="${contextPath}/mypage/sentReviewList" style="color:black;">회원리뷰&nbsp;▼</a></li>
-			<li><a id="" href="${contextPath}/mypage/sentShopReviewList" style="color:#949999;">가게리뷰&nbsp;▼</a></li>
+			<li><a id="" href="${contextPath}/mypage/sentReviewList" style="color:#949999;">회원리뷰&nbsp;▼</a></li>
+			<li><a id="" href="${contextPath}/mypage/sentShopReviewList" style="color:black;">가게리뷰&nbsp;▼</a></li>
 		</ul>
          <c:forEach var="list" items="${ rlist }" varStatus="status">
             <div class="eachListWrap">
                 
-				<!-- 프사 있을 때 -->
-            	<c:if test="${ !empty list.photo }">
-                <img src="${ contextPath }/resources/images/userProfilePhoto/${list.photo}" class="profilePhoto" onclick="goSellerPage('${list.userId}')">
-               </c:if> 
-                <!-- 프사 없을 때 -->
-	            <c:if test="${ empty list.photo }">
-	            <img src="${ contextPath }/resources/images/mypage/unknownUser.png" class="profilePhoto" onclick="goSellerPage('${list.userId}')">
-	            </c:if>
+                <img src="${ contextPath }/resources/images/goodupload/${list.changeName}" class="gPhoto">
+               
 	                           
-                <ul class="firstUl" onclick="goSellerPage('${list.userId}')">
-                    <li>${ list.nickName }</li>
+                <ul class="firstUl">
+                    <li>${ list.shopName }</li>
                     <li>${ list.reviewDate }</li>
                 </ul>
                 <c:if test="${ list.grade == 5 }">
@@ -61,7 +55,7 @@
                 </c:if>
                 <img src="${ contextPath }/resources/images/mypage/more.png" class="moreIcon" onclick="showMenu(${list.reviewNo},this)">     
                 <p class="rcontent">${ list.content }</p>
-                 <div class="subMenu">
+                <div class="subMenu">
 		            <a href="#">삭제</a>
 		        </div>
             </div>
@@ -137,7 +131,7 @@
         </c:if>
 
        
-       
+        
     </section>
     
 	<jsp:include page="../common/footer.jsp"/>
@@ -148,7 +142,7 @@
   	  // 이벤트 전파 버블링 방지
 		  event.stopPropagation();
         $(e).siblings(".subMenu").slideDown(200);
-        goDeleteUserReview(rno);
+        goDeleteShopReview(rno);
      }
      
      /* gbSection클릭 시 more메뉴 닫힘 */
@@ -156,19 +150,18 @@
   	   $(".subMenu").slideUp(200);
      });
      
-
-     // 리뷰 삭제 
-      function goDeleteUserReview(rno){
-    	  $(".subMenu a:nth-child(1)").on('click',function(){
-   		   console.log(rno);
-   		   location.href="${contextPath}/mypage/deleteUserReview?rno="+rno;
-   	   });
- 	   } 
-     
-     // 판매자 페이지로
-     function goSellerPage(seller){
-    	 location.href="${contextPath}/goods/sellerInfo?seller="+seller;
+     // 리뷰 삭제
+     function goDeleteShopReview(rno){
+    	 console.log(rno);
+    	 $(".subMenu a:nth-child(1)").on('click',function(){
+     		   console.log(rno);
+     		   location.href="${contextPath}/mypage/deleteShopReview?rno="+rno;
+     	   });
      }
+     
+     // 판매자 페이지로 
+     
+     
     </script>
 
 	

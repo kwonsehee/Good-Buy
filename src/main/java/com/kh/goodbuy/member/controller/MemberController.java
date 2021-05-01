@@ -245,7 +245,7 @@ public class MemberController {
 		// MY_TOWN update 
 		// 넘어온 주소값에 해당하는 t_no 조회하기
 		int t_no = tService.selectTownNo(address_3);
-		//System.out.println("업데이트할 유저 동네 " + t_no);
+		System.out.println("업데이트할 유저 동네 " + t_no);
 		MyTown mt = new MyTown(loginUser.getUser_id(), t_no);
 		
 		// 현재 마이타운 타입만 변경,insert,delete 밖에 없으므로 update따로 만들어야함..ㅎ
