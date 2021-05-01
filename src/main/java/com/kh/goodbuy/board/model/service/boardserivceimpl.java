@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import com.kh.goodbuy.board.model.dao.BoardDao;
 import com.kh.goodbuy.board.model.vo.Board;
 import com.kh.goodbuy.board.model.vo.BoardAddfile;
-import com.kh.goodbuy.board.model.vo.BoardCate;
+import com.kh.goodbuy.common.model.vo.Reply;
 import com.kh.goodbuy.member.model.vo.PageInfo;
+
 
 @Service
 public class boardserivceimpl implements BoardService {
@@ -77,6 +78,56 @@ public class boardserivceimpl implements BoardService {
 	public int deleteBoard(int bno) {
 		return bDao.deleteBoard(bno);
 	}
+	@Override
+	public int insertlike(int bno, String userid) {
+
+		return bDao.insertlike(bno,userid);
+	}
+
+
+
+	@Override
+	public int deletelike(int bno, String userid) {
+		
+		return bDao.deletelike(bno,userid);
+	}
+
+
+
+	@Override
+	public int selectlike(int bno) {
+		
+		return bDao.selectlike(bno);
+	}
+
+
+
+	@Override
+	public List<Reply> insertReply(Reply r, Board b) {
+		int result =bDao.insertReply(r,b);
+		if(result >0) {
+			bDao.insertPoint(r.getUser_id());
+		}
+		return bDao.selectReplyList(b);
+	}
+
+
+
+	@Override
+	public List<Reply> selectReplyList(Board b) {
+		return bDao.selectReplyList(b);
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

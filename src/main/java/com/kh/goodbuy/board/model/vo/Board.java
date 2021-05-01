@@ -31,8 +31,18 @@ public class Board {
 	private int like_cnt;
 	private int rep_cnt;
 	private String bphoto;
+	private int bpostno;
+
+
+	
     
-	} 
+	
+
+	}
+	
+	
+	
+	
 	
 	
 
