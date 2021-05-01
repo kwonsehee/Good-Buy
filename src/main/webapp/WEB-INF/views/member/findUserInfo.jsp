@@ -17,11 +17,11 @@
       $(function(){
           emailjs.init("user_Kmbb8XIwk8umyO1ONqpvV");
           
-          var emailC = {
+         /*  var emailC = {
                user_id : ${m.user_id},
                user_pwd : ${m.user_pwd}
                email : ${m.email}
-           }
+           } */
 
          emailjs.send("service_b3h5plq","template_gzmo22p",emailC)
          .then(function(response) {
@@ -36,13 +36,7 @@
 </c:if>
 </c:if>
 
-<c:if test="${ m == null }">
- <c:if test="${ msg == fail }">
-	<script>
-		alert("조회된 회원 정보가 없습니다.");
-	</script>
-</c:if>
-</c:if>
+
 
 
 
@@ -59,15 +53,16 @@
 	   		<form action="${ contextPath }/member/findId" method="post">
 	   		<input type="text" name="email" class="inputEmail"required placeholder="E_MAIL"><br>
 	   		<button type="submit" class="okBtn">확인</button>
-	   		</form>
-	   		
 	   		<c:if test="${ user_id != null }">
 	   		<p id="userId" style="display:block;">ID : ${ user_id }</p>
 	   		</c:if>
 	   		
-	   		<%-- <c:if test="${ user_id == null }">
+	   		
+	   		<c:if test="${ user_id == null }">
 	   		<p id="userId" style="display:block;">조회된 아이디가 없습니다.</p>
-	   		</c:if> --%>
+	   		</c:if> 
+	   		
+	   		</form>
 	   		
 	   		
 	   	</div>
@@ -81,12 +76,7 @@
 	   		<button type="submit" class="okBtn">확인</button>
 	   		</form>
 	   		
-	   		<%-- <c:if test="${ m != null }">
-	   		<p>${ m.user_id }</p>
-	   		<p>${ m.email }</p>
-	   		<p>${ m.user_pwd }</p>
-	   		</c:if>
-	   		 --%>
+	   		
 	   	</div>
     
     </div>
