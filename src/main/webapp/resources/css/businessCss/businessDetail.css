@@ -173,6 +173,7 @@
         }
         .writer{
             margin-left: 17px;
+         
         }
         .reviewInfo{
             margin-left: 17px;
@@ -238,6 +239,7 @@
         .userPhoto{
         	width:20px;
         	height:20px;	
+        	    margin-left: 5px;
         }
         #plusReviewBtnArea{
         	border : 1px solid #c4c4c4;
@@ -252,7 +254,8 @@
         	display:none;
         }
          .firstAreaflex{
-        	display:block;
+        	display:flex;
+        	height:89.6px;
         }
         .callformWrap{
         	
@@ -298,4 +301,28 @@
 		#infoLabelArea{
 			text-align: left;
     		margin-left: 17px;
+		}
+		.deleteReviewBtn{
+			margin:0px;
+			background-color: white;
+			 border: 1px solid #e0e0e0;
+		}
+		.deleteReviewArea{
+		    margin: 0px;
+		    text-align: right;
+		    width: 10%;
+		    /* height: 13px; */
+		    margin-top: 17px;
+		    margin-right: 10px;
+			
+		}
+		.reviewInfoArea{
+			margin : 0px;
+			  width: 90%;
+		}
+		.grade{
+			height:12px;
+		}
+		.avgGrade{
+			height:12px;
 		}

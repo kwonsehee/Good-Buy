@@ -342,6 +342,42 @@ public int deleteFacount(Map<String, String> map) {
 
 
 
+@Override
+public int deleteReview(String reviewNo) {
+			int result =  bDao.deleteReview(reviewNo);
+			if(result >0 ) {
+				return bDao.deleteReview2(reviewNo);
+			}else {
+				return 0;
+			}
+	
+}
+
+
+
+
+@Override
+public int updateUserPoint(String userId) {
+	
+	return bDao.updateUserPoint(userId);
+}
+
+
+
+
+@Override
+public int deleteNews(int nNo) {
+	
+	return bDao.deleteNews(nNo);
+}
+
+
+
+
+
+
+
+
 
 
 

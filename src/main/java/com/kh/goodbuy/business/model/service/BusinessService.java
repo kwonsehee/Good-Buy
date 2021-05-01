@@ -93,6 +93,14 @@ public interface BusinessService {
 
 	public int deleteFacount(Map<String, String> map);
 
+	public int deleteReview(String reviewNo);
+
+	public int updateUserPoint(String userId);
+
+	public int deleteNews(int nNo);
+
+
+
 
 
 
