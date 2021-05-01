@@ -172,7 +172,7 @@
 								<p class="simLog_p">간편 로그인</p>
 								<div class="imgWrap">
 									<a href="#"><img src="${ contextPath }/resources/images/google.png"></a>
-								    <a href="#"><img src="${ contextPath }/resources/images/kakao.png"></a> 
+								    <a href="https://kauth.kakao.com/oauth/authorize?client_id=5a7a733b7acbd667518c7886e00f1231&redirect_uri=http://localhost:8082/goodbuy/member/auth/kakao/callback&response_type=code"><img src="${ contextPath }/resources/images/kakao.png"></a> 
 								    <a href="#"><img src="${ contextPath }/resources/images/facebook.png"></a>
 								</div>
 								<button type="submit" style="font-weight: bold;">Log in</button>
@@ -335,6 +335,30 @@
 		});
 		
 	</script>
+	<!-- <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script>
+		//d1adf014b3056ac5a17a91d128256bce
+		window.Kakao.init("d1adf014b3056ac5a17a91d128256bce");
+		
+		function kakaoLogin(){
+			window.Kakao.Auth.login({
+				scope:'profile, account_email',
+				success:function(authObj){
+					console.log(authObj);
+					window.Kakao.API.request({
+						url : '/v2/user/me', 
+						success:res =>{
+							const kakao_account = res.kakao_account;
+							console.log(kakao_account);
+						
+						}
+					});
+				}
+			});
+			
+		}
+	</script>
+	 -->
     
 	<!-- Optional JavaScript; choose one of the two! -->  
     <!-- Option 1: Bootstrap Bundle with Popper -->

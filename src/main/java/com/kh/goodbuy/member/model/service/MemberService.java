@@ -109,6 +109,8 @@ public interface MemberService {
 		public String findeUserId(String email);
 		// 임시 비밀번호 업데이트 
 		public int updateRandomPwd(Member m);
+		//kakao login
+		public Member kakaoLogin(String userId);
 		
 
 

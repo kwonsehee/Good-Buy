@@ -255,6 +255,12 @@ public class MemberDaoImpl implements MemberDao {
 
 	}
 
+	@Override
+	public Member kakaoLogin(String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.kakaoLogin", userId);
+	}
+
 
 
 	

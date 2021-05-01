@@ -184,6 +184,11 @@ public class MemberServiceImpl implements MemberService {
 	public int updateRandomPwd(Member m) {
 		return mDao.updateRandomPwd(m);
 	}
+	@Override
+	public Member kakaoLogin(String userId) {
+		// TODO Auto-generated method stub
+		return mDao.kakaoLogin(userId);
+	}
 
 
 

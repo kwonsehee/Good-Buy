@@ -2,11 +2,13 @@ package com.kh.goodbuy.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,7 +38,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "loginUser", "msg", "townInfo","mtlist", "writeActive"})
+@SessionAttributes({ "loginUser", "msg", "townInfo","mtlist", "writeActive", "kakaoMember"})
 public class MemberController {
 
 	@Autowired
@@ -48,6 +50,7 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
+	KakaoAPI kakaoApi = new KakaoAPI();
 	// 3_2. 일반 로그인 컨트롤러 (DB select)
 	@PostMapping("/login") // 일반 로그인 post 방식
 	public String userLogin(@ModelAttribute Member m, Model model,HttpServletRequest request) {
@@ -86,6 +89,7 @@ public class MemberController {
 	    request.getSession().setAttribute("redirectURI", referer);
 		System.out.println("이전페이지 :"+referer);
 		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
+		System.out.println("이전페이지 자른거:"+referer);
 		// 일반 로그인이까 암호화 필요 o
 		if (loginUser != null && bcryptPasswordEncoder.matches(m.getUser_pwd(), loginUser.getUser_pwd())) {
 			// System.out.println("loginUser : " + loginUser);
@@ -505,7 +509,128 @@ public class MemberController {
 		}
 		
 	}
+	@RequestMapping("/auth/kakao/callback")
+	public String kakaoCallback(@RequestParam("code")String code, HttpSession session, Model model) {
+		
+		System.out.print("카카오인증오니?");
+		System.out.println("1번가기전");
+		//1번인증 코드 요청 전달
+		String accessToken = kakaoApi.getAccessToken(code);
+		System.out.println("2번가기전");
+		//2번  인증코드로 토큰 전달
+		HashMap<String, Object> userInfo = kakaoApi.getUserInfo(accessToken);
+		
+		System.out.println("loginUser : "+userInfo);
+		if(userInfo.get("email")!=null) {
+			session.setAttribute("userId", userInfo.get("email"));
+			session.setAttribute("access_token", accessToken);
+			
+		}
+		int check= mService.userIdCheck((String) userInfo.get("id"));
+		if(check==0){
+			//회원가입 필요
+			UUID garbagePass = UUID.randomUUID();
+			
+			Member kakaoMember = new Member();
+			kakaoMember.setUser_id((String) userInfo.get("id"));
+			kakaoMember.setNickname((String) userInfo.get("nickname"));
+			kakaoMember.setEmail((String) userInfo.get("email"));
+			kakaoMember.setUser_pwd(garbagePass.toString());
+			System.out.println("여기여기 "+kakaoMember);
+
+			int result = kakaoJoin(kakaoMember);
+			System.out.println("join성공 ?"+result);
+		
+		}
+		
+		model.addAttribute("kakaoMember", (String) userInfo.get("id"));
+		return "redirect:/member/kakaologin";
+	}
+
+
+	public int kakaoJoin(Member km) {
+
+		System.out.println("회원가입 넘어온 값 : " + km);
+
+		// 3) MEMBER insert
+		int result = mService.insertMember(km);
+		System.out.println("회원가입 잘됐나?dddd : " + result);
+
+		// 2) MYTOWN insert
+		MyTown mt = new MyTown(km.getUser_id(), 0);
+		int insertMytown = tService.insertMyTown(mt);
+		System.out.println("마이타운 객체확인 : " + mt);
+		System.out.println("마이타운 들어갔나? : " + insertMytown);
+
+		return result;
+
+	}
+	@GetMapping("/kakaologin") // 일반 로그인 post 방식
+	public String kakaoLogin(@RequestParam("kakaoMember")String user_id, Model model,HttpServletRequest request) {
+//		   System.out.println("m" + m);
+		// 신고 날짜+15 < 오늘 날짜 
+		int checkDate = reService.updateReportedDate(user_id);
+		
+		System.out.println("신고당한지 15일 지나고 null로 바뀜? : " + checkDate);
+		
+		// 로그인시 유저의 신고 당한 이력이 있는지 신고 날짜 조회 
+		// 신고 날짜가 있는 경우 
+		String repDate = reService.selectMyReportedDate(user_id);
+		
+		System.out.println("신고 날짜 조회됨? : " + repDate);
+		
+		String writeActive;
+		
+		if(repDate != null) {
+			writeActive = "n";
+			System.out.println("writeActive : " + writeActive);
+		}else {
+			writeActive = "y";
+			System.out.println("writeActive : " + writeActive);
+		}
+		
+		model.addAttribute("writeActive", writeActive);
+		
+		
+		
+		
+		Member loginUser = mService.kakaoLogin(user_id);
+		
+		System.out.println("loginUser : " + loginUser);
+		
+		String referer = request.getHeader("Referer");
+	    request.getSession().setAttribute("redirectURI", referer);
+		System.out.println("이전페이지 :"+referer);
+		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
+		System.out.println("이전페이지 자른거:"+referer);
+		// 일반 로그인이까 암호화 필요 o
+		if (loginUser != null) {
+			// System.out.println("loginUser : " + loginUser);
+			model.addAttribute("loginUser", loginUser);
+			// 로그인 시 따로 호출하는 메소드
+			saveUserTown(loginUser.getUser_id(), model);
+			saveUserMtlist(loginUser.getUser_id(),model);
+			
+			// 뒤로 갈 히스토리가 있는 경우 및 우리 시스템에서 링크를 통해 유입된 경우
+			return "redirect:/home";
+		} else {
+			model.addAttribute("msg", "로그인에 실패하였습니다.");
+			return "redirect:/home";
+		}
+		
+		
+	}
 	
-		  
+	@RequestMapping(value="/logout")
+	public ModelAndView logout(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		
+		kakaoApi.kakaoLogout((String)session.getAttribute("access_token"));
+		session.removeAttribute("access_token");
+		
+		session.removeAttribute("userId");
+		mv.setViewName("home");
+		return mv;
+	}
 
 }
