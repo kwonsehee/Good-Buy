@@ -62,6 +62,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="mstatus" column="M_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="Review" id="ReviewResultSet">
+		<id property="reviewNo" column="REVIEW_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="status" column="STATUS"/>
+		<result property="reviewDate" column="REVIEW_DATE"/>
+		<result property="grade" column="GRADE"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="shopName" column="SHOP_NAME"/>
+	</resultMap>
+	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
 			   USER_ID
@@ -547,9 +559,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , RECEIVER
 			  , M_CONTENT
 			  , G_NO
-			  , CALLER
-			  , M_STATUS
-		  FROM MESSENGER
+			  , M_STATUS      
+			  , U.NICKNAME CALLER
+		  FROM MESSENGER M JOIN USER_INFO U ON(M.CALLER =U.USER_ID)
 		 WHERE RECEIVER = #{user_id}
 		   AND M_STATUS = 'Y'
 	
@@ -600,4 +612,109 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   
 	
 	</select>
+	<update id="checkMsg" parameterType="_int" >
+		UPDATE MESSENGER
+		   SET M_STATUS='N'
+		 WHERE M_NO = #{mno}
+	</update>
+	
+	<select id="selectUserReviewCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(R.REVIEW_NO)
+	  FROM 
+	  		REVIEW R, USER_REVIEW UR
+	 WHERE 
+	 		R.REVIEW_NO = UR.REVIEW_NO
+	   AND 
+	   		R.USER_ID = #{user_id}
+	</select>
+	
+	<select id="selectUserReviewList" parameterType="string" resultMap="ReviewResultSet">
+		SELECT 
+				R.REVIEW_NO, 
+		        R.USER_ID,
+		        STATUS, 
+		        CONTENT, 
+		        REVIEW_DATE,
+		        GRADE,
+		        REVIEW_MODIFY,
+		        NICKNAME,
+		        PHOTO
+		  FROM 
+		  		REVIEW R, USER_REVIEW UR, USER_INFO U
+		 WHERE 
+		 		R.REVIEW_NO = UR.REVIEW_NO
+		   AND 
+		   		R.USER_ID = U.USER_ID
+		   AND 
+		   		UR.USER_ID = #{user_id}
+		   AND 
+		   		STATUS = 'Y'
+	 ORDER BY	
+	 			REVIEW_DATE DESC
+	</select>
+	
+	<select id="selectShopReviewCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(BR.REVIEW_NO)
+	  FROM 
+	  		REVIEW R, BUS_REVIEW BR
+	 WHERE 
+	 		R.REVIEW_NO = BR.REVIEW_NO
+	   AND 
+	   		R.USER_ID = #{user_id}
+	   
+	
+	</select>
+	
+	<select id="selectShopReviewList" parameterType="string" resultMap="ReviewResultSet">
+		SELECT 
+				R.REVIEW_NO, 
+		        R.USER_ID,
+		        R.STATUS, 
+		        CONTENT, 
+		        REVIEW_DATE,
+		        GRADE,
+		        REVIEW_MODIFY,
+		        CHANGE_NAME,
+		        SHOP_NAME
+        
+		 FROM 
+		 		REVIEW R, BUS_REVIEW BR, V_BUS_INFO V
+		WHERE 
+				R.REVIEW_NO = BR.REVIEW_NO
+		  AND 
+		  		BR.SHOP_NO = V.SHOP_NO
+		  AND 
+		  		R.USER_ID = #{user_id}
+		  AND 
+		  		R.STATUS = 'Y'
+	 ORDER BY 
+	 			REVIEW_DATE DESC
+	</select>
+	
+	<update id="deleteUserReview" parameterType="Review">
+		UPDATE 
+				REVIEW
+		   SET 
+		   		STATUS = 'N'
+		 WHERE 
+		 		REVIEW_NO = (SELECT REVIEW_NO FROM USER_REVIEW WHERE USER_ID = #{userId} AND REVIEW_NO = #{reviewNo})
+	</update>
+	
+	<update id="deleteShopReview" parameterType="Review">
+	UPDATE 
+			REVIEW
+	   SET 
+	   		STATUS = 'N'
+	 WHERE 
+	 		REVIEW_NO = #{reviewNo}
+	   AND 
+	   		USER_ID = #{userId}
+	
+	</update>
+	
+	
+	
+	
 </mapper>

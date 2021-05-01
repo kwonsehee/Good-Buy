@@ -20,5 +20,13 @@ public interface MessengerService {
 	int insertMsg2(Messenger msg);
 	//seller에게 쪽지보내기
 	int insertMsgUser(String mcontent, String user_id, String seller);
+	// 판매자  쪽지 리스트 카운트 
+	int selectUserMsgCount(String user_id);
+	// 판매자 쪽지 리스트 
+	List<Messenger> selectUserMsgList(String user_id, PageInfo pi);
+	// 판매자 쪽지 답장할때 셀렉
+	Messenger selectOneMsg2(int mno);
+	// 판매자 쪽지 답장
+	int insertMsgUser2(Messenger msg);
 
 }

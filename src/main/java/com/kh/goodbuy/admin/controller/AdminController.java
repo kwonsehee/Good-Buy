@@ -198,6 +198,7 @@ public class AdminController {
 		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
 		int result2 = rService.addCountReported(r.getReported_id());
 		
+		
 		System.out.println("유저인포 reported+1 됐나 : " + result2);
 		
 		if (result > 0) {
@@ -207,6 +208,21 @@ public class AdminController {
 		}
 		
 	}
+	// 업데이트
+		@GetMapping("/productreportupdate")
+		public String productreportupdate(int gno, HttpServletRequest request) {
+			
+			System.out.println(gno);
+			int result = gService.productreportupdate(gno);
+			
+			
+			if (result > 0) {
+				return "redirect:/admin/report";
+			} else {
+				throw new NoticeException("상품수정에 실패하였습니다.");
+			}
+			
+		}
 	// 회원 신고
 	@PostMapping("/reportmemberupdate")
 	public String reportmemberUpdate(@ModelAttribute Member m, HttpServletRequest request) {

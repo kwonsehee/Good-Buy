@@ -935,6 +935,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE G_NO = #{gno}
 		
 	</update>
+	
+	<update id="productreportupdate" parameterType="Goods">
+		UPDATE GOODS
+		SET G_STATUS = 'N'
+		WHERE G_NO = #{gno}
+		
+	</update>
+	
 
 	<select id="selectSearchCount" parameterType="string" resultType="_int">
 		<bind name="searchb" value="'%'+_parameter+'%'"/>

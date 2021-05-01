@@ -60,4 +60,26 @@ public class MessengerDaoImpl implements MessengerDao{
 		return sqlSession.insert("msgMapper.insertMsgUser",map);
 	}
 
+	@Override
+	public int selectUserMsgCount(String string, String user_id) {
+		return sqlSession.selectOne("msgMapper.selectUserMsgCount",user_id);
+	}
+
+	@Override
+	public List<Messenger> selectUserMsgList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("msgMapper.selectUserMsgList",user_id,rowBounds);
+	}
+
+	@Override
+	public Messenger selectOneMsg2(int mno) {
+		return sqlSession.selectOne("msgMapper.selectOneMsg2",mno);
+	}
+
+	@Override
+	public int insertMsgUser2(Messenger msg){
+		return sqlSession.insert("msgMapper.insertMsgUser2",msg);
+	}
+
 }

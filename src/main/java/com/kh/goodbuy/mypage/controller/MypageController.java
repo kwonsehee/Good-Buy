@@ -27,6 +27,7 @@ import com.kh.goodbuy.board.model.service.BoardService;
 import com.kh.goodbuy.board.model.vo.Board;
 import com.kh.goodbuy.business.model.service.BusinessService;
 import com.kh.goodbuy.business.model.vo.Business;
+import com.kh.goodbuy.business.model.vo.Review;
 import com.kh.goodbuy.common.Pagination;
 import com.kh.goodbuy.common.model.service.MessengerService;
 import com.kh.goodbuy.common.model.service.ReportService;
@@ -418,7 +419,7 @@ public class MypageController {
 		return mv;
 	}
 	
-	// 내 쪽지함 화면
+	// 내 쪽지함(상품)
 	@GetMapping("/msgList")
 	public ModelAndView showMsgList(ModelAndView mv,
 									@ModelAttribute("loginUser") Member loginUser,
@@ -437,14 +438,45 @@ public class MypageController {
 		mlist = msgService.selectMsgList(loginUser.getUser_id(),pi);
 		System.out.println("쪽지 리스트  : "+mlist);
 		System.out.println("pi " +pi);
+		
 		mv.addObject("pi", pi);
 		mv.addObject("mlist", mlist);
-		
+				
 		mv.setViewName("mypage/msgList");
 		return mv;
 	}
 	
-	// 쪽지 답장 팝업 화면
+	// 내 쪽지함(판매자쪽지)
+	@GetMapping("/userMsgList")
+	public ModelAndView userMsgList(ModelAndView mv,
+									@ModelAttribute("loginUser") Member loginUser,
+									@RequestParam(value="page", required=false, defaultValue="1") int currentPage
+									) {
+		
+		int listCount = 0;
+		int boardLimit = 10;
+		PageInfo pi;
+		listCount = msgService.selectUserMsgCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Messenger> mlist;
+		
+		System.out.println("쪽지 갯수  : " + listCount);
+		mlist = msgService.selectUserMsgList(loginUser.getUser_id(),pi);
+		System.out.println("쪽지 리스트  : "+mlist);
+		System.out.println("pi " +pi);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("mlist", mlist);
+				
+		mv.setViewName("mypage/userMsgList");
+		
+		return mv;
+		
+	}
+	
+	// 쪽지 답장 팝업 화면(상품)
 	@GetMapping("/msgReply")
 	public ModelAndView showMsgReply(ModelAndView mv,int mno) {
 		System.out.println("mno넘어왔니 : " + mno);
@@ -460,13 +492,125 @@ public class MypageController {
 		return mv;
 	}
 	
+	// 쪽지 답장 팝업 화면(판매자)
+	@GetMapping("/msgReply2")
+	public ModelAndView showMsgReply2(ModelAndView mv, int mno) {
+		System.out.println("mno넘어왔니 : " + mno);
+		
+		
+		Messenger m = msgService.selectOneMsg2(mno);
+		
+		System.out.println("m 조회됐니 : " + m);
+		
+		mv.addObject("m", m);
+		mv.setViewName("mypage/msgReply2");
+		
+		return mv;
+	}
 	
-	// 내가 쓴 후기 화면
+	
+	
+	
+	
+	// 내가 쓴 후기 화면(유저 후기)
 	@GetMapping("/sentReviewList")
-	public ModelAndView showSendReviewList(ModelAndView mv) {
+	public ModelAndView showSendReviewList(ModelAndView mv,
+											@ModelAttribute("loginUser") Member loginUser,
+											@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		listCount = mService.selectUserReviewCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Review> rlist;
+		
+		System.out.println("내가 쓴 유저리뷰 갯수  : " + listCount);
+		rlist = mService.selectUserReviewList(loginUser.getUser_id(),pi);
+		System.out.println("내가 쓴 유저리뷰 리스트  : "+rlist);
+		System.out.println("pi " +pi);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("rlist", rlist);
+		
 		mv.setViewName("mypage/sentReviewList");
 		return mv;
 	}
+	
+	// 내가 쓴 후기 화면(가게 후기)
+	@GetMapping("/sentShopReviewList")
+	public ModelAndView sentShopReviewList(ModelAndView mv,
+			@ModelAttribute("loginUser") Member loginUser,
+			@RequestParam(value="page", required=false, defaultValue="1") int currentPage) {
+		
+		int listCount = 0;
+		int boardLimit = 5;
+		PageInfo pi;
+		listCount = mService.selectShopReviewCount(loginUser.getUser_id());
+		
+		pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		List<Review> rlist;
+		
+		System.out.println("내가 쓴 가게리뷰 갯수  : " + listCount);
+		rlist = mService.selectShopReviewList(loginUser.getUser_id(),pi);
+		System.out.println("내가 쓴 가게리뷰 리스트  : "+rlist);
+		System.out.println("pi " +pi);
+		
+		mv.addObject("pi", pi);
+		mv.addObject("rlist", rlist);
+		
+		mv.setViewName("mypage/sentShopReviewList");
+		return mv;
+	}
+	
+	// 유저 리뷰 삭제
+	@GetMapping("/deleteUserReview")
+	public String deleteUserReview(@ModelAttribute("loginUser") Member loginUser,int rno) {
+		System.out.println("삭제 리뷰 rno 넘어오니 : " + rno);
+		
+		Review r = new Review();
+		
+		r.setUserId(loginUser.getUser_id());
+		r.setReviewNo(rno);
+		
+		int result = mService.deleteUserReview(r);
+		
+		System.out.println("유저리뷰 삭제 됨? " + result);
+		
+		if(result > 0) {
+			return "redirect:/mypage/sentReviewList";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
+	// 가게 리뷰 삭제
+	@GetMapping("/deleteShopReview")
+	public String deleteShopReview(@ModelAttribute("loginUser") Member loginUser,int rno) {
+		System.out.println("삭제 리뷰 rno 넘어오니 : " + rno);
+		
+		Review r = new Review();
+		
+		r.setUserId(loginUser.getUser_id());
+		r.setReviewNo(rno);
+		
+		int result = mService.deleteShopReview(r);
+		
+		System.out.println("가게리뷰 삭제 됨? " + result);
+		
+		if(result > 0) {
+			return "redirect:/mypage/sentShopReviewList";
+		} else {
+			return "common/errorpage";
+		}
+		
+	}
+	
+	
 	
 	// 내가 받은 후기 화면
 	@GetMapping("/rcvReviewList")

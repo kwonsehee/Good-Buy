@@ -46,4 +46,24 @@ public class MessengerServiceImpl implements MessengerService{
 		// TODO Auto-generated method stub
 		return msgDao.insertMsgUser(mcontent, user_id, seller);
 	}
+
+	@Override
+	public int selectUserMsgCount(String user_id) {
+		return msgDao.selectUserMsgCount("selectUserMsgCount",user_id);
+	}
+
+	@Override
+	public List<Messenger> selectUserMsgList(String user_id, PageInfo pi) {
+		return msgDao.selectUserMsgList(user_id,pi);
+	}
+
+	@Override
+	public Messenger selectOneMsg2(int mno) {
+		return msgDao.selectOneMsg2(mno);
+	}
+
+	@Override
+	public int insertMsgUser2(Messenger msg) {
+		return msgDao.insertMsgUser2(msg);
+	}
 }

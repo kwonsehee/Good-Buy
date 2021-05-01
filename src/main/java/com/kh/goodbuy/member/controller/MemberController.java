@@ -249,7 +249,7 @@ public class MemberController {
 		// MY_TOWN update 
 		// 넘어온 주소값에 해당하는 t_no 조회하기
 		int t_no = tService.selectTownNo(address_3);
-		//System.out.println("업데이트할 유저 동네 " + t_no);
+		System.out.println("업데이트할 유저 동네 " + t_no);
 		MyTown mt = new MyTown(loginUser.getUser_id(), t_no);
 		
 		// 현재 마이타운 타입만 변경,insert,delete 밖에 없으므로 update따로 만들어야함..ㅎ
@@ -509,6 +509,7 @@ public class MemberController {
 		}
 		
 	}
+
 	@RequestMapping("/auth/kakao/callback")
 	public String kakaoCallback(@RequestParam("code")String code, HttpSession session, Model model) {
 		
@@ -631,6 +632,21 @@ public class MemberController {
 		session.removeAttribute("userId");
 		mv.setViewName("home");
 		return mv;
+  }
+
+	//msg확인했다는 표시 
+	@PostMapping(value = "checkMsg", produces = "application/json; charset= utf-8")
+	public @ResponseBody String checkMsgCount(int mno, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("mno오니?"+mno);
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		List<Messenger> mlist= mService.selectMsgListMno(mno, loginUser.getUser_id());
+		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		System.out.println("새 쪽지확인하고 다시 셀렉: " + mlist);
+
+		// 응답 작성
+		return gson.toJson(mlist);
+
 	}
 
 }

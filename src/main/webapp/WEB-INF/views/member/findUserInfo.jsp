@@ -9,19 +9,20 @@
 <!-- 공통 UI -->
 <link href="${ contextPath }/resources/css/member/findUserInfo.css" rel="stylesheet" type="text/css">
 
- <%-- <c:if test="${ m != null }">
+ <c:if test="${ m != null }">
  <c:if test="${ msg == success }">
 <!-- emailjs api -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
 <script type="text/javascript">
       $(function(){
-
+          emailjs.init("user_Kmbb8XIwk8umyO1ONqpvV");
+          
           var emailC = {
                user_id : ${m.user_id},
                user_pwd : ${m.user_pwd}
+               email : ${m.email}
            }
 
-         emailjs.init("user_Kmbb8XIwk8umyO1ONqpvV");
          emailjs.send("service_b3h5plq","template_gzmo22p",emailC)
          .then(function(response) {
               console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
@@ -42,7 +43,7 @@
 	</script>
 </c:if>
 </c:if>
- --%>
+
 
 
 </head>
