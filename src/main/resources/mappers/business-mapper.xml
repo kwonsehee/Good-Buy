@@ -159,6 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		 AND NSTATUS != 'N'
         ORDER BY N_NO DESC 
         ) NN
         JOIN AD AD USING(SHOP_NO)
@@ -313,6 +314,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		 AND NSTATUS != 'N'
 		AND SHOP_CATE='일자리'
 		AND VIEW_CNT !=0
 		AND BSTATUS != 'N'
@@ -359,6 +361,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		AND NSTATUS != 'N'
 		AND SHOP_CATE='농수산물'
 		AND VIEW_CNT !=0
 		AND BSTATUS != 'N'
@@ -403,6 +406,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		AND NSTATUS != 'N'
 		AND SHOP_CATE='중고차'
 		AND VIEW_CNT !=0
 		AND BSTATUS != 'N'
@@ -447,6 +451,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		AND NSTATUS != 'N'
 		AND SHOP_CATE='부동산'
 		AND VIEW_CNT !=0
 		AND BSTATUS != 'N'
@@ -491,6 +496,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		AND NSTATUS != 'N'
 		AND SHOP_CATE='지역업체'
 		AND VIEW_CNT !=0
 		AND BSTATUS != 'N'
@@ -535,6 +541,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		AND NSTATUS != 'N'
 		AND SHOP_CATE='전시'
 		AND VIEW_CNT !=0
 		AND BSTATUS != 'N'
@@ -579,6 +586,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 			</choose>
 		</where>
+		AND NSTATUS != 'N'
 		AND SHOP_CATE='과외'
 		AND VIEW_CNT !=0
 		AND BSTATUS != 'N'
@@ -631,6 +639,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         WHERE SHOP_NO = #{shopNo}
 		 AND VIEW_CNT !=0
 		 AND BSTATUS != 'N'
+		 AND NSTATUS != 'N'
 		
 	</select>
 	
@@ -777,6 +786,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , SHOP_NEWS
 		  , SHOP_NO
 		  , T_NO
+		  , NSTATUS
 		  
 		  
 		)
@@ -787,6 +797,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{shopNews}
 		  , #{shopNo}
 		  , #{tNo}
+		  , DEFAULT
 		  
 		)
 		
@@ -867,6 +878,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN NEWS_FILE NF ON(N.N_NO = NF.N_NO)
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
         WHERE SHOP_NO = #{shopNo}
+        AND NSTATUS != 'N'
         ORDER BY N_NO DESC 
         ) NN
         JOIN AD AD USING(SHOP_NO)
@@ -874,6 +886,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE ROWNUM <![CDATA[<=]]> 5
 		 AND VIEW_CNT !=0
 		 AND BSTATUS != 'N'
+		
 	</select>
 	
 	<update id="infoupdate" parameterType="Business">
@@ -925,7 +938,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</update>
 	
 	<insert id="updateFaCount" parameterType="java.util.Map">
-		INSERT INTO FAVORITE
+		INSERT ALL
+		 INTO FAVORITE
 		( 	SHOP_NO
 		  , USER_ID
 		  , F_DATE
@@ -937,6 +951,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , DEFAULT
 			
 		)
+		INTO ALARM
+		(
+			  ALARM_NO
+			, ALARM_TYPE
+			, ALARM_CONTENT
+			, USER_ID
+			, ALARM_DATE
+			, A_STATUS
+		)
+		VALUES
+		(
+			  A_SEQ.NEXTVAL
+			, 3
+			, CONCAT( #{nickName},' 님이 단골 등록 하였습니다.')
+			, #{buserId}
+			, SYSDATE
+			, DEFAULT
+			
+		)
+		SELECT * FROM DUAL
 		
 	</insert>
 	
@@ -987,7 +1021,28 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 			  #{shopNo}
 			, R_SEQ.CURRVAL
+
 		)
+		INTO ALARM
+		(
+			  ALARM_NO
+			, ALARM_TYPE
+			, ALARM_CONTENT
+			, USER_ID
+			, ALARM_DATE
+			, A_STATUS
+		)
+		VALUES
+		(
+			  A_SEQ.NEXTVAL
+			, 4
+			, CONCAT( #{shopName},' 가게의 후기가 등록 되었습니다.')
+			, #{buserId}
+			, SYSDATE
+			, DEFAULT
+			
+		)
+		
 		SELECT * FROM DUAL
 	
 	</insert>
@@ -1106,7 +1161,37 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			USER_ID = #{userId}
 	</delete> 
 	
-	 <select id="selectBusis" parameterType="_int" resultMap="businessResultSet">
+	<delete id="deleteReview" parameterType="string">
+		DELETE FROM BUS_REVIEW
+		WHERE
+			REVIEW_NO = #{reviewNo}
+	</delete>
+	
+	<delete id="deleteReview2" parameterType="string">
+		DELETE FROM REVIEW
+		WHERE
+			REVIEW_NO = #{reviewNo}
+	</delete>
+	
+	<update id="updateUserPoint" parameterType="string">
+		UPDATE
+			USER_INFO
+		SET
+			POINT = POINT + 10
+		WHERE
+			USER_ID	= #{userId}
+	</update>
+	
+	<update id="deleteNews" parameterType="_int">
+		UPDATE
+			NEWS
+		SET
+			NSTATUS = 'N'
+		WHERE
+			N_NO = #{nNo}
+	</update>
+
+  <select id="selectBusis" parameterType="_int" resultMap="businessResultSet">
 		SELECT TO_CHAR(P.PAY_DATE, 'YYYY.MM') MONTH1, SUM(P.PAYMENT) BUSICASH
 	FROM AD_CHARGE AC JOIN PAYMENT P
 	ON(AC.PID = P.PID)

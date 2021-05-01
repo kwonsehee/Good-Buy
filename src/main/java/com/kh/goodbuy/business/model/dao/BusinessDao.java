@@ -101,6 +101,15 @@ public interface BusinessDao {
 
 	public int deleteFaCount(Map<String, String> map);
 
+	public int deleteReview(String reviewNo);
+
+	public int deleteReview2(String reviewNo);
+
+	public int updateUserPoint(String userId);
+
+	public int deleteNews(int nNo);
+
+	
 	public List<Payment> selectBusis();
 
 	public List<Payment> selectRevs();

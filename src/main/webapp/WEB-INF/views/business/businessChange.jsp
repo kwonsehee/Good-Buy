@@ -29,20 +29,28 @@
                 <img id="photoPlus"src="${contextPath}/resources/images/business/사진추가샘플.png">
                 </c:if>
                 <input id="profilePhoto" type="file" name="file"  >
-               
+            </div>
+             <div class="allArea">
+                <div id="userPhotoArea">
                 <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
-                <div id="nameArea">
-                <label id="name">${b.shopName }</label>
-             	</div>
-             
+                <div id="shopNameArea">
                 <button id="likeBtn" disabled="disabled">단골${b.faCount }</button>
+                <label id="name">${b.shopName }</label>
+                </div>
+             	</div>
+             	
+             	<div id="modalArea">
                 <img id="adImg" src="${contextPath}/resources/images/business/메가폰.png" width="50px" height="50px" onclick="location.href='${contextPath}/business/ad'">
-                <label id="adLabel">광고하기</label>
                 <img id="line" src="${contextPath}/resources/images/business/선.png" >
                 <img id="pen" src="${contextPath}/resources/images/business/연필.png" width="50px" height="50px" >
+             	</div>
+             	
+             	<div id="labelArea">
+                <label id="adLabel">광고하기</label>
                 <label id="newsLabel">소식발행</label> 
+             	</div>
+             	
             </div>
-            
             <div class="infoArea">
 
 
@@ -141,27 +149,75 @@
             <c:if test="${ !empty nList }">
 			<c:forEach var="n" items="${ nList }">
 		 	<div class="newsArea">
-                <label id="newsLabel2">소식</label>
+		 		<div class="deleteNewsArea">
+                <label class="newsLabel2">소식</label> 
+                <button class="deleteNewsBtn" onclick="deleteNews(${n.nNo})" >x</button>
+                </div>
                 <c:if test="${ n.changeName != null }">
-                <img id="newsPhoto" src="${contextPath}/resources/images/goodupload/${n.changeName}">
+                <img class="newsPhoto" src="${contextPath}/resources/images/goodupload/${n.changeName}">
                 </c:if>
                 <c:if test="${ n.changeName == null }">
-                <img id="newsPhoto" src="${contextPath}/resources/images/business/기본썸네일.png">
+                <img class="newsPhoto" src="${contextPath}/resources/images/business/기본썸네일.png">
                 </c:if>
-                <img id="oneBtn"src="${contextPath}/resources/images/business/원버튼.png">
-                <label id="newsTitle">${n.newsTitle }</label>
-                <p id="newsInfo">${n.shopNews }</p>
+                <label class="newsTitle">${n.newsTitle }</label>
+                <p class="newsInfo">${n.shopNews }</p>
             </div>  
          	</c:forEach>
+         	 <div id="plusNewsBtnArea">
+            		▽
+            </div>
          	</c:if>
            
             <script>
+            
+            /*
+ 					function deleteNews(nNo){
+						var shopNo = ${b.shopNo};
+						var newsArea = $(".newsArea");
+						  newsArea.html("");
+ 						
+ 						$.ajax({
+ 							url :"${ contextPath }/business/news/delete",
+ 				   		   data : {nNo : nNo, shopNo : shopNo},
+ 				   		   type : "post",
+ 				   		   dataType : "json",
+ 				   			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+ 				   			success : function(data){
+ 				   			console.log("됨?");
+ 				   				for(var i in data){
+ 				   				var deleteNewsArea = $("<div class='deleteNewsArea'>");
+ 				   				var newsLabel2 = $("<label class='newsLabel2'>").text("소식");
+ 				   				var deleteNewsBtn = $("<button class='deleteNewsBtn'>");
+ 				   				
+ 				   				if(data[i].changeName != null){
+ 				   				var newsPhoto = $("<img class='newsPhoto'>").attr("src","${contextPath}/resources/images/goodupload/data[i].changeName");
+ 				   				}else {
+ 				   				var	newsPhoto = $("<img class='newsPhoto'>").attr("src","${contextPath}/resources/images/business/기본썸네일.png");
+ 				   				}
+ 				   				
+ 				   				var newsTitle = $("<label class='newsTitle'>").text(data[i].newsTitle);
+ 				   				var newsInfo = $("<p clasee='newsInfo'>").text(data[i].shopNews);
+ 				   				
+ 				   				}
+ 				   				
+ 				   				var plusNewsBtnArea = $("<div id='plusNewsBtnArea'>").text("▽")
+ 				   			},
+ 				   			error : function(e){
+ 				   				
+ 				   			}
+ 						});
+ 					}           
+            
+            
+            */
+            
+            
 			        $(document).ready(function(){
 						size_div = $('.newsArea').length;
 						
 						x = 1;
 						$('.newsArea:lt('+x+')').addClass('newsAreaflex');
-						$('#oneBtn').click(function(){
+						$('#plusNewsBtnArea').click(function(){
 							x= (x+1 <= size_div)? x+1 : size_div;
 							$('.newsArea:lt('+x+')').addClass('newsAreaflex');
 						

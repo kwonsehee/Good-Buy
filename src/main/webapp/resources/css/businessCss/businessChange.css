@@ -13,9 +13,10 @@
             margin-top: 30px;
         }
         .photoArea{
-            width: 654px;
-            height: 650px;
+            width: 655px;
+            height: 316px;
             border: 1px solid #e0e0e0;
+            border-radius: 40px 40px 0px 0px;
             
         }
         .infoArea{
@@ -34,30 +35,20 @@
          
         }
         #profileImg{
-            position: relative;
-            left: -41%;
-            margin-top: 10px;
+        	width:80px;
+			height:80px;
+			margin-top: 4px;
+
         }
         #nameArea{
-               position: relative;
-			    top: -12%;
-			    left: -28%;
-			    width: 69px;
-			    height: 32px;
-			  
-			    text-align: center;
-			    margin-left: 3px;
+
         }
         #namePen{
-            position: relative;
-            top: -28%;
-            left: 7%;
+
         }
 
         #likeBtn{
-			position: relative;
-		    left: -8%;
-		    top: -14%;
+
 		    width: 69px;
 		    height: 31px;
 		    border: 1px solid #C4c4c4;
@@ -68,30 +59,24 @@
 		    font-family: 'yg-jalnan';
         }
         #adImg{
-            position: relative;
-            top: 2%;
-            left: -15%;
+
         }
         #adLabel{
-            position: relative;
-            top: 8%;
-            left: -25%;
+			margin-right:95px;
         }
         #line{
-            position: relative;
-            top: 4%;
-            left: -5%;
+					    width: 1px;
+		    height: 83px;
+		    margin-right: 100px;
+		    /* padding-right: 50px; */
+		    margin-left: 100px;
         }
         #pen{
-            position: relative;
-            top: 2%;
-            left: 15%;
+
 
         }
         #newsLabel{
-            position: relative;
-            top: 8%;
-            left: 4%;
+			margin-left:97px;
         }
         #infoLabel{
             font-size: 24px;
@@ -381,11 +366,11 @@
             flex-direction: column;
             align-items: center;
         }
-        #newsLabel2{
+        .newsLabel2{
             font-size: 24px;
             
         }
-        #newsPhoto{
+        .newsPhoto{
             margin-top: 5px;
             width: 486px;
             height: 200px;
@@ -395,11 +380,11 @@
             width: 57px;
             height: 13px;
         }
-        #newsTitle{
+        .newsTitle{
             margin-top: 21px;
             font-size: 24px;
         }
-        #newsInfo{
+        .newsInfo{
             margin-top: 3px;
             font-family: 'yg-jalnan';
         }
@@ -422,4 +407,39 @@
         }
         #shopNo2{
         	display : none;
+        }
+        
+         .allArea{
+        	width: 655px;
+            height: auto;
+            border: 1px solid #e0e0e0;
+        }
+          #userPhotoArea{
+      		display: flex;
+    		margin-left: 20px;
+        }
+                #shopNameArea{
+        	margin-left: 20px;
+		    display: grid;
+		    margin-top: 10px;
+        }
+        		#labelArea{
+			margin-bottom:20px;
+		}
+         #plusNewsBtnArea{
+         	width : 655px;
+        	border : 1px solid #c4c4c4;
+        	text-align:center;
+        }
+        .deleteNewsArea{
+        	margin:0px;
+        	
+        }
+        
+        .deleteNewsBtn{
+        	margin:0px;
+
+			background-color: white;
+			 border: 1px solid #e0e0e0;
+			     margin-left: 524px;
         }

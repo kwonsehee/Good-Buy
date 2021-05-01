@@ -21,10 +21,10 @@
     <section id="gbSection">
         <div class="area">
             <div class="photoArea">
-            	<c:if test="${ business.filePath != null}">
-                <img id="thumbnail"  src="${contextPath}/resources/${business.filePath}${business.changeName }">
+            	<c:if test="${ business.changeName != null}">
+                <img id="thumbnail"  src="${contextPath}/resources/images/goodupload/${business.changeName }">
                 </c:if>
-                <c:if test="${ business.filePath == null}">
+                <c:if test="${ business.changeName == null}">
                 <img  id="thumbnail" src="${contextPath}/resources/images/business/기본썸네일.png">
                 </c:if>
             </div>
@@ -34,6 +34,7 @@
                 <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
                 <div id="shopNameArea">
               	<c:if test="${ faCount == 0 }">
+              	<input type="hidden" id="buserId" name="buserId" value="${bisuness.userId }">
                 <button id="likeBtn" onclick="updateFaCount(${business.shopNo})">+단골</button>
                 </c:if> 
                <c:if test="${ faCount > 0 }">
@@ -115,7 +116,8 @@
 			        
 			        function updateFaCount(shopNo){
 			        	alert("단골 가게로 등록 하시겠습니까?");
-			    		location.href='${contextPath}/business/updateFaCount?shopNo=' + shopNo;
+			        	var buserId = document.getElementById("buserId");
+			    		location.href='${contextPath}/business/updateFaCount?shopNo=' + shopNo+"&buserId=" + buserId;
 			    	}
 			        function deleteFaCount(shopNo){
 			        	alert("단골 등록을 취소 하시겠습니까?");
@@ -148,12 +150,12 @@
             	 	</c:if>
             <c:forEach var="r" items="${ rList }">
                 <div class="firstArea">
-                
+                	<div class="reviewInfoArea">
           			<c:if test="${r.photo != null }">
-	                <label class="writer"><img class="userPhoto" src="${contextPath}/resources/images/userProfilePhoto/${r.photo}"> ${r.nickName }</label>
+	                <label class="writer">${r.nickName }<img class="userPhoto" src="${contextPath}/resources/images/userProfilePhoto/${r.photo}"></label>
 	                </c:if>
 					<c:if test="${r.photo == null }">
-	                <label class="writer"><img class="userPhoto" src="${contextPath}/resources/images/mypage/unknownUser.png"> ${r.nickName }</label>
+	                <label class="writer">${r.nickName }<img class="userPhoto" src="${contextPath}/resources/images/mypage/unknownUser.png"></label>
 	                </c:if>
 	                 <c:if test="${r.grade == 5 }">
                     <img  class="grade" src="${contextPath}/resources/images/business/별점5.png" height="12px" >
@@ -174,9 +176,15 @@
                     <img class="grade" src="${contextPath}/resources/images/business/별점0.png" height="12px" >
             	 	</c:if>
 	                <p class="reviewInfo">${r.content} </p>
-	                
-  
+	                </div>
+	                <c:if test="${r.userId eq loginUser.user_id }">
+	                <div class="deleteReviewArea">
+	                <button class="deleteReviewBtn" onclick="deleteReview(${r.reviewNo})">x</button>
+					</div>
+					</c:if>
+  					
                 </div>
+
             </c:forEach>
             	 <div id="plusReviewBtnArea">
             		▽
@@ -294,15 +302,19 @@
       $("#reviewInsertBtn").on("click",function(){
     	  var content = $("#reviewInput").val();
     	  var shopNo =${business.shopNo};
+    	  var shopName = "${business.shopName}";
+    	  var buserId = "${business.userId}";
     	  console.log(grade+1111);
     	  console.log(star);
+    	  var userId = "${loginUser.user_id}";
     	  var reviewArea = $(".reviewArea");
 		  reviewArea.html("");
 		  $('#star a').parent().children("a").removeClass("on");
+		  $("#reviewInput").val("");
 
     	  $.ajax({
     		 url : "${ contextPath }/business/review/insert" ,
-    		 data : {content : content , shopNo : shopNo, grade : grade},
+    		 data : {content : content , shopNo : shopNo, grade : grade , shopName : shopName , buserId : buserId},
     		 type : "post",
     		 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
     		 dataType : "json",
@@ -314,7 +326,7 @@
 				 var userPhoto;	 
     			 var grade1;
     			 var avgGrade;
-    			 $(".reviewArea").append(reviewTitle,reviewCount); 
+    			 
     			
     			 
     			 if(data[0].avgGrade == 0){
@@ -330,17 +342,18 @@
     			 }else if(data[0].avgGrade == 5){
     				 avgGrade = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점5.png");
     			 }
-    			 
+    			 $(".reviewArea").append(reviewTitle,reviewCount,avgGrade); 
     			 for(var i in data){
     		     var div = $("<div class='firstArea'>");
-    		     var p = $("<p class='reviewInfo'>").text(data[i].content);
-    			 var writer =$("<label class='writer'>").text(data[i].nickName);
+    		     var reviewInfoArea = $("<div class='reviewInfoArea'>");
     			 var Photo = data[i].photo;
+    			 var writer =$("<label class='writer'>").text(data[i].nickName);
     			 if( Photo !=null){
     			     userPhoto = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/userProfilePhoto/data[i].photo");
     			 }else if(Photo == null){
     				 userPhoto = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/mypage/unknownUser.png");
     			 }
+    			 
     			 
     			 
     			 
@@ -358,12 +371,32 @@
     			 }else if(data[i].grade == 5){
     				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점5.png");
     			 }
-				writer.append(userPhoto);	
- 				div.append(writer,grade1,p);
-    			 $(".reviewArea").append(div); 
+    		     var p = $("<p class='reviewInfo'>").text(data[i].content);
+    		     
+    		     var reviewNo = data[i].reviewNo;	 
+  				writer.append(userPhoto);	
+   				reviewInfoArea.append(writer,grade1,p);
+   				div.append(reviewInfoArea);
+      			 $(".reviewArea").append(div); 
+    		     
+    			 if(data[i].userId == userId ){
+    				 var deleteBtnArea =$("<div class='deleteReviewArea'>");
+        			 var deleteBtn = $("<button class='deleteReviewBtn'  onclick='deleteReview("+reviewNo+")'>");
+        			 deleteBtn.text("x");
+        			 deleteBtnArea.append(deleteBtn);
+    				 reviewInfoArea.append(writer,grade1,p);
+    	  			div.append(deleteBtnArea);
+
+    				 
+    			 }
+    			 
 
     			 
     			 }
+    			 
+    			 var plusBtnArea = $("<div id='plusReviewBtnArea'>")
+    			 plusBtnArea.text("▽");
+    			 $(".reviewArea").append(plusBtnArea); 
     			 
     			 plusReview();
     			 
@@ -375,6 +408,117 @@
     	  });
       }); 
        
+      
+       
+       function deleteReview(reviewNo){
+       	console.log("됨?")
+   	   var content = $("#reviewInput").val();
+    	   var shopNo2 =${business.shopNo};
+    	var userId2 = "${loginUser.user_id}";
+
+    	  var reviewArea2 = $(".reviewArea");
+		  reviewArea2.html("");
+		  $('#star a').parent().children("a").removeClass("on");
+		  $("#reviewInput").val("");
+   	   
+   	   $.ajax({
+   		   url :"${ contextPath }/business/review/delete",
+   		   data : {reviewNo : reviewNo , shopNo2 : shopNo2},
+   		   type : "post",
+   		   dataType : "json",
+   			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+   		   success : function(data1){
+   			   console.log("여기?");
+   			   console.log(data1);
+   			   var reviewTitle2 = $("<label id='reviewTitle'>").text("후기");
+     			 var reviewCount2 = $("<label id='reviewCount'>").text(data1[0].reviewCount);
+ 				  var userPhoto2;	 
+     			  var grade2;
+     			  var avgGrade2;
+     			 
+     			
+     			 
+     			 if(data1[0].avgGrade == 0){
+     				 avgGrade2 = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점0.png");
+     			 }else if(data1[0].avgGrade == 1){
+     				 avgGrade2 = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점1.png");
+     			 }else if(data1[0].avgGrade == 2){
+     				 avgGrade2 = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점2.png");
+     			 }else if(data1[0].avgGrade == 3){
+     				 avgGrade2 = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점3.png");
+     			 }else if(data1[0].avgGrade == 4){
+     				 avgGrade2 = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점4.png");
+     			 }else if(data1[0].avgGrade == 5){
+     				 avgGrade2 = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점5.png");
+     			 }
+     			$(".reviewArea").append(reviewTitle2,reviewCount2,avgGrade2); 
+     			 for(var j in data1){
+     		     var div2 = $("<div class='firstArea'>");
+     		    var reviewInfoArea2 = $("<div class='reviewInfoArea'>");
+     			 var Photo2 = data1[j].photo;
+     			 var writer2 =$("<label class='writer'>").text(data1[j].nickName);
+     			 if( Photo2 !=null){
+     			     userPhoto2 = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/userProfilePhoto/data1[j].photo");
+     			 }else if(Photo2 == null){
+     				 userPhoto2 = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/mypage/unknownUser.png");
+     			 }
+     			 
+     			 
+     			 
+     			 
+     			 if(data1[j].grade2 == 0){
+     				 grade2 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점0.png");
+     			 }else if(data1[j].grade == 1){
+     				 grade2 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점1.png");
+     			 }else if(data1[j].grade == 2){
+     				 grade2 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점2.png");
+     			 }else if(data1[j].grade == 3){
+     				 grade2 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점3.png");
+     			 }else if(data1[j].grade == 4){
+     				 grade2 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점4.png");
+     			 }else if(data1[j].grade == 5){
+     				 grade2 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점5.png");
+     			 }
+     		     var p2 = $("<p class='reviewInfo'>").text(data1[j].content);
+
+    			var reviewNo = data1[j].reviewNo;	 
+ 				writer2.append(userPhoto2);	
+  				reviewInfoArea2.append(writer2,grade2,p2);
+  				div2.append(reviewInfoArea2);
+     			 $(".reviewArea").append(div2); 
+    			 
+     			 if(data1[j].userId == userId2 ){
+    				 var deleteBtnArea2 =$("<div class='deleteReviewArea'>");
+        			 var deleteBtn2 = $("<button class='deleteReviewBtn' onclick='deleteReview("+reviewNo+")'>");
+        			 deleteBtn2.text("x");
+        			 deleteBtnArea2.append(deleteBtn2);
+    				 reviewInfoArea2.append(writer2,grade2,p2);
+    	  			div2.append(deleteBtnArea2);
+    	  			
+    				
+    				 
+    			 }
+    			 
+     			 
+     			 }
+     			 
+     			 var plusBtnArea2 = $("<div id='plusReviewBtnArea'>");
+    			 plusBtnArea2.text("▽");
+    			 $(".reviewArea").append(plusBtnArea2); 
+    			 
+    			 
+     			 
+     			 plusReview();
+     			 
+   			   
+   		   },
+   		   error : function(e){
+   			   
+   		   }
+   	   });
+      }
+     
+		
        
        function plusReview (){
     	   size_div = $('.firstArea').length;
@@ -392,8 +536,8 @@
        $(document).ready(function(){
     	   plusReview();
 
-		});  
-		
+		});   
+       
     </script>
 
 
