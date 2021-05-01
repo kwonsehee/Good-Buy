@@ -147,13 +147,15 @@
 
 		</div>
 		<c:if test="${ !empty sessionScope.loginUser }">
-			<c:if test="${ empty writeActive }">
+		
+			<c:if test="${ writeActive eq 'y' }">
       		 <button id="writeBtn" onclick="location.href='${ contextPath }/goods/insertView'" >중고거래 글쓰기</button>
        		</c:if>
-       		<c:if test="${ !empty writeActive }">
+       		<c:if test="${ writeActive eq 'n' }">
       		 <button id="writeBtn" onclick="wrierActive();" >중고거래 글쓰기</button>
        		</c:if>
        </c:if>
+       
     </section>
     <script type="text/javascript">
     function wrierActive(){
