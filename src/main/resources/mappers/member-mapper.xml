@@ -588,6 +588,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
        AND
        		EMAIL = #{email}
 	</update>
+	<select id="kakaoLogin" parameterType="string" resultMap="memberResultSet">
+		SELECT
+			   USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+		  FROM
+		  	   USER_INFO
+		 WHERE
+		 	   USER_ID = #{user_id}
+		<!--  암호화 적용 이후 삭제 : AND PWD = #{pwd} -->
+		   AND USTATUS = 'Y'
+		   
+	
+	</select>
 	<update id="checkMsg" parameterType="_int" >
 		UPDATE MESSENGER
 		   SET M_STATUS='N'

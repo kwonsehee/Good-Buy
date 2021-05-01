@@ -186,7 +186,12 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateRandomPwd(m);
 	}
 	@Override
-	public List<Messenger> selectMsgListMno(int mno, String user_id) {
+	public Member kakaoLogin(String userId) {
+		// TODO Auto-generated method stub
+		return mDao.kakaoLogin(userId);
+  }
+  @Override
+  public List<Messenger> selectMsgListMno(int mno, String user_id) {
 		int result = mDao.checkMsg(mno);
 		return mDao.selectMsgList(user_id);
 	}

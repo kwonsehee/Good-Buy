@@ -110,6 +110,8 @@ public interface MemberService {
 		public String findeUserId(String email);
 		// 임시 비밀번호 업데이트 
 		public int updateRandomPwd(Member m);
+		//kakao login
+		public Member kakaoLogin(String userId);
 		//선택한 msg지우고 msg 셀렉해오기
 		public List<Messenger> selectMsgListMno(int mno, String user_id);
 		// 내가 쓴 유저 리뷰 카운트 
