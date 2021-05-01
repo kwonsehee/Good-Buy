@@ -71,7 +71,7 @@
                     아나바다 운동을 일으켜봅시당@@#@하이하이 저는 뭐시기입니아아</td>
             </tr>
             <tr>
-                <th id="seller_id">${ seller.user_id }</th>
+                <th id="seller_id">${ seller.nickname }</th>
                 <td style="padding-left:5%;" id="follow_area">
                 <c:if test="${follow==0 }">
               	  <button type="button" class="btn_small" id="followBtn">	

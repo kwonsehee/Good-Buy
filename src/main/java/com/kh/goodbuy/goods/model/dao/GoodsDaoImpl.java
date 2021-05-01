@@ -417,6 +417,14 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.productreportupdate", gno);
 	}
 
+	@Override
+	public int reviewOk(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("seller",seller);
+		map.put("user_id", user_id);
+		return sqlSession.selectOne("goodsMapper.reviewOk", map);
+	}
+
 	
 
 }

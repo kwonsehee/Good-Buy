@@ -104,7 +104,14 @@
                      카테고리 : ${g.goodcate.lfilter}-> ${g.goodcate.mfilter}-> ${g.goodcate.sfilter}
                 </td>
                 <td colspan="3" id="selectTown" style="text-align: right;">
-              	    <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo?seller=${g.user_id }">판매자 정보</a>&nbsp;
+                 <c:if test="${ empty loginUser }">
+                     <a class="btn_gray" onclick="noUser();">판매자 정보</a>&nbsp;
+                </c:if>
+                <c:if test="${ !empty loginUser }">
+                   <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo?seller=${g.user_id }">판매자 정보</a>&nbsp;
+                </c:if>
+            
+              	   
                     <c:if test="${ !empty loginUser }">
                     <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
                    	</c:if>

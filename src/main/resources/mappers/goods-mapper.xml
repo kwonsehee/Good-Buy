@@ -30,8 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="PULL_DATE" property="pullDate"/>
 		<result column="G_STATUS" property="gstatus"/>
-		<result column="USER_ID" property="user_id"/>
-
+		<result column="NICKNAME" property="user_id"/>
+		<!-- <result column="NICKNAME" property="nickname"/>
+ -->
 	</resultMap>
 	
 	<resultMap type="Goods" id="GoodsResultSet2">
@@ -87,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       <id property="rno" column="R_NO"/>
       <result property="rcontent" column="RCONTENT"/>
       <result property="ref_rid" column="REF_RID"/>
-      <result property="user_id" column="USER_ID"/>
+      <result property="user_id" column="NICKNAME"/>
       <result property="createDate" column="CREATE_DATE"/>
       
    </resultMap>
@@ -223,7 +224,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , G_PRICE
 			  , CHANGE_NAME
 			  , CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -232,9 +233,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 		 , G.G_NO G_NO
                      , G_STATUS
                      , G.USER_ID USER_ID
-       			 FROM GOODS G, GOODSFILE GF, ADDFILE F
+                     , U.NICKNAME NICKNAME
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
         		WHERE G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
 	   ORDER BY CREATE_DATE DESC
@@ -248,7 +251,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , G_PRICE
 			  , CHANGE_NAME
 			  , CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -257,13 +260,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 		 , G.G_NO G_NO
                      , G_STATUS
                      , G.USER_ID USER_ID
+                     , U.NICKNAME NICKNAME
                      , ADDRESS_1
 			 		 , ADDRESS_2
 			 		 , ADDRESS_3
-       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
         		WHERE G.G_PLACE = T.T_NO
         		  AND G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
 		  	<if test='area lt 4'>
@@ -297,10 +302,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 , PULL_DATE
              , CHANGE_NAME
              , G_STATUS
-             , G.USER_ID USER_ID
-		 FROM GOODS G, GOODSFILE GF, ADDFILE F
+             , U.NICKNAME NICKNAME
+		 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
 		WHERE G.G_NO = GF.G_NO
 		  AND GF.F_NO = F.F_NO
+		  AND G.USER_ID = U.USER_ID
 		  AND F.FILE_LEVEL = 1
 		  AND G.USER_ID =#{user_id}
 		  AND G_STATUS = 'Y'
@@ -419,15 +425,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 , G_PRICE
 			 , CHANGE_NAME 
 			 , CREATE_DATE
-			 , USER_ID
-		FROM GOODS G, GOODS_CATE C, GOODSFILE GF, ADDFILE F
+			 , U.NICKNAME NICKNAME
+		FROM GOODS G, GOODS_CATE C, GOODSFILE GF, ADDFILE F, USER_INFO U
 	   WHERE  G.C_NO = C.C_NO
 		 AND G.G_NO = GF.G_NO
 		 AND GF.F_NO = F.F_NO
+		 AND G.USER_ID = U.USER_ID
 		 AND F.FILE_LEVEL = 1
 		 AND L_FILTER = #{cate}
 		 AND G_STATUS = 'Y'
-	  ORDER BY G.CREATE_DATE DESC
+	  ORDER BY CREATE_DATE DESC
 	</select>
 	<select id="selectCateCount2" parameterType="java.util.Map" resultType="_int">
 		SELECT 
@@ -457,7 +464,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , G_PRICE
 			  , CHANGE_NAME
 			  , CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -466,14 +473,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 		 , G.G_NO G_NO
                      , G.C_NO C_NO
                      , G_STATUS
-                     , G.USER_ID USER_ID
+                     , U.NICKNAME NICKNAME
                      , ADDRESS_1
 			 		 , ADDRESS_2
 			 		 , ADDRESS_3
-       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
         		WHERE G.G_PLACE = T.T_NO
         		  AND G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
 			<if test='myTown.area lt 4'>
@@ -486,7 +494,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			AND ADDRESS_3 =#{myTown.address_3}
 			</if>
         AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
-	   ORDER BY G.CREATE_DATE DESC
+	   ORDER BY CREATE_DATE DESC
 	</select>
 	<select id="selectMyCateListCount" parameterType="java.util.Map" resultType="_int">
 		SELECT 
@@ -508,13 +516,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 , G_TITLE
 			 , CREATE_DATE
              , CHANGE_NAME
-             , G.USER_ID USER_ID
+             , U.NICKNAME NICKNAME
              , G_PLACE 
-		 FROM GOODS G, MY_TOWN T , GOODS_CATE C,  GOODSFILE GF, ADDFILE F
+		 FROM GOODS G, MY_TOWN T , GOODS_CATE C,  GOODSFILE GF, ADDFILE F, USER_INFO U
 	    WHERE G.G_PLACE = T.T_NO
           AND G.C_NO = C.C_NO
           AND G.G_NO = GF.G_NO
           AND GF.F_NO = F.F_NO
+          AND G.USER_ID = U.USER_ID
           AND T.MYTOWN_TYPE=1
           AND F.FILE_LEVEL = 1
           AND T.USER_ID = #{user_id}
@@ -616,6 +625,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, ALARM_DATE
 		, REF_NO
 		, A_STATUS
+		, ALARM_CONTENT
 		)
 		VALUES
 		(
@@ -625,6 +635,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, DEFAULT
 		, R_SEQ.CURRVAL
 		, DEFAULT
+		,  CONCAT(#{g.gtitle}, ' 게시글에 댓글이 등록되었습니다.')
 		)
 		SELECT *FROM DUAL
 	</insert>
@@ -633,10 +644,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			    R.R_NO R_NO
 			  , RCONTENT
 			  , TO_CHAR(CREATE_DATE,'YYYY.MM.DD HH24:MI' ) CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 			  , R.REF_RID REF_RID
 		 FROM REPLY R JOIN GOODS_REPLY G
 		   ON(R.R_NO = G.R_NO)
+		 JOIN USER_INFO U ON(R.USER_ID = U.USER_ID)
 		WHERE G.G_NO = #{g.getGno()}
 		  AND R_STATUS = 'Y'
 	 ORDER BY
@@ -744,7 +756,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , G_PRICE
 			  , CHANGE_NAME
 			  , CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 			  , G_STATUS
 		  FROM (SELECT
 		  			   G_PRICE
@@ -753,10 +765,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 		 , CHANGE_NAME
 			 		 , G.G_NO G_NO
                      , G_STATUS
-                     , G.USER_ID USER_ID
-       			 FROM GOODS G, GOODSFILE GF, ADDFILE F
+                     , U.NICKNAME NICKNAME
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
         		WHERE G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
         		  AND F.FILE_LEVEL = 1)
 		 
 	   ORDER BY CREATE_DATE DESC
@@ -845,7 +858,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , G_PRICE
 			  , CHANGE_NAME
 			  , CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 			  , G_STATUS
 		  FROM (SELECT
 		  			   G_PRICE
@@ -854,10 +867,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 		 , CHANGE_NAME
 			 		 , G.G_NO G_NO
                      , G_STATUS
-                     , G.USER_ID USER_ID
-       			 FROM GOODS G, GOODSFILE GF, ADDFILE F
+                     , U.NICKNAME NICKNAME
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
         		WHERE G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
         		  AND F.FILE_LEVEL = 1)
 		<where>
 			<choose>
@@ -959,7 +973,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , G_PRICE
 			  , CHANGE_NAME
 			  , CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -967,14 +981,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 		 , CHANGE_NAME
 			 		 , G.G_NO G_NO
                      , G_STATUS
-                     , G.USER_ID USER_ID
+                     , U.NICKNAME NICKNAME
                      , ADDRESS_1
 			 		 , ADDRESS_2
 			 		 , ADDRESS_3
-       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
         		WHERE G.G_PLACE = T.T_NO
         		  AND G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
 		  	AND G_TITLE LIKE  #{searchb}
@@ -1011,7 +1026,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , G_PRICE
 			  , CHANGE_NAME
 			  , CREATE_DATE
-			  , USER_ID
+			  , NICKNAME
 		  FROM (SELECT
 		  			   G_PRICE
 		  			 , G_TITLE
@@ -1020,14 +1035,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 		 , G.G_NO G_NO
                      , G.C_NO C_NO
                      , G_STATUS
-                     , G.USER_ID USER_ID
+                     , U.NICKNAME NICKNAME
                      , ADDRESS_1
 			 		 , ADDRESS_2
 			 		 , ADDRESS_3
-       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
         		WHERE G.G_PLACE = T.T_NO
         		  AND G.G_NO = GF.G_NO
         		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
         		  AND F.FILE_LEVEL = 1)
 		  WHERE G_STATUS = 'Y'
 		  AND G_TITLE LIKE #{searchb}
@@ -1167,6 +1183,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		UPDATE USER_INFO SET POINT = POINT + 10 WHERE USER_ID = #{user_id}
 	
 	</update>
+	<select id="reviewOk" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		  FROM DEAL_PAYMENT D JOIN GOODS G ON(D.G_NO = G.G_NO)
+		 WHERE G.USER_ID = #{seller}
+		   AND D.USER_ID = #{user_id}
+	
+	</select>
 </mapper>
 
 

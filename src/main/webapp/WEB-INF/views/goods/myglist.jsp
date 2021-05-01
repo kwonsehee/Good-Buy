@@ -91,7 +91,7 @@
                <td > 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg" onclick="selectGoods(${a.gno});">
                     <br>
-                    <span>${fn:substring(a.gtitle,0,7)}
+                    <span class="title_font">${fn:substring(a.gtitle,0,7)}
                     <c:if test="${fn:length(a.gtitle )>7}">
                     ...
                     </c:if>
@@ -99,8 +99,8 @@
                     <a data-bs-toggle="modal" data-bs-target="#deleteModal" data-gno="${a.gno}" data-gtitle="${a.gtitle }" class="deleteBtn">삭제</a>
                     
                     <br>
-                    <span style="width : 150px;">${a.gprice}원</span>
-                    <span>${a.createDate}</span>
+                   <p class="price_font">${a.gprice}원</p>
+                    <p class="date_font">${a.createDate}</p>
                 </td>
             </c:forEach>
             <c:if test="${glist.size()< 5 }">

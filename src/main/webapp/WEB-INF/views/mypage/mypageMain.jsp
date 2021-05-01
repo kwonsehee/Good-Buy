@@ -80,8 +80,12 @@
             <p><a onclick="showFollower()">팔로워 ${ followerCnt }</a></p>
             <p><a href="${ contextPath }/mypage/pointList">1,500 P</a></p>
         </div>
-
+		<c:if test="${loginUser.user_type !=2 }">
         <button onclick="location.href='${contextPath}/mypage/updateMember'" id="editProfileBtn">프로필 수정</button>
+        </c:if>
+        	<c:if test="${loginUser.user_type ==2 }">
+        <button onclick="location.href='${contextPath}/mypage/updateMember'" id="editProfileBtn" style="visibility : hidden;">프로필 수정</button>
+        </c:if>
 
         <div class="btnWrap">
             <div class="firstLineBtn" onclick="location.href='${contextPath}/mypage/sellingList'"><img src="${ contextPath }/resources/images/mypage/copy.png"><p>판매내역</p></div>

@@ -15,8 +15,6 @@
 </head>
 <body>
 
-	
-	
 			<c:forEach var="f" items="${flist }">
 				<div class="follow_div">
 					<c:if test="${f.photo eq null }">

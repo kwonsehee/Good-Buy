@@ -554,7 +554,7 @@ public class MemberController {
 		System.out.println("회원가입 넘어온 값 : " + km);
 
 		// 3) MEMBER insert
-		int result = mService.insertMember(km);
+		int result = mService.insertKakaoMember(km);
 		System.out.println("회원가입 잘됐나?dddd : " + result);
 
 		// 2) MYTOWN insert
@@ -599,11 +599,11 @@ public class MemberController {
 		
 		System.out.println("loginUser : " + loginUser);
 		
-		String referer = request.getHeader("Referer");
-	    request.getSession().setAttribute("redirectURI", referer);
-		System.out.println("이전페이지 :"+referer);
-		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
-		System.out.println("이전페이지 자른거:"+referer);
+//		String referer = request.getHeader("Referer");
+//	    request.getSession().setAttribute("redirectURI", referer);
+//		System.out.println("이전페이지 :"+referer);
+//		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
+//		System.out.println("이전페이지 자른거:"+referer);
 		// 일반 로그인이까 암호화 필요 o
 		if (loginUser != null) {
 			// System.out.println("loginUser : " + loginUser);
