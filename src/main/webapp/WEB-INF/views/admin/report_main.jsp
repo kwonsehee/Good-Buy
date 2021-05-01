@@ -85,11 +85,15 @@
                 
                <tr id="tr_hover1">
                 	
-                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th><th>${ r.reported }</th>
+                     <th>${ r.re_no }</th><th>${ r.retitle }</th><th><input type="hidden" name="reported_id" value="${ r.reported_id }"/>${ r.reported_id }</th><th>${ r.re_content }</th><th>${ r.reported }</th>
+                     
+                     
                     <c:if test="${ r.re_result == 'Y' }">
 						<th><button id="createButton" disabled>처리 완료</button></th>
 					</c:if>
+					
 					<c:if test="${ r.re_result == 'N' }">
+					
 						<th><button id="createButton" >알림 보내기</button></th>
 					</c:if>
                  

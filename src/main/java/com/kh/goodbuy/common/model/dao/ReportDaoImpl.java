@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.goodbuy.common.model.vo.Report;
+import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 @Repository
@@ -126,6 +127,18 @@ public class ReportDaoImpl implements ReportDao{
 	@Override
 	public int updateReportedDate(String user_id) {
 		return sqlSession.update("reportMapper.updateReportedDate", user_id);
+	}
+
+	@Override
+	public int insertAlarmproduct(Report r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("reportMapper.insertAlarmproduct", r);
+	}
+
+	@Override
+	public int insertAlarmMember(Report r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("reportMapper.insertAlarmMember", r);
 	}
 
 }
