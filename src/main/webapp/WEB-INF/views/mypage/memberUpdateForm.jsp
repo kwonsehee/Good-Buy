@@ -21,7 +21,7 @@
             <h4 id="goodbuy_h2">good-buy Family</h4>
             <h4 id="join_h2">회원 정보 수정</h4>  
 
-            <form action="${ contextPath }/member/update" method="POST" class="joinform" onsubmit="sendNewInfo();">
+            <form action="${ contextPath }/member/update" method="POST" class="joinform">
                 <p>NICKNAME</p>
                 <input type="text" name="nickname" value="${ loginUser.nickname }"><br>
                 <input type="password" name="userPwd" placeholder="PASSWORD" required><br>
@@ -79,10 +79,9 @@
  					// 비밀번호 일치 시 수정하기 버튼 활성화 불일치 시 버튼 비활성화 
  					 if(data == "success"){
  						$("#submitBtn").removeAttr("disabled");
- 						
  					}else {
- 						$("#submitBtn").attr("disabled",true);
  						alert("기존 비밀번호를 맞게 입력해주세요!");
+ 						$("#submitBtn").attr("disabled",true);
  					} 
  				},
  				error : function(e){
