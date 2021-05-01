@@ -136,9 +136,9 @@ public class ReportDaoImpl implements ReportDao{
 	}
 
 	@Override
-	public int insertAlarmMember(Report r) {
+	public int insertAlarmMember(String reported_id) {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("reportMapper.insertAlarmMember", r);
+		return sqlSession.insert("reportMapper.insertAlarmMember", reported_id);
 	}
 
 }

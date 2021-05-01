@@ -308,6 +308,18 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.insert("memberMapper.insertKakaoMember", km);
 	}
 
+	@Override
+	public int selectReportedCount(String report_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectReportedCount", report_id);
+	}
+
+	@Override
+	public int insertwriteAlarm(String report_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertwriteAlarm", report_id);
+	}
+
 
 
 	

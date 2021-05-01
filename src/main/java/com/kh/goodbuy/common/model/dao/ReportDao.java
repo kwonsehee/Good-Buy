@@ -48,7 +48,7 @@ public interface ReportDao {
 
 	public int insertAlarmproduct(Report r);
 
-	public int insertAlarmMember(Report r);
+	public int insertAlarmMember(String reported_id);
 
 
 
