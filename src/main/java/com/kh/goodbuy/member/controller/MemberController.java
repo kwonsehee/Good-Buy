@@ -529,11 +529,10 @@ public class MemberController {
 	@RequestMapping("/auth/kakao/callback")
 	public String kakaoCallback(@RequestParam("code")String code, HttpSession session, Model model) {
 		
-		System.out.print("카카오인증오니?");
-		System.out.println("1번가기전");
+		
 		//1번인증 코드 요청 전달
 		String accessToken = kakaoApi.getAccessToken(code);
-		System.out.println("2번가기전");
+		
 		//2번  인증코드로 토큰 전달
 		HashMap<String, Object> userInfo = kakaoApi.getUserInfo(accessToken);
 		
@@ -553,10 +552,9 @@ public class MemberController {
 			kakaoMember.setNickname((String) userInfo.get("nickname"));
 			kakaoMember.setEmail((String) userInfo.get("email"));
 			kakaoMember.setUser_pwd(garbagePass.toString());
-			System.out.println("여기여기 "+kakaoMember);
+		
 
 			int result = kakaoJoin(kakaoMember);
-			System.out.println("join성공 ?"+result);
 		
 		}
 		
@@ -564,10 +562,9 @@ public class MemberController {
 		return "redirect:/member/kakaologin";
 	}
 
-
+	//카카오톡 회원가입 -> 간편로그인시 회원가입 통일
 	public int kakaoJoin(Member km) {
 
-		System.out.println("회원가입 넘어온 값 : " + km);
 
 		// 3) MEMBER insert
 		int result = mService.insertKakaoMember(km);
@@ -576,25 +573,18 @@ public class MemberController {
 		// 2) MYTOWN insert
 		MyTown mt = new MyTown(km.getUser_id(), 0);
 		int insertMytown = tService.insertMyTown(mt);
-		System.out.println("마이타운 객체확인 : " + mt);
-		System.out.println("마이타운 들어갔나? : " + insertMytown);
 
 		return result;
 
 	}
-	@GetMapping("/kakaologin") // 일반 로그인 post 방식
+	
+	// 카카오톡 로그인 매서드 ->간편 로그인 통일 
+	@GetMapping("/kakaologin") 
 	public String kakaoLogin(@RequestParam("kakaoMember")String user_id, Model model,HttpServletRequest request) {
-//		   System.out.println("m" + m);
-		// 신고 날짜+15 < 오늘 날짜 
+
 		int checkDate = reService.updateReportedDate(user_id);
-		
-		System.out.println("신고당한지 15일 지나고 null로 바뀜? : " + checkDate);
-		
-		// 로그인시 유저의 신고 당한 이력이 있는지 신고 날짜 조회 
-		// 신고 날짜가 있는 경우 
+
 		String repDate = reService.selectMyReportedDate(user_id);
-		
-		System.out.println("신고 날짜 조회됨? : " + repDate);
 		
 		String writeActive;
 		
@@ -608,33 +598,20 @@ public class MemberController {
 		
 		model.addAttribute("writeActive", writeActive);
 		
-		
-		
-		
+	
 		Member loginUser = mService.kakaoLogin(user_id);
 		
-		System.out.println("loginUser : " + loginUser);
-		
-//		String referer = request.getHeader("Referer");
-//	    request.getSession().setAttribute("redirectURI", referer);
-//		System.out.println("이전페이지 :"+referer);
-//		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
-//		System.out.println("이전페이지 자른거:"+referer);
-		// 일반 로그인이까 암호화 필요 o
+
 		if (loginUser != null) {
-			// System.out.println("loginUser : " + loginUser);
 			model.addAttribute("loginUser", loginUser);
-			// 로그인 시 따로 호출하는 메소드
+		
 			saveUserTown(loginUser.getUser_id(), model);
 			saveUserMtlist(loginUser.getUser_id(),model);
-			
-			// 뒤로 갈 히스토리가 있는 경우 및 우리 시스템에서 링크를 통해 유입된 경우
-			return "redirect:/home";
+						
 		} else {
 			model.addAttribute("msg", "로그인에 실패하였습니다.");
-			return "redirect:/home";
 		}
-		
+		return "redirect:/home";
 		
 	}
 	
@@ -691,13 +668,11 @@ public class MemberController {
 			org.json.simple.JSONObject response_obj = (org.json.simple.JSONObject) jsonObj.get("response");
 			// 네이버에서 주는 고유 ID
 			String naverIfId = (String) response_obj.get("id");
-			
 			// 네이버에서 설정된 사용자 별명
 			String naverNickname = (String) response_obj.get("nickname");
 			// 네이버에서 설정된 이메일
 			String naverEmail = (String) response_obj.get("email");
 			
-			System.out.println("출력 ");
 			System.out.println("naverIfId "+naverIfId);
 			System.out.println("naverNickname "+naverNickname);
 			System.out.println("naverEmail "+naverEmail);
@@ -716,16 +691,12 @@ public class MemberController {
 
 				int result = kakaoJoin(naverMember);
 				System.out.println("join성공 ?"+result);
-				
 			}
 			model.addAttribute("kakaoMember", (String)naverIfId);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		
-		
-		
 		return "redirect:/member/kakaologin";
     }
  // 1. Stream을 이용한 text 응답 상품 찜하기 취소

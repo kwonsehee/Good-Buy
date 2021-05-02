@@ -16,7 +16,7 @@ import com.google.gson.JsonParser;
 public class KakaoAPI {
 
 	public String getAccessToken(String code) {
-		System.out.println("getAccessToken 여기오니?");
+		
 		String accessToken = "";
 		String refreshToken = "";
 		String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -39,12 +39,12 @@ public class KakaoAPI {
 			
 			int responseCode=  conn.getResponseCode();
 			System.out.println("response code = "+responseCode);
-			System.out.println("getAccessToken 여기오니?2");
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			
 			String line="";
 			String result = "";
-			System.out.println("getAccessToken 여기오니?33");
+			
 			while((line=br.readLine())!=null) {
 				result+=line;
 			}

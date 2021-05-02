@@ -44,12 +44,14 @@ public class HomeController {
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
         
+        //네이버 
+        model.addAttribute("url", naverAuthUrl);
+        
         //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
         //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
         System.out.println("네이버:" + naverAuthUrl);
         
-        //네이버 
-        model.addAttribute("url", naverAuthUrl);
+        
         
         goodsRankList(model);
         

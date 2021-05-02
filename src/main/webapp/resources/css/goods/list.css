@@ -54,7 +54,7 @@
     font-weight: 500;
 }
 .date_font{
-    margin-left: 15% !important;
+    margin-right: 20% !important;
     font-size: 13px !important;
     color: #9a9999 !important;
     text-align : right !important;
@@ -63,8 +63,8 @@
 }
 .id_font{
 	font-size: 13px; 
-	margin-left: 35px;
-	margin-top:3px;
+	margin-left: 220px;
+	margin-top:-20px;
     color: #949999;
 }
 .deleteBtn{
