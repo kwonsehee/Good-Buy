@@ -935,7 +935,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</update>
 	
 	
-	<update id="updateProduct" parameterType="Goods">
+	<update id="updateProduct" parameterType="_int">
 		UPDATE GOODS
 		SET G_STATUS = 'R'
 		WHERE G_NO = #{gno}

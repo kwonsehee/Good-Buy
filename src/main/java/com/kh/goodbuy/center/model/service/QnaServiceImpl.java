@@ -64,8 +64,13 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public int updateQNAA(QNA q) {
-		// TODO Auto-generated method stub
-		return qDao.updateQNAA(q);
+		int result = qDao.insertAlarmQNAA(q);
+		if(result >0) {
+			return qDao.updateQNAA(q);
+		}else {
+			
+			return 0;
+		}
 	}
 
 	@Override
