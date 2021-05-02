@@ -15,8 +15,9 @@
 
 </head>
 <body>
- <section id="gbSection">
        <jsp:include page="../common/menubar.jsp"/>
+       
+ <section id="gbSection">
  
        <table id="goodlist" >
            <tr>
@@ -51,13 +52,14 @@
             <td></td>
             <td></td>
            </tr>
-           <tr>
+           
+           <tr class="goodsWrapTr">
             <c:forEach var="a" items="${ glist }" end="4">
                <td onclick="selectGoods(${a.gno});"> 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg">
                     <br>
-                    <span class="title_font">${fn:substring(a.gtitle,0,4)}
-                    <c:if test="${fn:length(a.gtitle )>4}">
+                    <span class="title_font">${fn:substring(a.gtitle,0,15)}
+                    <c:if test="${fn:length(a.gtitle )>15}">
                     ...
                     </c:if>
                     </span>
@@ -68,13 +70,14 @@
                 </td>
             </c:forEach>
            </tr>
-           <tr>
+           
+           <tr class="goodsWrapTr">
            <c:forEach var="a" items="${ glist }" begin="5">
                <td onclick="selectGoods(${a.gno});"> 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg">
                     <br>
-                     <span class="title_font">${fn:substring(a.gtitle,0,4)}
-                    <c:if test="${fn:length(a.gtitle )>4}">
+                     <span class="title_font">${fn:substring(a.gtitle,0,15)}
+                    <c:if test="${fn:length(a.gtitle )>15}">
                     ...
                     </c:if></span>
                      <p class="id_font">${a.user_id}</p>
@@ -91,7 +94,7 @@
        <div style="margin-top: 3%; padding-left: 8%; float: left; text-decoration: underline;">
        		
        		 <c:if test="${ !empty sessionScope.loginUser }">
-       		<a href="${ contextPath }/goods/mylist">내 상품 모아보기</a>
+       		<a href="${ contextPath }/goods/mylist" style="color:black;">내 상품 모아보기</a>
        		</c:if>
        		
        </div>
