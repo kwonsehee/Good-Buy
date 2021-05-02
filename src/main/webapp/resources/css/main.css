@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: 'InkLipquid';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 #gbSection{
 	margin-top:30px;
 	height:2600px;
@@ -28,7 +35,8 @@ p{
 }
 
 #titleWrap h1{
-	font-weight:100;
+	font-size:50px;
+	font-family: 'InkLipquid';
 	margin-left:55px;
 	margin-bottom:20px;
 }
@@ -101,7 +109,6 @@ p{
 
 #saveWrap1{
 	width:30%;
-	/* border:1px solid black; */
 	margin-top:110px;
 	margin-left:26%;
 	margin-bottom:150px;
@@ -112,7 +119,6 @@ p{
 }
 #saveWrap2{
 	width:30%;
-	/* border:1px solid black; */
 	margin-top:250px;
 	margin-left:60%;
 	margin-bottom:160px;
@@ -123,7 +129,6 @@ p{
 }
 #saveWrap3{
 	width:30%;
-	/* border:1px solid black; */
 	margin-top:-110px; 
 	margin-left:52%;
 }
@@ -134,13 +139,17 @@ p{
 	width:300px;
 	heignt:50px;
 	font-size:25px;
-	background:#F1FCFF;
+	background:#05AAD1;
 	padding-left:30px;
-	color:#05AAD1;
+	color:#fff;
+	font-family: 'InkLipquid';
+	 font-weight: bold;
 }
 .save2{
 	width:350px;
-	color:#05AAD1;
+	color:#fff;
+	font-family: 'InkLipquid';
+	font-weight: bold;
 }
 
 #forrest{
@@ -182,7 +191,7 @@ p{
 }
 
 #bestSearch p{
-	width:198px;
+	width:213px;
 	color: black;
 	font-size:24px;
 	margin-left:40px;
