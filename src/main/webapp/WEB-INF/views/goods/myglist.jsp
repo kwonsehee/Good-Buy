@@ -68,7 +68,7 @@
             <td></td>
             <td></td>
            </tr>
-         <tr>
+         <tr class="goodsWrapTr">
             <c:forEach var="a" items="${ glist }" end="4">
                <td > 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg" onclick="selectGoods(${a.gno});">
@@ -86,7 +86,7 @@
                 </td>
             </c:forEach>
            </tr>
-       	  <tr>
+       	  <tr class="goodsWrapTr">
            <c:forEach var="a" items="${ glist }" begin="5">
                <td > 
                    <img src="${ contextPath }/resources/images/goodupload/${a.changeName}" class="goodlistimg" onclick="selectGoods(${a.gno});">

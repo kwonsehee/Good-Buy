@@ -67,88 +67,59 @@
                 <img src="${ contextPath }/resources/images/person.png" style="width: 150px; border: 1px solid black; border-radius: 100%;">
                 </c:if>
                 </td>
-                
-                <td colspan="2" style="padding-left:5%;">
+                <td colspan="2" style="padding-left:5%;" >
+                <textarea id="user_comment" style="width : 480px;height : 150px;resize: none;border: solid black 1px;">
                	<c:if test="${seller.user_comment eq null}">
                	안녕하세요~ 서로 좋은 물건 공유합시다. 아나바다 운동을 일으켜봅시다.
                	</c:if>
                	<c:if test="${seller.user_comment ne null}">
                	${seller.user_comment }
                	</c:if>
+                </textarea>
                 </td>
-            </tr>
-            <tr>
-                <th id="seller_id">${ seller.nickname }</th>
-                <td style="padding-left:5%;" id="follow_area">
-                <c:if test="${follow==0 }">
-              	  <button type="button" class="btn_small" id="followBtn">	
-              	  <img src="${ contextPath }/resources/images/follower.png" />
-              	  <p>&nbsp;&nbsp;&nbsp;팔로우</p></button>
-              	 </c:if>
-              	 <c:if test="${follow>0 }">
-              	  <button type="button" class="btn_small" id="canselfollowBtn">	
-              	 
-              	  <p>&nbsp;&nbsp;&nbsp;&nbsp;팔로우&nbsp;&nbsp;취소</p></button>
-              	 </c:if>
-                </td>
-                <td><button type="button" class="btn_small" onclick="sendToseller();"><img src="${ contextPath }/resources/images/airplane.png"/><p>쪽지보내기</p></button></td>
+            	</tr>
+           		<tr>
+               <th id="seller_id" style="margin-left : 50px;">${ seller.nickname }</th>
+                <td colspan="2" style="text-align : right"><button type="button" class="btn_small" onclick="updateUserComment();" >수정하기</button></td>
             </tr>
             
         </table>
-        <!-- 신고 Modal -->
-	<div class="modal fade" id="reportModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-body">
-					<form method="POST" action="${ contextPath }/report/userinsert">
-					<input type="hidden" name="reported_id" value="${seller.user_id }">
-					<table id="report_tb">
-      
-        <tr>
-            <td  colspan="2"> <img src="${ contextPath }/resources/images/logo.png" width="40%;" style="margin: auto;"></td>
-
-        </tr>
-        <tr><td colspan="2"><p>판매자 신고 사유</p></td></tr>
-        <tr>
-            <td colspan="2">
-                <select id="reportSelect" name="retitle">
-                    <option>이상한 상품을 올려놨어요.</option>
-                    <option>사적으로 연락이 와요. </option>
-                    <option>거래 금지 품목을 거래하고 있어요.</option>
-                    <option>물품 정보(카테고리, 가격, 사진)이 부정확해요.</option>
-                    <option>언어폭력(비방, 욕설, 성희롱)이 기재되어 있어요.</option>
-                    <option>기타.</option>
-                </select>
-            </td>
-        </tr>
-   
-        <tr><td colspan="2"> <p>신고 내용</p></td></tr>
-        <tr>
-            <td colspan="2">
-                <textarea name="re_content">
-
-                </textarea>
-            </td>
-            
-        </tr>
-        <tr>
-        <td><button type="reset" id="greset"data-bs-dismiss="modal">취소하기</button></td>
-        <td><button type="submit" id="gsubmit" >신고하기</button></td>
-        </tr>
-   
-    </table>
-					</form>
-					
-				</div>
-
-			</div>
-		</div>
-	</div>
-	
+       	
 
         <script>
-         
+         function updateUserComment(){
+        	 var comment = $("#user_comment").val();
+        	 console.log("comment : "+comment);
+        	 
+             $.ajax({
+                 url : "${contextPath}/member/updateUC",
+                 data : {comment : comment},
+                 type : "post",
+                 success : function(data){
+                	 console.log("수정한 글"+data);
+                    if(data == "success"){
+                    	 swal.fire({
+                    		  title: '판매자 소개글 수정',
+                    		  html: '<br>판매자 소개글이 수정완료 되었습니다. <br>판매자 소개글은 회원님의 판매자페이지에 게시될 내용입니다.<br>',
+                    		  imageUrl: '${ contextPath }/resources/images/logo.png',
+                    		  imageWidth: 232,
+                    		  imageHeight: 90,
+                    		  imageAlt: 'Custom image',
+                    		});
+                  	  /* $("#user_comment").html(data); */
+                    }  
+                    else{
+                    	document.getElementById("user_comment").value='';
+                  	  alert("판매자 메모 수정 실패!");
+                    }
+                       
+                 },
+                 error : function(e){
+                    alert("error code : " + e.status + "\n"
+                          + "message : "+ e.responseText);
+                 }
+              });
+         }
         function sendToseller(){
         	var seller = $("#seller_id").text();
         	var seller_id = $("input[name=reported_id]").val();

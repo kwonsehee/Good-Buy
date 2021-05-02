@@ -637,7 +637,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, 8
 		, #{g.user_id}
 		, DEFAULT
-		, R_SEQ.CURRVAL
+		, #{g.gno}
 		, DEFAULT
 		,  CONCAT(#{g.gtitle}, ' 게시글에 댓글이 등록되었습니다.')
 		)

@@ -746,6 +746,7 @@ public class MemberController {
  		}
  		
  		System.out.println("새알림 : "+alist);
+ 		System.out.println("새알림 길이 : "+alist.size());
  		// 응답 작성
  		return gson.toJson(alist);
  	}
@@ -753,7 +754,7 @@ public class MemberController {
 	// alarm확인했다는 표시
 	@PostMapping(value = "checkAlarm", produces = "application/json; charset= utf-8")
 	public @ResponseBody String checkAlarmCount(int mno, HttpServletResponse response, HttpServletRequest request) {
-		System.out.println("mno오니?" + mno);
+		System.out.println("ajax mno오니?" + mno);
 		
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
  		List<Alarm> alist = null;
@@ -773,7 +774,25 @@ public class MemberController {
 		return gson.toJson(alist);
 
 	}
- 		
 
+	// 판매자 메모 수정 
+	@RequestMapping(value = "updateUC", method = RequestMethod.POST)
+	public void likegoods(String comment, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("코멘트"+comment);
+		try {
+			PrintWriter out = response.getWriter();
+			Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+			int ok = mService.updateUserComment(loginUser.getUser_id(), comment);
+			if (ok > 0) {
+				out.write("success");
+			} else {
+				out.write("fail");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
 }

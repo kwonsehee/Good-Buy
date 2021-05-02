@@ -258,6 +258,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, ALARM_DATE
 		, REF_NO
 		, A_STATUS
+		, ALARM_CONTENT
 		)
 		VALUES
 		(
@@ -267,6 +268,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, SYSDATE
 		, #{qa_no}
 		, DEFAULT
+		, '문의하신 글에 관리자가 답변을 남겼습니다.'
 		)
 	
 	</insert>

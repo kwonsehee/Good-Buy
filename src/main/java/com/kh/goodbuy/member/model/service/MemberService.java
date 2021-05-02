@@ -135,6 +135,10 @@ public interface MemberService {
 		public List<Alarm> selectAlarmList(String user_id);
 		//확인한 알람 상태 바꾸고 유저의 알림 셀렉
 		public List<Alarm> selectAlarmListAno(int mno, String user_id);
+		//판매자 메모 업데이트
+		public int updateUserComment(String user_id, String comment);
+		//비즈프로필번호알아오기
+		public int checkMyshopNo(String user_id);
 		
 
 

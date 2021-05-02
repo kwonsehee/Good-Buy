@@ -245,6 +245,16 @@ public class MemberServiceImpl implements MemberService {
 		int result = mDao.checkAlarm(mno);
 		return mDao.selectAlarmList(user_id);
 	}
+	@Override
+	public int updateUserComment(String user_id, String comment) {
+		// TODO Auto-generated method stub
+		return mDao.updateUserComment(user_id, comment);
+	}
+	@Override
+	public int checkMyshopNo(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.checkMyshopNo(user_id);
+	}
 
 
 

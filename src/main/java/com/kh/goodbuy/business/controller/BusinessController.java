@@ -2,6 +2,7 @@ package com.kh.goodbuy.business.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +44,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/business")
-@SessionAttributes({ "msg"})
+@SessionAttributes({ "msg", "shopNo"})
 public class BusinessController {
 	@Autowired
 	private BusinessService bService;
@@ -685,5 +687,30 @@ public class BusinessController {
 		
 		return "redirect:/business/ad";
 	}
-		
+	
+	@RequestMapping(value = "/godetail", method = RequestMethod.POST)
+	public void checkMyshopNo( HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("비즈프로필 번호 알아오기");
+		try {
+			PrintWriter out = response.getWriter();
+			Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+			int ok = mService.checkMyshopNo(loginUser.getUser_id());
+			System.out.println("비즈프로필 번호느 "+ok);
+			out.write(ok);
+			
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	//비즈프로필번호 셀렉 후 이동
+	@GetMapping("/godetail")
+	public String checkMyshopNo(HttpServletRequest request,HttpSession session, Model model) {
+		System.out.println("비즈프로필 번호 알아오기");
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int ok = mService.checkMyshopNo(loginUser.getUser_id());
+		model.addAttribute("shopNo",ok);
+		return "redirect:/business/detail";
+	}
 }

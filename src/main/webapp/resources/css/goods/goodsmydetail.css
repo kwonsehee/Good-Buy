@@ -13,12 +13,13 @@
 #goodsTitle {
 	font-size: 28px;
 	font-weight: bold;
-    padding-left: 30px;
+    padding-left: 40px;
 }
 
 #gprice {
 	font-size: 20px;
 	font-weight: bold;
+	padding-left:40px;
 }
 
 .btn_gray {
@@ -31,10 +32,22 @@
 	color: #9a9999;
 	font-size: 14px;
 }
+#gcondition{
+	padding-left:40px;
+	color:#949999;
+	font-size:14px;
+	text-align:center;
+}
+#gtown{
+	padding-left:40px;
+	color:#949999;
+	font-size:14px;
+}
 
 #goodsContent {
 	width: 100%;
 	height: 150px;
+	padding-left:40px;
 }
 
 .btn_small {
