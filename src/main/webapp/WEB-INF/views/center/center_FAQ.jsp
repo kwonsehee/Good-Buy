@@ -40,18 +40,12 @@
             <button id="button1"><a id="a3" href="${ contextPath }/center/QNA">문의</a></button>
             </c:if>
             <c:if test="${ empty sessionScope.loginUser }">
-            <button id="button1"><a id="a3"  onclick="noUser()">문의1</a></button>
+            <button id="button1"><a id="a3"  onclick="noUser()">문의</a></button>
             </c:if>
         </div>
 
         <div id="div3">
-            <select name='value' id="option1">
-                <option value='1'  selected>카테고리</option>
-                <option value='2'>상점/상품</option>
-                <option value='3'>회원 정보</option>
-                <option value='4'>똑똑한 거래 팁</option>
-                <option value='5'>제재 정책</option>
-              </select>
+           
 
         </div>
         
@@ -76,44 +70,7 @@
            	</c:forEach>
            
             
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">상품 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다</li>
-                        
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">스르륵 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다</li>
-                        
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">판매 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다</li>
-                        
-                    </ul>
-                </li>
-            </ul>
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">앙 등록 팁<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">상품 등록 시 이미지, 이름, 가격, 상태, 수량 등의 자세한 설명을 입력하면 굿바이 내 원활한 거래가 이루어질 수 있습니다</li>
-                        
-                    </ul>
-                </li>
-            </ul>
+           
 
             
             
@@ -123,12 +80,7 @@
                 
                 
                 
-                </tbody>
-                </table>
-                
-                </p></article></li></ul>
-
-        </div>
+               
 
         
     </section>

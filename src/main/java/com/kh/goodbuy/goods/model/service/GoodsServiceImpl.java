@@ -374,6 +374,19 @@ public class GoodsServiceImpl implements GoodsService {
 		return gDao.reviewOk(seller, user_id);
 	}
 
+	@Override
+	public List<Goods> selectGoodsSrcList(int re_no) {
+		// TODO Auto-generated method stub
+		return gDao.selectGoodsSrcList(re_no);
+	}
+
+	@Override
+	public Goods Goodsreportdetail(int re_no) {
+		int gno =  gDao.Goodsreportdetail(re_no);
+		System.out.println("gno : " + gno);
+		return gDao.Goodsdetail(gno);
+	}
+
 	
 
 }
