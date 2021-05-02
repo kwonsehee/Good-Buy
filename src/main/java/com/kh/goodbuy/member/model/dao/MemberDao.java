@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
@@ -126,6 +127,10 @@ public interface MemberDao {
 	public int selectReportedCount(String report_id);
 
 	public int insertwriteAlarm(String report_id);
+	//새 알람 리스트 셀렉
+	public List<Alarm> selectAlarmList(String user_id);
+	//알람 확인했다
+	public int checkAlarm(int mno);
 			
 
 

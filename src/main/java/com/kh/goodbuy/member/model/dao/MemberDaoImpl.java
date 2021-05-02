@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
@@ -318,6 +319,18 @@ public class MemberDaoImpl implements MemberDao {
 	public int insertwriteAlarm(String report_id) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("memberMapper.insertwriteAlarm", report_id);
+	}
+
+	@Override
+	public List<Alarm> selectAlarmList(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberMapper.selectAlarmList", user_id);
+	}
+
+	@Override
+	public int checkAlarm(int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.checkAlarm", mno);
 	}
 
 

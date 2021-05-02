@@ -89,16 +89,14 @@
               
                 </li>
                 
-                <li class="li_6">
-                <a href="#">
-                <c:if test="${ empty sessionScope.loginUser }">
-                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" >
-                </c:if>
-                <c:if test="${ !empty sessionScope.loginUser }">
-                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" onclick="alarm('${loginUser.user_id}')">
-                </c:if>
-                </a>
+                <li class="li_6" id="alarmContent">
+                	<a onclick="alarmPopup();"style="border : 1px solid red;">
+               			<img src="${ contextPath }/resources/images/alarm.png" id="alarm">
+                	</a>
                 </li>
+                
+                
+                
                 <li class="li_7"><a href="${ contextPath }/mypage/likeGoodsList"><img src="${ contextPath }/resources/images/heart.png" id="heart"></a></li>
             </ul>
 
@@ -276,12 +274,78 @@
 		}
 		});
 		
+		/* 알림관련 */
+		$(document).ready(function(){
+		if(${ !empty sessionScope.loginUser }){
+			 $.ajax({
+				   url : "${contextPath}/member/alram",
+				  type : "post",
+				  dataType : "json",
+				  success : function(data){
+					 console.log("새알림관련"+data);
+					 if(Object.keys(data).length>0){
+					
+						tableBody = $("#alarmContent");
+						
+			            tableBody.html("");
+						console.log("새알림관련 여기오니?");
+						
+						var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
+						a+="<div id='alarmArea'>";
+						for(var i in data){
+						var aType = data[i].alarm_type;
+						console.log(aType);
+						
+						if(aType==13 ||aType ==5||aType ==8||aType ==10||aType ==2 ){
+	                	a +="<div class='alarmDiv'>";
+	    
+	                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+	                	a+=data[i].goods_thum;
+	                	a+="' class='alarmImg'>";
+	                	
+						}else{
+							a +="<div class='alarmDiv'>";
+						    
+						}
+	                	a+="<span>";
+	                	a+=data[i].alarm_content;
+	                	
+	                	a+="</span></div><button onclick='closealarmDiv(";
+	                	a+=data[i].alarm_no;
+	                	a+=")' id='deleteAlarm'>X</button>";
+	                	
+	                	
+						}
+						a+="</div>"
+						tableBody.append(a);
+						
+					 }else{
+						 
+					/* alert(data); */
+					console.log(data);
+					 }
+	                     
+				  }
+             
+				  
+			});
+		}
+		});
 		function msgPopup(){
 			var control = document.getElementById("msgArea");   
 			if (control.style.display == 'block') {
 	               control.style.display = 'none';
 	           } else {
 	               control.style.display = 'block';
+	           }
+    		
+		}
+		function alarmPopup(){
+			var control3 = document.getElementById("alarmArea");   
+			if (control3.style.display == 'block') {
+	               control3.style.display = 'none';
+	           } else {
+	               control3.style.display = 'block';
 	           }
     		
 		}
@@ -298,7 +362,8 @@
 							
 							tableBody = $("#msgContent");
 				            tableBody.html("");
-							console.log("여기오니?");
+							
+				            console.log("여기오니?");
 							var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
 							a+="<div id='msgArea'>";
 							for(var i in data){
@@ -325,12 +390,76 @@
 							}
 							a+="</div>"
 							tableBody.append(a);
-							var control2 = document.getElementById("msgArea");   
-							control2.style.display == 'block';
+							
+							/* var control2 = document.getElementById("msgArea");    */
+							control.style.display == 'block';
+							
 						 }else{
 							 
-						alert(data);
+						/* alert(data); */
+						console.log(data);
 						 }
+		                     
+				  }
+           
+				  
+			});
+   		
+		}
+		function closealarmDiv(mno){
+			console.log(mno);
+			 $.ajax({
+				   url : "${contextPath}/member/checkAlarm",
+				  type : "post",
+				  data : {mno : mno},
+				  dataType : "json",
+				  success : function(data){
+					 console.log("확인하고 남은 소식"+data);
+					 if(Object.keys(data).length>0){
+							
+							tableBody = $("#alarmContent");
+							
+				            tableBody.html("");
+							console.log("새알림관련 여기오니?");
+							
+							var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
+							a+="<div id='alarmArea'>";
+							for(var i in data){
+							var aType = data[i].alarm_type;
+							console.log(aType);
+							
+							if(aType==13 ||aType ==5||aType ==8||aType ==10||aType ==2 ){
+		                	a +="<div class='alarmDiv'>";
+		    
+		                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+		                	a+=data[i].goods_thum;
+		                	a+="' class='alarmImg'>";
+		                	
+							}else{
+								a +="<div class='alarmDiv'>";
+							    
+							}
+		                	a+="<span>";
+		                	a+=data[i].alarm_content;
+		                	
+		                	a+="</span></div><button onclick='closealarmDiv(";
+		                	a+=data[i].alarm_no;
+		                	a+=")' id='deleteAlarm'>X</button>";
+		                	
+		                	
+							}
+							a+="</div>"
+							tableBody.append(a);
+							
+							var control4 = document.getElementById("alarmArea");   
+							control4.style.display == 'block';
+							
+						 }else{
+							 
+						/* alert(data); */
+						console.log(data);
+						 }
+		                     
 		                     
 				  }
            

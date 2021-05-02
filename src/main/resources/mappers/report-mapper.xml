@@ -295,6 +295,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		  ALARM_NO
 		, ALARM_TYPE
+		, ALARM_CONTENT
 		, USER_ID
 		, ALARM_DATE
 		
@@ -303,6 +304,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		  A_SEQ.NEXTVAL
 		, 2
+		,  #{reported_id}||'님이 신고 처리되어 '|| '누적 신고 횟수 '||(SELECT REPORTED FROM USER_INFO WHERE USER_ID=#{reported_id})||'회입니다.'
 		, #{reported_id}
 		, DEFAULT
 		
@@ -315,6 +317,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		  ALARM_NO
 		, ALARM_TYPE
+		, ALARM_CONTENT
 		, USER_ID
 		, ALARM_DATE
 		, REF_NO
@@ -323,6 +326,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		  A_SEQ.NEXTVAL
 		, 2
+		, CONCAT((SELECT G_TITLE FROM GOODS WHERE G_NO = #{gno}), '가 신고처리되었습니다.')
 		, #{reported_id}
 		, DEFAULT
 		, #{gno}

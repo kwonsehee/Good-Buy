@@ -467,3 +467,39 @@ width:260px; /* border :1px solid blue; */
     margin-left : 190px;
     margin-top : -50px;
 }
+
+/*알림 관련 부분*/
+#alarmArea{
+	display:none;
+	border :1px solid red; 
+	width:210px; 
+	position: absolute;
+	z-index:10;
+}
+.alarmDiv{
+width:300px; /* border :1px solid blue; */
+  height: 48px;
+  margin: 24px 0px 4px -100px;
+  padding: 14px 0 12px 20px;
+  border-radius: 60px;
+  box-shadow: 1px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #fcfcfc;
+  font-size : 12px;
+  text-align:left;
+  
+  
+}
+.alarmImg{
+	width : 25px;height : 25px;
+}
+#deleteAlarm{
+    width: 25px;
+    height: 25px;
+    color: #949999;
+    border: 1px solid #949999;
+    border-radius: 40px;
+    font-size: 13px;
+    background: #fff;
+    margin-left : 180px;
+    margin-top : -58px;
+}

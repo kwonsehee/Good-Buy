@@ -964,7 +964,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 			  A_SEQ.NEXTVAL
 			, 3
-			, CONCAT( #{nickName},' 님이 단골 등록 하였습니다.')
+			, CONCAT( #{nickName},'님이 회원님의 가게를 단골 등록 하였습니다.')
 			, #{buserId}
 			, SYSDATE
 			, DEFAULT

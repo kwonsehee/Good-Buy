@@ -91,7 +91,7 @@
         <span class="circle"></span>
     </div>
         <form method="POST" action="${ contextPath }/msg/userinsert">
-        <input type="hidden" name="seller" value="${seller}">
+        <input type="hidden" name="seller" value="${seller_id}">
     <table id="sendMsg_tb" style="margin-top: 20px;">
         <tr style="height: 80px;">
             <td  style="text-align: right;">
