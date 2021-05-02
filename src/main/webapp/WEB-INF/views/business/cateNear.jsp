@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,7 +101,10 @@
                 <img  class="thumbnail" src="${contextPath}/resources/images/business/기본썸네일.png" >
                 </c:if>
                 <p class="title"> ${ n.newsTitle }</p>
-                <p class="content"> ${ n.shopNews }</p>
+                 <p class="content"> ${ fn:substring(n.shopNews,0,50) } 
+                <c:if test="${fn:length(n.shopNews )>50}">
+				...
+                </c:if>
                 <div class="lastInfo">
                 <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
                 <label class="name">${loginUser.nickname }</label>

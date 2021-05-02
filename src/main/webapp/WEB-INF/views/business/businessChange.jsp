@@ -14,6 +14,8 @@
     <link href="${ contextPath }/resources/css/businessCss/businessChange.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
+
     
 	<jsp:include page="../common/menubar.jsp"/>
     <section id="gbSection">
@@ -123,7 +125,7 @@
   								<h4>가게명</h4><br>
 								<input type="text" id="nameInput" name="shopName" placeholder="가게명을 입력해 주세요." value="${ b.shopName }"><br><br>
 								<h4>주소</h4><br>
-								<input type="text" id="addressInput" name="shopAdd" placeholder="주소를 입력해 주세요." value="${ b.shopAdd }"><br><br>
+								<input type="text" id="addressInput" name="shopAdd" placeholder="동네를 입력해 주세요. (예: 학익동)" value="${ b.shopAdd }"><br><br>
 								<h4>전화번호</h4><br>
 								<input type="text" id="phoneInput" name="shopPhone" placeholder="고객이 연락할 수 있는 번호를 적어주세요." value="${ b.shopPhone }"><br><br>
 								<h4>소개 문구</h4><br>
@@ -147,11 +149,12 @@
 				
             </div>
             <c:if test="${ !empty nList }">
+			<div class="ajaxArea">
 			<c:forEach var="n" items="${ nList }">
 		 	<div class="newsArea">
 		 		<div class="deleteNewsArea">
                 <label class="newsLabel2">소식</label> 
-                <button class="deleteNewsBtn" onclick="deleteNews(${n.nNo})" >x</button>
+                <button class="deleteNewsBtn" onclick="deleteNews('${n.n_no}')" >x</button>
                 </div>
                 <c:if test="${ n.changeName != null }">
                 <img class="newsPhoto" src="${contextPath}/resources/images/goodupload/${n.changeName}">
@@ -161,8 +164,9 @@
                 </c:if>
                 <label class="newsTitle">${n.newsTitle }</label>
                 <p class="newsInfo">${n.shopNews }</p>
-            </div>  
+            </div>
          	</c:forEach>
+            </div>  
          	 <div id="plusNewsBtnArea">
             		▽
             </div>
@@ -170,37 +174,51 @@
            
             <script>
             
-            /*
- 					function deleteNews(nNo){
+            
+ 					function deleteNews(n_no){
 						var shopNo = ${b.shopNo};
-						var newsArea = $(".newsArea");
-						  newsArea.html("");
- 						
+					
+						$(".ajaxArea").html("");
+ 						var newsPhoto;
  						$.ajax({
  							url :"${ contextPath }/business/news/delete",
- 				   		   data : {nNo : nNo, shopNo : shopNo},
+ 				   		   data : {n_no : n_no, shopNo : shopNo},
  				   		   type : "post",
  				   		   dataType : "json",
  				   			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
  				   			success : function(data){
  				   			console.log("됨?");
  				   				for(var i in data){
+								var newsArea = $("<div class='newsArea'>");
  				   				var deleteNewsArea = $("<div class='deleteNewsArea'>");
  				   				var newsLabel2 = $("<label class='newsLabel2'>").text("소식");
- 				   				var deleteNewsBtn = $("<button class='deleteNewsBtn'>");
- 				   				
- 				   				if(data[i].changeName != null){
- 				   				var newsPhoto = $("<img class='newsPhoto'>").attr("src","${contextPath}/resources/images/goodupload/data[i].changeName");
+ 				   				var n_no = data[i].n_no;
+ 				   				var deleteNewsBtn = $("<button class='deleteNewsBtn' onclick='deleteNews("+n_no+")'>").text("x");
+ 				   				var loot = "${contextPath}/resources/images/goodupload/";
+ 				   				var changeName = data[i].changeName;
+ 				   				console.log(changeName);
+ 				   				 if(data[i].changeName != null){
+ 				   					 console.log("옴?");
+ 				   				newsPhoto = $("<img class='newsPhoto'>").attr("src",loot+changeName);
+ 				   			 	
  				   				}else {
- 				   				var	newsPhoto = $("<img class='newsPhoto'>").attr("src","${contextPath}/resources/images/business/기본썸네일.png");
+ 				   				newsPhoto = $("<img class='newsPhoto'>").attr("src","${contextPath}/resources/images/business/기본썸네일.png");
  				   				}
  				   				
  				   				var newsTitle = $("<label class='newsTitle'>").text(data[i].newsTitle);
  				   				var newsInfo = $("<p clasee='newsInfo'>").text(data[i].shopNews);
+ 				   				console.log(data[i].changeName);
+ 				   				deleteNewsArea.append(newsLabel2,deleteNewsBtn);
+ 				   				newsArea.append(deleteNewsArea,newsPhoto,newsTitle,newsInfo);
+ 				   				$(".ajaxArea").append(newsArea);
  				   				
  				   				}
  				   				
  				   				var plusNewsBtnArea = $("<div id='plusNewsBtnArea'>").text("▽")
+ 				   				
+ 				   				
+ 				   				plusNews();
+ 				   				
  				   			},
  				   			error : function(e){
  				   				
@@ -208,11 +226,8 @@
  						});
  					}           
             
-            
-            */
-            
-            
-			        $(document).ready(function(){
+            			
+ 					function plusNews(){
 						size_div = $('.newsArea').length;
 						
 						x = 1;
@@ -223,6 +238,13 @@
 						
 						
 						});
+ 						
+ 					}
+            
+            
+            
+			        $(document).ready(function(){
+						plusNews();
 			
 					});
         
@@ -259,6 +281,9 @@
 		        var _left = Math.ceil(( window.screen.width - _width )/2);
 		        var _top = Math.ceil(( window.screen.height - _height )/2); 
 		        window.open(url, name, 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top );
+		        
+
+
 		   });
      
        $("#photoPlus").click(function(){

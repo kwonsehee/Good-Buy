@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +49,11 @@
                 </c:if>
  
                 <p class="title"> ${n.newsTitle} </p>
-                <p class="content"> ${ n.shopNews } </p>
+                <p class="content"> ${ fn:substring(n.shopNews,0,50) } 
+                <c:if test="${fn:length(n.shopNews )>50}">
+				...
+                </c:if>
+                </p>
                 <div class="lastInfo">
                 <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
                 <label class="name"> ${loginUser.nickname }</label>
@@ -106,7 +111,11 @@
                     <label class="shopAddress">${b.shopAdd }</label>
                 </div>
                 <div class="secondLike">
-                    <p> ${b.shopIntro }</p>
+                    <p> ${ fn:substring(b.shopIntro,0,70) } 
+                    <c:if test="${fn:length(b.shopIntro )>70}">
+					...
+	                </c:if>
+                    </p>
                 </div>
                 <div class="thirdLike">
                     <label class="reviewCount"> 후기${b.reviewCount }</label>

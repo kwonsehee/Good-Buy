@@ -48,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
           AND G.G_NO = GF.G_NO
           AND GF.F_NO = AF.F_NO
 		  AND R.RE_NO = #{re_no}
+		  AND AF.FILE_LEVEL = 1
         ORDER BY R.RE_NO DESC
           
    </select>
@@ -334,6 +335,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		  ALARM_NO
 		, ALARM_TYPE
+		, ALARM_CONTENT
 		, USER_ID
 		, ALARM_DATE
 		, REF_NO
@@ -342,6 +344,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 		  A_SEQ.NEXTVAL
 		, 13
+		, '회원님이 신고 처리 되었습니다.'
 		, #{reported_id}
 		, DEFAULT
 		, #{reported_id}

@@ -31,5 +31,7 @@ public interface QnaDao {
 	public List<QNA> selectQNAList2();
 
 	public List<QNA> selectQNAList3();
+	//큐앤에이 답변달렸다는 알림
+	public int insertAlarmQNAA(QNA q);
 
 }

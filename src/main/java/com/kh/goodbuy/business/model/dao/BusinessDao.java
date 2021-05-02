@@ -107,7 +107,7 @@ public interface BusinessDao {
 
 	public int updateUserPoint(String userId);
 
-	public int deleteNews(int nNo);
+	public int deleteNews(int n_no);
 
 	
 	public List<Payment> selectBusis();
