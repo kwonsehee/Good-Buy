@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,31 +23,40 @@
 
 		<div class="list">
 			<div class="title2">동네생활</div>
+			
 
+					
+			<div id="hearts">
 
-			<div class="start">
+				<button id="heartLike" class="heart" onclick="heartLike(${b.bno})">
+					<img src="${contextPath }/resources/images/board/heart.png"
+						style="width: 42px; height: 39px;">
+				</button>
 
+				<button id="heartCancel" class="heart"onclick="heartLikeCancel(${b.bno})" style="display: none;">
+					<img src="${contextPath }/resources/images/board/redheart.png"
+						style="width: 42px; height: 39px;">
+				</button>
+
+			<div class="heartstory">좋아요를 눌러주세요!"</div>
+			</div>
 
 				<ul>
 					<li><p class="title">${b.btitle}</p></li>
-
-					<li><a href="javascript:reportPopup()" id="police">신고하기</a></li>
-
-					<li><a href="javascript:deletePopup()" id="mypass">게시글 삭제</a></li>
-					<br>
+				<li id="propil"> <img
+					src="${ contextPath }/resources/images/userProfilePhoto/${b.bphoto}"
+					class="Photo"></li>
+					
 					<li class="name" style="color: black; font-size: 18px;">${b.userid }</li>
-					<li class="Date" style="font-size: 17px;">${b.bcreatedate}</li>
 					<li><div class="kind">
 							<p class="subject">${b.bcatename}</p>
 						</div></li>
+					<li class="Date" style="font-size: 17px;">${b.bcreatedate}</li>
 				</ul>
 
 
-				<img
-					src="${ contextPath }/resources/images/userProfilePhoto/${b.bphoto}"
-					class="Photo">
 
-			</div>
+		
 			<br>
 
 			<div id="board">
@@ -61,18 +70,12 @@
 			<div class="bcontent">
 				<p>${b.bhistory}</p>
 			</div>
-			<div id="hearts">
-	
-<button id="heartLike" class="heart" onclick="heartLike(${b.bno})"> 
-  <img src="${contextPath }/resources/images/board/heart.png" style="width: 42px; height: 39px;">
-</button>
+					<div id="pass">
+					<a href="javascript:reportPopup()" id="police">신고하기</a></li>
 
-<button id="heartCancel" class="heart" onclick="heartLikeCancel(${b.bno})" style="display:none;"> 
-  <img src="${contextPath }/resources/images/board/redheart.png" style="width: 42px; height: 39px;">
-</button>
+					<a href="javascript:deletePopup()" id="mypass">게시글 삭제</a></li>
+                         </div>
 
-			</div>
-			
 			<script>
 function heartLike (bno){ 
 	$.ajax({
@@ -112,55 +115,59 @@ function heartLikeCancel(bno){
 
 
 </script>
-			<div class="heartstory">좋아요를 눌러주세요!"</div>
 		</div>
-	
-	<div id="replySection">
-            <p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
-            <table id="replyTable">
-            
-            <c:if test="${ !empty rlist }">
-            	<c:forEach var="r" items="${ rlist }">
-                <tr>
-                    <td colspan="2">${r.user_id} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.createDate }</td>
-                    
-                </tr>
-                <tr>
-                    <td style="width:94%;">${r.rcontent }</td>
-                    <td style="width:14%;">
-                    <c:if test="${ r.user_id.equals(loginUser.user_id) }">
-                    <span class="deleteReply" onclick="deletereplyBtn(${r.rno })">삭제</span>
-                    </c:if>
-                    </td>
-                </tr>
-             </c:forEach>
-             </c:if>
-   			<c:if test="${ empty rlist }">
-   				<tr><td colspan="3">작성된 댓글이 없습니다.</tr>
-   			</c:if>
-                
-                
-            </table>
-           
-            <div id="replyWrite">
-              <input type="hidden" id="sessionloginuser" value='${loginUser.user_id }'/>
-                <c:if test="${ empty loginUser }">
-                     <textarea  name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요" onclick="noUser()"></textarea>
-                
 
-                </c:if>
-                	<form action="${contextPath }/board/insertReply"method="POST">
-                <c:if test="${ !empty loginUser }">
-                  <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
-                     <textarea id="replyContent" name="rcontent" placeholder="댓글을 작성해주세요"></textarea>
-                
-                </c:if>
-            
-                <p id="counter" class="reply_left">(0 / 1000)</p>
-                  <input type="hidden" name="bno" value="${b.bno}">
-                <button type="submit" id="writeBtn">등록하기</button>
-         </form>
-  <script>
+		<div id="replySection">
+			<p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
+			<table id="replyTable">
+
+				<c:if test="${ !empty rlist }">
+					<c:forEach var="r" items="${ rlist }">
+						<tr>
+							<td colspan="2">${r.user_id}
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.createDate }</td>
+
+						</tr>
+						<tr>
+							<td style="width: 94%;">${r.rcontent }</td>
+							<td style="width: 14%;"><c:if
+									test="${ r.user_id.equals(loginUser.user_id) }">
+									<span class="deleteReply" onclick="deletereplyBtn(${r.rno })">삭제</span>
+								</c:if></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${ empty rlist }">
+					<tr>
+						<td colspan="3">작성된 댓글이 없습니다.
+					</tr>
+				</c:if>
+
+
+			</table>
+
+			<div id="replyWrite">
+				<input type="hidden" id="sessionloginuser"
+					value='${loginUser.user_id }' />
+				<c:if test="${ empty loginUser }">
+					<textarea name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요"
+						onclick="noUser()"></textarea>
+
+
+				</c:if>
+				<form action="${contextPath }/board/insertReply" method="POST">
+					<c:if test="${ !empty loginUser }">
+						<p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
+						<textarea id="replyContent" name="rcontent"
+							placeholder="댓글을 작성해주세요"></textarea>
+
+					</c:if>
+
+					<p id="counter" class="reply_left">(0 / 1000)</p>
+					<input type="hidden" name="bno" value="${b.bno}">
+					<button type="submit" id="writeBtn">등록하기</button>
+				</form>
+				<script>
 					
 						var imgs;
 						var img_count;
@@ -188,12 +195,12 @@ function heartLikeCancel(bno){
 					
 				
 				</script>
-             
 
 
 
 
-               <script>
+
+				<script>
              
    $("#writeBtn").on("click", function(){
 	   
@@ -287,10 +294,10 @@ function heartLikeCancel(bno){
    }
    
    </script>
-            </div>
-           
-        </div>
-		
+			</div>
+
+		</div>
+
 
 
 	</section>

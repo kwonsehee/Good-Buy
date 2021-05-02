@@ -49,7 +49,7 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlSession.selectList("boardmapper.selectList", null, rowBounds);
 		// return sqlSession.selectList("boardmapper.selectList");
 	}
-
+	
 //디테일뷰
 	@Override
 	public Board BoardDetail(int bno) {
@@ -124,10 +124,25 @@ public List<Reply> selectReplyList(Board b) {
 	return sqlSession.selectList("boardmapper.selectReplyList",b.getBno());
 }
 
+@Override
+public List<Board> selectmainlike() {
+	
+	return sqlSession.selectList("boardmapper.selectmainlike");
+}
 
-
-
+@Override
+public List<Board> selectlastestlist() {
+	return sqlSession.selectList("boardmapper.selectlastestlist");
+}
 
 
 
 }
+
+
+
+
+
+
+
+

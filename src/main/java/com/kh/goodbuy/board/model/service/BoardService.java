@@ -10,8 +10,11 @@ import com.kh.goodbuy.member.model.vo.PageInfo;
 
 public interface BoardService {
 	public int selectListCount();
+	
 	public List<Board> selectList(PageInfo pi);
 	
+	
+
 	public int insertFile(List<BoardAddfile> list);
 	
 	public int insertBoard(Board b);
@@ -40,6 +43,10 @@ public interface BoardService {
 	public List<Reply> insertReply(Reply r, Board b);
   //댓글 셀렉
 	public List<Reply> selectReplyList(Board b);
+   //좋아요순
+	public List<Board> selectmainlike();
+   //최신순
+	public List<Board> selectlastestlist();
 	
 
 

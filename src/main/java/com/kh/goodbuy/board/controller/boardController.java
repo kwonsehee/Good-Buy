@@ -39,9 +39,27 @@ public class boardController {
 	@Autowired
 	private BoardService bService;
 
-
+    
 	
 
+	/* 메인페이지 */
+	@GetMapping("/main")
+	public ModelAndView boardmainview(ModelAndView mv 
+						) {
+		//좋아요 순
+		List<Board> likelist = bService.selectmainlike();
+		
+		//최신순
+		List<Board> lastestlist = bService.selectmainlike();
+		System.out.println(likelist);
+		System.out.println(lastestlist);
+		mv.addObject("likelist", likelist);mv.addObject("lastestlist", lastestlist);
+          
+          mv.setViewName("/board/boardMain");
+		return mv;
+	}
+		
+	
 	
 	@GetMapping("/list")
 	public ModelAndView boardList(ModelAndView mv,
@@ -136,11 +154,6 @@ public class boardController {
 		return renameFileName;
 	}
 
-	/* 메인페이지 */
-	@GetMapping("/main")
-	public String boardmainview() {
-		return "board/boardMain";
-	}
 
 	/* 디테일 페이지 */
 	@GetMapping("/detail")

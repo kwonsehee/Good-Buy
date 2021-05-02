@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+       <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,23 +34,28 @@
          <div class="start" onclick="location.href='${contextPath }/board/detail?bno=${b.bno }'">
                 <ul>
                     <li><div class="kind"><p class="subject">${b.bcatename}</p></div></li>
-                    <li><p class="title">${b.btitle}</p></li>
+                <img src="${contextPath}/resources/images/boardupload/${b.bfile}" class="Photo">
+                    <li><div id="title">${b.btitle}</div></li>
                     <br>
                     <li class="name" style="color: black;">${b.userid }</li>
                     <li class="Date">${b.bcreatedate}</li>
                     <li class="hearts"><img src="${contextPath}/resources/images/mypage/heart.png" style="width:24px; height:21px;">
                     ${b.postno}</li>
+                   
+                      <p class="bcontent">${ fn:substring(b.bhistory,0,60) }
+				<c:if test="${fn:length(c.bhistory )>60}">
+           		 ...
+                </c:if>				
                 </ul>
                 
-                <img src="${contextPath}/resources/images/boardupload/${b.bfile}" class="Photo">
-                <p class="bcontent">${b.bhistory}</p>
             </div>
             <br> <br>
              </c:forEach>
        
  
               
-            <br><br><br>
+            <br><br>
+        <button id="writeBtn" onclick="location.href='${contextPath}/board/write'">동네 생활 글쓰기</button>
             <div class="townserch">
                 <input type="text" id="townbox" placeholder="동네생활을 검색하세요!" style=" color:#05AAD1;">
                 <button type="submit" id="townbutton"  onclick="location.href='${contextPath}/board/serch'"  style="margin-left: 15px;">검색</button>
@@ -59,7 +65,6 @@
           
             
         </div>
-        <button id="writeBtn" onclick="location.href='${contextPath}/board/write'">동네 생활 글쓰기</button>
         <table class="pagingArea">
           	<td colspan="6">
 					<!-- [이전] -->

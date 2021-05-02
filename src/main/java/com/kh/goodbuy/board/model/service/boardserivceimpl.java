@@ -41,6 +41,7 @@ public class boardserivceimpl implements BoardService {
 
 
 
+
 	@Override
 	public int selectListCount() {
 	
@@ -117,6 +118,24 @@ public class boardserivceimpl implements BoardService {
 	public List<Reply> selectReplyList(Board b) {
 		return bDao.selectReplyList(b);
 	}
+
+ 
+	//좋아요순
+
+	@Override
+	public List<Board> selectmainlike() {
+		return bDao.selectmainlike();
+	}
+
+// 최신순
+
+	@Override
+	public List<Board> selectlastestlist() {
+		return bDao.selectlastestlist();
+	}
+
+
+
 
 
 

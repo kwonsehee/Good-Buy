@@ -2,11 +2,19 @@
 /*동네생활검색
 
 /*카테고리 시작*/
+           @font-face {
+    font-family: 'Jal_Onuel';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Jal_Onuel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+           *{
+       font-family: 'Jal_Onuel' !important;
+}
 #townstory1{
-    padding-left: 9%;
-    padding-right: 9%;
-    text-align: center;
-    
+    float: left;
+    padding-left: 2%;
+    padding-right: 3%;
 }
 
 .townserch{
@@ -64,8 +72,7 @@
 }
 /*인기글*/
 #title1{
-    position:relative;
-    right: 110px;
+    margin-bottom: -3%;
 }
 #popularity{
     font-style: normal;
@@ -111,9 +118,7 @@ color: #000000;
 }
 
 #maintitle{
- position:relative; 
-  
-    bottom: 35px;
+
     text-align: center;
     margin-top: 40px;
   
@@ -135,8 +140,7 @@ color: #000000;
 }
 /*제목 */
 .title{
-    position:relative; 
-    right: 30px;
+  
 margin-top: 30px;
 font-style: normal;
 font-weight: bold;
@@ -148,9 +152,8 @@ color: #000000;
 }
 
 .heart{
-    position:relative; 
-   bottom: 35px;
-    left: 50px;
+ margin-top: -20%;
+    margin-left: 66%;
   
   
 
@@ -163,9 +166,7 @@ color: #000000;
 
 /*날짜 */
 .boarddate{
-    position:relative; 
-    bottom: 30px;
-    right:75px;
+ 
     font-size: 12px;
 padding-bottom: 5%;
     margin-top: 10px;
@@ -179,8 +180,7 @@ padding-bottom: 5%;
 
 /*이름*/
 .name{
-position:relative; 
-right: 14px;
+
 display: inline-block;
 margin-top: 20px;
 margin-bottom:20px;
@@ -194,8 +194,7 @@ color: #9A9999;
 }
 /*내용*/
 .story{
-    float: left;
- position:relative; 
+
 bottom: 30px;
  margin-bottom: 5px;
     font-style: normal;
@@ -210,11 +209,9 @@ bottom: 30px;
 
 
 #writeBtn{ 
-    position:relative;
-    margin-bottom: 5%;
-    left: 55%;
-    top: 10%;
-    margin-left: 23%; 
+   
+     margin-left: 85%;
+
     display: inline-block;
      width: 130px;
      height: 45px;
@@ -225,7 +222,8 @@ bottom: 30px;
    color : white;
    }
    #title1{
-       font-size: 30px;
-       padding-left: 20%;
-       padding-bottom: 20px;
+      margin-bottom: -3%;
+    font-size: 30px;
+    font-size: 30px;
+    padding-left: 6%;
    }
