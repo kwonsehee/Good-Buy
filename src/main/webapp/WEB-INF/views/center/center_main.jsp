@@ -56,40 +56,11 @@
             
 
                 
-              <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">믿을 수 있는 중고거래 굿바이 중고거래 공지사항입니다<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white; color: gray"><img src="images/공지사항그냥.jpg"></li>
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">안녕하세요 굿바이 중고거래입니다. 잘부탁드립니다</li>
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white; color: gray">2021/03/27</li>
-                    </ul>
-                </li>
-              </ul>
-           
-            
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">그만큼 기분이 좋은 공지사항 입니다<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">행복한 중고거래가 되도록 노력하는 굿바이가 되겠습니다</li>
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white; color: gray">2021/03/26</li>
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="mylist">
-                <li class="menu">
-                    <a style="font-size: 30px; font-weight: bolder;">공지사항 세번째<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
-                    <ul class="hide">
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white;">공지사항 설명 세번째</li>
-                        <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white; color: gray">2021/03/25</li>
-                    </ul>
-                </li>
-            </ul>
-			<c:forEach var="n" items="${ list }">
+             
+			
                
                <ul class="mylist">
+               <c:forEach var="n" items="${ list }">
                 <li class="menu">
                     <a style="font-size: 30px; font-weight: bolder;">${ n.nt_title }<img src="${ contextPath }/resources/images/admin//내리기.PNG" style="float:right; width: 35px;"></a>
                     <ul class="hide">
@@ -97,8 +68,9 @@
                         <li style="font-size: 15px; border-bottom: 1px solid white; border-top: 1px solid white; color: gray">${ n.nt_create_date }</li>
                     </ul>
                 </li>
+                </c:forEach>
             </ul>
-            </c:forEach>
+           
             
             
         </div>

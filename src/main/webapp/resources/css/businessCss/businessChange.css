@@ -1,14 +1,29 @@
 @charset "UTF-8";
         @font-face {
-        font-family: 'yg-jalnan';
+        font-family: 'IBMPlexSansKR-Regular';
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
         font-weight: normal;
         font-style: normal;
         }
+	        font-face {
+	    font-family: 'ELAND_Choice_M';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_M.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	@font-face {
+    font-family: 'Jal_Onuel';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Jal_Onuel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+	        *{
+	    font-family: 'Jal_Onuel' !important;
+}
         .area{
             display: block;
             text-align: -webkit-center;
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
             margin-bottom: 30px;
             margin-top: 30px;
         }
@@ -56,13 +71,13 @@
 		    color: black;
 		    letter-spacing: 2px;
 		    border-radius: 4px;
-		    font-family: 'yg-jalnan';
+		    font-family: 'IBMPlexSansKR-Regular';
         }
         #adImg{
 
         }
         #adLabel{
-			margin-right:95px;
+			margin-right:100px;
         }
         #line{
 					    width: 1px;
@@ -107,7 +122,7 @@
             border: 1px solid #C4c4c4;
             background-color: white;
            
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
         }
         #priceLabel{
             font-size: 24px;
@@ -123,7 +138,7 @@
             border: 1px solid #c4c4c4;
             background-color: white;
            
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
         }
         #btnArea{
             text-align: center;
@@ -140,7 +155,7 @@
             /* position: relative; */
            
             margin-bottom: 30px;
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
         }
         #priceBtnArea{
             margin-bottom: 5px;
@@ -216,7 +231,7 @@
             color: white;
             letter-spacing: 2px;
             margin-bottom: 30px;
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
         }
         
          #infoSet{
@@ -349,6 +364,7 @@
         #photoPlus{
         	width:653px;
         	height:317px;
+        	border-radius: 20px 20px 0px 0px;
         }
          .newsArea{
             width: 655px;
@@ -386,7 +402,7 @@
         }
         .newsInfo{
             margin-top: 3px;
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
         }
         #deleteBtn{
          width: 85px;
@@ -400,7 +416,7 @@
             /* position: relative; */
            
             margin-bottom: 30px;
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
         }
         #deleteArea{
          text-align: center;
@@ -443,3 +459,5 @@
 			 border: 1px solid #e0e0e0;
 			     margin-left: 524px;
         }
+
+        

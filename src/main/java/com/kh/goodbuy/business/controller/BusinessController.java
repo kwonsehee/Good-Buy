@@ -493,7 +493,7 @@ public class BusinessController {
 			String nickName = loginUser.getNickname();
 			Map<String, String> map = new HashMap<>();
 			
-			
+			map.put("userId", userId);
 			map.put("buserId", buserId);
 			map.put("shopNo", shopNo);
 			map.put("nickName", nickName);

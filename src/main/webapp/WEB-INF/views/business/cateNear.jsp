@@ -93,11 +93,11 @@
         <!--내 근처  시작-->
         <div class="nearArea">
         	<c:forEach var="n" items="${ nList }">
-            <div class="nearList">
-                <c:if test="${ n.filePath != null }">
-                <img class="thumbnail" src="${contextPath}/resources/${n.filePath}${n.changeName}" >
+            <div class="nearList" onclick="detailList(${n.shopNo})">
+                <c:if test="${ n.changeName != null }">
+                <img class="thumbnail" src="${contextPath}/resources/images/goodupload/${n.changeName}" >
                 </c:if>
-                <c:if test="${ n.filePath == null }">
+                <c:if test="${ n.changeName == null }">
                 <img  class="thumbnail" src="${contextPath}/resources/images/business/기본썸네일.png" >
                 </c:if>
                 <p class="title"> ${ n.newsTitle }</p>
@@ -106,7 +106,12 @@
 				...
                 </c:if>
                 <div class="lastInfo">
-                <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
+             <c:if test="${n.photo !=null }">
+                <img class="userPhoto" src="${contextPath}/resources/images/userProfilePhoto/${n.photo}">
+                </c:if>
+                <c:if test="${n.photo ==null }">
+                <img  class="userPhoto" src="${contextPath}/resources/images/mypage/unknownUser.png">
+                </c:if>
                 <label class="name">${loginUser.nickname }</label>
                 <label class="address">${ n.address_3 }</label>
                 </div>
@@ -130,6 +135,12 @@
         </c:if>
         
          <script>
+         
+     	function detailList(shopNo){
+    		location.href='${contextPath}/business/detail?shopNo=' + shopNo;
+    	}
+         
+         
         $(document).ready(function(){
 			size_div = $('.nearList').length;
 			

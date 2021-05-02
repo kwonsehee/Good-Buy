@@ -132,6 +132,8 @@ public interface GoodsService {
 	public List<Goods> selectGoodsRankList();
 	// 메인페이지 인기 키워드 
 	public List<Keyword> selectBestKeyword();
+	public List<Goods> selectGoodsSrcList(int re_no);
+	public Goods Goodsreportdetail(int re_no);
 	
 
 

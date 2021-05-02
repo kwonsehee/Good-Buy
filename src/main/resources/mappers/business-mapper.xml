@@ -53,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="status" column="STATUS"/>
 		<result property="fNo" column="F_NO"/>
 		<result property="nStatus" column="NSTATUS"/>
+		<result property="photo" column="PHOTO"/>
 	</resultMap>
 	
 	
@@ -124,6 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , STATUS
 			  , F_NO
+			  , PHOTO
             FROM
         (
         SELECT  
@@ -164,6 +166,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         ) NN
         JOIN AD AD USING(SHOP_NO)
         JOIN BUS_INFO USING(SHOP_NO)
+        JOIN USER_INFO USING(USER_ID)
 		WHERE ROWNUM <![CDATA[<=]]> 4
 		 AND VIEW_CNT !=0
 		 AND BSTATUS != 'N'
@@ -291,6 +294,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , A.STATUS
 			  , NF.F_NO
+			  , PHOTO
 		FROM 
 				NEWS N
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
@@ -298,6 +302,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
 		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		JOIN USER_INFO USING(USER_ID)
 		<where>
 			<choose>
 				<when test="area == 1">
@@ -338,6 +343,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , A.STATUS
 			  , NF.F_NO
+			  , PHOTO
 		FROM 
 				NEWS N
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
@@ -345,6 +351,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
 		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		JOIN USER_INFO USING(USER_ID)
 		<where>
 			<choose>
 				<when test="area == 1">
@@ -383,6 +390,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , A.STATUS
 			  , NF.F_NO
+			  , PHOTO
 		FROM 
 				NEWS N
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
@@ -390,6 +398,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
 		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		JOIN USER_INFO USING(USER_ID)
 		<where>
 			<choose>
 				<when test="area == 1">
@@ -428,6 +437,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , A.STATUS
 			  , NF.F_NO
+			  , PHOTO
 		FROM 
 				NEWS N
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
@@ -435,6 +445,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
 		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		JOIN USER_INFO USING(USER_ID)
 		<where>
 			<choose>
 				<when test="area == 1">
@@ -473,6 +484,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , A.STATUS
 			  , NF.F_NO
+			  , PHOTO
 		FROM 
 				NEWS N
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
@@ -480,6 +492,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
 		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		JOIN USER_INFO USING(USER_ID)
 		<where>
 			<choose>
 				<when test="area == 1">
@@ -518,6 +531,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , A.STATUS
 			  , NF.F_NO
+			  , PHOTO
 		FROM 
 				NEWS N
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
@@ -525,6 +539,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
 		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		JOIN USER_INFO USING(USER_ID)
 		<where>
 			<choose>
 				<when test="area == 1">
@@ -563,6 +578,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , CHANGE_NAME
 			  , A.STATUS
 			  , NF.F_NO
+			  , PHOTO
 		FROM 
 				NEWS N
 		JOIN TOWN T ON(T.T_NO = N.T_NO)
@@ -570,6 +586,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		LEFT JOIN ADDFILE A ON(A.F_NO = NF.F_NO)
 		JOIN BUS_INFO B ON(B.SHOP_NO = N.SHOP_NO)
 		JOIN AD AD ON(AD.SHOP_NO = N.SHOP_NO)
+		JOIN USER_INFO USING(USER_ID)
 		<where>
 			<choose>
 				<when test="area == 1">
@@ -964,7 +981,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(
 			  A_SEQ.NEXTVAL
 			, 3
-			, CONCAT( #{nickName},' 님이 단골 등록 하였습니다.')
+			, CONCAT( #{nickName},'님이 회원님의 가게를 단골 등록 하였습니다.')
 			, #{buserId}
 			, SYSDATE
 			, DEFAULT

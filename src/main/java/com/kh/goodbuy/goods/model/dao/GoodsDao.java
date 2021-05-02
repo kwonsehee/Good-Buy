@@ -143,6 +143,8 @@ public interface GoodsDao {
 	public List<Goods> selectGoodsRankList();
 	// 메인페이지 인기 키워드 
 	public List<Keyword> selectBestKeyword();
+	public List<Goods> selectGoodsSrcList(int re_no);
+	public int Goodsreportdetail(int re_no);
 	
 	
 

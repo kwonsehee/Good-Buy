@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
@@ -233,6 +234,16 @@ public class MemberServiceImpl implements MemberService {
 			return 0;
 		}
 		
+	}
+	@Override
+	public List<Alarm> selectAlarmList(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectAlarmList(user_id);
+	}
+	@Override
+	public List<Alarm> selectAlarmListAno(int mno, String user_id) {
+		int result = mDao.checkAlarm(mno);
+		return mDao.selectAlarmList(user_id);
 	}
 
 

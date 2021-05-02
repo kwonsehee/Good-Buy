@@ -32,6 +32,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.common.model.service.ReportService;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
@@ -727,6 +728,52 @@ public class MemberController {
 		
 		return "redirect:/member/kakaologin";
     }
+ // 1. Stream을 이용한 text 응답 상품 찜하기 취소
+ 	@PostMapping(value = "/alram",produces = "application/json; charset= utf-8")
+ 	public @ResponseBody String selectAlarmList(HttpServletResponse response, HttpServletRequest request) {
+ 		System.out.println("알람관련오니?");
+ 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+ 		List<Alarm> alist = null;
+ 		Gson gson = null;
+ 		if(loginUser!=null) {
+ 			System.out.println("loginUser ; "+loginUser.getUser_id());
+ 			
+ 			alist = mService.selectAlarmList(loginUser.getUser_id());
+ 			// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+ 			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+ 			System.out.println("새 알림  : "+alist);
+ 			
+ 		}
+ 		
+ 		System.out.println("새알림 : "+alist);
+ 		// 응답 작성
+ 		return gson.toJson(alist);
+ 	}
+
+	// alarm확인했다는 표시
+	@PostMapping(value = "checkAlarm", produces = "application/json; charset= utf-8")
+	public @ResponseBody String checkAlarmCount(int mno, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("mno오니?" + mno);
+		
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+ 		List<Alarm> alist = null;
+ 		Gson gson = null;
+ 		if(loginUser!=null) {
+ 			System.out.println("loginUser ; "+loginUser.getUser_id());
+ 			
+ 			alist = mService.selectAlarmListAno(mno, loginUser.getUser_id());
+ 			// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+ 			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+ 			System.out.println("새 알림  : "+alist);
+ 			
+ 		}
+ 		
+ 		System.out.println("새알림 : "+alist);
+		// 응답 작성
+		return gson.toJson(alist);
+
+	}
+ 		
 
 	
 }

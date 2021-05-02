@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
@@ -130,6 +131,10 @@ public interface MemberService {
 		public int insertKakaoMember(Member km);
 
 		public int selectReportedCount(String report_id);
+		//알림 리스트셀렉
+		public List<Alarm> selectAlarmList(String user_id);
+		//확인한 알람 상태 바꾸고 유저의 알림 셀렉
+		public List<Alarm> selectAlarmListAno(int mno, String user_id);
 		
 
 

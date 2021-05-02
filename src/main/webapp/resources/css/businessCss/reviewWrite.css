@@ -1,10 +1,10 @@
 @charset "UTF-8";
-         @font-face {
-        font-family: 'yg-jalnan';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-        }
+@font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
         #reviewWrite{
             padding-top: 10px;
             margin: auto;
@@ -36,7 +36,7 @@
             letter-spacing: 2px;
             margin-bottom: 30px;
             margin-top: 10px;
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
         }
         /* 별점 */
         #star a{
@@ -49,3 +49,12 @@
         #star a.on {
             color: #37bbda;
         }
+        	@font-face {
+    font-family: 'Jal_Onuel';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Jal_Onuel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+	        *{
+	    font-family: 'Jal_Onuel' !important;
+}

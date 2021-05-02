@@ -28,5 +28,6 @@ public class QNA {
 		private String FAQ;
 		private String qa_answer;
 		private String file_path;
-		
+		private String originalFileName;
+		private String renameFileName;
 }

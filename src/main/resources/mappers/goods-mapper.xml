@@ -1252,6 +1252,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	
+	
+	<select id="Goodsreportdetail" parameterType="_int" resultType="_int">
+		select g_no
+		 from goods_report
+		  where r_no = #{re_no}
+	</select>
 </mapper>
 
 

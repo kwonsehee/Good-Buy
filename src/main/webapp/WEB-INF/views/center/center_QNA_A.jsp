@@ -39,7 +39,7 @@
                 <p style="font-size: 20px; font-family: 'Nanum Myeongjo', serif; padding-bottom: 30px;">어떠한 내용이라도 답변드릴 준비가 되어 있습니다!<br>
                     문의를 보내주세요! 가능한 한 빨리 답변 드리도록 하겠습니다.<br>
                 </p>
-                <button id="createButton1" onClick="location.href='admin_membercenter_QNA_Q.html'" style="margin-bottom: 30px;">문의</button><hr>
+                <button id="createButton1" onclick="location.href='${ contextPath }/center/QNA_Q'" style="margin-bottom: 30px;">문의</button><hr>
             </p>
             
 
@@ -55,7 +55,13 @@
         <c:when test="${ empty qna.qa_answer}">
             <p style="font-size: 40px; font-family: 'Nanum Myeongjo', serif;  font-weight: bold; ">${ qna.qa_title }</p>
 
-            <p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif;   color:rgb(104, 101, 101);">>${ qna.qa_content }</p>
+            <p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif;   color:rgb(104, 101, 101);">${ qna.qa_content }</p>
+           <c:if test="${ !empty qna.originalFileName }">
+           	<p style="font-size: 30px; font-family: 'Nanum Myeongjo', serif; font-weight: bold;">첨부파일 </p>
+               <a href="${ contextPath }/center/download?qa_no=${qna.qa_no}">
+               ${ qna.originalFileName }
+               </a>
+               </c:if>
             <hr>
             <p style="font-size: 40px; font-family: 'Nanum Myeongjo', serif;  font-weight: bold;">답변 대기중</p>
             </c:when>

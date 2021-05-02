@@ -143,8 +143,10 @@
         <script>
          
         function sendToseller(){
-        	var seller_id = $("#seller_id").text();
-            var url = "${ contextPath }/goods/sendToseller?seller="+seller_id;
+        	var seller = $("#seller_id").text();
+        	var seller_id = $("input[name=reported_id]").val();
+        	console.log("seller_id "+seller_id);
+            var url = "${ contextPath }/goods/sendToseller?seller="+seller+"&seller_id="+seller_id;
             var name = "쪽지보내기";
             var _width = '500';
             var _height = '550';
