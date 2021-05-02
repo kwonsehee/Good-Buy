@@ -65,7 +65,7 @@ public class HomeController {
 		
 		List<Goods> glist = gService.selectGoodsRankList();
 		
-		//System.out.println("인기 리스트 : " + glist);
+		System.out.println("인기 리스트 : " + glist);
 		
 		model.addAttribute("glist",glist);
 		

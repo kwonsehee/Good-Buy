@@ -71,7 +71,7 @@
 			
 			<div class="glistWrap" style="margin-top:40px;">
 			 <c:forEach var="g" items="${ glist }" end="3">
-			 <div class="goodsWrap">
+			 <div class="goodsWrap"  onclick="gotoGoodsDetailV(${g.gno})">
 			<img src="${ contextPath }/resources/images/goodupload/${g.changeName}" class="gPhoto">
 
 			<p class="gtitle">${ g.gtitle }</p>
@@ -85,7 +85,7 @@
 			
 			<div class="glistWrap">
 			 <c:forEach var="g" items="${ glist }" begin="4">
-			 <div class="goodsWrap">
+			 <div class="goodsWrap" onclick="gotoGoodsDetailV(${g.gno})">
 			<img src="${ contextPath }/resources/images/goodupload/${g.changeName}" class="gPhoto">
 
 			<p class="gtitle">${ g.gtitle }</p>
@@ -105,11 +105,18 @@
 	<p>중고거래 인기 검색어</p>
 	<ul>
 	<c:forEach var="k" items="${klist}">
-		<li>${ k.keyword }</li>
+		<li><a onclick="searchGoods('${k.keyword}')">${ k.keyword }</a></li>
 	</c:forEach>
 	</ul>
 	</div>
-	
+	<script>
+		function gotoGoodsDetailV(gno){
+			location.href = '${contextPath}/goods/detail?gno='+gno;
+		}
+		function searchGoods(search){
+			location.href = '${contextPath}/goods/search?search='+search;
+		}
+	</script>
 	</section>
 	
 	<jsp:include page="common/footer.jsp"/>
