@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +10,49 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
     <link href="${ contextPath }/resources/css/businessCss/newsWriter.css" rel="stylesheet" type="text/css">
+    <!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 <body>
+
+
+		<c:if test="${ !empty msg && msg.equals('success')}">
+   		<script>
+            swal.fire({
+  title: '소식 작성 완료',
+  html: '<br>사용해 주셔서 감사합니다. <br>좋은 하루 되세요.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+}).then(function(){
+	window.opener.location.reload();    //부모창 reload
+	window.close();    //현재 팝업창 Close
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   </c:if>
+   
+   		<c:if test="${ !empty msg && msg.equals('fail')}">
+   		<script>
+            swal.fire({
+  title: '소식 작성 실패',
+  html: '<br>소식 작성에 실패하였습니다. <br>좋은 Good-buy가 될 수 있도록 노력하겠습니다.<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+}).then(function(){
+	window.opener.location.reload();    //부모창 reload
+	window.close();    //현재 팝업창 Close
+});
+   		
+   		</script>
+   		<c:remove var="msg" />
+   </c:if>
+			
         <form action="${ contextPath }/business/news/insert" method="post" id="insertForm" enctype="multipart/form-data">
     <table id="newsWrite">
         <tr >
@@ -80,6 +122,8 @@
 						reader.readAsDataURL(element.files[0]);
 					};
 				};
+				
+
 			
     </script>
 </body>

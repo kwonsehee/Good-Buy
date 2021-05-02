@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</resultMap> -->
 	
 	<resultMap type="News" id="NewsResultSet">
-		<id property="nNo" column="N_NO"/>
+		<id property="n_no" column="N_NO"/>
 		<result property="newsTitle" column="NEWS_TITLE"/>
 		<result property="shopNews" column="SHOP_NEWS"/>
 		<result property="shopNo" column="SHOP_NO"/>
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="status" column="STATUS"/>
 		<result property="fNo" column="F_NO"/>
-		
+		<result property="nStatus" column="NSTATUS"/>
 	</resultMap>
 	
 	
@@ -1186,7 +1186,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		SET
 			NSTATUS = 'N'
 		WHERE
-			N_NO = #{nNo}
+			N_NO = #{n_no}
 	</update>
 	
 	

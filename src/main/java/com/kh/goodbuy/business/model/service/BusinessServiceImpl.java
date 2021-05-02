@@ -366,9 +366,9 @@ public int updateUserPoint(String userId) {
 
 
 @Override
-public int deleteNews(int nNo) {
+public int deleteNews(int n_no) {
 	
-	return bDao.deleteNews(nNo);
+	return bDao.deleteNews(n_no);
 }
 
 
