@@ -152,7 +152,6 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// 신고 메인페이지 이동
 	@GetMapping("/report")
-
 	public ModelAndView ReportMainView(ModelAndView mv) {
 		List<Report> list1 = rService.selectReport1List();
 		List<Report> list2 = rService.selectReport2List();
@@ -173,7 +172,7 @@ public class AdminController {
 	// 신고 디테일페이지 이동
 	@GetMapping("/reportdetail")
 		public String ReportDetailView(@RequestParam int re_no, Model model) {
-
+		System.out.println("신고처리부분 "+re_no);
 			Report r = rService.selectReport(re_no);
 			
 			if (r != null) {
@@ -188,16 +187,20 @@ public class AdminController {
 	// 신고 상세페이지에서 처리하기
 	@PostMapping("/reportupdate")
 	public String reportUpdate(@ModelAttribute Report r, HttpServletRequest request) {
-		
+		System.out.println("신고처리부분11111111 "+r);
 		//신고처리
 		int result = rService.updateReport(r);
 		int result3 = rService.insertAlarmproduct(r);
 		
 		System.out.println("신고당한사람 : " + r.getReported_id());
 		System.out.println("r : " + r);
+		
 		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
 		int result2 = rService.addCountReported(r.getReported_id());
-		int result4 = mService.selectReportedCount(r.getReport_id());
+		//신고당한 사람이 몇번 신고당했는지확인하고 3번이면 알림 넣어주는 코드
+		int result4 = mService.selectReportedCount(r.getReported_id());
+		//상품상태 R로변경
+		int result5 = gService.updateProduct(r.getGno());
 		
 		System.out.println("유저인포 reported+1 됐나 : " + result2);
 		
@@ -316,19 +319,21 @@ public class AdminController {
 		}
 	// 업데이트
 	@GetMapping("/productupdate")
-	public String productUpdate(int gno, HttpServletRequest request) {
+	public String productUpdate(int gno, HttpServletRequest request, Model model) {
 		
-		System.out.println(gno);
+		System.out.println("신고처리하기 "+gno);
 		int result = gService.updateProduct(gno);
 		
 		
 		if (result > 0) {
-			return "redirect:/admin/product";
+			//nullpoint
+			return "redirect:/admin/report";
 		} else {
 			throw new NoticeException("상품수정에 실패하였습니다.");
 		}
 		
 	}
+	
 	// 상품관리 검색
 	@GetMapping("/productsearch")
 	public String procductSearch(@ModelAttribute Search search,
@@ -487,7 +492,7 @@ public class AdminController {
 	@PostMapping("/QNAAwrite")
 	public String QNAUpdate(@ModelAttribute QNA q, HttpServletRequest request) {
 		
-		
+		System.out.println("질문 : "+q);
 		int result = qService.updateQNAA(q);
 		System.out.println(q);
 		
