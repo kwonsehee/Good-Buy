@@ -24,4 +24,5 @@ public class News {
 	private String status;
 	private int fNo;
 	private String nStatus;
+	private String photo;
 }

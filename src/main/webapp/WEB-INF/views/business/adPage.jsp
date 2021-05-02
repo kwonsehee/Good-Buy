@@ -157,7 +157,8 @@
     	function adCreate(adCash){
     		var view = $("#countInput").val();
     		var cash = 0;
-    		
+    	
+    		console.log(adCash);
     		if(view == 1){
     			cash = 5000;
     		}else if(view == 2){
@@ -168,7 +169,7 @@
     			cash = 15000;
     		}
     		
-    		if(cash >= adCash){
+    		if(cash <= adCash){
     			location.href="${contextPath}/business/ad/create?cash="+cash;
     		}else{
     			alert("잔액이 부족합니다 충전 후 이용 바랍니다.");

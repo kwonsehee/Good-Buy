@@ -31,7 +31,13 @@
             
             <div class="allArea">
             	<div id="userPhotoArea">
-                <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
+                   <c:if test="${ !empty loginUser.photo }">
+            <img src="${ contextPath }/resources/images/userProfilePhoto/${loginUser.photo}" id="profileImg">
+            </c:if>
+         
+            <c:if test="${ empty loginUser.photo }">
+            <img src="${ contextPath }/resources/images/mypage/unknownUser.png" id="profileImg">
+            </c:if>
                 <div id="shopNameArea">
               	<c:if test="${ faCount == 0 }">
               	<input type="hidden" id="buserId" name="buserId" value="${bisuness.userId }">
@@ -116,7 +122,7 @@
 			        
 			        function updateFaCount(shopNo){
 			        	alert("단골 가게로 등록 하시겠습니까?");
-			        	var buserId = document.getElementById("buserId");
+			        	var buserId = "${business.userId}";
 			    		location.href='${contextPath}/business/updateFaCount?shopNo=' + shopNo+"&buserId=" + buserId;
 			    	}
 			        function deleteFaCount(shopNo){
