@@ -283,8 +283,9 @@
      padding: 10px;
      text-align: center;
    }
-   .plusArea >a{
+   .plusAreaBtn{
    	cursor : pointer;
+   	
    }
     .logoArea{
    	text-align : center;

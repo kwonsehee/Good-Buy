@@ -295,9 +295,9 @@ public class BusinessDaoImpl implements BusinessDao {
 	}
 
 	@Override
-	public int deleteNews(int nNo) {
+	public int deleteNews(int n_no) {
 		
-		return sqlSession.update("businessMapper.deleteNews",nNo);
+		return sqlSession.update("businessMapper.deleteNews",n_no);
 	}
 
 	@Override

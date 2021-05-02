@@ -457,8 +457,10 @@
      		    var reviewInfoArea2 = $("<div class='reviewInfoArea'>");
      			 var Photo2 = data1[j].photo;
      			 var writer2 =$("<label class='writer'>").text(data1[j].nickName);
+     			var loot = "${contextPath}/resources/images/userProfilePhoto/";
+	   				var changeName = data[j].photo;
      			 if( Photo2 !=null){
-     			     userPhoto2 = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/userProfilePhoto/data1[j].photo");
+     			     userPhoto2 = $("<img class='userPhoto'>").attr("src",loot+changeName);
      			 }else if(Photo2 == null){
      				 userPhoto2 = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/mypage/unknownUser.png");
      			 }

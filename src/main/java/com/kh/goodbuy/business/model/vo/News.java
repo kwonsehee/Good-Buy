@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class News {
-	private int nNo;
+	private int n_no;
 	private String newsTitle;
 	private String shopNews;
 	private int shopNo;
@@ -23,4 +23,5 @@ public class News {
 	private String changeName;
 	private String status;
 	private int fNo;
+	private String nStatus;
 }
