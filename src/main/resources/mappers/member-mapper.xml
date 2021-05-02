@@ -75,6 +75,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="shopNo" column="SHOP_NO"/>
 		
 	</resultMap>
+	<resultMap type="Alarm" id="AlarmResult">
+		<id property="alarm_no" column="ALARM_NO"/>
+		<result property="alarm_type" column="ALARM_TYPE"/>
+		<result property="alarm_content" column="ALARM_CONTENT"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="ref_no" column="REF_NO"/>
+		<result property="a_status" column="A_STATUS"/>
+		<result property="alarm_date" column="ALARM_DATE"/>
+		<result property="goods_thum" column="CHANGE_NAME"/>
+	
+	</resultMap>
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT
@@ -311,6 +322,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  ALARM_NO
 		, ALARM_TYPE
 		, USER_ID
+		, ALARM_CONTENT
 		, ALARM_DATE
 		, REF_NO
 		, A_STATUS
@@ -320,6 +332,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  A_SEQ.NEXTVAL
 		, 10
 		, (SELECT USER_ID FROM GOODS WHERE G_NO = #{gno})
+		, #{user_id}|| '님이 '||(SELECT G_TITLE FROM GOODS WHERE G_NO = #{gno})|| '을 구매하였습니다.'
 		, DEFAULT
 		, #{gno}
 		, DEFAULT
@@ -450,9 +463,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	VALUES
 	(#{user_id}, #{seller})
 	  INTO ALARM
-    (ALARM_NO, ALARM_TYPE, ALARM_CONTENT, USER_ID, ALARM_DATE, REF_NO, A_STATUS)
+    (ALARM_NO, ALARM_TYPE, ALARM_CONTENT, USER_ID, ALARM_DATE, A_STATUS)
     VALUES
-    (A_SEQ.NEXTVAL, 12, CONCAT(#{user_id},'님이 팔로우신청을 하였습니다.'), #{seller}, SYSDATE,#{user_id}, DEFAULT)
+    (A_SEQ.NEXTVAL, 12, CONCAT(#{user_id},'님이 팔로우신청을 하였습니다.'), #{seller}, SYSDATE, DEFAULT)
     SELECT *FROM DUAL
 	</insert>
 	<select id="isFollow" parameterType="java.util.Map" resultType="_int">
@@ -769,5 +782,42 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 		)
 	</insert>
+	<select id="selectAlarmList" parameterType="string" resultMap="AlarmResult">
+		SELECT 
+			    ALARM_NO
+			  , ALARM_TYPE
+			  , ALARM_CONTENT
+			  , A.USER_ID USER_ID
+			  , ALARM_DATE
+			  , REF_NO
+			  , A_STATUS
+			  , AF.CHANGE_NAME CHANGE_NAME
+		 FROM ALARM A 
+		 LEFT JOIN QNA Q
+		   ON (A.REF_NO = Q.QA_NO AND ALARM_TYPE=0)
+		 LEFT JOIN USER_INFO U
+		   ON (A.REF_NO = U.USER_ID AND ALARM_TYPE=2)
+		 LEFT JOIN GOODS G
+		   ON (A.REF_NO = G.G_NO AND (ALARM_TYPE=5 OR ALARM_TYPE=1 OR ALARM_TYPE=10 ))
+		 LEFT JOIN GOODSFILE GF
+		   ON (G.G_NO = GF.G_NO)
+		 LEFT JOIN ADDFILE AF 
+		   ON (GF.F_NO = AF.F_NO AND AF.FILE_LEVEL = 1)
+		 LEFT JOIN GOODS_REPLY GR
+		   ON (A.REF_NO = GR.R_NO AND ALARM_TYPE=8)
+		 LEFT JOIN REVIEW R
+		   ON (A.REF_NO = R.REVIEW_NO AND ALARM_TYPE=11)
+		 LEFT JOIN  FOLLOW F
+		   ON (A.REF_NO = F.FOLLOWER AND ALARM_TYPE = 12)
+		 LEFT JOIN USER_INFO U
+		   ON (A.REF_NO = U.USER_ID AND ALARM_TYPE = 13)
+		WHERE A.A_STATUS = 'Y'
+		  AND A.USER_ID = #{user_id}
+	</select>
 	
+	<update id="checkAlarm" parameterType="_int" >
+		UPDATE ALARM
+		   SET A_STATUS='N'
+		 WHERE ALARM_NO = #{mno}
+	</update>
 </mapper>

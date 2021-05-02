@@ -244,9 +244,11 @@ public class GoodsController {
 	}
 	// 판매자에게 메세지 보내는 팝업 페이지로
 	@GetMapping("/sendToseller")
-	public String gosendmsgView(String seller, Model model) {
+	public String gosendmsgView(String seller,String seller_id, Model model) {
 		System.out.println(seller);
 		model.addAttribute("seller", seller);
+		model.addAttribute("seller_id", seller_id);
+		
 		return "goods/sendToseller";
 	}
 	// 판매자에게 상품 메세지 보내는 팝업 페이지로
