@@ -34,7 +34,13 @@
             </div>
              <div class="allArea">
                 <div id="userPhotoArea">
-                <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
+                <c:if test="${ !empty loginUser.photo }">
+            <img src="${ contextPath }/resources/images/userProfilePhoto/${loginUser.photo}" id="profileImg">
+            </c:if>
+         
+            <c:if test="${ empty loginUser.photo }">
+            <img src="${ contextPath }/resources/images/mypage/unknownUser.png" id="profileImg">
+            </c:if>
                 <div id="shopNameArea">
                 <button id="likeBtn" disabled="disabled">단골${b.faCount }</button>
                 <label id="name">${b.shopName }</label>
