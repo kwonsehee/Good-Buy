@@ -49,6 +49,61 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       <result property="createDate" column="CREATE_DATE"/><!--댓글작성자  -->
     
    </resultMap>
+<select id="selectmainlike" resultMap="boardResultSet">
+SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+		ORDER BY
+		B_NO DESC
+
+
+
+
+</select>
+
+
+
+<select id="selectlastestlist" resultMap="boardResultSet">
+	SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+		ORDER BY
+		B_NO DESC
+
+
+
+
+</select>
+
+
+
+
+
+
 
 
 	<select id="selectList" resultMap="boardResultSet">
@@ -67,6 +122,28 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
 		WHERE
 		B_STATUS ='Y'
+		ORDER BY
+		B_NO DESC
+	</select>
+	
+<select id="selectcatagory" parameterType="string"
+		resultMap="boardResultSet">
+		SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+        AND B_NAME ="#{bcatename}"
 		ORDER BY
 		B_NO DESC
 	</select>
@@ -107,6 +184,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	   
 		)
 	</insert>
+	
+	
+	
+	
+	
 	<select id="selectListCount" resultType="_int">
 		SELECT
 		COUNT(*)
@@ -155,7 +237,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		B_STATUS = 'Y'
 
 	</select>
-
 
 	<select id="selectdetail" resultMap="boardResultSet2">
 		SELECT
@@ -216,12 +297,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 	</delete>
 	<select id="selectlike" parameterType="_int">
-		SELECT COUNT(POST_NO)
+	SELECT L.POST_NO,COUNT(POST_NO)
 		FROM
-		TOWN_BOARD T
-		JOIN LIKE_TOWN L ON(L.USER_ID = T.USER_ID)
-		WHERE T.USER_ID
-		= L.USER_ID
+		LIKE_TOWN L
+		JOIN TOWN_BOARD T ON(L.POST_NO = T.B_NO)
+		WHERE T.B_NO = L.POST_NO
 		GROUP BY L.POST_NO
 	</select>
 	
