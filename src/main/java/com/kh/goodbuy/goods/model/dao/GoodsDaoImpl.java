@@ -425,6 +425,18 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectOne("goodsMapper.reviewOk", map);
 	}
 
+	@Override
+	public List<Goods> selectGoodsSrcList(int re_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("goodsMapper.selectGoodsSrcList", re_no);
+	}
+
+	@Override
+	public int Goodsreportdetail(int re_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.Goodsreportdetail", re_no);
+	}
+
 	
 
 }

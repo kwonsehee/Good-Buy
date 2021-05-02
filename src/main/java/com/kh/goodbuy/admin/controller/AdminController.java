@@ -174,9 +174,14 @@ public class AdminController {
 		public String ReportDetailView(@RequestParam int re_no, Model model) {
 		System.out.println("신고처리부분 "+re_no);
 			Report r = rService.selectReport(re_no);
+			System.out.println("r : " + r);
 			
+			
+			Goods g = gService.Goodsreportdetail(re_no);
+			System.out.println(g);
 			if (r != null) {
 				model.addAttribute("report", r);
+				model.addAttribute("g", g);
 				return "admin/report_detail";
 			} else {
 				model.addAttribute("msg", "공지사항 게시글 보기에 실패했습니다.");
@@ -327,7 +332,7 @@ public class AdminController {
 		
 		if (result > 0) {
 			//nullpoint
-			return "redirect:/admin/report";
+			return "redirect:/admin/product";
 		} else {
 			throw new NoticeException("상품수정에 실패하였습니다.");
 		}

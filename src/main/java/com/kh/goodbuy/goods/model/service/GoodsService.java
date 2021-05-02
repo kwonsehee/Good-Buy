@@ -128,6 +128,8 @@ public interface GoodsService {
 	public int productreportupdate(int gno);
 	//판매자에게 리뷰달수있는지 여부
 	public int reviewOk(String seller, String user_id);
+	public List<Goods> selectGoodsSrcList(int re_no);
+	public Goods Goodsreportdetail(int re_no);
 	
 
 
