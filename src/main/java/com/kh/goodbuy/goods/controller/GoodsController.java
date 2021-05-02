@@ -161,9 +161,11 @@ public class GoodsController {
 	public String goGoodsDetailView(HttpServletRequest request,
 			 @RequestParam(value="gno", required=false) int gno,
 			 Model model) {
+		System.out.println("받아오니? gno"+gno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		//상품 정보셀렉
 		Goods g = gService.Goodsdetail(gno);
+		System.out.println("likegggg : "+g);
 		if(loginUser!=null) {
 		//찜정보 셀렉
 		int like = gService.likeGoods(gno, loginUser.getUser_id());
@@ -225,8 +227,12 @@ public class GoodsController {
 		model.addAttribute("ReviewOk", ReviewOk);
 		
 		System.out.println("ReviewOk : "+ ReviewOk);
+		if(seller.equals(loginUser.getUser_id())) {
+			return "goods/sellerMypage";
+		}else {
+			return "goods/sellerInfo";	
+		}
 		
-		return "goods/sellerInfo";
 	}
 
 	// 판매자 following 페이지로

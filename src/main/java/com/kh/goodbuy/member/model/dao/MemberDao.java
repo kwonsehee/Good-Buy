@@ -131,7 +131,12 @@ public interface MemberDao {
 	public List<Alarm> selectAlarmList(String user_id);
 	//알람 확인했다
 	public int checkAlarm(int mno);
+	//판매자 메모 수정
+	public int updateUserComment(String user_id, String comment);
+	//비즈프로필번호알아오기
+	public int checkMyshopNo(String user_id);
 			
+
 
 
 

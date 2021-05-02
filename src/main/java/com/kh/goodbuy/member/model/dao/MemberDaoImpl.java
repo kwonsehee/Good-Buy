@@ -333,6 +333,20 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("memberMapper.checkAlarm", mno);
 	}
 
+	@Override
+	public int updateUserComment(String user_id, String comment) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("comment", comment);
+		return sqlSession.update("memberMapper.updateUserComment", map);
+	}
+
+	@Override
+	public int checkMyshopNo(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.checkMyshopNo", user_id);
+	}
+
 
 
 	

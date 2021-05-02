@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="admin_memo" column="ADMIN_MEMO"/>
 		<result property="ustatus" column="USTATUS"/>
 		<result property="is_business" column="IS_BUSINESS"/>
+		<result property="user_comment" column="USER_COMMENT"/>
 	</resultMap>
 	
 	<resultMap type="Keyword" id="keywordResultSet">
@@ -102,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 , ENROLL_DATE
 			 , IS_BUSINESS
 			 , USTATUS
+			 , USER_COMMENT
 		  FROM
 		  	   USER_INFO
 		 WHERE
@@ -220,6 +222,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 , ENROLL_DATE
 			 , IS_BUSINESS
 			 , USTATUS
+			 , USER_COMMENT
 		  FROM
 		       USER_INFO
 		 WHERE
@@ -820,4 +823,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   SET A_STATUS='N'
 		 WHERE ALARM_NO = #{mno}
 	</update>
+	<update id="updateUserComment" parameterType="java.util.Map">
+		UPDATE USER_INFO
+		   SET USER_COMMENT = #{comment}
+		 WHERE USER_ID = #{user_id}
+	
+	</update>
+	<select id="checkMyshopNo" parameterType="string" resultType="_int" >
+		SELECT SHOP_NO
+		  FROM BUS_INFO
+		 WHERE USER_ID = #{user_id}
+	</select>
 </mapper>

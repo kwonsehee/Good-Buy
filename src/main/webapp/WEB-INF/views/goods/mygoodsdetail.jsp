@@ -37,20 +37,16 @@
    		</script>
    		<c:remove var="msg" />
    		</c:if>
-        <table id="goods_detail" style="border :1px solid red;">
+        <table id="goods_detail">
             <tr>
                 <td>
                     <img src="${ contextPath }/resources/images/filter.png" style="width: 18px;height: 18px;"> 
                     카테고리 : ${g.goodcate.lfilter}-> ${g.goodcate.mfilter}-> ${g.goodcate.sfilter}
                 </td>
-                <%-- <td colspan="4" id="selectTown" style="text-align: right;">
-                    <span style="font-weight: bold; font-size: 15px;">내 동네</span>
-                    <span style=" padding-left: 20px;">수원 팔달구 우만동</span>
-                    <img src="${ contextPath }/resources/images/recycle.png" style="width: 25px;height: 25px;">     
-                </td> --%>
-                <td></td>
-                <td></td>
-                <td style="text-align: right; padding-right:7%;"><a class="btn_gray" onclick="href='${ contextPath }/goods/editView'">수정하기</a></td>
+               
+                <td colspan="3" style=" text-align:right; padding-right : 2.4%;">
+                <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo?seller=${g.user_id }">판매자 정보</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn_gray" onclick="href='${ contextPath }/goods/editView'">수정하기</a></td>
                </tr>
             <tr>
                 <td rowspan="7">
@@ -77,12 +73,10 @@
             <tr>
                 <td colspan="3" id="gprice">${g.gprice}원</td>
             </tr>
-
-            <tr>
-                <td colspan="3">상태 :${g.gcondition}</td>
-            </tr>
-            <tr>
-                <td colspan="3">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
+			
+             <tr>
+                <td colspan="2" id="gtown">${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
+                 <td colspan="2" id="gcondition">상태 : ${g.gcondition}</td>
             </tr>
             <tr>
                 <td colspan="3" id="goodsContent">${g.gcomment}

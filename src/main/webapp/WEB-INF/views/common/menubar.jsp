@@ -280,7 +280,9 @@
 				  dataType : "json",
 				  success : function(data){
 					 console.log("새알림관련"+data);
+					
 					 if(Object.keys(data).length>0){
+					 console.log("새알림길이"+Object.keys(data).length);
 					
 						tableBody = $("#alarmContent");
 						
@@ -292,28 +294,66 @@
 						for(var i in data){
 						var aType = data[i].alarm_type;
 						console.log(aType);
+						var goVal=data[i].ref_no;
+						var ano =data[i].alarm_no;
+						if(aType ==5||aType ==8||aType ==10 ){
 						
-						if(aType==13 ||aType ==5||aType ==8||aType ==10||aType ==2 ){
-	                	a +="<div class='alarmDiv'>";
-	    
+	                	a +="<div class='alarmDiv' onclick='gotoGoodsDetail(";
+	                	a+=goVal+","+ano;
+	                	a+=")'>";
+	                	
 	                	a+="<img src='${ contextPath }/resources/images/goodupload/";
 	                	a+=data[i].goods_thum;
-	                	a+="' class='alarmImg'>";
 	                	
-						}else{
-							a +="<div class='alarmDiv'>";
+	                	a+="' class='alarmImg'>";
+	               
+	                	
+						}else if(aType==13 ||aType ==2){
+							a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+		                	a+=ano;
+		                	a+=")'>";
+		                	
+		                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+		                	a+=data[i].goods_thum;
+		                	
+		                	a+="' class='alarmImg'>";
+		               
+						}else if(aType==0 ){
+							a +="<div class='alarmDiv' onclick='gotoQnADetail(";
+		                	a+=goVal;
+		                	a+=")'>";
+		                	
+						    
+						}
+						else if(aType==1 ){
+							a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+						 	a+=ano;
+		                	a+=")'>";
+		                	
+						    
+						}else if(aType==3||aType==4 ){
+							a +="<div class='alarmDiv' onclick='gotoBisDetail(";
+		                	a+=ano;
+		                	a+=")'>";
+		                	
+						    
+						}else if(aType==11||aType==12 ){
+							a +="<div class='alarmDiv' onclick='gotoSellerDetail(";
+		                	a+=goVal;
+		                	a+=")'>";
+		                	
 						    
 						}
 	                	a+="<span>";
 	                	a+=data[i].alarm_content;
 	                	
 	                	a+="</span></div><button onclick='closealarmDiv(";
-	                	a+=data[i].alarm_no;
+	                	a+=ano;
 	                	a+=")' id='deleteAlarm'>X</button>";
 	                	
-	                	
 						}
-						a+="</div>"
+	                	a+="</div>";
+	                	console.log("여기까지 출력하면끝!");
 						tableBody.append(a);
 						
 					 }else{
@@ -327,7 +367,7 @@
 				  
 			});
 		}
-		});
+	});
 		function msgPopup(){
 			var control = document.getElementById("msgArea");   
 			if (control.style.display == 'block') {
@@ -359,22 +399,16 @@
 							
 							tableBody = $("#msgContent");
 				            tableBody.html("");
-							
-				            console.log("여기오니?");
+							console.log("여기오니?");
 							var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
 							a+="<div id='msgArea'>";
 							for(var i in data){
 							var m_no = data[i].mno;
 							if(data[i].gno>0){
-			                	a +="<div class='msgDiv' onclick='gotomsgDiv1(";
-			                	a+=m_no;
-			                	a+=")'>";
-			                	
+								
+							 	a +="<div onclick=\"location.href=\'${contextPath}/mypage/msgList\'\" class='msgDiv'>";
 								}else{
-									a +="<div class='msgDiv' onclick='gotomsgDiv2(";
-				                	a+=m_no;
-				                	a+=")'>";
-									
+									a +="<div onclick='' class='msgDiv'>";
 								}
 		                	a+="<span>";
 		                	a+=data[i].caller;
@@ -388,21 +422,22 @@
 							a+="</div>"
 							tableBody.append(a);
 							
-							/* var control2 = document.getElementById("msgArea");    */
-							control.style.display == 'block';
-							
 						 }else{
 							 
 						/* alert(data); */
-						console.log(data);
 						 }
-		                     
+					 var control2 = document.getElementById("msgArea");   
+					control2.style.display = 'block';
+						console.log(control2);
+						console.log("display는 : "+ control2.style.display);
 				  }
            
 				  
 			});
    		
 		}
+           
+				
 		function closealarmDiv(mno){
 			console.log(mno);
 			 $.ajax({
@@ -411,45 +446,84 @@
 				  data : {mno : mno},
 				  dataType : "json",
 				  success : function(data){
-					 console.log("확인하고 남은 소식"+data);
-					 if(Object.keys(data).length>0){
+						 console.log("새알림관련"+data);
+						
+						 if(Object.keys(data).length>0){
+							 console.log("새알림길이"+Object.keys(data).length);
 							
-							tableBody = $("#alarmContent");
-							
-				            tableBody.html("");
-							console.log("새알림관련 여기오니?");
-							
-							var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
-							a+="<div id='alarmArea'>";
-							for(var i in data){
-							var aType = data[i].alarm_type;
-							console.log(aType);
-							
-							if(aType==13 ||aType ==5||aType ==8||aType ==10||aType ==2 ){
-		                	a +="<div class='alarmDiv'>";
-		    
-		                	a+="<img src='${ contextPath }/resources/images/goodupload/";
-		                	a+=data[i].goods_thum;
-		                	a+="' class='alarmImg'>";
-		                	
-							}else{
-								a +="<div class='alarmDiv'>";
-							    
-							}
-		                	a+="<span>";
-		                	a+=data[i].alarm_content;
-		                	
-		                	a+="</span></div><button onclick='closealarmDiv(";
-		                	a+=data[i].alarm_no;
-		                	a+=")' id='deleteAlarm'>X</button>";
-		                	
-		                	
-							}
-							a+="</div>"
+								tableBody = $("#alarmContent");
+								
+					            tableBody.html("");
+								console.log("새알림관련 여기오니?");
+								
+								var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
+								a+="<div id='alarmArea'>";
+								for(var i in data){
+								var aType = data[i].alarm_type;
+								console.log(aType);
+								var goVal=data[i].ref_no;
+								var ano =data[i].alarm_no;
+								if(aType ==5||aType ==8||aType ==10 ){
+								
+			                	a +="<div class='alarmDiv' onclick='gotoGoodsDetail(";
+			                	a+=goVal+","+ano;
+			                	a+=")'>";
+			                	
+			                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+			                	a+=data[i].goods_thum;
+			                	
+			                	a+="' class='alarmImg'>";
+			               
+			                	
+								}else if(aType==13 ||aType ==2){
+									a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+				                	a+=ano;
+				                	a+=")'>";
+				                	
+				                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+				                	a+=data[i].goods_thum;
+				                	
+				                	a+="' class='alarmImg'>";
+				               
+								}else if(aType==0 ){
+									a +="<div class='alarmDiv' onclick='gotoQnADetail(";
+				                	a+=goVal;
+				                	a+=")'>";
+				                	
+								    
+								}
+								else if(aType==1 ){
+									a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+								 	a+=ano;
+				                	a+=")'>";
+				                	
+								    
+								}else if(aType==3||aType==4 ){
+									a +="<div class='alarmDiv' onclick='gotoBisDetail(";
+				                	a+=ano;
+				                	a+=")'>";
+				                	
+								    
+								}else if(aType==11||aType==12 ){
+									a +="<div class='alarmDiv' onclick='gotoSellerDetail(";
+				                	a+=goVal;
+				                	a+=")'>";
+				                	
+								    
+								}
+			                	a+="<span>";
+			                	a+=data[i].alarm_content;
+			                	
+			                	a+="</span></div><button onclick='closealarmDiv(";
+			                	a+=ano;
+			                	a+=")' id='deleteAlarm'>X</button>";
+			                	
+								}
+			                	a+="</div>";
 							tableBody.append(a);
 							
 							var control4 = document.getElementById("alarmArea");   
-							control4.style.display == 'block';
+							control4.style.display = 'block';
 							
 						 }else{
 							 
@@ -476,6 +550,38 @@
 			location.href='${contextPath}/mypage/userMsgList';
    		
 		}
+		function gotoGoodsDetail(mno, ano){
+			console.log("여기오니?"+mno);
+			console.log("여기오니?"+ano);
+			closealarmDiv(ano);
+			location.href='${contextPath}/goods/detail?gno='+mno;
+   		
+		}
+		function gotoBisDetail(ano){
+			console.log(ano);
+			closealarmDiv(ano);
+			var bisno=0;
+
+			location.href='${contextPath}/business/godetail';
+   		
+		}function gotoReportDetail(mno){
+			console.log(mno);
+			closealarmDiv(ano);
+			location.href='${ contextPath }/mypage/reportedList';
+   		
+		}
+		function gotoQnADetail(mno, ano){
+			console.log(mno);
+			closealarmDiv(ano);
+			location.href='${contextPath}/center/QNA_A?qa_no='+mno;
+   		
+		}function gotoSellerDetail(ano){
+			console.log(ano);
+			closealarmDiv(ano);
+			location.href='${contextPath}/mypage/main';
+   		
+		}
+		
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
 		$(document).ready(function(){
 			$(".userTownli2").click(function(){
