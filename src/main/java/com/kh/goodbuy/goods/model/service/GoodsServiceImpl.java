@@ -374,6 +374,16 @@ public class GoodsServiceImpl implements GoodsService {
 		return gDao.reviewOk(seller, user_id);
 	}
 
+	@Override
+	public List<Goods> selectGoodsRankList() {
+		return gDao.selectGoodsRankList();
+	}
+
+	@Override
+	public List<Keyword> selectBestKeyword() {
+		return gDao.selectBestKeyword();
+	}
+
 	
 
 }

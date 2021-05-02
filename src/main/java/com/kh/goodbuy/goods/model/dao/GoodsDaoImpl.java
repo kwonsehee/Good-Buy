@@ -425,6 +425,16 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.selectOne("goodsMapper.reviewOk", map);
 	}
 
+	@Override
+	public List<Goods> selectGoodsRankList() {
+		return sqlSession.selectList("goodsMapper.selectGoodsRankList");
+	}
+
+	@Override
+	public List<Keyword> selectBestKeyword() {
+		return sqlSession.selectList("goodsMapper.selectBestKeyword");
+	}
+
 	
 
 }

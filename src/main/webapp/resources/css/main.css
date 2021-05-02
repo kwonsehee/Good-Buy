@@ -9,7 +9,7 @@
 
 #gbSection{
 	margin-top:30px;
-	height:2600px;
+	height:2900px;
 }
 
 p{
@@ -161,7 +161,7 @@ p{
 #bestGoodsWrap{
 	width:100%;
 	background:#F9F9F9;
-	height:700px;
+	height:1000px;
 	margin-top:150px;
 }
 
@@ -213,10 +213,49 @@ p{
 	cursor:pointer;
 }
 
+.glistWrap{
+	display: flex;
+    justify-content: space-around;
+    margin-bottom:20px;
+}
 
+.glistWrap ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
 
+.gPhoto{
+	width:200px;
+	height:200px;
+	border-radius:10px;
+}
 
+.gtitle{
+	color:black;
+	font-size:16px;
+	text-align:left;
+	margin-top:15px;
+	font-weight:bold;
+}
 
+.gprice{
+	color:black;
+	font-weight:bold;
+	text-align:left;
+	font-size:16px;
+}
+
+.gtown{
+	color:black;
+	font-size:14px;
+	text-align:left;
+}
+
+.repCnt{
+	font-size:14px;
+	text-align:left;
+}
 
 
 

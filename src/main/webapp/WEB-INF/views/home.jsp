@@ -68,28 +68,47 @@
 			<span class="circle"></span> 
 			<span class="bestText">중고상품 인기매물</span>
 			<span class="circle"></span>
+			
+			<div class="glistWrap" style="margin-top:40px;">
+			 <c:forEach var="g" items="${ glist }" end="3">
+			 <div class="goodsWrap">
+			<img src="${ contextPath }/resources/images/goodupload/${g.changeName}" class="gPhoto">
+
+			<p class="gtitle">${ g.gtitle }</p>
+			<p class="gprice">${ g.gprice }원</p>
+			<p class="gtown">${ g.address_1 }&nbsp;${ g.address_2 }&nbsp;${ g.address_3 }</p>
+			<p class="repCnt">좋아요&nbsp;${ g.likecnt }&nbsp;•&nbsp;댓글 ${ g.rep_cnt }</p>
+			</div>
+			</c:forEach>
+			
+			</div>
+			
+			<div class="glistWrap">
+			 <c:forEach var="g" items="${ glist }" begin="4">
+			 <div class="goodsWrap">
+			<img src="${ contextPath }/resources/images/goodupload/${g.changeName}" class="gPhoto">
+
+			<p class="gtitle">${ g.gtitle }</p>
+			<p class="gprice">${ g.gprice }원</p>
+			<p class="gtown">${ g.address_1 }&nbsp;${ g.address_2 }&nbsp;${ g.address_3 }</p>
+			<p class="repCnt">좋아요&nbsp;${ g.rep_cnt }&nbsp;•&nbsp;댓글 ${ g.likecnt }</p>
+			</div>
+			</c:forEach>
+			
+			</div>
+			
 		</div>
+		
 	</div>
 	
 	<div id="bestSearch">
 	<p>중고거래 인기 검색어</p>
 	<ul>
-		<li>자전거</li>
-		<li>노트북</li>
-		<li>아이패드</li>
-		<li>의자</li>
-		<li>커피머신</li>
-		<li>에어팟</li>
-		<li>모니터</li>
-		<li>노트북</li>
-		<li>텀블러</li>
-		<li>캠핑</li>
+	<c:forEach var="k" items="${klist}">
+		<li>${ k.keyword }</li>
+	</c:forEach>
 	</ul>
 	</div>
-	
-	
-	
-	
 	
 	</section>
 	
