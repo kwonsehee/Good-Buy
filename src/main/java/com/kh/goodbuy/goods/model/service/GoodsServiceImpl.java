@@ -375,7 +375,17 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public List<Goods> selectGoodsSrcList(int re_no) {
+	public List<Goods> selectGoodsRankList() {
+		return gDao.selectGoodsRankList();
+	}
+
+	@Override
+	public List<Keyword> selectBestKeyword() {
+		return gDao.selectBestKeyword();
+  }
+  
+ @Override
+  public List<Goods> selectGoodsSrcList(int re_no) {
 		// TODO Auto-generated method stub
 		return gDao.selectGoodsSrcList(re_no);
 	}

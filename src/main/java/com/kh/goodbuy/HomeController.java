@@ -1,5 +1,6 @@
 package com.kh.goodbuy;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kh.goodbuy.common.model.vo.Keyword;
+import com.kh.goodbuy.goods.model.service.GoodsService;
+import com.kh.goodbuy.goods.model.vo.Goods;
 import com.kh.goodbuy.member.model.vo.NaverLoginBO;
 
 /**
@@ -24,6 +28,9 @@ public class HomeController {
 	/* NaverLoginBO */
     private NaverLoginBO naverLoginBO;
     private String apiResult = null;
+    
+    @Autowired
+	private GoodsService gService;
     
     @Autowired
     private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -43,9 +50,35 @@ public class HomeController {
         
         //네이버 
         model.addAttribute("url", naverAuthUrl);
+        
+        goodsRankList(model);
+        
+        bestKeyword(model);
 
         /* 생성한 인증 URL을 View로 전달 */
 		return "home";
 	}
+	
+	public String goodsRankList(Model model) {
+		
+		List<Goods> glist = gService.selectGoodsRankList();
+		
+		//System.out.println("인기 리스트 : " + glist);
+		
+		model.addAttribute("glist",glist);
+		
+		return "home";
+	}
+	
+	public String bestKeyword(Model model) {
+		
+		List<Keyword> klist = gService.selectBestKeyword();
+		
+		model.addAttribute("klist",klist);
+		
+		return "home";
+	}
+	
+	
 	
 }

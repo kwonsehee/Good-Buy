@@ -83,7 +83,7 @@
                 
                 <!-- 쪽지 -->
                 <li class="li_5" id="msgContent">
-                	<a onclick="msgPopup()" style="border : 1px solid black;">
+                	<a onclick="msgPopup()">
                 	<img src="${ contextPath }/resources/images/messenger.png" id="truck">
                 	</a>
               
@@ -180,12 +180,9 @@
 								<input type="password" name="user_pwd" placeholder="PASSWORD"><br>
 								<p class="simLog_p">간편 로그인</p>
 								<div class="imgWrap">
-								<a  href="#"><img src="${ contextPath }/resources/images/google.png"></a> 
-								<!-- <button type="button" onclick="signOut();">Sign out</button> -->
 								    <a href="https://kauth.kakao.com/oauth/authorize?client_id=5a7a733b7acbd667518c7886e00f1231&redirect_uri=http://localhost:8082/goodbuy/member/auth/kakao/callback&response_type=code"><img src="${ contextPath }/resources/images/kakao.png"></a> 
-								    <a href="#"><img src="${ contextPath }/resources/images/facebook.png"></a>
 								    <div id = "naver_id_login"><a href="${url}">
-<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
+									<img id="naver" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
 								</div>
 								<button type="submit" style="font-weight: bold;">Log in</button>
 							</form>

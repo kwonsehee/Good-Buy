@@ -426,7 +426,16 @@ public class GoodsDaoImpl implements GoodsDao{
 	}
 
 	@Override
-	public List<Goods> selectGoodsSrcList(int re_no) {
+	public List<Goods> selectGoodsRankList() {
+		return sqlSession.selectList("goodsMapper.selectGoodsRankList");
+	}
+
+	@Override
+	public List<Keyword> selectBestKeyword() {
+		return sqlSession.selectList("goodsMapper.selectBestKeyword");
+  }
+@Override
+  public List<Goods> selectGoodsSrcList(int re_no) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("goodsMapper.selectGoodsSrcList", re_no);
 	}

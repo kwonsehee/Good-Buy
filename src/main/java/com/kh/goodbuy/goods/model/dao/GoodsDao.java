@@ -139,6 +139,10 @@ public interface GoodsDao {
 	public int productreportupdate(int gno);
 	//판매자에게 리뷰달수있는지 여부
 	public int reviewOk(String seller, String user_id);
+	// 메인페이지 인기상품 리스트 
+	public List<Goods> selectGoodsRankList();
+	// 메인페이지 인기 키워드 
+	public List<Keyword> selectBestKeyword();
 	public List<Goods> selectGoodsSrcList(int re_no);
 	public int Goodsreportdetail(int re_no);
 	
