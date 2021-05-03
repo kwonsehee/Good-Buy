@@ -452,7 +452,7 @@
      			 var Photo2 = data1[j].photo;
      			 var writer2 =$("<label class='writer'>").text(data1[j].nickName);
      			var loot = "${contextPath}/resources/images/userProfilePhoto/";
-	   			var changeName = data[j].photo;
+	   			var changeName = data1[j].photo;
      			 if( Photo2 !=null){
      			     userPhoto2 = $("<img class='userPhoto'>").attr("src",loot+changeName);
      			 }else if(Photo2 == null){
