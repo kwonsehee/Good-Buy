@@ -883,7 +883,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				AND (G_TITLE LIKE #{sv} )
 				</when>
 				<when test="searchCondition == 'username'">
-				AND (USER_ID LIKE #{sv} )
+				AND (NICKNAME LIKE #{sv} )
 				</when>
 			</choose>
 		</where>

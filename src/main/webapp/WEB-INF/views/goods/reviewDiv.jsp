@@ -9,6 +9,9 @@
 </head>
 <body>
       <table id="review_tb">
+      <tr>
+      	<td colspan="2"><br></td>
+      </tr>
       <c:forEach var="r" items="${ reList}">
                 <tr>
                     <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;">
