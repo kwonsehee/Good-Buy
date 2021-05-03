@@ -187,10 +187,7 @@
 			error: function(e){
 				alert("error code: " + e.status + "\n" + "message: " + e.responseText);
 			}
-			
 			});
-			
-			
 		});
 		
 		// range 움직일 때 마다 동네 범위 변경 텍스트 동적으로 보여주기(javascript)
@@ -241,7 +238,6 @@
 			}
 			
 			$.ajax({
-				
 				url:"changeTownType",
 				type:"get",
 				dataType:"json",
@@ -250,7 +246,6 @@
 					var address_1 = townInfo.address_1;
 					var address_2 = townInfo.address_2;
 					var address_3 = townInfo.address_3;
-					//var t_no = townInfo.t_no;
 					 
 					 if (area == 1) {
 						$("#mytown").html(address_3);
@@ -268,19 +263,16 @@
 						$("#mytown").hide();
 						$("#townCount").html("전국");
 					}  
-					 
 					
 					// 기본동네 타입 바꾸고 나서 처음 화면 range에 셋팅되어 있던 기본동네 다시 셋팅
 					$("#townArea").attr("value",area);
 					$("#townArea").removeAttr("onchange");	// onchange 속성 지우고 다시 부여
 					$("#townArea").attr("onchange",showValue(address_3,address_2,address_1,area));
-					
 				},
 				error: function(e){
 					alert("error code: " + e.status + "\n" + "message: " + e.responseText);
 				}
 			});
-			
 			
 			};  
 			 

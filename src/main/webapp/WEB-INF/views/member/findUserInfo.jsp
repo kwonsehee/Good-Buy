@@ -61,9 +61,6 @@
 			var user_id = $("#passArea input[name=user_id]").val();
 			var email = $("#passArea input[name=email]").val();
 			
-			/* console.log(user_id);
-			console.log(email); */
-			
 			$.ajax({
 				url : "${ contextPath }/member/findPwd",
 				type : "post",
@@ -91,10 +88,6 @@
 			});
 			
 			$(function(){
-				console.log(user_id);
-				console.log(email);
-				console.log(user_pwd);
-				
 				emailjs.send("service_b3h5plq","template_gzmo22p",{
 					id : user_id,
 					pwd : user_pwd,

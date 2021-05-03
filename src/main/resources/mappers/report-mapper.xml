@@ -236,9 +236,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			USER_INFO
 	   SET 
 	   		REPORTED = REPORTED + 1,
-            REP_DATE = CASE WHEN MOD(REPORTED+1,3) = 0  THEN SYSDATE ELSE REP_DATE END
+            REP_DATE = CASE WHEN 
+            					MOD(REPORTED+1,3) = 0 
+           				   THEN 
+           				   		SYSDATE ELSE REP_DATE END
 	 WHERE
-	 		USER_ID = #{reporte_id}
+	 		USER_ID = #{reported_id}
 	</update>
 	
 	<select id="selectMyReportedDate" parameterType="string" resultType="string">
@@ -255,10 +258,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	UPDATE 
 			USER_INFO
 	   SET 
-	   		REP_DATE = CASE WHEN REP_DATE+15 &lt; SYSDATE THEN NULL ELSE REP_DATE END
+	   		REP_DATE = CASE WHEN 
+	   							 REP_DATE+15 &lt; SYSDATE 
+	   					    THEN 
+	   					    	NULL ELSE REP_DATE END
 	 WHERE 
 	 		USER_ID = #{user_id}
-	
 	</update>
 	
 	

@@ -69,20 +69,15 @@ public class MemberController {
         this.naverLoginBO = naverLoginBO;
     }
 
-	// 3_2. 일반 로그인 컨트롤러 (DB select)
-	@PostMapping("/login") // 일반 로그인 post 방식
+	// 로그인
+	@PostMapping("/login") 
 	public String userLogin(@ModelAttribute Member m, Model model,HttpServletRequest request) {
-//		   System.out.println("m" + m);
 		// 신고 날짜+15 < 오늘 날짜 
 		int checkDate = reService.updateReportedDate(m.getUser_id());
-		
-		System.out.println("신고당한지 15일 지나고 null로 바뀜? : " + checkDate);
 		
 		// 로그인시 유저의 신고 당한 이력이 있는지 신고 날짜 조회 
 		// 신고 날짜가 있는 경우 
 		String repDate = reService.selectMyReportedDate(m.getUser_id());
-		
-		System.out.println("신고 날짜 조회됨? : " + repDate);
 		
 		String writeActive;
 		
@@ -95,9 +90,6 @@ public class MemberController {
 		}
 		
 		model.addAttribute("writeActive", writeActive);
-		
-		
-		
 		
 		Member loginUser = mService.loginMember(m);
 		
@@ -483,8 +475,6 @@ public class MemberController {
 	public  @ResponseBody void findPwd(String user_id, String email,
 						Model model,HttpServletResponse response) {
 		 response.setContentType("application/json; charset=utf-8");
-		System.out.println("비번 찾 넘어온 user_id : " + user_id);
-		System.out.println("비번 찾 넘어온 email : " + email);
 		
 	    double ran1 = Math.random();
 	    double ran2 = Math.random();
@@ -495,9 +485,6 @@ public class MemberController {
 	    int ranPwd3 = (int)((ran3 * 1000000) + 1);  // 숫자 랜덤
 	    
 	    String finalPwd = ranPwd1 + "" + ranPwd2 + "" + ranPwd3;
-
-	    System.out.println("임시비번 : " + finalPwd);
-
 
 		String encPwd = bcryptPasswordEncoder.encode(finalPwd);
 		
@@ -511,20 +498,17 @@ public class MemberController {
 		
 		if(result > 0) {
 			JSONObject user = new JSONObject();
-			
 			user.put("user_id", m.getUser_id());
 			user.put("email", m.getEmail());
 			user.put("user_pwd", finalPwd);
-			
 			try {
 				PrintWriter out = response.getWriter();
 				out.print(user);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		
-	}
+		 }
+	  }
 
 	@RequestMapping("/auth/kakao/callback")
 	public String kakaoCallback(@RequestParam("code")String code, HttpSession session, Model model) {

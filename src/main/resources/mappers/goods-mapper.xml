@@ -1126,7 +1126,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			, REF_NO
 			)
 	SELECT 
-			A_SEQ.NEXTVAL, 5, CONCAT(KEYWORD, ' 키워드가 포함된 게시글이 등록되었습니다.'), USER_ID, SYSDATE, G_SEQ.CURRVAL
+			A_SEQ.NEXTVAL
+		  , 5
+		  , CONCAT(KEYWORD
+		  , ' 키워드가 포함된 게시글이 등록되었습니다.')
+		  , USER_ID
+		  , SYSDATE
+		  , G_SEQ.CURRVAL
 	  FROM 
 	  		KEYWORD
 	 WHERE 
