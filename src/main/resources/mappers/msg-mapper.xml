@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 
 	<insert id="insertMsg" parameterType="java.util.Map">
-		INSERT ALL
+		INSERT 
 		INTO MESSENGER
 		(
 		   M_NO
@@ -43,24 +43,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, #{g.gno}
 		, #{caller}
 		)
-		INTO ALARM
-		(
-		  ALARM_NO
-		, ALARM_TYPE
-		, USER_ID
-		, ALARM_DATE
-		, REF_NO
-		)
-		VALUES
-		(	
-		  A_SEQ.NEXTVAL
-		, 7
-		, #{g.user_id}
-		, DEFAULT
-		, M_SEQ.CURRVAL
-		)
+		
 
-		SELECT *FROM DUAL
+		
 	
 	</insert>
 	
@@ -153,7 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<insert id="insertMsg2" parameterType="Messenger">
-	INSERT ALL
+	INSERT 
 		INTO MESSENGER
 		(
 		   M_NO
@@ -172,31 +157,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, #{gno}
 		, #{caller}
 		)
-		INTO ALARM
-		(
-		  ALARM_NO
-		, ALARM_TYPE
-		, USER_ID
-		, ALARM_DATE
-		, REF_NO
-		)
-		VALUES
-		(	
-		  A_SEQ.NEXTVAL
-		, 7
-		, #{receiver}
-		, DEFAULT
-		, M_SEQ.CURRVAL
-		)
+		
 
-		SELECT *FROM DUAL
-	
 	
 	
 	</insert>
 	
 	<insert id="insertMsgUser" parameterType="java.util.Map">
-		INSERT ALL
+		INSERT 
 		INTO MESSENGER
 		(
 		   M_NO
@@ -215,24 +183,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 		, #{caller}
 		)
-		INTO ALARM
-		(
-		  ALARM_NO
-		, ALARM_TYPE
-		, USER_ID
-		, ALARM_DATE
-		, REF_NO
-		)
-		VALUES
-		(	
-		  A_SEQ.NEXTVAL
-		, 7
-		, #{seller}
-		, DEFAULT
-		, M_SEQ.CURRVAL
-		)
-
-		SELECT *FROM DUAL
+		
 	
 	</insert>
 	
@@ -291,7 +242,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<insert id="insertMsgUser2" parameterType="Messenger">
-	INSERT ALL
+	INSERT 
 		INTO MESSENGER
 		(
 		   M_NO
@@ -310,24 +261,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, DEFAULT
 		, #{caller}
 		)
-		INTO ALARM
-		(
-		  ALARM_NO
-		, ALARM_TYPE
-		, USER_ID
-		, ALARM_DATE
-		, REF_NO
-		)
-		VALUES
-		(	
-		  A_SEQ.NEXTVAL
-		, 7
-		, #{receiver}
-		, DEFAULT
-		, M_SEQ.CURRVAL
-		)
-
-		SELECT *FROM DUAL
+		
 	
 	</insert>
 	

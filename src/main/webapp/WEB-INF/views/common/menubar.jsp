@@ -313,7 +313,7 @@
 	                	a+="' class='alarmImg'>";
 	               
 	                	
-						}else if(aType==13 ||aType ==2){
+						}else if(aType ==2){
 							a +="<div class='alarmDiv' onclick='gotoReportDetail(";
 		                	a+=ano;
 		                	a+=")'>";
@@ -330,7 +330,7 @@
 		                	
 						    
 						}
-						else if(aType==1 ){
+						else if(aType==1 || aType==13 ){
 							a +="<div class='alarmDiv' onclick='gotoReportDetail(";
 						 	a+=ano;
 		                	a+=")'>";
@@ -351,15 +351,9 @@
 						}
 	                	a+="<span>";
 	                	
-	                	var conte=(data[i].alarm_content).substring(0,25)+"...";
-	                	console.log("자른거 "+conte);
-	                	console.log("길이 ;"+(data[i].alarm_content).length);
-	                	var cl = (data[i].alarm_content).length;
-	                	if(cl>5){
-	                		a+=conte;
-	                	}else{
+	                	
 	                		a+=data[i].alarm_content;
-	                	}
+	                	
 	                	
 	                	
 	                	a+="</span></div><button onclick='closealarmDiv(";
