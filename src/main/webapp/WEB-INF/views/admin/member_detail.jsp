@@ -43,12 +43,12 @@
             <table id="table1">
                 <thead>
                   <tr >
-                    <th>회원번호</th><th>이름</th><th>아이디</th><th>휴대폰</th><th>이메일</th><th>가입일</th>
+                    <th>닉네임</th><th>아이디</th><th>휴대폰</th><th>이메일</th><th>가입일</th><th>보유 포인트</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr id="tr_hover1" style="background-color: #F1FCFF;">
-                    <th>1</th><th>김수민</th><th>sumin1234</th><th>010-2231-9173</th><th>compu9173@naver.com</th><th>2021/03/06</th>
+                    <th>${ member.nickname }</th><th>${ member.user_id }</th><th>${ member.phone }</th><th>${ member.email }</th><th>${ member.enroll_date }</th><th>${ member.point }</th>
                   </tr>
                 
                 </tbody>
@@ -87,10 +87,7 @@
             </div>
             <div id="div5_2">
               <table>
-                <tr height="80">
-                    <td>비밀번호</td><td><input type="text" id="label1" name="notice_title" style="border-right: white; border-left: white; border-top: white;" size="30px" 
-        value="${ member.user_pwd }" readonly></td>
-                </tr>
+                
                 <c:choose>
               <c:when test="${ member.is_business == 'N' }">
                 <tr height="80">
@@ -111,7 +108,7 @@
     		value="${ member.point }"></td>
             </tr>
                 </table>
-                <button id="createButton1">확인</button>
+                <button id="createButton1" onclick="javascript:btn()">확인</button>
                 <button id="createButton1" type="button" onclick="location.href='${ contextPath }/admin/member'">목록</button>
             </div>
             </form>
@@ -120,6 +117,12 @@
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
+<script>
+function btn(){
+    alert('회원 정보가 수정되었습니다.');
+}
+</script>
+
 
 </body>
 </html>

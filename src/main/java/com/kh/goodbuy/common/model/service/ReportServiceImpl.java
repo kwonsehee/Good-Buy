@@ -128,4 +128,18 @@ public class ReportServiceImpl implements ReportService{
 		return rDao.insertAlarmMember(reported_id);
 	}
 
+	@Override
+	public String selectReportedid(int re_no) {
+		// TODO Auto-generated method stub
+		return rDao.selectReportedid(re_no);
+	}
+
+	@Override
+	public int updateReportedid(int re_no) {
+		// TODO Auto-generated method stub
+		return rDao.updateReportedid(re_no);
+	}
+
+
+
 }

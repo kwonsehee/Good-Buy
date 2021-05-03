@@ -156,6 +156,7 @@ public class AdminController {
 		List<Report> list1 = rService.selectReport1List();
 		List<Report> list2 = rService.selectReport2List();
 		List<Report> list3 = rService.selectReport3List();
+		System.out.println("list2 : " + list2);
 		if (list1 != null) {
 			mv.addObject("list1", list1);
 			mv.addObject("list2", list2);
@@ -233,10 +234,12 @@ public class AdminController {
 		}
 	// 회원 신고
 	@GetMapping("/reportmemberupdate")
-	public String reportmemberUpdate(String reported_id, HttpServletRequest request) {
+	public String reportmemberUpdate(int re_no, HttpServletRequest request) {
 		
 		
-		System.out.println("신고당한사람 : " + reported_id);
+		System.out.println("신고당한사람 : " + re_no);
+		String reported_id = rService.selectReportedid(re_no);
+		int result5 = rService.updateReportedid(re_no);
 		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
 		int result = rService.insertAlarmMember(reported_id);
 		int result2 = rService.addCountReported(reported_id);
@@ -326,12 +329,10 @@ public class AdminController {
 	@GetMapping("/productupdate")
 	public String productUpdate(int gno, HttpServletRequest request, Model model) {
 		
-		System.out.println("신고처리하기 "+gno);
 		int result = gService.updateProduct(gno);
 		
 		
 		if (result > 0) {
-			//nullpoint
 			return "redirect:/admin/product";
 		} else {
 			throw new NoticeException("상품수정에 실패하였습니다.");
@@ -377,10 +378,10 @@ public class AdminController {
 
 	// 회원관리 디테일페이지 이동
 		@GetMapping("/memberdetail")
-		public String MemberDetailView(@RequestParam String user_id, Model model) {
+		public String MemberDetailView(@RequestParam(value="user_id", required=false) String user_id, Model model) {
 
 			Member m = mService.selectMemberDetail(user_id);
-
+			System.out.println(m);
 			if (m != null) {
 				model.addAttribute("member", m);
 				return "admin/member_detail";

@@ -141,4 +141,18 @@ public class ReportDaoImpl implements ReportDao{
 		return sqlSession.insert("reportMapper.insertAlarmMember", reported_id);
 	}
 
+	@Override
+	public String selectReportedid(int re_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("reportMapper.selectReportedid", re_no);
+	}
+
+	@Override
+	public int updateReportedid(int re_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reportMapper.updateReportedid", re_no);
+	}
+
+
+
 }
