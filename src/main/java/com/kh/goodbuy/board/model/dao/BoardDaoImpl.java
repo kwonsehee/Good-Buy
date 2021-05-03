@@ -114,7 +114,7 @@ public int insertReply(Reply r, Board b) {
     Map<String,Object>map = new HashMap <String,Object>();
     map.put("r", r);
     map.put("b", b);
-    System.out.println("b"+b);
+    System.out.println("boardreply"+b);
 	return sqlSession.insert("boardmapper.insertReply",map);
 }
 
