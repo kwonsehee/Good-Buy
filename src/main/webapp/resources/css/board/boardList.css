@@ -99,7 +99,7 @@ appearance: none;
     margin: auto;
     margin-bottom: 20px;
     position: relative;
-    right: 5%;       
+    right:5%;       
  }
 
  .subject{
@@ -107,7 +107,7 @@ appearance: none;
 	font-size:14px;
      text-align: center;
      margin:0;
-    
+        border: 1px solid #9A9999;
      color: #9A9999;
      background: #F9F9F9;
      border-radius: 15px;

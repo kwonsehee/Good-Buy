@@ -113,10 +113,9 @@ public int insertPoint(String user_id) {
 public int insertReply(Reply r, Board b) {
     Map<String,Object>map = new HashMap <String,Object>();
     map.put("r", r);
-    map.put("b", b.getBno());
-    
-    System.out.println("r은"+ r);
-    System.out.println("b"+ b.getBno());
+    map.put("b", b);
+    System.out.println("boardreply"+b);
+
 	return sqlSession.insert("boardmapper.insertReply",map);
 }
 

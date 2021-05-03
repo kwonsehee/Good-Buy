@@ -49,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       <result property="createDate" column="CREATE_DATE"/><!--댓글작성자  -->
     
    </resultMap>
+   
 <select id="selectmainlike" resultMap="boardResultSet">
 SELECT
 		TOWN_BOARD.B_NO
@@ -67,13 +68,7 @@ SELECT
 		B_STATUS ='Y'
 		ORDER BY
 		B_NO DESC
-
-
-
-
 </select>
-
-
 
 <select id="selectlastestlist" resultMap="boardResultSet">
 	SELECT
@@ -306,7 +301,7 @@ SELECT
 	</select>
 	
 	<insert id="insertReply" parameterType="java.util.Map">
-	INSERT ALL
+	INSERT 
 	INTO REPLY 
 	(
 	R_NO
@@ -346,6 +341,7 @@ SELECT
 			  , R.REF_RID REF_RID
 		 FROM REPLY R JOIN TOWN_REPLY T
 		   ON(R.R_NO = T.R_NO)
+		WHERE T.POST_NO = #{rno}
 		WHERE T.POST_NO = #{b.getBno()}
 		  AND R_STATUS = 'Y'
 	 ORDER BY

@@ -120,7 +120,7 @@
 				<label class="boarddate">${b.bcreatedate}</label>
 
 
-					<p class="story">${ fn:substring(c.bhistory,0,30) }
+					<p class="story">${ fn:substring(b.bhistory,0,30) }
 				<c:if test="${fn:length(b.bhistory )>30}">
            		 ...
                 </c:if>		

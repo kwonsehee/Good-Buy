@@ -70,11 +70,11 @@
 			<div class="bcontent">
 				<p>${b.bhistory}</p>
 			</div>
-					<div id="pass">
+				<!--  	<div id="pass">
 					<a href="javascript:reportPopup()" id="police">신고하기</a></li>
 
 					<a href="javascript:deletePopup()" id="mypass">게시글 삭제</a></li>
-                         </div>
+                         </div>-->
 
 			<script>
 function heartLike (bno){ 
@@ -155,7 +155,7 @@ function heartLikeCancel(bno){
 
 
 				</c:if>
-				<form action="${contextPath }/board/insertReply" method="POST">
+				
 					<c:if test="${ !empty loginUser }">
 						<p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
 						<textarea id="replyContent" name="rcontent"
@@ -165,8 +165,8 @@ function heartLikeCancel(bno){
 
 					<p id="counter" class="reply_left">(0 / 1000)</p>
 					<input type="hidden" name="bno" value="${b.bno}">
-					<button type="submit" id="writeBtn">등록하기</button>
-				</form>
+					<button id="writeBtn">등록하기</button>
+				
 				<script>
 					
 						var imgs;
