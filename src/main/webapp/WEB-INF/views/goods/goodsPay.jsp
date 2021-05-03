@@ -30,6 +30,7 @@
 #pay_title{
     text-align: center;
     font-size: 24px;
+   margin-bottom : 35px;
 }
 #pay_tb img{
     width: 80px;
@@ -55,8 +56,8 @@
 
 }
 #input_area{
-    font-size: 16px;
-    width: 450px;
+    font-size: 14px;
+    width: 400px;
     height: 30px;
 }
 #point_btn{
@@ -64,7 +65,7 @@
     border-radius: 10%;
     background-color: #c7c2c2;
     height: 38px;
-    width: 80px;
+    width: 70px;
     margin-left: 20px;
 
 }
@@ -87,6 +88,7 @@ cursor : pointer !important;
     border-radius: 10px;
     background-color: #c7c2c2;
     font-size: 17px;
+    margin-bottom : 50px;
 }
 </style>
 <body>
@@ -116,7 +118,23 @@ cursor : pointer !important;
                         포인트는 1회 사용 시 최대 5만원까지 100원 단위로 안전거래 수수료에서 차감됩니다.</span>   <br><br>
                 </div>
                 </c:if>
-                   
+                     <c:if test="${!way.equals('point')}">
+                <div>
+                	<pre style="font-weight : lighter">
+신용/체크카드 결제 안내
+카드 프로모션 안내자세히 보기
+- 프로모션 대상 카드로 결제 시 최대 20,000원 할인 혜택
+
+- 결제 시 BC카드 TOP포인트, 현대카드 M포인트 사용 가능
+
+* 단, 현대M포인트의 경우 3만원 이상 결제 시 사용 가능
+
+- 카드사별 무이자 할부 지원
+
+자세한 사항은 개별 혜택 안내 페이지에서 확인해 주세요
+                	</pre>
+                </div>
+                   </c:if>
                 <p style=" font-weight: bolder; font-size: 18px;">결제금액</p>
                 <div>
                    

@@ -72,7 +72,17 @@
 }
 /*인기글*/
 #title1{
-    margin-bottom: -3%;
+ 
+    float: left;
+    margin-top:-3%;
+
+}
+#title2{
+    padding-left: 5%;
+    font-size: 30px;
+    margin-right: -5%;
+    margin-top: -3%;
+    float: left;
 }
 #popularity{
     font-style: normal;
@@ -209,21 +219,18 @@ bottom: 30px;
 
 
 #writeBtn{ 
-   
-     margin-left: 85%;
-
+   margin-left: 75%;
     display: inline-block;
-     width: 130px;
-     height: 45px;
-     border-radius: 27px;
-     font-size: 14px;
-     background-color: #000000;
-     border: 0px;
-   color : white;
+    width: 130px;
+    height: 45px;
+    border-radius: 27px;
+    font-size: 14px;
+    background-color: #000000;
+    border: 0px;
+    color: white;
    }
    #title1{
-      margin-bottom: -3%;
-    font-size: 30px;
-    font-size: 30px;
+      font-size: 30px;
     padding-left: 6%;
+    margin-top: 1%;
    }

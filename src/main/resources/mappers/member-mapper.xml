@@ -784,13 +784,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 	</insert>
 	<select id="selectAlarmList" parameterType="string" resultMap="AlarmResult">
-		SELECT ALARM_NO
+SELECT ALARM_NO
 			  , ALARM_TYPE
 			  , ALARM_CONTENT
 			  , USER_ID
 			  , REF_NO
 			  , A_STATUS
-              , AD.CHANGE_NAME CHANGE_NAME
+           
               , ALARM_DATE
 FROM 
 (SELECT 
@@ -818,9 +818,9 @@ FROM
 		   ON (A.REF_NO = U.USER_ID AND ALARM_TYPE = 13)
 		WHERE A.A_STATUS = 'Y'
 		  AND A.USER_ID = #{user_id})D
-          JOIN GOODSFILE GF ON(D.REF_NO = GF.G_NO)
-          LEFT JOIN ADDFILE AD ON(GF.F_NO = AD.F_NO)
-          WHERE AD.FILE_LEVEL = 1 
+          LEFT JOIN GOODSFILE GF ON(D.REF_NO = GF.G_NO)
+          LEFT JOIN ADDFILE AD ON(GF.F_NO = AD.F_NO AND AD.FILE_LEVEL = 1)
+          ORDER BY ALARM_DATE DESC
 	</select>
 	
 	<update id="checkAlarm" parameterType="_int" >
