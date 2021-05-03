@@ -350,7 +350,17 @@
 						    
 						}
 	                	a+="<span>";
-	                	a+=data[i].alarm_content;
+	                	
+	                	var conte=(data[i].alarm_content).substring(0,25)+"...";
+	                	console.log("자른거 "+conte);
+	                	console.log("길이 ;"+(data[i].alarm_content).length);
+	                	var cl = (data[i].alarm_content).length;
+	                	if(cl>5){
+	                		a+=conte;
+	                	}else{
+	                		a+=data[i].alarm_content;
+	                	}
+	                	
 	                	
 	                	a+="</span></div><button onclick='closealarmDiv(";
 	                	a+=ano;
@@ -566,7 +576,6 @@
 			console.log(ano);
 			closealarmDiv(ano);
 			var bisno=0;
-
 			location.href='${contextPath}/business/godetail';
    		
 		}function gotoReportDetail(mno){
@@ -695,7 +704,6 @@
         console.log('Family Name: ' + profile.getFamilyName()); 
         console.log("Image URL: " + profile.getImageUrl());*/
         console.log("Email: " + profile.getEmail());
-
         // The ID token you need to pass to your backend:
         var id_token = googleUser.getAuthResponse().id_token;
         console.log("ID Token: " + id_token);
@@ -703,25 +711,18 @@
         	 // form
 		console.log("여기오니 ");
             var form = document.createElement("form");     
-
             form.setAttribute("method","post");                    
             form.setAttribute("action","${contextPath}/member/googlelogin");        
-
             document.body.appendChild(form);                        
-
             //input
             var input_id = document.createElement("input");  
-
             input_id.setAttribute("type", "hidden");                 
             
             input_id.setAttribute("user_id",profile.getId());                        
             input_id.setAttribute("email", profile.getEmail());                          
             input_id.setAttribute("nickname", profile.getName());                          
-
             form.appendChild(input_id);
-
              
-
             //폼전송
               form.submit();    
         }

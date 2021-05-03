@@ -236,8 +236,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		USER_INFO
 		 WHERE
 		 		USER_ID = #{user_id}
-		   AND
-		   		USTATUS = 'Y'
 	</select>
 
 	<update id="updateadminMember" parameterType="Member">
@@ -786,15 +784,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 	</insert>
 	<select id="selectAlarmList" parameterType="string" resultMap="AlarmResult">
-		SELECT 
-			    ALARM_NO
+		SELECT ALARM_NO
+			  , ALARM_TYPE
+			  , ALARM_CONTENT
+			  , USER_ID
+			  , REF_NO
+			  , A_STATUS
+              , AD.CHANGE_NAME CHANGE_NAME
+              , ALARM_DATE
+FROM 
+(SELECT 
+                DISTINCT ALARM_NO
 			  , ALARM_TYPE
 			  , ALARM_CONTENT
 			  , A.USER_ID USER_ID
-			  , ALARM_DATE
 			  , REF_NO
 			  , A_STATUS
-			  , AF.CHANGE_NAME CHANGE_NAME
+			  , A.ALARM_DATE ALARM_DATE
 		 FROM ALARM A 
 		 LEFT JOIN QNA Q
 		   ON (A.REF_NO = Q.QA_NO AND ALARM_TYPE=0)
@@ -802,10 +808,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   ON (A.REF_NO = U.USER_ID AND ALARM_TYPE=2)
 		 LEFT JOIN GOODS G
 		   ON (A.REF_NO = G.G_NO AND (ALARM_TYPE=5 OR ALARM_TYPE=1 OR ALARM_TYPE=10 ))
-		 LEFT JOIN GOODSFILE GF
-		   ON (G.G_NO = GF.G_NO)
-		 LEFT JOIN ADDFILE AF 
-		   ON (GF.F_NO = AF.F_NO AND AF.FILE_LEVEL = 1)
 		 LEFT JOIN GOODS_REPLY GR
 		   ON (A.REF_NO = GR.R_NO AND ALARM_TYPE=8)
 		 LEFT JOIN REVIEW R
@@ -815,7 +817,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 LEFT JOIN USER_INFO U
 		   ON (A.REF_NO = U.USER_ID AND ALARM_TYPE = 13)
 		WHERE A.A_STATUS = 'Y'
-		  AND A.USER_ID = #{user_id}
+		  AND A.USER_ID = #{user_id})D
+          JOIN GOODSFILE GF ON(D.REF_NO = GF.G_NO)
+          LEFT JOIN ADDFILE AD ON(GF.F_NO = AD.F_NO)
+          WHERE AD.FILE_LEVEL = 1 
 	</select>
 	
 	<update id="checkAlarm" parameterType="_int" >

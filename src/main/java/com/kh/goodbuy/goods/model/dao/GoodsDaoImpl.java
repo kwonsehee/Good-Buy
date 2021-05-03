@@ -282,6 +282,7 @@ public class GoodsDaoImpl implements GoodsDao{
 
 	@Override
 	public int selectMyDealListCount(String user_id) {
+		
 		return sqlSession.selectOne("goodsMapper.selectMyDealListCount",user_id);
 	}
 

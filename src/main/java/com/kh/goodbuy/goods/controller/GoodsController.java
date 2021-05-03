@@ -403,7 +403,7 @@ public class GoodsController {
 
 	
 	//댓글 작성
-	@PostMapping(value="/insertReply", produces ="application/json; charset= utf-8")
+	@PostMapping(value="insertReply", produces ="application/json; charset= utf-8")
 	public @ResponseBody String insertReply(Reply r, HttpSession session,HttpServletRequest request) {
 		Goods g = (Goods) request.getSession().getAttribute("g");
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
@@ -609,7 +609,7 @@ public class GoodsController {
 		}
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
-		model.addAttribute("search", search);
+		model.addAttribute("goodsearch", search);
 		
 		return "goods/goodslist";
 	}

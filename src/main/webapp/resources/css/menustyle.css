@@ -303,8 +303,8 @@ button {
 }
 
 #footer_logo {
-	padding-left: 18%;
-	width: 200px;
+	padding-left: 10%;
+	width: 400px;
 }
 
 #tb_footer {
@@ -313,17 +313,17 @@ button {
 }
 
 #footer1 {
-	font-size: 20px;
+	font-size: 24px;
 }
 
 .footer2 {
-	font-size: 14px;
+	font-size: 16px;
 	text-align: right;
 	margin-right: 10%;
 }
 
 .footer3 {
-	font-size: 14px;
+	font-size: 16px;
 	margin-top: -10px;
 }
 
@@ -497,7 +497,6 @@ width:260px; /* border :1px solid blue; */
 /*알림 관련 부분*/
 #alarmArea{
 	display:none;
-	border :1px solid red; 
 	width:210px; 
 	position: absolute;
 	z-index:10;

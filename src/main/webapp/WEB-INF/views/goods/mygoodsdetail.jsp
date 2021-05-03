@@ -153,6 +153,7 @@
               		  
               	 
               	   tableBody.append(a);
+              	 $('#counter').html("(0 / 1000)");
               	   
                  }
             
@@ -194,8 +195,7 @@
               	   
                  }
             
-            //-> 댓글 작성 <textarea> 비워주기
-			  $("#replyContent").val("");
+           
 		  }
 		  
 	   });

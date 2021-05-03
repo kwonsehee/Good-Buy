@@ -25,4 +25,5 @@ public class News {
 	private int fNo;
 	private String nStatus;
 	private String photo;
+	private String shopName;
 }

@@ -200,7 +200,7 @@
                		<div id="firstArea">
                     <label id="reviewTitle">후기</label>
                     <label id="reviewCount">${business.reviewCount }</label>
-                     <h5>후기가 없습니다.</h5>                                
+                     <h5 id="reviewnone">후기가 없습니다.</h5>                                
                 	</div>
              	 </c:if>
              	

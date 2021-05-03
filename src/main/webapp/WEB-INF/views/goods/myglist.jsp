@@ -96,10 +96,10 @@
                     ...
                     </c:if>
                     </span>
-                    <a data-bs-toggle="modal" data-bs-target="#deleteModal" data-gno="${a.gno}" data-gtitle="${a.gtitle }" class="deleteBtn">삭제</a>
-                    
+                    <p data-bs-toggle="modal" data-bs-target="#deleteModal" data-gno="${a.gno}" data-gtitle="${a.gtitle }" class="deleteBtn">삭제</p>
+                   
                     <br>
-                   <p class="price_font">${a.gprice}원</p>
+                    <p class="price_font">${a.gprice}원</p>
                     <p class="date_font">${a.createDate}</p>
                 </td>
             </c:forEach>

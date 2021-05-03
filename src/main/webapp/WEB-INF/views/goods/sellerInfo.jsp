@@ -168,7 +168,7 @@
         
         $(function(){
             $(document).on("click","#followBtn",function(){
-            	var seller_id = $("#seller_id").text();
+            	var seller_id = $("input[name=reported_id]").val();
            
             console.log(seller_id);
            	 document.getElementById("follow_area").value='';
@@ -216,7 +216,7 @@
          })
           $(function(){
           	 $(document).on("click","#canselfollowBtn",function(){
-          		var seller_id = $("#seller_id").text();
+          		var seller_id = $("input[name=reported_id]").val();
               	 document.getElementById("follow_area").value='';
                $.ajax({
                   url : "${contextPath}/member/unfollow",

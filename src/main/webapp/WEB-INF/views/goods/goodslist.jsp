@@ -38,12 +38,12 @@
             				<c:param name="cate" value="패션잡화"/>
             		</c:url>
            		  	<li><a href="${selected1}"> 패션잡화 </a></li>
-                        <li><a href="${contextPath }/goods/list">디지털/가전</a></li>
-                        <li><a href="${contextPath }/goods/list">도서/티켓/취미/애완</a></li>
+                        <li><a href="${contextPath }/goods/list">디지털•가전</a></li>
+                        <li><a href="${contextPath }/goods/list">도서•티켓•취미•애완</a></li>
                         <li><a href="${contextPath }/goods/list">스타굿즈</a></li>
-                        <li><a href="${contextPath }/goods/list">생활/문구/가구/식품</a></li>
-                        <li><a href="${contextPath }/goods/list">스포츠/레저</a></li>
-                        <li><a href="${contextPath }/goods/list">뷰티/미용</a></li>
+                        <li><a href="${contextPath }/goods/list">생활•문구•가구•식품</a></li>
+                        <li><a href="${contextPath }/goods/list">스포츠•레저</a></li>
+                        <li><a href="${contextPath }/goods/list">뷰티•미용</a></li>
                     </ul>
                 </div>
             </td>

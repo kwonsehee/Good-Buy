@@ -9,7 +9,7 @@
 
 #gbSection{
 	margin-top:30px;
-	height:2900px;
+	height:2920px;
 }
 
 p{
@@ -17,9 +17,8 @@ p{
 }
 
 #titleWrap{
-	/* border:1px solid black; */
-	width: 35%;
-    margin-left: 50px;
+	width: 30%;
+    margin-left: 120px;
     margin-top: 150px;
     float:left;
     z-index:1;
@@ -44,7 +43,7 @@ p{
 }
 
 #titleWrap h1{
-	font-size:50px;
+	font-size:56px;
 	font-family: 'InkLipquid';
 	margin-left:55px;
 	margin-bottom:20px;
@@ -64,10 +63,9 @@ p{
 }
 
 #mainImgWrap{
-	/* border:1px solid black; */
 	width:57%;
 	height:700px;
-	margin-left:40%;
+	margin-left:38%;
 }
 #bigdot{
 	width:45%;
@@ -90,7 +88,6 @@ p{
 }
 
 #threePhotoWrap{
- 	border:1px solid #fff;
  	margin-top:-80px;
 }
 
@@ -106,7 +103,7 @@ p{
 }
 
 #mainPhoto1{
-	margin-left:5%;
+	margin-left:8%;
 }
 #mainPhoto2{
 	margin-left:50%;
@@ -118,9 +115,10 @@ p{
 
 #saveWrap1{
 	width:30%;
-	margin-top:110px;
-	margin-left:26%;
+	margin-top:60px;
+	margin-left:25%;
 	margin-bottom:150px;
+	padding-top:90px;
 }
 #saveWrap1 p{
 	padding-left:30px;
@@ -129,7 +127,7 @@ p{
 #saveWrap2{
 	width:30%;
 	margin-top:250px;
-	margin-left:60%;
+	margin-left:58%;
 	margin-bottom:160px;
 }
 #saveWrap2 p{
@@ -139,7 +137,7 @@ p{
 #saveWrap3{
 	width:30%;
 	margin-top:-110px; 
-	margin-left:52%;
+	margin-left:56%;
 }
 #saveWrap3 p{
 	color:#949999;
@@ -162,8 +160,8 @@ p{
 }
 
 #forrest{
-	width:400px;
-	margin-left:100px;
+	width:450px;
+	margin-left:150px;
 }
 
 
