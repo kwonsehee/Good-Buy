@@ -274,29 +274,31 @@
 			<div class="modal-content">
 			<div class="modal-header">
 					<div class="titleWrap">
-						<span class="circle"></span> <span class="welcome">like goods!</span>
+						<span class="circle"></span> <span class="welcome">찜한 유저</span>
 						<span class="circle"></span>
 					</div>
 				</div>
 				<div class="modal-body">
-	
-					<div  style="overflow:scroll; height:150px;">
-						 <c:if test="${ !empty likelist }">
-            	<c:forEach var="r" items="${ likelist }">
-             
-                   ${r } <br>
-             </c:forEach>
-             </c:if>
-   			<c:if test="${ empty likelist }">
-   			<img src="${ contextPath }/resources/images/logo.png" width="40%;" style="margin: auto;">
-   				아직 해당 상품을 찜한사람이 없습니다.
-   			</c:if>
-					
+
+						<c:if test="${ !empty likelist }">
+					<div style="overflow: scroll; height: 150px;" class="likelistDiv">
+							<c:forEach var="r" items="${ likelist }">
+								<p class="likeGoodsP">${r}	</p>
+							
+							</c:forEach>
 					</div>
+						</c:if>
+						<c:if test="${ empty likelist }">
+							<img src="${ contextPath }/resources/images/logo.png"
+								class="likeGoodsModalImg">
+							<p class="likeGoodsP">아직 해당 상품을 찜한 사람이 없습니다.</p>
+						</c:if>
+
 					
 
+
 				</div>
-			<div class="modal-footer">
+				<div class="modal-footer">
 					
 						<button type="button" id="closeBtn" data-bs-dismiss="modal">닫기</button>
 					</div>
