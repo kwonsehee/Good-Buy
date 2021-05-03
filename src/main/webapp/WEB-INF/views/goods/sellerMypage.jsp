@@ -232,42 +232,45 @@
           })
         </script>
         
-  	<div id="reviewSection" style="border : 1px solid red;">
+  	<div id="reviewSection">
 		<div style="text-align: center; padding-bottom: 2%;">
 			<a class="goods_text" onclick="changeMenu(0)" style="color: #9a9999; font-weight: bold;">상품</a>
 			<a class="review_text" onclick="changeMenu(1)"style="color: #9a9999;" >거래후기</a>
 			<a class="following_text" onclick="changeMenu(2)" style="color: #9a9999;">팔로잉</a> 
 			<a class="follower_text" onclick="changeMenu(3)" style="color: #9a9999;">팔로우</a>
 		</div>
-		<div id="followlist_area" class="following_div" style="border : 1px solid blue;">
+		<div  class="following_div" >
         <!-- 판매자를 팔로우하는 list 부분 -->
        	<jsp:include page="../goods/sellerfollowing.jsp"/>
         </div>
-        <div id="followlist_area" class="review_div" style="border : 1px solid blue;">
+        <div  class="review_div" >
         <!--리뷰 list 부분 -->
 		<jsp:include page="../goods/reviewDiv.jsp"/>
 		</div>
-		<div id="followlist_area" class="follower_div" style="border : 1px solid blue;">
+		<div class="follower_div" >
         <!-- 판매자가 팔로우하는 list 부분 -->
     	<jsp:include page="../goods/sellerfollow.jsp"/> 
     	</div>
-    	<div id="followlist_area" class="goods_div" style="border : 1px solid blue;"> 
+    	<div  class="goods_div" > 
         <!-- 판매자의 상품 list 부분 -->
         <jsp:include page="../goods/sellerGoods.jsp"/>   
 		</div>
 		
 	</div>
-       
-    <script type="text/javascript">
+   <script type="text/javascript">
     function changeMenu(num){
     	console.log(num);
     	if(num==0){
-    		 $(".review_div").css("display","none");
+
+    		$(".review_div").css("display","none");
     		 $(".follower_div").css("display","none");
     		 $(".following_div").css("display","none");
     		 $(".goods_div").toggle();
-    		 $(".following_text .follower_text .review_text").css("color","#9a9999");
-    		 $(".following_text .follower_text .review_text").css("font-weight","");
+    		 $(".following_text").css("color","#9a9999").css("font-weight","normal");
+    		 $(".follower_text").css("color","#9a9999").css("font-weight","normal");
+    		 $(".review_text").css("color","#9a9999").css("font-weight","normal");
+    		/*  $(".following_text,.follower_text,.review_text").css("color","#9a9999");
+    		 $(".following_text,.follower_text,.review_text").css("font-weight",""); */
     		 $(".goods_text").css("color","black");
     		 $(".goods_text").css("font-weight","bold");
     		 
@@ -276,8 +279,13 @@
 		 $(".follower_div").css("display","none");
 		 $(".following_div").css("display","none");
 		 $(".review_div").toggle();
-		 $(".following_text .goods_text .follower_text").css("color","#9a9999");
-		 $(".following_text .goods_text .follower_text").css("font-weight","");
+	/* 	 $(".following_text,.goods_text,.follower_text").css("color","#9a9999");
+		 $(".following_text,.goods_text,.follower_text").css("font-weight",""); */
+		 
+		 $(".following_text").css("color","#9a9999").css("font-weight","normal");
+		 $(".follower_text").css("color","#9a9999").css("font-weight","normal");
+		 $(".goods_text").css("color","#9a9999").css("font-weight","normal");
+		 
 		 $(".review_text").css("color","black");
 		 $(".review_text").css("font-weight","bold");
 		 
@@ -287,8 +295,11 @@
    		 $(".follower_div").css("display","none");
    		 $(".review_div").css("display","none");
    		 $(".following_div").toggle();
-   		 $(".review_text .goods_text .follower_text").css("color","#9a9999");
-   		 $(".review_text .goods_text .follower_text").css("font-weight","");
+   		 $(".review_text").css("color","#9a9999").css("font-weight","normal");
+		 $(".follower_text").css("color","#9a9999").css("font-weight","normal");
+		 $(".goods_text").css("color","#9a9999").css("font-weight","normal");
+   		/*  $(".review_text,.goods_text,.follower_text").css("color","#9a9999");
+   		 $(".review_text,.goods_text,.follower_text").css("font-weight",""); */
    		 $(".following_text").css("color","black");
    		 $(".following_text").css("font-weight","bold");
    		 
@@ -298,8 +309,11 @@
    		 $(".review_div").css("display","none");
    		 $(".following_div").css("display","none");
    		 $(".follower_div").toggle();
-   		 $(".following_text .goods_text .review_text").css("color","#9a9999");
-   		 $(".following_text .goods_text .review_text").css("font-weight","");
+   		 $(".following_text").css("color","#9a9999").css("font-weight","normal");
+		 $(".review_text").css("color","#9a9999").css("font-weight","normal");
+		 $(".goods_text").css("color","#9a9999").css("font-weight","normal");
+   		/*  $(".following_text,.goods_text,.review_text").css("color","#9a9999");
+   		 $(".following_text,.goods_text,.review_text").css("font-weight",""); */
    		 $(".follower_text").css("color","black");
    		 $(".follower_text").css("font-weight","bold");
    		 

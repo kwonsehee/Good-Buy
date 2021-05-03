@@ -14,15 +14,15 @@
 
 </head>
 <body>
-
+<div class="gray_back">
 			<c:forEach var="f" items="${flist }">
 				<div class="follow_div">
 					<c:if test="${f.photo eq null }">
-						<img src="${ contextPath }/resources/images/image 57.png">
+						<img src="${ contextPath }/resources/images/image 57.png"class="follow_photo">
 					</c:if>
 
 					<c:if test="${f.photo ne null }">
-						<img src="${ contextPath }/resources/images/userProfilePhoto/${f.photo }">
+						<img src="${ contextPath }/resources/images/userProfilePhoto/${f.photo }"class="follow_photo">
 					</c:if>
 					<p>${f.nickname }</p>
 					<p>상품 ${f.followCnt }&nbsp;팔로워 ${f.goodsCnt}</p>
@@ -43,7 +43,7 @@
 				</div>
 			</c:forEach>
 
-
+</div>
 
 
 	<script>
