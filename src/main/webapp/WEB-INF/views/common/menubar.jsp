@@ -294,7 +294,7 @@
 			            tableBody.html("");
 						console.log("새알림관련 여기오니?");
 						
-						var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
+						var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/onalarm.png' style='margin-top:27px;'id='alarm'></a>"; 
 						a+="<div id='alarmArea'>";
 						for(var i in data){
 						var aType = data[i].alarm_type;
@@ -325,7 +325,7 @@
 		               
 						}else if(aType==0 ){
 							a +="<div class='alarmDiv' onclick='gotoQnADetail(";
-		                	a+=goVal;
+							a+=goVal+","+ano;
 		                	a+=")'>";
 		                	
 						    
@@ -351,8 +351,16 @@
 						}
 	                	a+="<span>";
 	                	
+	                	var conte=(data[i].alarm_content).substring(0,25)+"...";
+	                	console.log("자른거 "+conte);
+	                	console.log("길이 ;"+(data[i].alarm_content).length);
+	                	var cl = (data[i].alarm_content).length;
+	                	if(cl>5){
+	                		a+=conte;
+	                	}else{
+	                		a+=data[i].alarm_content;
+	                	}
 	                	
-	                	a+=data[i].alarm_content;
 	                	
 	                	
 	                	
@@ -465,7 +473,7 @@
 					            tableBody.html("");
 								console.log("새알림관련 여기오니?");
 								
-								var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
+								var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/onalarm.png' style='margin-top:20px;'id='alarm'></a>"; 
 								a+="<div id='alarmArea'>";
 								for(var i in data){
 								var aType = data[i].alarm_type;
@@ -496,7 +504,8 @@
 				               
 								}else if(aType==0 ){
 									a +="<div class='alarmDiv' onclick='gotoQnADetail(";
-				                	a+=goVal;
+									a+=goVal+","+ano;
+									
 				                	a+=")'>";
 				                	
 								    
@@ -515,13 +524,22 @@
 								    
 								}else if(aType==11||aType==12 ){
 									a +="<div class='alarmDiv' onclick='gotoSellerDetail(";
-				                	a+=goVal;
+									a+=ano;
 				                	a+=")'>";
 				                	
 								    
 								}
 			                	a+="<span>";
-			                	a+=data[i].alarm_content;
+			                	var conte=(data[i].alarm_content).substring(0,25)+"...";
+			                	console.log("자른거 "+conte);
+			                	console.log("길이 ;"+(data[i].alarm_content).length);
+			                	var cl = (data[i].alarm_content).length;
+			                	if(cl>5){
+			                		a+=conte;
+			                	}else{
+			                		a+=data[i].alarm_content;
+			                	}
+			                	
 			                	
 			                	a+="</span></div><button onclick='closealarmDiv(";
 			                	a+=ano;
@@ -574,7 +592,7 @@
    		
 		}function gotoReportDetail(mno){
 			console.log(mno);
-			closealarmDiv(ano);
+			closealarmDiv(mno);
 			location.href='${ contextPath }/mypage/reportedList';
    		
 		}
