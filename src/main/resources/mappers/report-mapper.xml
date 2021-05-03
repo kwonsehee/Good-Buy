@@ -347,7 +347,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		VALUES
 		(
 		  A_SEQ.NEXTVAL
-		, 13
+		, 2
 		, '회원님이 신고 처리 되었습니다.'
 		, #{reported_id}
 		, DEFAULT

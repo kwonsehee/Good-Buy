@@ -112,7 +112,7 @@
                 <c:if test="${n.photo ==null }">
                 <img  class="userPhoto" src="${contextPath}/resources/images/mypage/unknownUser.png">
                 </c:if>
-                <label class="name">${loginUser.nickname }</label>
+                <label class="name">${n.shopName }</label>
                 <label class="address">${ n.address_3 }</label>
                 </div>
             </div>
