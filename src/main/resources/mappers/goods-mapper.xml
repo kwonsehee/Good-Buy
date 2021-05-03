@@ -340,7 +340,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				WHERE G.G_NO = GF.G_NO
 				  AND GF.F_NO = F.F_NO     
 				  AND F.FILE_LEVEL = 1
-				  AND G.USER_ID = 'test2')A 
+				  AND G.USER_ID = #{user_id})A 
 		                            
 		LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 		GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -388,7 +388,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				WHERE G.G_NO = GF.G_NO
 				  AND GF.F_NO = F.F_NO     
 				  AND F.FILE_LEVEL = 1
-				  AND G.USER_ID = 'test2')A 
+				  AND G.USER_ID = #{user_id})A 
 		                            
 		LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 		GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -719,7 +719,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				  AND F.FILE_LEVEL = 1)A
 		                            
 				LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
-                WHERE LG.USER_ID = 'test3'
+                WHERE LG.USER_ID = #{user_id}
 				GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
 				PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
 		
