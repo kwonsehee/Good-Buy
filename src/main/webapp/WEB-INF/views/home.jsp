@@ -28,7 +28,7 @@
    		</script>
    </c:if>
 	<section id="gbSection">
-	
+	<img src="${ contextPath }/resources/images/main/yellowdot.png" id="yellowdot">
 	<div id="titleWrap">
 	<img src="${ contextPath }/resources/images/main/doublequotes.png" id="doublequotes">
 	<h1>당신 근처의 굿-바이 마켓</h1>
