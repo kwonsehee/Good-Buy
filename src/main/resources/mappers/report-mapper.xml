@@ -354,5 +354,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, #{reported_id}
 		)
 	</insert>
-
+<select id="selectReportedid" parameterType="_int" resultType="String">
+	select reported_id from report where re_no = #{re_no}
+	</select>
+	<update id="updateReportedid" parameterType="_int">
+	UPDATE 
+			REPORT
+	   SET 
+            RE_RESULT = 'Y'
+	 WHERE
+	 		RE_NO = #{re_no}
+	</update>
 </mapper>

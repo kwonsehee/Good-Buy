@@ -68,7 +68,7 @@
             
         </div>
         <c:if test="${ QNA.qa_status == 'Y' }">
-	<button id="createButton" type="submit">
+	<button id="createButton" type="submit"  onclick="javascript:btn()">
                	 답 변
             </button>
             </c:if>
@@ -80,7 +80,11 @@
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
-
+<script>
+function btn(){
+    alert('문의 답변 등록이 완료되었습니다.');
+}
+</script>
 
 </body>
 </html>

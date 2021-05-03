@@ -94,7 +94,7 @@
 					
 					<c:if test="${ r.re_result == 'N' }">
 					
-						<th><button id="createButton" onclick="selectReportMember('${r.reported_id}')">신고 처리</button></th>
+						<th><button id="createButton" onclick="selectReportMember(${r.re_no})">신고 처리</button></th>
 					</c:if>
                  
                   </tr>
@@ -147,8 +147,9 @@
          location.href='${contextPath}/admin/reportdetail?re_no=' + re_no + '&page=${ pi.currentPage }';
          // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
       }
-      function selectReportMember(reported_id){
-          location.href='${contextPath}/admin/reportmemberupdate?reported_id=' + reported_id;
+      function selectReportMember(re_no){
+    	  
+          location.href='${contextPath}/admin/reportmemberupdate?re_no=' + re_no;
           // => 상세 페이지 접근 시 기존 page 값도 파라미터로 전달
        }
    </script>

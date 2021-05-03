@@ -50,6 +50,11 @@ public interface ReportDao {
 
 	public int insertAlarmMember(String reported_id);
 
+	public String selectReportedid(int re_no);
+
+	public int updateReportedid(int re_no);
+
+
 
 
 }
