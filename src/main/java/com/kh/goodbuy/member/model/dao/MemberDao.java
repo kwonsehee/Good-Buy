@@ -135,6 +135,8 @@ public interface MemberDao {
 	public int updateUserComment(String user_id, String comment);
 	//비즈프로필번호알아오기
 	public int checkMyshopNo(String user_id);
+
+	public String selectSellerNickname(String user_id);
 			
 
 

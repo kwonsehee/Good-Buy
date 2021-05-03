@@ -347,6 +347,12 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectOne("memberMapper.checkMyshopNo", user_id);
 	}
 
+	@Override
+	public String selectSellerNickname(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectSellerNickname", user_id);
+	}
+
 
 
 	

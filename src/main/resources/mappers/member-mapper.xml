@@ -839,4 +839,10 @@ FROM
 		  FROM BUS_INFO
 		 WHERE USER_ID = #{user_id}
 	</select>
+	<select id="selectSellerNickname" parameterType="string" resultType="string">
+		SELECT NICKNAME
+		FROM USER_INFO
+		WHERE USER_ID= #{user_id}
+	
+	</select>
 </mapper>

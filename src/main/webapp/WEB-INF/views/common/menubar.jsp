@@ -344,7 +344,7 @@
 						    
 						}else if(aType==11||aType==12 ){
 							a +="<div class='alarmDiv' onclick='gotoSellerDetail(";
-		                	a+=goVal;
+		                	a+=ano;
 		                	a+=")'>";
 		                	
 						    
@@ -352,7 +352,7 @@
 	                	a+="<span>";
 	                	
 	                	
-	                		a+=data[i].alarm_content;
+	                	a+=data[i].alarm_content;
 	                	
 	                	
 	                	
