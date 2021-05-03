@@ -206,13 +206,13 @@
             <c:if test="${ !empty rlist }">
             	<c:forEach var="r" items="${ rlist }">
                 <tr>
-                    <td colspan="2">${r.user_id } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.createDate }</td>
+                    <td colspan="2">${r.nickname } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.createDate }</td>
                     
                 </tr>
                 <tr>
                     <td style="width:94%;">${r.rcontent }</td>
                     <td style="width:14%;">
-                    <c:if test="${ r.user_id.equals(loginUser.user_id) }">
+                    <c:if test="${ r.user_id eq loginUser.user_id }">
                     <span class="deleteReply" onclick="deletereplyBtn(${r.rno })">삭제</span>
                     </c:if>
                     </td>
@@ -234,7 +234,7 @@
 
                 </c:if>
                 <c:if test="${ !empty loginUser }">
-                  <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
+                  <p class="reply_left">${ loginUser.nickname }&nbsp;님</p>
                   <c:if test="${ empty loginUser }">
                      <textarea id="replyContent" name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요"></textarea>
                   </c:if>
@@ -301,7 +301,7 @@
             	  var rno = data[i].rno;
             	  var user_id = data[i].user_id;
               	   var a = "<tr> <td colspan='2'>";
-              	   a+=data[i].user_id;
+              	   a+=data[i].nickname;
               	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
               	   a+=data[i].createDate;
@@ -317,11 +317,13 @@
               		  
               	 
               	   tableBody.append(a);
+              	 $('#counter').html("(0 / 1000)");
               	   
                  }
             
             //-> 댓글 작성 <textarea> 비워주기
 			  $("#replyContent").val("");
+			  
 		  }
 		  
 	   });
@@ -345,7 +347,7 @@
             	  var rno = data[i].rno;
             	  var user_id = data[i].user_id;
               	   var a = "<tr> <td colspan='2'>";
-              	   a+=data[i].user_id;
+              	   a+=data[i].nickname;
               	   a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
               	   a+=data[i].createDate;
@@ -364,8 +366,8 @@
               	   
                  }
             
-            //-> 댓글 작성 <textarea> 비워주기
-			  $("#replyContent").val("");
+           
+			 
 		  }
 		  
 	   });

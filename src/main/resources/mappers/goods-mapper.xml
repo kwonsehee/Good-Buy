@@ -92,7 +92,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
       <id property="rno" column="R_NO"/>
       <result property="rcontent" column="RCONTENT"/>
       <result property="ref_rid" column="REF_RID"/>
-      <result property="user_id" column="NICKNAME"/>
+      <result property="nickname" column="NICKNAME"/>
+      <result property="user_id" column="USER_ID"/>
       <result property="createDate" column="CREATE_DATE"/>
       
    </resultMap>
@@ -340,7 +341,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				WHERE G.G_NO = GF.G_NO
 				  AND GF.F_NO = F.F_NO     
 				  AND F.FILE_LEVEL = 1
-				  AND G.USER_ID = 'test2')A 
+				  AND G.USER_ID = #{user_id})A 
 		                            
 		LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 		GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -388,7 +389,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				WHERE G.G_NO = GF.G_NO
 				  AND GF.F_NO = F.F_NO     
 				  AND F.FILE_LEVEL = 1
-				  AND G.USER_ID = 'test2')A 
+				  AND G.USER_ID = #{user_id})A 
 		                            
 		LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
 		GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
@@ -649,6 +650,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , RCONTENT
 			  , TO_CHAR(CREATE_DATE,'YYYY.MM.DD HH24:MI' ) CREATE_DATE
 			  , NICKNAME
+			  , R.USER_ID USER_ID
 			  , R.REF_RID REF_RID
 		 FROM REPLY R JOIN GOODS_REPLY G
 		   ON(R.R_NO = G.R_NO)
@@ -719,7 +721,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				  AND F.FILE_LEVEL = 1)A
 		                            
 				LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
-                WHERE LG.USER_ID = 'test3'
+                WHERE LG.USER_ID = #{user_id}
 				GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
 				PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
 		
@@ -798,34 +800,34 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</update>
 	
 	<select id="selectMyDealListCount" parameterType="string" resultType="_int">
-		SELECT 
-				COUNT(DISTINCT G_NO)
+		 SELECT 
+				COUNT(DISTINCT DEAL_DATE)
 		  FROM 
-		  		DEAL_PAYMENT
-	  GROUP BY 
-	  			USER_ID
+		  		DEAL_PAYMENT 
+		  JOIN  
+		  		GOODS ON(GOODS.G_NO = DEAL_PAYMENT.G_NO)
+		 WHERE 
+		 		DEAL_PAYMENT.USER_ID = #{user_id}
 	</select>
 	
 	<select id="selectMyDealList" parameterType="string" resultMap="GoodsResultSet2">
-		SELECT DISTINCT A.*,DEAL_DATE,ADDRESS_3
-		  FROM
-		  		(SELECT 
-						   G.G_NO GNO
-						 , G_PLACE
-						 , G_PRICE
-						 , G_TITLE
-			             , CHANGE_NAME
-			             , G_STATUS
-			             , G.USER_ID USER_ID            
-					 FROM GOODS G, GOODSFILE GF, ADDFILE F
-					WHERE G.G_NO = GF.G_NO
-					  AND GF.F_NO = F.F_NO     
-					  AND F.FILE_LEVEL = 1)A
-		 JOIN DEAL_PAYMENT DP ON(G_NO = A.GNO)
-	     JOIN TOWN ON(T_NO = G_PLACE)
-		WHERE DP.USER_ID = #{user_id}
-	      AND G_STATUS = 'Y'
-	 ORDER BY DEAL_DATE DESC
+		SELECT  DISTINCT A.* , DEAL_DATE,ADDRESS_3
+        FROM
+              (SELECT 
+                     G.G_NO GNO
+                   , G_PLACE
+                   , G_PRICE
+                   , G_TITLE
+                      , CHANGE_NAME
+                      , G_STATUS
+                      , G.USER_ID USER_ID            
+                FROM GOODS G LEFT JOIN GOODSFILE GF
+                     ON(G.G_NO = GF.G_NO)JOIN ADDFILE F ON(GF.F_NO = F.F_NO  )
+               WHERE  F.FILE_LEVEL = 1)A
+       JOIN DEAL_PAYMENT DP ON(G_NO = A.GNO)
+        JOIN TOWN ON(T_NO = G_PLACE)
+      WHERE DP.USER_ID = #{user_id}
+    ORDER BY DEAL_DATE DESC
 	
 	</select>
 

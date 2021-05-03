@@ -110,35 +110,7 @@
         </div>
 
 
-        <div id="div3">
-        <h1 id="head1" style="color : black;">내 동네 게시글 신고</h1>
-            <table id="table1">
-                <thead>
-                  <tr>
-                    <th>신고 번호</th><th>신고 제목</th><th>신고 대상자</th><th>신고 내용</th><th>신고 상태</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                  <c:forEach var="r" items="${ list3 }">
-               
-               <tr id="tr_hover1" onclick="selectReport(${r.re_no})">
-                    <th>${ r.re_no }</th><th>${ r.retitle }</th><th>${ r.reported_id }</th><th>${ r.re_content }</th>
-                    <c:if test="${ r.re_result == 'Y' }">
-						<th><button id="createButton" disabled>처리 완료</button></th>
-					</c:if>
-					<c:if test="${ r.re_result == 'N' }">
-						<th><button id="createButton" disabled>처리 전</button></th>
-					</c:if>
-                    
-                  </tr>
-            </c:forEach>
-                  
-                </tbody>
-              </table>
-
-
-        </div>
+       
     </section>
 
     <jsp:include page="../common/footer.jsp"/>

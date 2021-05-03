@@ -132,7 +132,7 @@
                 </th>
                 <td colspan="3">
                     <textarea style="resize: none;" id="gcontent" placeholder="상품 설명을 입력해주세요" name="gcomment" required></textarea><br>
-                    <span style="margin-left:85%;">0/1000</span>
+                    <span style="margin-left:85%;"></span>
                 </td>
             </tr>
             <tr>

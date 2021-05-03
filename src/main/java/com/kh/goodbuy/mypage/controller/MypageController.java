@@ -329,6 +329,7 @@ public class MypageController {
 		int listCount = 0;
 		int boardLimit = 5;
 		PageInfo pi;
+		System.out.println("안전거래내역 여기옴? ");
 		
 		List<Goods> dealList;
 		listCount = gService.selectMyDealListCount(loginUser.getUser_id());

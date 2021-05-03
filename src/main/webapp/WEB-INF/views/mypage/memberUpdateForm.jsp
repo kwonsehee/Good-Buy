@@ -13,7 +13,7 @@
 	
 	 <section id="gbSection">
     <div class="totalWrap">
-     <div class="imgWrap">
+     <div class="imgWrap2">
             <img id="joinImg" src="${ contextPath }/resources/images/mypage/join.png">
         </div> 
 

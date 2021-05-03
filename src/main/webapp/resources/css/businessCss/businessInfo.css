@@ -6,6 +6,8 @@
     font-style: normal;
     }
 	    #gbSection{
+	    margin-top:100px;
+	    margin-bottom:120px;
 	        font-family: 'IBMPlexSansKR-Regular';
 	    }
         .area{
@@ -40,7 +42,7 @@
         .btnArea{
             display: flex;
             justify-content: flex-end;
-            padding-right: 333px;
+            padding-right: 434px;
             padding-bottom: 30px;
         }
         #startBtn{

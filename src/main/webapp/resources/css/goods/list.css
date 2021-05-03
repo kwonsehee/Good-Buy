@@ -44,27 +44,31 @@
 }
 
 .price_font{
+	width:200px;
+	margin-left:15%;
 	font-size: 15px !important;
-	padding-left: 15% !important;
 	 margin-top : -35px;
 }
 .title_font{
+	width:200px;
+	margin-left:15%;
 	font-size: 15px !important;
-	padding-left: 15% !important;
     font-weight: 500;
 }
 .date_font{
-    margin-right: 20% !important;
+	width:200px;
     font-size: 13px !important;
     color: #9a9999 !important;
     text-align : right !important;
     margin-top : -35px;
+    margin-left:15%;
 
 }
 .id_font{
+	width:200px;
 	font-size: 13px; 
-	margin-left: 220px;
-	margin-top:-20px;
+	margin-top:3px;
+	margin-left:15%;
     color: #949999;
 }
 .deleteBtn{
@@ -73,7 +77,7 @@
     margin-right : 23%;
 	text-decoration: underline;
 	cursor: pointer;
-	 text-align : right !important;
+	text-align : right !important;
 }
 
 #pageArea{

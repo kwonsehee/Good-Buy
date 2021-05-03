@@ -26,4 +26,5 @@ public class Reply {
 	private String changeName;
 	private int gno;
 
+	private String nickname;
 }

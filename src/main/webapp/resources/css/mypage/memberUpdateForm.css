@@ -8,17 +8,16 @@
 	width:100%;
 }
 
-.imgWrap {
+.imgWrap2 {
 	width: 640px;
-	display: inline-block;
-	float:left;
+ 	display: inline-block; 
+	float:left; 
 	margin-top: 100px;
 	margin-left:5%;
 }
 
 #joinImg {
 	width: 530px;
-	
 }
 
 .formWrap {
