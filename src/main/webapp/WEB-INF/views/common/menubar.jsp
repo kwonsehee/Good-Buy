@@ -90,7 +90,7 @@
                 </li>
                 
                 <li class="li_6" id="alarmContent">
-                	<a onclick="alarmPopup();"style="border : 1px solid red;">
+                	<a onclick="alarmPopup();">
                			<img src="${ contextPath }/resources/images/alarm.png" id="alarm">
                 	</a>
                 </li>

@@ -24,12 +24,12 @@
     width: 101px;
     height: 25px;
     padding: 5px 17px 4px 16px;
-    border-radius: 10px;
+    border-radius: 30px;
     border: solid 1px #9a9999;
     background-color: #f9f9f9;
     color: #9a9999;
     font-size: 14px;
-    margin-left:33%;
+    margin-left:25%;
 }
 .btn_small{
     width: 120px;

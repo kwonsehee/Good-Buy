@@ -60,11 +60,10 @@
             <tr>
                 <td>
                 <c:if test="${ seller.photo ne null }">
-                <img src="${ contextPath }/resources/images/userProfilePhoto/${ seller.photo }" style="width: 150px; border: 1px solid black; border-radius: 100%;">
+                <img src="${ contextPath }/resources/images/userProfilePhoto/${ seller.photo }" class="userPhoto">
                 </c:if>
                  <c:if test="${ seller.photo eq null }">
-                
-                <img src="${ contextPath }/resources/images/person.png" style="width: 150px; border: 1px solid black; border-radius: 100%;">
+                <img src="${ contextPath }/resources/images/mypage/unknownUser.png" class="userPhoto">
                 </c:if>
                 </td>
                 

@@ -60,26 +60,29 @@
             <tr>
                 <td>
                 <c:if test="${ seller.photo ne null }">
-                <img src="${ contextPath }/resources/images/userProfilePhoto/${ seller.photo }" style="width: 150px; border: 1px solid black; border-radius: 100%;">
+                <img src="${ contextPath }/resources/images/userProfilePhoto/${ seller.photo }" class="userPhoto">
                 </c:if>
                  <c:if test="${ seller.photo eq null }">
                 
-                <img src="${ contextPath }/resources/images/person.png" style="width: 150px; border: 1px solid black; border-radius: 100%;">
+                <img src="${ contextPath }/resources/images/person.png" class="userPhoto">
                 </c:if>
                 </td>
                 <td colspan="2" style="padding-left:5%;" >
-                <textarea id="user_comment" style="width : 480px;height : 150px;resize: none;border: solid black 1px;">
                	<c:if test="${seller.user_comment eq null}">
+                <textarea class="user_comment">
                	안녕하세요~ 서로 좋은 물건 공유합시다. 아나바다 운동을 일으켜봅시다.
+               	</textarea>
                	</c:if>
+               	
                	<c:if test="${seller.user_comment ne null}">
-               	${seller.user_comment }
-               	</c:if>
+               	<textarea class="user_comment" >
+               	${seller.user_comment}
                 </textarea>
+               	</c:if>
                 </td>
             	</tr>
            		<tr>
-               <th id="seller_id" style="margin-left : 50px;">${ seller.nickname }</th>
+               <th id="seller_id">${ seller.nickname }</th>
                 <td colspan="2" style="text-align : right"><button type="button" class="btn_small" onclick="updateUserComment();" >수정하기</button></td>
             </tr>
             
