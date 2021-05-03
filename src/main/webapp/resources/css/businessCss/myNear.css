@@ -224,6 +224,8 @@
        font-size: 11px;
        height:30px;
        width: 263px;
+       
+       margin-top:10px;
    }
    .review >b {
        font-size: 13px;

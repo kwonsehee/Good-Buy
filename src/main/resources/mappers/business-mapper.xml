@@ -901,7 +901,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         JOIN AD AD USING(SHOP_NO)
         JOIN BUS_INFO USING(SHOP_NO)
 		WHERE ROWNUM <![CDATA[<=]]> 5
-		 AND VIEW_CNT !=0
+		 
 		 AND BSTATUS != 'N'
 		
 	</select>

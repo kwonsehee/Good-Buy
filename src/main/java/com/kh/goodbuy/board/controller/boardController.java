@@ -142,7 +142,7 @@ public class boardController {
 		String renameFileName = sdf.format(new Date()) + "_" + (int) (Math.random() * 100000)
 				+ originalFileName.substring(originalFileName.lastIndexOf("."));
 
-		String renamePath = folder + "\\" + renameFileName; // 저장하고자하는 경로 + 파일명
+		String renamePath = folder + "/" + renameFileName; // 저장하고자하는 경로 + 파일명
 
 		try {
 			fileup.transferTo(new File(renamePath));

@@ -2,6 +2,7 @@
  
     #gbSection{
         font-family: 'IBMPlexSansKR-Regular';
+        margin-bottom:200px;
     }
 
         #category{
@@ -57,7 +58,7 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            max-width: 1500px;
+            
         }
         #nearNews{
             text-align: center;

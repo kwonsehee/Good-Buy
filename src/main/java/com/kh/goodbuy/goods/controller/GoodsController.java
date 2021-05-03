@@ -609,7 +609,7 @@ public class GoodsController {
 		}
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
-		model.addAttribute("search", search);
+		model.addAttribute("goodsearch", search);
 		
 		return "goods/goodslist";
 	}

@@ -39,11 +39,11 @@
                 <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
                 <form action="${ contextPath }/goods/search" method="get">
-                    <c:if test="${search eq null }">
+                    <c:if test="${goodsearch eq null }">
                     <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
                     </c:if>
-                     <c:if test="${search ne null }">
-                    <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!"  value="${search }" style=" color:#05AAD1;">
+                     <c:if test="${goodsearch ne null }">
+                    <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!"  value="${goodsearch}" style=" color:#05AAD1;">
                     </c:if>
                     <button type="submit">검색</button>
                 </form>

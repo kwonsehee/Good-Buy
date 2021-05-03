@@ -68,17 +68,14 @@
                 </c:if>
                 </td>
                 <td colspan="2" style="padding-left:5%;" >
+                <textarea id="user_comment" style="width : 480px;height : 150px;resize: none;border: solid black 1px;">
                	<c:if test="${seller.user_comment eq null}">
-                <textarea class="user_comment">
                	안녕하세요~ 서로 좋은 물건 공유합시다. 아나바다 운동을 일으켜봅시다.
-               	</textarea>
                	</c:if>
-               	
                	<c:if test="${seller.user_comment ne null}">
-               	<textarea class="user_comment" >
-               	${seller.user_comment}
-                </textarea>
+               	${seller.user_comment }
                	</c:if>
+                </textarea>
                 </td>
             	</tr>
            		<tr>
