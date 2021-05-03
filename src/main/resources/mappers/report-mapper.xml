@@ -342,7 +342,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, ALARM_CONTENT
 		, USER_ID
 		, ALARM_DATE
-		, REF_NO
+		
 		)
 		VALUES
 		(
@@ -351,7 +351,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, '회원님이 신고 처리 되었습니다.'
 		, #{reported_id}
 		, DEFAULT
-		, #{reported_id}
+		
 		)
 	</insert>
 

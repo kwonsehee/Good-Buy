@@ -54,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="fNo" column="F_NO"/>
 		<result property="nStatus" column="NSTATUS"/>
 		<result property="photo" column="PHOTO"/>
+		<result property="shopName" column="SHOP_NAME"/>
 	</resultMap>
 	
 	
@@ -126,6 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , STATUS
 			  , F_NO
 			  , PHOTO
+			  , SHOP_NAME
             FROM
         (
         SELECT  
@@ -228,22 +230,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		(SELECT V.*
         FROM V_BUS_INFO V
         JOIN TOWN T ON(T.T_NO = V.T_NO)
-		<where>
-			<choose>
-				<when test="area == 1">
-				AND ADDRESS_3 = #{address_3}
-				AND ADDRESS_2 = #{address_2}
-				AND ADDRESS_1 = #{address_1}
-				</when>
-				<when test="area == 2">
-				AND ADDRESS_2 = #{address_2}
-				AND ADDRESS_1 = #{address_1}
-				</when>
-				<when test="area == 3">
-				AND ADDRESS_1 = #{address_1}
-				</when>
-			</choose>
-		</where>
+		
+		<if test='area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
 		ORDER BY 평균별점 DESC NULLS LAST)
 		JOIN AD AD USING(SHOP_NO)
 		WHERE ROWNUM <![CDATA[<=]]> 9

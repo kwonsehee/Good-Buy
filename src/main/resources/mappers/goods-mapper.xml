@@ -1167,6 +1167,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, ALARM_DATE
 		, REF_NO
 		, A_STATUS
+		, ALARM_CONTENT
 		)
 		VALUES
 		(
@@ -1175,7 +1176,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, #{userId}
 		, SYSDATE
 		, REVIEW_SEQ.CURRVAL
-		, DEFAULT          
+		, DEFAULT      
+		, CONCAT(#{writerId}, '님이 안전거래 후기를 작성하였하였습니다.');
 		)
 		SELECT * FROM DUAL
 	
