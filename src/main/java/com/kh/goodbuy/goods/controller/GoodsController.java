@@ -263,11 +263,13 @@ public class GoodsController {
 		Goods g = (Goods) request.getSession().getAttribute("g");
 	
 		String sellerPhoto = mService.selectSellerPhoto(g.getUser_id());
+		String sellername = mService.selectSellerNickname(g.getUser_id());
 		if(sellerPhoto !=null) {
 			model.addAttribute("sellerPhoto", sellerPhoto);
 			
 		}
-		
+		model.addAttribute("sellername", sellername);
+System.out.println("sellername"+sellername);		
 		return "goods/sendmsgPopup";
 	}
 	// 중고상품등록

@@ -139,6 +139,8 @@ public interface MemberService {
 		public int updateUserComment(String user_id, String comment);
 		//비즈프로필번호알아오기
 		public int checkMyshopNo(String user_id);
+		//selller 닉네임 알아오기
+		public String selectSellerNickname(String user_id);
 		
 
 

@@ -22,6 +22,7 @@
 
 
       <div class="list">
+
          <div class="title2">동네생활</div>
          
 
@@ -56,6 +57,16 @@
 
 
 
+
+ 
+
+         <div class="title2">동네생활</div>
+             <div id="sublist">
+         <div><p class="title">${b.btitle}</p></div>
+         <div id="propil"><img src="${ contextPath }/resources/images/userProfilePhoto/${b.bphoto}" class="Photo">
+         </div>
+
+
       
          <br>
 
@@ -77,6 +88,35 @@
                          </div>-->
 
          <script>
+
+         <div class="name" style="color: black; font-size: 18px;">${b.userid }</div>
+         <div class="kind"><p class="subject">${b.bcatename}</p></div>
+         <div class="Date" style="font-size: 17px;">${b.bcreatedate}</div>
+
+</div>
+
+
+
+         <div id="board">
+
+            <img class="mainimg"
+               src="${contextPath}/resources/images/boardupload/${b.bfile}"
+               style="width: 800px; height: 470px;">
+         </div>
+
+
+         <div class="bcontent">
+            <pre>${b.bhistory}</pre>
+         </div>
+      </div>
+      <!--     <div id="pass">
+               <a href="javascript:reportPopup()" id="police">신고하기</a></li>
+
+               <a href="javascript:deletePopup()" id="mypass">게시글 삭제</a></li>
+                         </div>-->
+
+      <script>
+
 function heartLike (bno){ 
    $.ajax({
       url:"${contextPath}/board/count",
@@ -115,7 +155,9 @@ function heartLikeCancel(bno){
 
 
 </script>
+
       </div>
+
 
       <div id="replySection">
          <p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
@@ -155,6 +197,7 @@ function heartLikeCancel(bno){
 
 
             </c:if>
+
             
                <c:if test="${ !empty loginUser }">
                   <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
@@ -167,6 +210,20 @@ function heartLikeCancel(bno){
                <input type="hidden" name="bno" value="${b.bno}">
                <button id="writeBtn">등록하기</button>
             
+
+
+            <c:if test="${ !empty loginUser }">
+               <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
+               <textarea id="replyContent" name="rcontent"
+                  placeholder="댓글을 작성해주세요"></textarea>
+
+            </c:if>
+
+            <p id="counter" class="reply_left">(0 / 1000)</p>
+            <input type="hidden" name="bno" value="${b.bno}">
+            <button id="writeBtn">등록하기</button>
+
+
             <script>
                
                   var imgs;

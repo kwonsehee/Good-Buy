@@ -1,311 +1,264 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
 
-
-<link href="${contextPath }/resources/css/board/boardDetail.css"
-   rel="stylesheet" type="text/css">
-
-</head>
-<body>
-   <jsp:include page="../common/menubar.jsp" />
-
-   <section id="gbSection">
-
-
-
-      <div class="list">
-         <div class="title2">동네생활</div>
-         
-
-               
-         <div id="hearts">
-
-            <button id="heartLike" class="heart" onclick="heartLike(${b.bno})">
-               <img src="${contextPath }/resources/images/board/heart.png"
-                  style="width: 42px; height: 39px;">
-            </button>
-
-            <button id="heartCancel" class="heart"onclick="heartLikeCancel(${b.bno})" style="display: none;">
-               <img src="${contextPath }/resources/images/board/redheart.png"
-                  style="width: 42px; height: 39px;">
-            </button>
-
-         <div class="heartstory">좋아요를 눌러주세요!"</div>
-         </div>
-
-            <ul>
-               <li><p class="title">${b.btitle}</p></li>
-            <li id="propil"> <img
-               src="${ contextPath }/resources/images/userProfilePhoto/${b.bphoto}"
-               class="Photo"></li>
-               
-               <li class="name" style="color: black; font-size: 18px;">${b.userid }</li>
-               <li><div class="kind">
-                     <p class="subject">${b.bcatename}</p>
-                  </div></li>
-               <li class="Date" style="font-size: 17px;">${b.bcreatedate}</li>
-            </ul>
-
-
-
-      
-         <br>
-
-         <div id="board">
-
-            <img class="mainimg"
-               src="${contextPath}/resources/images/boardupload/${b.bfile}"
-               style="width: 800px; height: 470px;">
-         </div>
-
-
-         <div class="bcontent">
-            <pre>${b.bhistory}</pre>
-         </div>
-            <!--     <div id="pass">
-               <a href="javascript:reportPopup()" id="police">신고하기</a></li>
-
-               <a href="javascript:deletePopup()" id="mypass">게시글 삭제</a></li>
-                         </div>-->
-
-         <script>
-function heartLike (bno){ 
-   $.ajax({
-      url:"${contextPath}/board/count",
-      data:{bno:bno},
-      type:"POST",
-      success:function (data){
-         console.log(data);
-       
-         $("#heartLike").hide();
-         $("#heartCancel").show();
-      },
-      error:function(e){
-         console.log(e);
-      }
-      
-   });
-   
+@font-face {
+   font-family: 'Jal_Onuel';
+   src:
+      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Jal_Onuel.woff')
+      format('woff');
+   font-weight: normal;
+   font-style: normal;
 }
-function heartLikeCancel(bno){
-   $.ajax({
-      url:"${contextPath}/board/countCancel",
-      data:{bno:bno},
-      type:"POST",
-      success:function (data){
-         console.log(data);
-         $("#heartLike").show();
-         $("#heartCancel").hide();
-      },
-      error:function(e){
-         console.log(e);
-      }
-      
-   });
-   
+
+* {
+   font-family: 'Jal_Onuel' !important;
+}
+
+#backBtn {
+   width: 28px;
+   float: left;
+   margin-left: 14%;
+   cursor: pointer;
+}
+
+.title_h1 {
+   margin-left: 50%;
+   transform: translate(-50%);
+   text-align: center;
+   margin-top: 50px;
+   font-size: 20px;
+}
+
+.townserch {
+   text-align: center;
+}
+
+#townbox {
+   width: 500px;
+   height: 35px;
+   margin-bottom: 50px;
+   border: 3px solid #05AAD1;
+   border-radius: 25px;
+   font-size: 14px;
+   padding-left: 30px;
+   color: #05AAD1;
+}
+
+#townbutton {
+   margin-top: 33px;
+   background: black;
+   color: white;
+   border-radius: 27px;
+   width: 70px;
+   height: 39px;
+   font-size: 14px;
+   font-weight: bold;
+   border: 0px;
+}
+
+.categorys {
+   list-style: none;
+   width: 800px;
+   height: 50px;
+   margin: 0;
+   padding: 0;
+   margin-left: 50%;
+   margin-top: 30px;
+   transform: translate(-50%);
+   text-align: center;
 }
 
 
-</script>
-      </div>
 
-      <div id="replySection">
-         <p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
-         <table id="replyTable">
+.title2 {
+   margin: 3% 44% 10% 41%;
+   font-style: boild;
+   font-size: 30px;
+}
+/**/
+#sub_board {
+   color: #222;
+}
 
-            <c:if test="${ !empty rlist }">
-               <c:forEach var="r" items="${ rlist }">
-                  <tr>
-                     <td colspan="2">${r.user_id}
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.createDate }</td>
+#sub_shop, #sub_goods {
+   color: #9A9999;
+}
 
-                  </tr>
-                  <tr>
-                     <td style="width: 94%;">${r.rcontent }</td>
-                     <td style="width: 14%;"><c:if
-                           test="${ r.user_id.equals(loginUser.user_id) }">
-                           <span class="deleteReply" onclick="deletereplyBtn(${r.rno })">삭제</span>
-                        </c:if></td>
-                  </tr>
-               </c:forEach>
-            </c:if>
-            <c:if test="${ empty rlist }">
-               <tr>
-                  <td colspan="3">작성된 댓글이 없습니다.
-               </tr>
-            </c:if>
+.list {
+   text-align: center;
+   border: 1px solid #fff;
+   width: 65%;
+   margin: auto;
+   margin-top: 7%;
+}
 
-
-         </table>
-
-         <div id="replyWrite">
-            <input type="hidden" id="sessionloginuser"
-               value='${loginUser.user_id }' />
-            <c:if test="${ empty loginUser }">
-               <textarea name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요"
-                  onclick="noUser()"></textarea>
-
-
-            </c:if>
-            
-               <c:if test="${ !empty loginUser }">
-                  <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
-                  <textarea id="replyContent" name="rcontent"
-                     placeholder="댓글을 작성해주세요"></textarea>
-
-               </c:if>
-
-               <p id="counter" class="reply_left">(0 / 1000)</p>
-               <input type="hidden" name="bno" value="${b.bno}">
-               <button id="writeBtn">등록하기</button>
-            
-            <script>
-               
-                  var imgs;
-                  var img_count;
-                  var img_position = 1;
-                  imgs = $(".slider ul");
-                  img_count = imgs.children().length;
-                  console.log(img_count);
-                  //button clickc
-                  $('#back').click(function(){
-                     if(1<img_position){
-                        imgs.animate({
-                           left : '+=400px'
-                        });
-                        img_position--;
-                     }
-                  });
-                  $('#next').click(function(){
-                     if(img_count>img_position){
-                        imgs.animate({
-                           left : '-=400px'
-                        });
-                        img_position++;
-                     }
-                  });
-               
-            
-            </script>
-
-
-
-
-
-            <script>
-             
-   $("#writeBtn").on("click", function(){
-      
-      var rcontent = $("#replyContent").val();
-      var loginid = $("#sessionloginuser").val();
-      $.ajax({
-         url : "${contextPath}/board/insertReply",
-         data : {rcontent : rcontent},
-        type : "post",
-        dataType : "json",
-        success : function(data){
-           console.log(data);//해당 게시글에 작성된 댓글리스트 받아오기
-          //-> <tbody> 안에 data 의 댓글 리스트를 형식에 맞게 세팅 
-              
-           tableBody = $("#replyTable");
-              tableBody.html("");
-      
-           console.log(loginid);
-              for(var i in data){
-                 var rno = data[i].rno;
-                 var user_id = data[i].user_id;
-                    var a = "<tr> <td colspan='2'>";
-                    a+=data[i].user_id;
-                    a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-
-                    a+=data[i].createDate;
-                    a+="</td></tr><tr><td style='width:94%;'>";
-                    a+=data[i].rcontent;
-                    if(user_id==loginid){
-                       
-                          a+="</td><td style='width:14%;'><span class='deleteReply' onclick='deletereplyBtn("+rno+")'>삭제</span></td></tr>";
-                    }else{
-                          a+="</td><td style='width:14%;'></td></tr>";
-                       
-                    }
-                      
-                  
-                    tableBody.append(a);
-                    
-                 }
-            
-            //-> 댓글 작성 <textarea> 비워주기
-           $("#replyContent").val("b");
-        }
-        
-      });
-   });
-   function deletereplyBtn(rno){
-      console.log(rno);
-      var loginid = $("#sessionloginuser").val();
-      $.ajax({
-         url : "${contextPath}/board/deleteReply",
-         data : {rno : rno},
-        type : "post",
-        dataType : "json",
-        success : function(data){
-           console.log(data);//해당 게시글에 작성된 댓글리스트 받아오기
-          //-> <tbody> 안에 data 의 댓글 리스트를 형식에 맞게 세팅 
-              
-           tableBody = $("#replyTable");
-              tableBody.html("");
-              
-              for(var i in data){
-                 var rno = data[i].rno;
-                 var user_id = data[i].user_id;
-                    var a = "<tr> <td colspan='2'>";
-                    a+=data[i].user_id;
-                    a+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-
-                    a+=data[i].createDate;
-                    a+="</td></tr><tr><td style='width:94%;'>";
-                    a+=data[i].rcontent;
-                    if(user_id==loginid){
-                       
-                          a+="</td><td style='width:14%;'><span class='deleteReply' onclick='deletereplyBtn("+rno+")'>삭제</span></td></tr>";
-                    }else{
-                          a+="</td><td style='width:14%;'></td></tr>";
-                       
-                    }
-                      
-                  
-                    tableBody.append(a);
-                    
-                 }
-            
-            //-> 댓글 작성 <textarea> 비워주기
-           $("#replyContent").val("");
-        }
-        
-      });
-   }
+#list {
    
-   </script>
-         </div>
+}
+#sublist{
+   
+}
+.subject {
+   
+    margin-left: 18%;
+    height: 27px;
+    width: 75px;
+    /* padding-left: 81%; */
+    font-size: 11px;
+    /* text-align: center; */
+    border: 1px solid #9A9999;
+    color: #9A9999;
+    background: #F9F9F9;
+    border-radius: 15px;
+    padding: -6px;
+    /* padding-right: 7%; */
+    margin-top: 1%;
+    
+}
 
-      </div>
 
 
 
-   </section>
 
+#propil {
 
+}
 
-   <jsp:include page="../common/footer.jsp" />
+.title {
 
+  
+margin-right: 50%;
+    font-size: 24px;
+    color: #222;
 
-</body>
-</html>
+}
+
+.bcontent {
+   padding: 10% 25% 10% 35%;
+   margin: 0;
+   font-size: 30px;
+   color: #696666d0;
+   font-size: 18px;
+   padding-left: 13%;
+    padding-bottom: 14%;
+}
+
+.page {
+   font-size: 20px;
+   margin: 3% 0 0 5%;
+}
+
+.Photo {
+       width: 112px;
+    height: 106px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 76%;
+}
+
+.name {
+margin-top: -9%;
+    margin-right: 57%;
+   color: black;
+   font-size: 24px;
+}
+
+.Date {
+    margin-right: 53%;
+   color: #696666d0;
+}
+
+.filter:hover {
+   color: black;
+}
+
+#police {
+   font-size: 18px;
+   color: red;
+}
+
+#mypass {
+   font-size: 18px;
+   color: gray;
+}
+
+#board {
+   display: inline-block;
+       margin-top: 11%;
+}
+.heart{
+   background-color: white;
+    border: white;
+}
+#hearts {
+   margin-top: 20%;
+    margin-bottom: -23%;
+    margin-left: 66%;
+}
+
+.heartstory {
+   font-size: 14px;
+   color: #696666d0;
+}
+#heartlike{
+   background-color: white;
+    border: 1px;
+}
+#heartCancel{
+   background-color: white;
+    border: 1px;
+}
+.subdate {
+   
+}
+
+/*댓글*/
+#replySection {
+   background-color: #fafafa;
+   width: 80%;
+   margin: auto;
+}
+
+#replySection td {
+   width: 33%;
+   padding-bottom: 23px;
+   padding-left: 50px;
+}
+
+#replySection tr:nth-child(odd) {
+   color: #9a9999;
+}
+
+#replyWrite {
+   width: 95%;
+   margin: auto;
+   margin-top: 2%;
+}
+
+#replyWrite textarea {
+   width: 100%;
+   height: 90px;
+   resize: none;
+   background: none;
+   border: 1px solid #75757552;
+
+   /* display: inline-block; */
+}
+
+#writeBtn {
+   margin-left: 93%;
+   display: inline-block;
+   width: 100px;
+   height: 35px;
+   border-radius: 27px;
+   font-size: 14px;
+   background-color: #000000;
+   border: 0px;
+   color: white;
+}
+
+.deleteReply {
+   margin-left: -66%;
+}
+
+#pass {
+   padding-left: 81%;
+}

@@ -44,7 +44,6 @@ public class Goods {
 	private Date dealDate;
 	private int ranking;
 	private int rnum;
-	
 
 	
 	public Goods(Integer gno, String user_id) {

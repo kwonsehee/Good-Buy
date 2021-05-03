@@ -146,7 +146,7 @@ margin-left: 180%;
                 <img src="${ contextPath }/resources/images/user.png"class="photo_circle"> 
                </c:if>
             </th>
-            <th><span  style="margin-left:-20%;">${ g.user_id }</span></th>
+            <th><span  style="margin-left:-20%;">${ sellername }</span></th>
         </tr>
         <tr>
             <td rowspan="2" style="width: 100px;">

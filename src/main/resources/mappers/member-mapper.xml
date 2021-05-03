@@ -785,6 +785,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	<select id="selectAlarmList" parameterType="string" resultMap="AlarmResult">
 SELECT ALARM_NO
+
 			  , ALARM_TYPE
 			  , ALARM_CONTENT
 			  , USER_ID
@@ -820,7 +821,9 @@ FROM
 		  AND A.USER_ID = #{user_id})D
           LEFT JOIN GOODSFILE GF ON(D.REF_NO = GF.G_NO)
           LEFT JOIN ADDFILE AD ON(GF.F_NO = AD.F_NO AND AD.FILE_LEVEL = 1)
+
           ORDER BY ALARM_DATE DESC
+
 	</select>
 	
 	<update id="checkAlarm" parameterType="_int" >
@@ -838,5 +841,11 @@ FROM
 		SELECT SHOP_NO
 		  FROM BUS_INFO
 		 WHERE USER_ID = #{user_id}
+	</select>
+	<select id="selectSellerNickname" parameterType="string" resultType="string">
+		SELECT NICKNAME
+		FROM USER_INFO
+		WHERE USER_ID= #{user_id}
+	
 	</select>
 </mapper>

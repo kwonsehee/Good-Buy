@@ -255,6 +255,11 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.checkMyshopNo(user_id);
 	}
+	@Override
+	public String selectSellerNickname(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectSellerNickname(user_id);
+	}
 
 
 
