@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,8 +76,28 @@
             <label id="la2">상품 번호 ${ report.gno }</label><br>
           </div>
           <div id="div4_1_2">
-            <img id="src1" src="${ contextPath }/resources/images/goodupload/${report.change_name}"><br>
+            <div class="slider">
+                <c:if test="${fn:length(g.filelist )>1}">
+                <img src="${ contextPath }/resources/images/left.png" id="back">
+                </c:if>
+                <ul>
+                <c:forEach var="f" items="${ g.filelist }">
+                   <li  class="item"> <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img"></li>
+                </c:forEach>
+                
+                </ul>
+                <c:if test="${fn:length(g.filelist )>1}">
+                <img src="${ contextPath }/resources/images/left.png" id="next">
+				</c:if>
+                </div><br>
             
+            
+            
+            
+                
+                
+                
+                
             </div>
             
 
@@ -103,10 +125,11 @@
           <input type="hidden" name="re_no" value="${ report.re_no }"/>
           <input type="hidden" name="reported_id" value="${ report.reported_id }">
           <input type="hidden" name="re_result" value="Y"/>
+          <input type="hidden" name="gno" value="${ report.gno }"/>
  
-					<c:if test="${ report.re_result == 'N' }">
-						<button id="createButton2" onclick="location.href='${ contextPath }/admin/productupdate?gno=${ report.gno }'">신고 처리</button>
-					</c:if>
+		<c:if test="${ report.re_result == 'N' }">
+				<button id="createButton2" type="submit">신고 처리</button>
+		</c:if>
          
           </form>
 
@@ -119,6 +142,33 @@
 
      <jsp:include page="../common/footer.jsp"/>
 
-
+ <script>
+					
+						var imgs;
+						var img_count;
+						var img_position = 1;
+						imgs = $(".slider ul");
+						img_count = imgs.children().length;
+						console.log(img_count);
+						//button clickc
+						$('#back').click(function(){
+							if(1<img_position){
+								imgs.animate({
+									left : '+=405px'
+								});
+								img_position--;
+							}
+						});
+						$('#next').click(function(){
+							if(img_count>img_position){
+								imgs.animate({
+									left : '-=405px'
+								});
+								img_position++;
+							}
+						});
+					
+				
+				</script>
 </body>
 </html>

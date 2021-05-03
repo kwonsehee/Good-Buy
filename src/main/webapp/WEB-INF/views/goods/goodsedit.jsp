@@ -180,7 +180,7 @@
            <div id="photo_input">
             <input type="file" value="${ contextPath }/resources/images/goodupload/${f}" style="display:none;">
             <img src="${ contextPath }/resources/images/goodupload/${f}" class="slide_img">
-           <button type="button" onclick="delete_file('${f}'  , this)" >삭제</button>
+           <button type="button" class="button-delete-file" onclick="delete_file('${f}'  , this)" >X</button>
            </div>
         </c:forEach>
 		<div id="photo_input1">
@@ -209,7 +209,7 @@
         	img.setAttribute("src", event.target.result); 
         	$(".photo_img").remove();
         	document.querySelector("div#photo_input"+num).append(img);
-        	$("#photo_input"+num).append("<button class='button-delete-file'>삭제</button>");
+        	$("#photo_input"+num).append("<button class='button-delete-file'>X</button>");
         		
         	var a = "<div id='photo_input"+num2+"'><img src='${ contextPath }/resources/images/insertimg.png' class='photo_img' onclick='imgclick("+num2+");'>" 
         	+"<input type='file' id='file"+num2+"' name='fileup' style='display:none;' onchange='setThumbnail(event, "+num2+");' ></div>";

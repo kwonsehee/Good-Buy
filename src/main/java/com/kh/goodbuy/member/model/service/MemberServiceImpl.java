@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
@@ -185,9 +187,73 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateRandomPwd(m);
 	}
 	@Override
-	public List<Messenger> selectMsgListMno(int mno, String user_id) {
+	public Member kakaoLogin(String userId) {
+		// TODO Auto-generated method stub
+		return mDao.kakaoLogin(userId);
+  }
+  @Override
+  public List<Messenger> selectMsgListMno(int mno, String user_id) {
 		int result = mDao.checkMsg(mno);
 		return mDao.selectMsgList(user_id);
+	}
+	@Override
+	public int selectUserReviewCount(String user_id) {
+		return mDao.selectUserReviewCount(user_id);
+	}
+	@Override
+	public List<Review> selectUserReviewList(String user_id, PageInfo pi) {
+		return mDao.selectUserReviewList(user_id,pi);
+	}
+	@Override
+	public int selectShopReviewCount(String user_id) {
+		return mDao.selectShopReviewCount(user_id);
+	}
+	@Override
+	public List<Review> selectShopReviewList(String user_id, PageInfo pi) {
+		return mDao.selectShopReviewList(user_id,pi);
+	}
+	@Override
+	public int deleteUserReview(Review r) {
+		return mDao.deleteUserReview(r);
+	}
+	@Override
+	public int deleteShopReview(Review r) {
+		return mDao.deleteShopReview(r);
+	}
+	@Override
+	public int insertKakaoMember(Member km) {
+		// TODO Auto-generated method stub
+		return mDao.insertKakaoMember(km);
+	}
+	@Override
+	public int selectReportedCount(String report_id) {
+		int result = mDao.selectReportedCount(report_id);
+		if (result >= 3) {
+			return mDao.insertwriteAlarm(report_id);
+		}else {
+			return 0;
+		}
+		
+	}
+	@Override
+	public List<Alarm> selectAlarmList(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.selectAlarmList(user_id);
+	}
+	@Override
+	public List<Alarm> selectAlarmListAno(int mno, String user_id) {
+		int result = mDao.checkAlarm(mno);
+		return mDao.selectAlarmList(user_id);
+	}
+	@Override
+	public int updateUserComment(String user_id, String comment) {
+		// TODO Auto-generated method stub
+		return mDao.updateUserComment(user_id, comment);
+	}
+	@Override
+	public int checkMyshopNo(String user_id) {
+		// TODO Auto-generated method stub
+		return mDao.checkMyshopNo(user_id);
 	}
 
 

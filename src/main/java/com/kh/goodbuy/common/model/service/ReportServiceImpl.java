@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.goodbuy.common.model.dao.ReportDao;
 import com.kh.goodbuy.common.model.vo.Report;
+import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 @Service
@@ -113,6 +114,18 @@ public class ReportServiceImpl implements ReportService{
 	@Override
 	public int updateReportedDate(String user_id) {
 		return rDao.updateReportedDate(user_id);
+	}
+
+	@Override
+	public int insertAlarmproduct(Report r) {
+		// TODO Auto-generated method stub
+		return rDao.insertAlarmproduct(r);
+	}
+
+	@Override
+	public int insertAlarmMember(String reported_id) {
+		// TODO Auto-generated method stub
+		return rDao.insertAlarmMember(reported_id);
 	}
 
 }

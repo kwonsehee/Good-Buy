@@ -3,6 +3,7 @@ package com.kh.goodbuy.common.model.dao;
 import java.util.List;
 
 import com.kh.goodbuy.common.model.vo.Report;
+import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.PageInfo;
 
 public interface ReportDao {
@@ -44,6 +45,10 @@ public interface ReportDao {
 	public List<Report> selectReportList2();
 
 	public List<Report> selectReportList3();
+
+	public int insertAlarmproduct(Report r);
+
+	public int insertAlarmMember(String reported_id);
 
 
 

@@ -2,12 +2,16 @@ package com.kh.goodbuy.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,19 +28,25 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.goodbuy.common.model.service.ReportService;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.member.model.service.MemberService;
 import com.kh.goodbuy.member.model.vo.Member;
 import com.kh.goodbuy.member.model.vo.MyTown;
+import com.kh.goodbuy.member.model.vo.NaverLoginBO;
 import com.kh.goodbuy.town.model.service.TownService;
 import com.kh.goodbuy.town.model.vo.Town;
 
+import net.sf.json.JSONObject;
+
+
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "loginUser", "msg", "townInfo","mtlist", "writeActive"})
+@SessionAttributes({ "loginUser", "msg", "townInfo","mtlist", "writeActive", "kakaoMember"})
 public class MemberController {
 
 	@Autowired
@@ -47,6 +57,17 @@ public class MemberController {
 	private ReportService reService;
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+
+	KakaoAPI kakaoApi = new KakaoAPI();
+	
+	/* NaverLoginBO */
+    private NaverLoginBO naverLoginBO;
+    private String apiResult = null;
+    
+    @Autowired
+    private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+        this.naverLoginBO = naverLoginBO;
+    }
 
 	// 3_2. 일반 로그인 컨트롤러 (DB select)
 	@PostMapping("/login") // 일반 로그인 post 방식
@@ -86,6 +107,7 @@ public class MemberController {
 	    request.getSession().setAttribute("redirectURI", referer);
 		System.out.println("이전페이지 :"+referer);
 		referer = referer.substring(referer.lastIndexOf("goodbuy")+7);
+		System.out.println("이전페이지 자른거:"+referer);
 		// 일반 로그인이까 암호화 필요 o
 		if (loginUser != null && bcryptPasswordEncoder.matches(m.getUser_pwd(), loginUser.getUser_pwd())) {
 			// System.out.println("loginUser : " + loginUser);
@@ -245,7 +267,7 @@ public class MemberController {
 		// MY_TOWN update 
 		// 넘어온 주소값에 해당하는 t_no 조회하기
 		int t_no = tService.selectTownNo(address_3);
-		//System.out.println("업데이트할 유저 동네 " + t_no);
+		System.out.println("업데이트할 유저 동네 " + t_no);
 		MyTown mt = new MyTown(loginUser.getUser_id(), t_no);
 		
 		// 현재 마이타운 타입만 변경,insert,delete 밖에 없으므로 update따로 만들어야함..ㅎ
@@ -432,7 +454,7 @@ public class MemberController {
 		  
 	// 아이디 찾기
 	@PostMapping("/findId")
-	public String findId(String email,ModelAndView mv, Model model,RedirectAttributes rd) {
+	public ModelAndView findId(String email,ModelAndView mv, Model model,RedirectAttributes rd) {
 		
 		String user_id = mService.findeUserId(email);
 		
@@ -446,24 +468,21 @@ public class MemberController {
 			}
 			user_id = user_id.substring(0,3) + star;
 			System.out.println(user_id);
-		//	model.addAttribute("user_id", user_id);
-			rd.addAttribute("user_id", user_id);
-			//mv.setViewName("member/findUserInfo");
-			return "redirect:/member/find";
+			mv.addObject("user_id", user_id);
+			mv.setViewName("member/findUserInfo");
 		} else {
-			//mv.setViewName("member/findUserInfo");
-			return "redirect:/member/find";
+			mv.setViewName("member/findUserInfo");
 		}
 		
-		//return mv;
+		return mv;
 		
 	}
 	
 	// 비밀번호 찾기
 	@PostMapping("/findPwd")
-	public ModelAndView findPwd(String user_id, String email,
-						Model model,ModelAndView mv) {
-		
+	public  @ResponseBody void findPwd(String user_id, String email,
+						Model model,HttpServletResponse response) {
+		 response.setContentType("application/json; charset=utf-8");
 		System.out.println("비번 찾 넘어온 user_id : " + user_id);
 		System.out.println("비번 찾 넘어온 email : " + email);
 		
@@ -490,21 +509,123 @@ public class MemberController {
 		
 		int result = mService.updateRandomPwd(m);
 		
-		mv.addObject("m", m);
 		if(result > 0) {
-			mv.addObject("msg", "success");
-			mv.setViewName("member/findUserInfo");
-			return mv;
-			//model.addAttribute("m", m);
-			//return "redirect:/member/find";
-		}else {
-			mv.addObject("msg", "fail");
-			mv.setViewName("member/findUserInfo");
-			return mv;
-			//return "redirect:/member/find";
+			JSONObject user = new JSONObject();
+			
+			user.put("user_id", m.getUser_id());
+			user.put("email", m.getEmail());
+			user.put("user_pwd", finalPwd);
+			
+			try {
+				PrintWriter out = response.getWriter();
+				out.print(user);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
+
+	@RequestMapping("/auth/kakao/callback")
+	public String kakaoCallback(@RequestParam("code")String code, HttpSession session, Model model) {
+		
+		
+		//1번인증 코드 요청 전달
+		String accessToken = kakaoApi.getAccessToken(code);
+		
+		//2번  인증코드로 토큰 전달
+		HashMap<String, Object> userInfo = kakaoApi.getUserInfo(accessToken);
+		
+		System.out.println("loginUser : "+userInfo);
+		if(userInfo.get("email")!=null) {
+			session.setAttribute("userId", userInfo.get("email"));
+			session.setAttribute("access_token", accessToken);
+			
+		}
+		int check= mService.userIdCheck((String) userInfo.get("id"));
+		if(check==0){
+			//회원가입 필요
+			UUID garbagePass = UUID.randomUUID();
+			
+			Member kakaoMember = new Member();
+			kakaoMember.setUser_id((String) userInfo.get("id"));
+			kakaoMember.setNickname((String) userInfo.get("nickname"));
+			kakaoMember.setEmail((String) userInfo.get("email"));
+			kakaoMember.setUser_pwd(garbagePass.toString());
+		
+
+			int result = kakaoJoin(kakaoMember);
+		
+		}
+		
+		model.addAttribute("kakaoMember", (String) userInfo.get("id"));
+		return "redirect:/member/kakaologin";
+	}
+
+	//카카오톡 회원가입 -> 간편로그인시 회원가입 통일
+	public int kakaoJoin(Member km) {
+
+
+		// 3) MEMBER insert
+		int result = mService.insertKakaoMember(km);
+		System.out.println("회원가입 잘됐나?dddd : " + result);
+
+		// 2) MYTOWN insert
+		MyTown mt = new MyTown(km.getUser_id(), 0);
+		int insertMytown = tService.insertMyTown(mt);
+
+		return result;
+
+	}
+	
+	// 카카오톡 로그인 매서드 ->간편 로그인 통일 
+	@GetMapping("/kakaologin") 
+	public String kakaoLogin(@RequestParam("kakaoMember")String user_id, Model model,HttpServletRequest request) {
+
+		int checkDate = reService.updateReportedDate(user_id);
+
+		String repDate = reService.selectMyReportedDate(user_id);
+		
+		String writeActive;
+		
+		if(repDate != null) {
+			writeActive = "n";
+			System.out.println("writeActive : " + writeActive);
+		}else {
+			writeActive = "y";
+			System.out.println("writeActive : " + writeActive);
+		}
+		
+		model.addAttribute("writeActive", writeActive);
+		
+	
+		Member loginUser = mService.kakaoLogin(user_id);
+		
+
+		if (loginUser != null) {
+			model.addAttribute("loginUser", loginUser);
+		
+			saveUserTown(loginUser.getUser_id(), model);
+			saveUserMtlist(loginUser.getUser_id(),model);
+						
+		} else {
+			model.addAttribute("msg", "로그인에 실패하였습니다.");
+		}
+		return "redirect:/home";
+		
+	}
+	
+	@RequestMapping(value="/logout")
+	public ModelAndView logout(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		
+		kakaoApi.kakaoLogout((String)session.getAttribute("access_token"));
+		session.removeAttribute("access_token");
+		
+		session.removeAttribute("userId");
+		mv.setViewName("home");
+		return mv;
+  }
 
 	//msg확인했다는 표시 
 	@PostMapping(value = "checkMsg", produces = "application/json; charset= utf-8")
@@ -518,6 +639,131 @@ public class MemberController {
 
 		// 응답 작성
 		return gson.toJson(mlist);
+
+	}
+	
+	
+	//네이버 로그인 성공시 callback호출 메소드
+    @RequestMapping(value = "/auth/naver/callback", method = { RequestMethod.GET, RequestMethod.POST })
+    public String callback(Model model, @RequestParam String code, @RequestParam String state,HttpServletResponse response, HttpSession session)
+            throws IOException {
+        System.out.println("여기는 callback");
+     // response를 위한 정의
+     	PrintWriter writer = response.getWriter();
+        OAuth2AccessToken oauthToken;
+        oauthToken = naverLoginBO.getAccessToken(session, code, state);
+        //로그인 사용자 정보를 읽어온다.
+        apiResult = naverLoginBO.getUserProfile(oauthToken);
+        System.out.println(naverLoginBO.getUserProfile(oauthToken).toString());
+        model.addAttribute("result", apiResult);
+        System.out.println("result : "+apiResult);
+		// 2. String형식인 apiResult를 json형태로 바꿈
+		JSONParser parser = new JSONParser();
+		Object obj;
+		try {
+			obj = parser.parse(apiResult);
+			org.json.simple.JSONObject jsonObj = (org.json.simple.JSONObject) obj;
+			// 3. 데이터 파싱
+			// Top레벨 단계 _response 파싱
+			org.json.simple.JSONObject response_obj = (org.json.simple.JSONObject) jsonObj.get("response");
+			// 네이버에서 주는 고유 ID
+			String naverIfId = (String) response_obj.get("id");
+			// 네이버에서 설정된 사용자 별명
+			String naverNickname = (String) response_obj.get("nickname");
+			// 네이버에서 설정된 이메일
+			String naverEmail = (String) response_obj.get("email");
+			
+			System.out.println("naverIfId "+naverIfId);
+			System.out.println("naverNickname "+naverNickname);
+			System.out.println("naverEmail "+naverEmail);
+			
+			int check= mService.userIdCheck(naverIfId);
+			if(check==0){
+				//회원가입 필요
+				UUID garbagePass = UUID.randomUUID();
+				
+				Member naverMember = new Member();
+				naverMember.setUser_id(naverIfId);
+				naverMember.setNickname(naverNickname);
+				naverMember.setEmail(naverEmail);
+				naverMember.setUser_pwd(garbagePass.toString());
+				System.out.println("여기여기 "+naverMember);
+
+				int result = kakaoJoin(naverMember);
+				System.out.println("join성공 ?"+result);
+			}
+			model.addAttribute("kakaoMember", (String)naverIfId);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
+		return "redirect:/member/kakaologin";
+    }
+ // 1. Stream을 이용한 text 응답 상품 찜하기 취소
+ 	@PostMapping(value = "/alram",produces = "application/json; charset= utf-8")
+ 	public @ResponseBody String selectAlarmList(HttpServletResponse response, HttpServletRequest request) {
+ 		System.out.println("알람관련오니?");
+ 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+ 		List<Alarm> alist = null;
+ 		Gson gson = null;
+ 		if(loginUser!=null) {
+ 			System.out.println("loginUser ; "+loginUser.getUser_id());
+ 			
+ 			alist = mService.selectAlarmList(loginUser.getUser_id());
+ 			// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+ 			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+ 			System.out.println("새 알림  : "+alist);
+ 			
+ 		}
+ 		
+ 		System.out.println("새알림 : "+alist);
+ 		System.out.println("새알림 길이 : "+alist.size());
+ 		// 응답 작성
+ 		return gson.toJson(alist);
+ 	}
+
+	// alarm확인했다는 표시
+	@PostMapping(value = "checkAlarm", produces = "application/json; charset= utf-8")
+	public @ResponseBody String checkAlarmCount(int mno, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("ajax mno오니?" + mno);
+		
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+ 		List<Alarm> alist = null;
+ 		Gson gson = null;
+ 		if(loginUser!=null) {
+ 			System.out.println("loginUser ; "+loginUser.getUser_id());
+ 			
+ 			alist = mService.selectAlarmListAno(mno, loginUser.getUser_id());
+ 			// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
+ 			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+ 			System.out.println("새 알림  : "+alist);
+ 			
+ 		}
+ 		
+ 		System.out.println("새알림 : "+alist);
+		// 응답 작성
+		return gson.toJson(alist);
+
 	}
 
+	// 판매자 메모 수정 
+	@RequestMapping(value = "updateUC", method = RequestMethod.POST)
+	public void likegoods(String comment, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("코멘트"+comment);
+		try {
+			PrintWriter out = response.getWriter();
+			Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+			int ok = mService.updateUserComment(loginUser.getUser_id(), comment);
+			if (ok > 0) {
+				out.write("success");
+			} else {
+				out.write("fail");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 }

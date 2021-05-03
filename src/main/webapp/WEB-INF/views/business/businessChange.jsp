@@ -14,6 +14,8 @@
     <link href="${ contextPath }/resources/css/businessCss/businessChange.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
+
     
 	<jsp:include page="../common/menubar.jsp"/>
     <section id="gbSection">
@@ -29,23 +31,37 @@
                 <img id="photoPlus"src="${contextPath}/resources/images/business/사진추가샘플.png">
                 </c:if>
                 <input id="profilePhoto" type="file" name="file"  >
-               
-                <img id="profileImg" src="${contextPath}/resources/images/business/디테일프로필샘플.png">
-                <div id="nameArea">
-                <label id="name">${b.shopName }</label>
-             	</div>
-             
+            </div>
+             <div class="allArea">
+                <div id="userPhotoArea">
+                <c:if test="${ !empty loginUser.photo }">
+            <img src="${ contextPath }/resources/images/userProfilePhoto/${loginUser.photo}" id="profileImg">
+            </c:if>
+         
+            <c:if test="${ empty loginUser.photo }">
+            <img src="${ contextPath }/resources/images/mypage/unknownUser.png" id="profileImg">
+            </c:if>
+                <div id="shopNameArea">
                 <button id="likeBtn" disabled="disabled">단골${b.faCount }</button>
+                <label id="name">${b.shopName }</label>
+                </div>
+             	</div>
+             	
+             	<div id="modalArea">
                 <img id="adImg" src="${contextPath}/resources/images/business/메가폰.png" width="50px" height="50px" onclick="location.href='${contextPath}/business/ad'">
-                <label id="adLabel">광고하기</label>
                 <img id="line" src="${contextPath}/resources/images/business/선.png" >
                 <img id="pen" src="${contextPath}/resources/images/business/연필.png" width="50px" height="50px" >
+             	</div>
+             	
+             	<div id="labelArea">
+                <label id="adLabel">광고하기</label>
                 <label id="newsLabel">소식발행</label> 
+             	</div>
+             	
             </div>
-            
             <div class="infoArea">
 
-
+								<br>
 								<h4>카테고리</h4><br>
 								<select id="category" name="shopCate">
 									<c:if test="${b.shopCate  == '일자리'}">
@@ -115,7 +131,7 @@
   								<h4>가게명</h4><br>
 								<input type="text" id="nameInput" name="shopName" placeholder="가게명을 입력해 주세요." value="${ b.shopName }"><br><br>
 								<h4>주소</h4><br>
-								<input type="text" id="addressInput" name="shopAdd" placeholder="주소를 입력해 주세요." value="${ b.shopAdd }"><br><br>
+								<input type="text" id="addressInput" name="shopAdd" placeholder="동네를 입력해 주세요. (예: 학익동)" value="${ b.shopAdd }"><br><br>
 								<h4>전화번호</h4><br>
 								<input type="text" id="phoneInput" name="shopPhone" placeholder="고객이 연락할 수 있는 번호를 적어주세요." value="${ b.shopPhone }"><br><br>
 								<h4>소개 문구</h4><br>
@@ -131,7 +147,8 @@
 								</div>
 			
             </div>
-            <div class="priceArea">		
+            <div class="priceArea">
+            	<br>		
 				<h4>대표 메뉴</h4><br>
 				<input type="text" id="topMenu" name="topMenu" placeholder="대표 메뉴를 입력하세요. (예: 커피)"  value="${ b.topMenu }"><br><br>
 				<h4>추가 설명</h4><br>
@@ -139,34 +156,102 @@
 				
             </div>
             <c:if test="${ !empty nList }">
+			<div class="ajaxArea">
 			<c:forEach var="n" items="${ nList }">
 		 	<div class="newsArea">
-                <label id="newsLabel2">소식</label>
+		 		<div class="deleteNewsArea">
+                <label class="newsLabel2">소식</label> 
+                <button class="deleteNewsBtn" onclick="deleteNews('${n.n_no}')" >x</button>
+                </div>
                 <c:if test="${ n.changeName != null }">
-                <img id="newsPhoto" src="${contextPath}/resources/images/goodupload/${n.changeName}">
+                <img class="newsPhoto" src="${contextPath}/resources/images/goodupload/${n.changeName}">
                 </c:if>
                 <c:if test="${ n.changeName == null }">
-                <img id="newsPhoto" src="${contextPath}/resources/images/business/기본썸네일.png">
+                <img class="newsPhoto" src="${contextPath}/resources/images/business/기본썸네일.png">
                 </c:if>
-                <img id="oneBtn"src="${contextPath}/resources/images/business/원버튼.png">
-                <label id="newsTitle">${n.newsTitle }</label>
-                <p id="newsInfo">${n.shopNews }</p>
-            </div>  
+                <label class="newsTitle">${n.newsTitle }</label>
+                <p class="newsInfo">${n.shopNews }</p>
+            </div>
          	</c:forEach>
+            </div>  
+         	 <div id="plusNewsBtnArea">
+            		▽
+            </div>
          	</c:if>
            
             <script>
-			        $(document).ready(function(){
+            
+            
+ 					function deleteNews(n_no){
+						var shopNo = ${b.shopNo};
+					
+						$(".ajaxArea").html("");
+ 						var newsPhoto;
+ 						$.ajax({
+ 							url :"${ contextPath }/business/news/delete",
+ 				   		   data : {n_no : n_no, shopNo : shopNo},
+ 				   		   type : "post",
+ 				   		   dataType : "json",
+ 				   			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+ 				   			success : function(data){
+ 				   			console.log("됨?");
+ 				   				for(var i in data){
+								var newsArea = $("<div class='newsArea'>");
+ 				   				var deleteNewsArea = $("<div class='deleteNewsArea'>");
+ 				   				var newsLabel2 = $("<label class='newsLabel2'>").text("소식");
+ 				   				var n_no = data[i].n_no;
+ 				   				var deleteNewsBtn = $("<button class='deleteNewsBtn' onclick='deleteNews("+n_no+")'>").text("x");
+ 				   				var loot = "${contextPath}/resources/images/goodupload/";
+ 				   				var changeName = data[i].changeName;
+ 				   				console.log(changeName);
+ 				   				 if(data[i].changeName != null){
+ 				   					 console.log("옴?");
+ 				   				newsPhoto = $("<img class='newsPhoto'>").attr("src",loot+changeName);
+ 				   			 	
+ 				   				}else {
+ 				   				newsPhoto = $("<img class='newsPhoto'>").attr("src","${contextPath}/resources/images/business/기본썸네일.png");
+ 				   				}
+ 				   				
+ 				   				var newsTitle = $("<label class='newsTitle'>").text(data[i].newsTitle);
+ 				   				var newsInfo = $("<p clasee='newsInfo'>").text(data[i].shopNews);
+ 				   				console.log(data[i].changeName);
+ 				   				deleteNewsArea.append(newsLabel2,deleteNewsBtn);
+ 				   				newsArea.append(deleteNewsArea,newsPhoto,newsTitle,newsInfo);
+ 				   				$(".ajaxArea").append(newsArea);
+ 				   				
+ 				   				}
+ 				   				
+ 				   				var plusNewsBtnArea = $("<div id='plusNewsBtnArea'>").text("▽")
+ 				   				
+ 				   				
+ 				   				plusNews();
+ 				   				
+ 				   			},
+ 				   			error : function(e){
+ 				   				
+ 				   			}
+ 						});
+ 					}           
+            
+            			
+ 					function plusNews(){
 						size_div = $('.newsArea').length;
 						
 						x = 1;
 						$('.newsArea:lt('+x+')').addClass('newsAreaflex');
-						$('#oneBtn').click(function(){
+						$('#plusNewsBtnArea').click(function(){
 							x= (x+1 <= size_div)? x+1 : size_div;
 							$('.newsArea:lt('+x+')').addClass('newsAreaflex');
 						
 						
 						});
+ 						
+ 					}
+            
+            
+            
+			        $(document).ready(function(){
+						plusNews();
 			
 					});
         
@@ -203,6 +288,9 @@
 		        var _left = Math.ceil(( window.screen.width - _width )/2);
 		        var _top = Math.ceil(( window.screen.height - _height )/2); 
 		        window.open(url, name, 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top );
+		        
+
+
 		   });
      
        $("#photoPlus").click(function(){

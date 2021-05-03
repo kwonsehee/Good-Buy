@@ -325,11 +325,13 @@ SELECT
 	)
 	VALUES
 	(
-	#{b.bno}
+	#{r.rno}
 	, R_SEQ.CURRVAL
 	)
 	SELECT * FROM DUAL
 	</insert>
+	
+	
 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 	SELECT 
 			    R.R_NO R_NO
@@ -340,6 +342,7 @@ SELECT
 		 FROM REPLY R JOIN TOWN_REPLY T
 		   ON(R.R_NO = T.R_NO)
 		WHERE T.POST_NO = #{rno}
+		WHERE T.POST_NO = #{b.getBno()}
 		  AND R_STATUS = 'Y'
 	 ORDER BY
 			  R.R_NO DESC

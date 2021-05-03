@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>Good-Buy</title>
 <!-- 공통 UI -->
-<link href="${ contextPath }/resources/css/goods/goodsdetail.css" rel="stylesheet" type="text/css">
+<link href="${ contextPath }/resources/css/goods/goodsdetail.css" rel="stylesheet" type="text/css"> 
 <!--sweetalert2-->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -99,14 +99,21 @@
    </c:if>
         <table id="goods_detail">
             <tr>
-                <td>
+                <td id="gcategory">
                     <img src="${ contextPath }/resources/images/filter.png" style="width: 18px;height: 18px;">
-                     카테고리 : ${g.goodcate.lfilter}-> ${g.goodcate.mfilter}-> ${g.goodcate.sfilter}
+                    &nbsp;&nbsp; ${g.goodcate.lfilter} > ${g.goodcate.mfilter} > ${g.goodcate.sfilter}
                 </td>
                 <td colspan="3" id="selectTown" style="text-align: right;">
-              	    <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo?seller=${g.user_id }">판매자 정보</a>&nbsp;
+                 <c:if test="${ empty loginUser }">
+                     <a class="btn_gray" onclick="noUser();">판매자 정보</a>&nbsp;
+                </c:if>
+                <c:if test="${ !empty loginUser }">
+                   <a class="btn_gray" href = "${ contextPath }/goods/sellerInfo?seller=${g.user_id }">판매자 정보</a>&nbsp;
+                </c:if>
+            
+              	   
                     <c:if test="${ !empty loginUser }">
-                    <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
+                    <a class="btn_gray" data-bs-toggle="modal" data-bs-target="#reportModal" style="margin-right:52px;">신고하기</a>
                    	</c:if>
                    	<c:if test="${ empty loginUser }">
                     <a class="btn_gray" onclick="noUser()">신고하기</a>
@@ -139,16 +146,14 @@
             <tr>
                 <td colspan="4" id="gprice">${g.gprice}원</td>
             </tr>
-
-            <tr>
-                <td colspan="4">상태 :${g.gcondition}</td>
+			 <tr>
+                <td colspan="2" id="gtown">${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
+                 <td colspan="2" id="gcondition">상태 : ${g.gcondition}</td>
             </tr>
-            <tr>
-                <td colspan="4">거래지역 : ${g.town.address_1}&nbsp; ${g.town.address_2}&nbsp; ${g.town.address_3}</td>
-            </tr>
+           
             <tr >
-                <td colspan="4" id="goodsContent">${g.gcomment}
-                    </td>
+                <td colspan="4"id="goodsContent">${g.gcomment}</td>
+                    
             </tr>
             <tr>
                 <td id="like_area">
@@ -195,7 +200,7 @@
             </tr>
         </table>
         <div id="replySection">
-            <p style="color: #9a9999; padding: 10px 0 0 10px;">댓글</p>
+            <p style="color: #9a9999; padding: 20px 0 0 32px;">댓글</p>
             <table id="replyTable">
             
             <c:if test="${ !empty rlist }">
@@ -230,11 +235,16 @@
                 </c:if>
                 <c:if test="${ !empty loginUser }">
                   <p class="reply_left">${ loginUser.user_id }&nbsp;님</p>
+                  <c:if test="${ empty loginUser }">
                      <textarea id="replyContent" name="rcontent" placeholder="댓글을 작성하시려면 로그인을 해주세요"></textarea>
-                
+                  </c:if>
+                  <c:if test="${ !empty loginUser }">
+                     <textarea id="replyContent" name="rcontent" placeholder="친절한 댓글을 남겨주세요 :)"></textarea>
+                  </c:if>
+                  
                 </c:if>
             
-                <p id="counter" class="reply_left">(0 / 1000)</p>
+                <p id="counter" class="reply_left countText">(0 / 1000)</p>
                
                 <button type="submit" id="writeBtn">등록하기</button>
              <script>

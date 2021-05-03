@@ -29,7 +29,9 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.kh.goodbuy" />
-	
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<beans:bean id="naverLoginBO" class="com.kh.goodbuy.member.model.vo.NaverLoginBO" />
+
 	
 	
 </beans:beans>

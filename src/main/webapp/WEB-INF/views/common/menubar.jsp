@@ -10,17 +10,26 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 구글로그인 -->  
+<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id" content="1037543872234-n1umg3c5vhatclcmg0dodjhdar33s57u.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <title>Good-Buy</title>
 <!--jQuery-->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<!-- naver 로그인 -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <!-- 공통 UI -->
 <link href="${ contextPath }/resources/css/menustyle.css?" rel="stylesheet" type="text/css">
- 
+
 </head>
 <body>
+
    <header id="gbHeader">
         <div class="nav_container">
             <ul class="common_ul">
@@ -74,22 +83,20 @@
                 
                 <!-- 쪽지 -->
                 <li class="li_5" id="msgContent">
-                	<a onclick="msgPopup()" style="border : 1px solid black;">
+                	<a onclick="msgPopup()">
                 	<img src="${ contextPath }/resources/images/messenger.png" id="truck">
                 	</a>
               
                 </li>
                 
-                <li class="li_6">
-                <a href="#">
-                <c:if test="${ empty sessionScope.loginUser }">
-                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" >
-                </c:if>
-                <c:if test="${ !empty sessionScope.loginUser }">
-                <img src="${ contextPath }/resources/images/alarm.png" id="alarm" onclick="alarm('${loginUser.user_id}')">
-                </c:if>
-                </a>
+                <li class="li_6" id="alarmContent">
+                	<a onclick="alarmPopup();"style="border : 1px solid red;">
+               			<img src="${ contextPath }/resources/images/alarm.png" id="alarm">
+                	</a>
                 </li>
+                
+                
+                
                 <li class="li_7"><a href="${ contextPath }/mypage/likeGoodsList"><img src="${ contextPath }/resources/images/heart.png" id="heart"></a></li>
             </ul>
 
@@ -125,19 +132,27 @@
                     <li><a href="${contextPath }/business/list">내근처</a></li>
                     </c:if>
                     <c:if test="${ empty sessionScope.loginUser }">
-                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">내근처</a></li>
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">내근처</a></li>
                     </c:if>
-                    <li><a href="${ contextPath }/board/main">동네생활</a></li>
+                    <c:if test="${ !empty sessionScope.loginUser }">
+                    <li><a href="${contextPath }/board/main">동네생활</a></li>
+                    </c:if>
+                    <c:if test="${ empty sessionScope.loginUser }">
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">동네생활</a></li>
+                    </c:if>
+                    
+                    
+                  
                     <li><a href="${ contextPath }/center/join">고객센터</a></li>
                    
                      <c:if test="${ !empty sessionScope.loginUser }">
                     <li><a href="${ contextPath }/mypage/main">마이페이지</a></li>
                     </c:if>
                     <c:if test="${ empty sessionScope.loginUser }">
-                    <li><a href="#" onclick="alert('로그인을 해주세요 :)')">마이페이지</a></li>
+                    <li><a href="#" onclick="alert('로그인을 해주세요 :)');$('#loginModal').modal('show');">마이페이지</a></li>
                     </c:if>
                     <c:if test="${ loginUser.user_type == 0 }">
-                    <li><a href="${ contextPath }/admin/join">관리자페이지</a></li>
+                    <li><a href="${ contextPath }/admin/stats">관리자페이지</a></li>
                     </c:if>
                 </ul>
             </div>
@@ -165,11 +180,16 @@
 								<input type="password" name="user_pwd" placeholder="PASSWORD"><br>
 								<p class="simLog_p">간편 로그인</p>
 								<div class="imgWrap">
-									<a href="#"><img src="${ contextPath }/resources/images/google.png"></a>
-								    <a href="#"><img src="${ contextPath }/resources/images/kakao.png"></a> 
-								    <a href="#"><img src="${ contextPath }/resources/images/facebook.png"></a>
-								</div>
-								<button type="submit" style="font-weight: bold;">Log in</button>
+								
+							<a href="https://kauth.kakao.com/oauth/authorize?client_id=5a7a733b7acbd667518c7886e00f1231&redirect_uri=http://localhost:8082/goodbuy/member/auth/kakao/callback&response_type=code">   
+							<img src="${ contextPath }/resources/images/kakao_login.png" id="kakaoBtn"></a> 
+									
+							<div id = "naver_id_login"><a href="${url}">
+							<img id="naver" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a>
+							
+							</div>
+							</div>
+								<button type="submit" id="loginBtn">Log in</button>
 							</form>
 							<p style="font-size: 14px;">
 								아직 회원이 아니신가요? 
@@ -214,6 +234,7 @@
 					 if(Object.keys(data).length>0){
 					
 						tableBody = $("#msgContent");
+						
 			            tableBody.html("");
 						console.log("여기오니?");
 						var a = "<a onclick='msgPopup()'><img src='${ contextPath }/resources/images/onmessenger.png' id='truck'></a>"; 
@@ -221,10 +242,15 @@
 						for(var i in data){
 						var m_no = data[i].mno;
 						if(data[i].gno>0){
-							
-	                	a +="<div onclick=\"location.href=\'${contextPath}/mypage/msgList\'\" class='msgDiv'>";
+	                	a +="<div class='msgDiv' onclick='gotomsgDiv1(";
+	                	a+=m_no;
+	                	a+=")'>";
+	                	
 						}else{
-							a +="<div onclick='' class='msgDiv'>";
+							a +="<div class='msgDiv' onclick='gotomsgDiv2(";
+		                	a+=m_no;
+		                	a+=")'>";
+							
 						}
 	                	a+="<span>";
 	                	a+=data[i].caller;
@@ -239,7 +265,8 @@
 						tableBody.append(a);
 					 }else{
 						 
-					alert(data);
+					/* alert(data); */
+					console.log(data);
 					 }
 	                     
 				  }
@@ -249,12 +276,118 @@
 		}
 		});
 		
+		/* 알림관련 */
+		$(document).ready(function(){
+		if(${ !empty sessionScope.loginUser }){
+			 $.ajax({
+				   url : "${contextPath}/member/alram",
+				  type : "post",
+				  dataType : "json",
+				  success : function(data){
+					 console.log("새알림관련"+data);
+					
+					 if(Object.keys(data).length>0){
+					 console.log("새알림길이"+Object.keys(data).length);
+					
+						tableBody = $("#alarmContent");
+						
+			            tableBody.html("");
+						console.log("새알림관련 여기오니?");
+						
+						var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
+						a+="<div id='alarmArea'>";
+						for(var i in data){
+						var aType = data[i].alarm_type;
+						console.log(aType);
+						var goVal=data[i].ref_no;
+						var ano =data[i].alarm_no;
+						if(aType ==5||aType ==8||aType ==10 ){
+						
+	                	a +="<div class='alarmDiv' onclick='gotoGoodsDetail(";
+	                	a+=goVal+","+ano;
+	                	a+=")'>";
+	                	
+	                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+	                	a+=data[i].goods_thum;
+	                	
+	                	a+="' class='alarmImg'>";
+	               
+	                	
+						}else if(aType==13 ||aType ==2){
+							a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+		                	a+=ano;
+		                	a+=")'>";
+		                	
+		                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+		                	a+=data[i].goods_thum;
+		                	
+		                	a+="' class='alarmImg'>";
+		               
+						}else if(aType==0 ){
+							a +="<div class='alarmDiv' onclick='gotoQnADetail(";
+		                	a+=goVal;
+		                	a+=")'>";
+		                	
+						    
+						}
+						else if(aType==1 ){
+							a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+						 	a+=ano;
+		                	a+=")'>";
+		                	
+						    
+						}else if(aType==3||aType==4 ){
+							a +="<div class='alarmDiv' onclick='gotoBisDetail(";
+		                	a+=ano;
+		                	a+=")'>";
+		                	
+						    
+						}else if(aType==11||aType==12 ){
+							a +="<div class='alarmDiv' onclick='gotoSellerDetail(";
+		                	a+=goVal;
+		                	a+=")'>";
+		                	
+						    
+						}
+	                	a+="<span>";
+	                	a+=data[i].alarm_content;
+	                	
+	                	a+="</span></div><button onclick='closealarmDiv(";
+	                	a+=ano;
+	                	a+=")' id='deleteAlarm'>X</button>";
+	                	
+						}
+	                	a+="</div>";
+	                	console.log("여기까지 출력하면끝!");
+						tableBody.append(a);
+						
+					 }else{
+						 
+					/* alert(data); */
+					console.log(data);
+					 }
+	                     
+				  }
+             
+				  
+			});
+		}
+	});
 		function msgPopup(){
 			var control = document.getElementById("msgArea");   
 			if (control.style.display == 'block') {
 	               control.style.display = 'none';
 	           } else {
 	               control.style.display = 'block';
+	           }
+    		
+		}
+		function alarmPopup(){
+			var control3 = document.getElementById("alarmArea");   
+			if (control3.style.display == 'block') {
+	               control3.style.display = 'none';
+	           } else {
+	               control3.style.display = 'block';
 	           }
     		
 		}
@@ -293,12 +426,116 @@
 							}
 							a+="</div>"
 							tableBody.append(a);
-							var control2 = document.getElementById("msgArea");   
-							control2.style.display == 'block';
+							
 						 }else{
 							 
-						alert(data);
+						/* alert(data); */
 						 }
+					 var control2 = document.getElementById("msgArea");   
+					control2.style.display = 'block';
+						console.log(control2);
+						console.log("display는 : "+ control2.style.display);
+				  }
+           
+				  
+			});
+   		
+		}
+           
+				
+		function closealarmDiv(mno){
+			console.log(mno);
+			 $.ajax({
+				   url : "${contextPath}/member/checkAlarm",
+				  type : "post",
+				  data : {mno : mno},
+				  dataType : "json",
+				  success : function(data){
+						 console.log("새알림관련"+data);
+						
+						 if(Object.keys(data).length>0){
+							 console.log("새알림길이"+Object.keys(data).length);
+							
+								tableBody = $("#alarmContent");
+								
+					            tableBody.html("");
+								console.log("새알림관련 여기오니?");
+								
+								var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/alarm.png' id='alarm'></a>"; 
+								a+="<div id='alarmArea'>";
+								for(var i in data){
+								var aType = data[i].alarm_type;
+								console.log(aType);
+								var goVal=data[i].ref_no;
+								var ano =data[i].alarm_no;
+								if(aType ==5||aType ==8||aType ==10 ){
+								
+			                	a +="<div class='alarmDiv' onclick='gotoGoodsDetail(";
+			                	a+=goVal+","+ano;
+			                	a+=")'>";
+			                	
+			                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+			                	a+=data[i].goods_thum;
+			                	
+			                	a+="' class='alarmImg'>";
+			               
+			                	
+								}else if(aType==13 ||aType ==2){
+									a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+				                	a+=ano;
+				                	a+=")'>";
+				                	
+				                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+				                	a+=data[i].goods_thum;
+				                	
+				                	a+="' class='alarmImg'>";
+				               
+								}else if(aType==0 ){
+									a +="<div class='alarmDiv' onclick='gotoQnADetail(";
+				                	a+=goVal;
+				                	a+=")'>";
+				                	
+								    
+								}
+								else if(aType==1 ){
+									a +="<div class='alarmDiv' onclick='gotoReportDetail(";
+								 	a+=ano;
+				                	a+=")'>";
+				                	
+								    
+								}else if(aType==3||aType==4 ){
+									a +="<div class='alarmDiv' onclick='gotoBisDetail(";
+				                	a+=ano;
+				                	a+=")'>";
+				                	
+								    
+								}else if(aType==11||aType==12 ){
+									a +="<div class='alarmDiv' onclick='gotoSellerDetail(";
+				                	a+=goVal;
+				                	a+=")'>";
+				                	
+								    
+								}
+			                	a+="<span>";
+			                	a+=data[i].alarm_content;
+			                	
+			                	a+="</span></div><button onclick='closealarmDiv(";
+			                	a+=ano;
+			                	a+=")' id='deleteAlarm'>X</button>";
+			                	
+								}
+			                	a+="</div>";
+							tableBody.append(a);
+							
+							var control4 = document.getElementById("alarmArea");   
+							control4.style.display = 'block';
+							
+						 }else{
+							 
+						/* alert(data); */
+						console.log(data);
+						 }
+		                     
 		                     
 				  }
            
@@ -306,6 +543,50 @@
 			});
    		
 		}
+		function gotomsgDiv1(mno){
+			console.log(mno);
+			closemsgDiv(mno);
+			location.href='${contextPath}/mypage/msgList';
+   		
+		}
+		function gotomsgDiv2(mno){
+			console.log(mno);
+			closemsgDiv(mno);
+			location.href='${contextPath}/mypage/userMsgList';
+   		
+		}
+		function gotoGoodsDetail(mno, ano){
+			console.log("여기오니?"+mno);
+			console.log("여기오니?"+ano);
+			closealarmDiv(ano);
+			location.href='${contextPath}/goods/detail?gno='+mno;
+   		
+		}
+		function gotoBisDetail(ano){
+			console.log(ano);
+			closealarmDiv(ano);
+			var bisno=0;
+
+			location.href='${contextPath}/business/godetail';
+   		
+		}function gotoReportDetail(mno){
+			console.log(mno);
+			closealarmDiv(ano);
+			location.href='${ contextPath }/mypage/reportedList';
+   		
+		}
+		function gotoQnADetail(mno, ano){
+			console.log(mno);
+			closealarmDiv(ano);
+			location.href='${contextPath}/center/QNA_A?qa_no='+mno;
+   		
+		}function gotoSellerDetail(ano){
+			console.log(ano);
+			closealarmDiv(ano);
+			location.href='${contextPath}/mypage/main';
+   		
+		}
+		
 		/* 메뉴바 내동네(화살표 아이콘)누르면 하단에 나오게 */
 		$(document).ready(function(){
 			$(".userTownli2").click(function(){
@@ -377,11 +658,105 @@
 		$("#menuicon").mouseleave(function(){
 			$(".li_1 div").css({"background":"#fff"});
 		});
+	
 		
 	</script>
+	<!-- <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script>
+		//d1adf014b3056ac5a17a91d128256bce
+		window.Kakao.init("d1adf014b3056ac5a17a91d128256bce");
+		
+		function kakaoLogin(){
+			window.Kakao.Auth.login({
+				scope:'profile, account_email',
+				success:function(authObj){
+					console.log(authObj);
+					window.Kakao.API.request({
+						url : '/v2/user/me', 
+						success:res =>{
+							const kakao_account = res.kakao_account;
+							console.log(kakao_account);
+						
+						}
+					});
+				}
+			});
+			
+		}
+	</script>
+	
+    <script>
+      function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+       /*  console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName()); 
+        console.log("Image URL: " + profile.getImageUrl());*/
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+        if(profile.getId() != null){
+        	 // form
+		console.log("여기오니 ");
+            var form = document.createElement("form");     
+
+            form.setAttribute("method","post");                    
+            form.setAttribute("action","${contextPath}/member/googlelogin");        
+
+            document.body.appendChild(form);                        
+
+            //input
+            var input_id = document.createElement("input");  
+
+            input_id.setAttribute("type", "hidden");                 
+            
+            input_id.setAttribute("user_id",profile.getId());                        
+            input_id.setAttribute("email", profile.getEmail());                          
+            input_id.setAttribute("nickname", profile.getName());                          
+
+            form.appendChild(input_id);
+
+             
+
+            //폼전송
+              form.submit();    
+        }
+      
+       
+      }
+      function signOut(){
+    	  gapi.auth2.getAuthInstance().disconnect();
+      }
+    </script> -->
     
 	<!-- Optional JavaScript; choose one of the two! -->  
     <!-- Option 1: Bootstrap Bundle with Popper -->
+    <!-- <script type="text/javascript">
+  	var naver_id_login = new naver_id_login("KFl4i7obB3Ho4a_pNH32", "http://localhost:8082/member/auth/naver/callback");
+  	var state = naver_id_login.getUniqState();
+  	naver_id_login.setButton("white", 2,40);
+  	naver_id_login.setDomain("http://localhost:8082");
+  	naver_id_login.setState(state);
+  	naver_id_login.setPopup();
+  	naver_id_login.init_naver_id_login();
+  </script>
+  <script type="text/javascript">
+  var naver_id_login = new naver_id_login("KFl4i7obB3Ho4a_pNH32", "http://localhost:8082/member/auth/naver/callback");
+  // 접근 토큰 값 출력
+  alert(naver_id_login.oauthParams.access_token);
+  // 네이버 사용자 프로필 조회
+  naver_id_login.get_naver_userprofile("naverSignInCallback()");
+  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+  function naverSignInCallback() {
+    alert(naver_id_login.getProfileData('email'));
+    alert(naver_id_login.getProfileData('nickname'));
+    alert(naver_id_login.getProfileData('age'));
+  }
+</script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
     

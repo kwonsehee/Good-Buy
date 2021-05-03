@@ -417,6 +417,35 @@ public class GoodsDaoImpl implements GoodsDao{
 		return sqlSession.update("goodsMapper.productreportupdate", gno);
 	}
 
+	@Override
+	public int reviewOk(String seller, String user_id) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("seller",seller);
+		map.put("user_id", user_id);
+		return sqlSession.selectOne("goodsMapper.reviewOk", map);
+	}
+
+	@Override
+	public List<Goods> selectGoodsRankList() {
+		return sqlSession.selectList("goodsMapper.selectGoodsRankList");
+	}
+
+	@Override
+	public List<Keyword> selectBestKeyword() {
+		return sqlSession.selectList("goodsMapper.selectBestKeyword");
+  }
+@Override
+  public List<Goods> selectGoodsSrcList(int re_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("goodsMapper.selectGoodsSrcList", re_no);
+	}
+
+	@Override
+	public int Goodsreportdetail(int re_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("goodsMapper.Goodsreportdetail", re_no);
+	}
+
 	
 
 }

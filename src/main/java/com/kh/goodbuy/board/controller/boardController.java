@@ -159,7 +159,7 @@ public class boardController {
 	@GetMapping("/detail")
 	public String boarddetailview(HttpServletRequest request, @RequestParam(value = "bno", required = false) int bno,
 			Model model) {
-		System.out.println(bno);
+		System.out.println("왜안오니"+bno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		Board b = bService.BoardDetail(bno);
 		model.addAttribute("b", b);

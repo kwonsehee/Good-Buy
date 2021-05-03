@@ -71,6 +71,19 @@
     </section>
 
      <jsp:include page="../common/footer.jsp"/>
+<script>
+
+
+
+	var str = document.getElementById("notice_content").value;
+
+	str = str.replaceAll("<br>", "\r\n");
+
+	document.getElementById("notice_content").value = str;
+	
+	
+	
+	</script>
 
 
 </body>

@@ -5,10 +5,28 @@
 <head>
 	<title>당신 근처의 굿-바이 마켓 Good-Buy!</title>
 <link href="${ contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
+ <!--sweetalert2-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 <body>
 	<jsp:include page="common/menubar.jsp"/>
-	
+	   <!-- 간편로그인으로 동네가 없을시 동네설정하라고 하기-->
+ <c:if test="${!empty sessionScope.loginUser && mtlist[0]  eq '동네없음' }">
+   		<script>
+            swal.fire({
+  title: '동네를 설정해주세요',
+  html: '<br>간편로그인시 동네설정이 필요합니다.<br>고객님의 동네를 설정해주세요:)<br>',
+  imageUrl: '${ contextPath }/resources/images/logo.png',
+  imageWidth: 232,
+  imageHeight: 90,
+  imageAlt: 'Custom image',
+}).then(function(){
+	location.href="${contextPath}/mypage/setMyTown";
+});
+   		
+   		</script>
+   </c:if>
 	<section id="gbSection">
 	
 	<div id="titleWrap">
@@ -50,29 +68,55 @@
 			<span class="circle"></span> 
 			<span class="bestText">중고상품 인기매물</span>
 			<span class="circle"></span>
+			
+			<div class="glistWrap" style="margin-top:40px;">
+			 <c:forEach var="g" items="${ glist }" end="3">
+			 <div class="goodsWrap"  onclick="gotoGoodsDetailV(${g.gno})">
+			<img src="${ contextPath }/resources/images/goodupload/${g.changeName}" class="gPhoto">
+
+			<p class="gtitle">${ g.gtitle }</p>
+			<p class="gprice">${ g.gprice }원</p>
+			<p class="gtown">${ g.address_1 }&nbsp;${ g.address_2 }&nbsp;${ g.address_3 }</p>
+			<p class="repCnt">좋아요&nbsp;${ g.likecnt }&nbsp;•&nbsp;댓글 ${ g.rep_cnt }</p>
+			</div>
+			</c:forEach>
+			
+			</div>
+			
+			<div class="glistWrap">
+			 <c:forEach var="g" items="${ glist }" begin="4">
+			 <div class="goodsWrap" onclick="gotoGoodsDetailV(${g.gno})">
+			<img src="${ contextPath }/resources/images/goodupload/${g.changeName}" class="gPhoto">
+
+			<p class="gtitle">${ g.gtitle }</p>
+			<p class="gprice">${ g.gprice }원</p>
+			<p class="gtown">${ g.address_1 }&nbsp;${ g.address_2 }&nbsp;${ g.address_3 }</p>
+			<p class="repCnt">좋아요&nbsp;${ g.rep_cnt }&nbsp;•&nbsp;댓글 ${ g.likecnt }</p>
+			</div>
+			</c:forEach>
+			
+			</div>
+			
 		</div>
+		
 	</div>
 	
 	<div id="bestSearch">
 	<p>중고거래 인기 검색어</p>
 	<ul>
-		<li>자전거</li>
-		<li>노트북</li>
-		<li>아이패드</li>
-		<li>의자</li>
-		<li>커피머신</li>
-		<li>에어팟</li>
-		<li>모니터</li>
-		<li>노트북</li>
-		<li>텀블러</li>
-		<li>캠핑</li>
+	<c:forEach var="k" items="${klist}">
+		<li><a onclick="searchGoods('${k.keyword}')">${ k.keyword }</a></li>
+	</c:forEach>
 	</ul>
 	</div>
-	
-	
-	
-	
-	
+	<script>
+		function gotoGoodsDetailV(gno){
+			location.href = '${contextPath}/goods/detail?gno='+gno;
+		}
+		function searchGoods(search){
+			location.href = '${contextPath}/goods/search?search='+search;
+		}
+	</script>
 	</section>
 	
 	<jsp:include page="common/footer.jsp"/>

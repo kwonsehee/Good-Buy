@@ -25,11 +25,13 @@
     border-collapse: collapse;
     background-color: #fafafa;
     margin-bottom: 5%;
+    
 }
 #review_tb img{
     width : 70px;
     border : 1px solid black;
     border-radius: 100%;
+   
 }
 #review_tb td span:nth-child(1){
     font-size: 16px;

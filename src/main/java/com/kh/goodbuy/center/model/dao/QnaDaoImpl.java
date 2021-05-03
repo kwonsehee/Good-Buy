@@ -90,4 +90,10 @@ public class QnaDaoImpl implements QnaDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("qnaMapper.selectQNAList3");
 	}
+
+	@Override
+	public int insertAlarmQNAA(QNA q) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("qnaMapper.insertAlarmQNAA", q);
+	}
 }

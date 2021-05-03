@@ -160,6 +160,7 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public List<Reply> insertReply(Reply r, Goods g) {
+		System.out.println("댓글작성자 "+r);
 		int result = gDao.insertReply(r, g);
 		if(result >0) {
 			gDao.insertPoint(r.getUser_id());
@@ -365,6 +366,35 @@ public class GoodsServiceImpl implements GoodsService {
 	public int productreportupdate(int gno) {
 		// TODO Auto-generated method stub
 	 return gDao.productreportupdate(gno);
+	}
+
+	@Override
+	public int reviewOk(String seller, String user_id) {
+		// TODO Auto-generated method stub
+		return gDao.reviewOk(seller, user_id);
+	}
+
+	@Override
+	public List<Goods> selectGoodsRankList() {
+		return gDao.selectGoodsRankList();
+	}
+
+	@Override
+	public List<Keyword> selectBestKeyword() {
+		return gDao.selectBestKeyword();
+  }
+  
+ @Override
+  public List<Goods> selectGoodsSrcList(int re_no) {
+		// TODO Auto-generated method stub
+		return gDao.selectGoodsSrcList(re_no);
+	}
+
+	@Override
+	public Goods Goodsreportdetail(int re_no) {
+		int gno =  gDao.Goodsreportdetail(re_no);
+		System.out.println("gno : " + gno);
+		return gDao.Goodsdetail(gno);
 	}
 
 	

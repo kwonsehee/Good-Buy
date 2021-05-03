@@ -115,6 +115,7 @@ public int insertReply(Reply r, Board b) {
     map.put("r", r);
     map.put("b", b);
     System.out.println("boardreply"+b);
+
 	return sqlSession.insert("boardmapper.insertReply",map);
 }
 

@@ -50,16 +50,28 @@
 	        <div id="textareadiv">
 	            <label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">문의 내용</label><br>
 	            <textarea id="notice_content" name="qa_content" readonly>${ QNA.qa_content }</textarea><br>
-			
+				<label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">첨부 파일</label><br>
+	            
+	            <img src="${ contextPath }/resources/images/qnaupload/${QNA.renameFileName}" id="src1">
+	            
+	            <br>
+	             <a href="${ contextPath }/center/download?qa_no=${QNA.qa_no}">
+               ${ QNA.originalFileName }
+               </a><br>
+               
+               
+               
         		<label id="label2" style="font-weight : bold; font-size: 20px; text-align: top; resize:none;">답변 내용</label><br>
-	            <textarea id="notice_content" name="qa_answer" ></textarea>
+	            <textarea id="notice_content" name="qa_answer" >${ QNA.qa_answer }</textarea>
+	            
             
             
         </div>
-        
+        <c:if test="${ QNA.qa_status == 'Y' }">
 	<button id="createButton" type="submit">
                	 답 변
             </button>
+            </c:if>
 	</form> 
 	
 	

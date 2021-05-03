@@ -1,12 +1,12 @@
 @charset "UTF-8";
                 @font-face {
-    font-family: 'yg-jalnan';
+    font-family: 'IBMPlexSansKR-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     }
 	    #gbSection{
-	        font-family: 'yg-jalnan';
+	        font-family: 'IBMPlexSansKR-Regular';
 	    }
         .area{
             display: flex;
@@ -34,13 +34,13 @@
             
         }
         .second >pre{
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
             margin: 0;
         }
         .btnArea{
             display: flex;
             justify-content: flex-end;
-            padding-right: 353px;
+            padding-right: 333px;
             padding-bottom: 30px;
         }
         #startBtn{
@@ -50,7 +50,16 @@
             width: 122px;
             height: 43px;
             border-radius: 27px;
-            font-family: 'yg-jalnan';
+            font-family: 'IBMPlexSansKR-Regular';
             letter-spacing: 2px;
             
         }
+        	@font-face {
+    font-family: 'Jal_Onuel';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Jal_Onuel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+	        *{
+	    font-family: 'Jal_Onuel' !important;
+}

@@ -1,5 +1,16 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+	font-family: 'IBMPlexSansKR-Regular';
+}
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -123,8 +134,8 @@ button {
 }
 
 #truck {
-	width: 38px;
-	margin-top: 29px;
+	width: 35px;
+	margin-top: 34px;
 }
 
 #alarm {
@@ -182,7 +193,7 @@ button {
 	position: fixed;
 	top: 0;
 	left: -300px;
-	z-index: 1;
+	z-index: 100;
 	transition: all .35s;
 }
 
@@ -280,16 +291,12 @@ button {
 	margin-top:50px;
 }
 
-/* #gbSection {
-	height: 67%;
-} */
-
 
 /* footer */
 #gbFooter {
 	width: 100%;
 	background-color: #F1FCFF;
-	height: 18%;
+	height: 22%;
 	color: #9A9999;
 	padding-top: 0.1%;
 	padding-bottom: 1%;
@@ -366,7 +373,8 @@ label {
 	margin-bottom: 10%;
 }
 #find_id_pwd{
-		    margin-right: 60%;
+		    margin-right: 69%;
+		    margin-bottom:-32px;
 		}
 		
 /*login*/
@@ -426,18 +434,36 @@ label {
 }
 
 .simLog_p {
+	margin-top:10px;
 	font-size: 14px;
 	font-weight: bold;
 }
-
-.imgWrap img {
-	width: 50px;
-	margin-right: 30px;
+.imgWrap{
+	
+    width: 80%;
+    margin: auto;
 }
+
+#naver{
+	width:280px;
+	height : 45px;
+	margin-top:3px;
+}
+ #kakaoBtn{
+		width:280px;
+	margin-top:3px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+#loginBtn{
+	font-weight: bold;
+	margin-top : 15px;
+	margin-bottom:15px;
+}
+
 /*쪽지 관련 부분*/
 #msgArea{
 	display:none;
-	/* border :1px solid red; */
 	width:210px; 
 	position: absolute;
 	z-index:10;
@@ -466,4 +492,40 @@ width:260px; /* border :1px solid blue; */
     background: #fff;
     margin-left : 190px;
     margin-top : -50px;
+}
+
+/*알림 관련 부분*/
+#alarmArea{
+	display:none;
+	border :1px solid red; 
+	width:210px; 
+	position: absolute;
+	z-index:10;
+}
+.alarmDiv{
+width:300px; /* border :1px solid blue; */
+  height: 48px;
+  margin: 24px 0px 4px -100px;
+  padding: 14px 0 12px 20px;
+  border-radius: 60px;
+  box-shadow: 1px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #fcfcfc;
+  font-size : 12px;
+  text-align:left;
+  
+  
+}
+.alarmImg{
+	width : 25px;height : 25px;
+}
+#deleteAlarm{
+    width: 25px;
+    height: 25px;
+    color: #949999;
+    border: 1px solid #949999;
+    border-radius: 40px;
+    font-size: 13px;
+    background: #fff;
+    margin-left : 180px;
+    margin-top : -58px;
 }

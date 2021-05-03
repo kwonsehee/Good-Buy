@@ -9,6 +9,9 @@
 </head>
 <body>
       <table id="review_tb">
+      <tr>
+      	<td colspan="2"><br></td>
+      </tr>
       <c:forEach var="r" items="${ reList}">
                 <tr>
                     <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;">
@@ -54,7 +57,7 @@
 
 		
          <input type="hidden" id="sessionloginuser" value='${loginUser.user_id }'/>`
-           <input type="hidden" id="seller_id" value="${ seller.user_id } "/>
+           <input type="hidden" id="sellerId" value="${ seller.user_id }"/>
             <div id="reviewwrite">
             
                 <span id="star" style="padding-left: 10%;">
@@ -71,14 +74,37 @@
              <span>${loginUser.nickname}</span> 
             </div>
             
-			<textarea id="reviewWriteArea" name="content" placeholder="거래 후기를 작성해 주세요."></textarea>
+			
+			<c:if test="${ ReviewOk == 0 }">
+                    
+               		 <textarea id="reviewWriteArea" name="content" placeholder="판매자와 거래를 한 사람만 작성가능합니다." onclick="noWrite()"></textarea>
+
+            </c:if>
+            <c:if test="${ ReviewOk > 0 }">
+            
+                    <textarea id="reviewWriteArea" name="content" placeholder="거래 후기를 작성해 주세요."></textarea>
+                
+             </c:if>
 			<span id="counter" style="padding-left: 10%;">0 / 1000</span>
             <button id="writeBtn">등록하기</button>
         
 		</div>
        
-		
 		<script>
+		function noWrite(){
+	         Swal.fire({
+	title: '거래 내역 없음',
+	html: '<br>판매자와 거래를 한 사람만 작성가능합니다.<br> ',
+	imageUrl: '${ contextPath }/resources/images/logo.png',
+	imageWidth: 232,
+	imageHeight: 90,
+	imageAlt: 'Custom image',
+	});
+	     }
+		
+		</script>
+		<script>
+		
 		// 글자수 실시간 카운팅
 		$('#reviewWriteArea').keyup(function (e){
 		    var content = $(this).val();
@@ -103,8 +129,8 @@
           
           $("#writeBtn").on("click",function(){
         	  var content = $("#reviewWriteArea").val();
-        	  var seller = $("#seller_id").text();
-        	 
+        	  var seller = $("#sellerId").val();
+        	 console.log("seller는 "+seller);
       		
         	  console.log("content : " + content);
         	  console.log("seller : " + seller);
@@ -190,7 +216,7 @@
           
           function deleteReivew(num){
         	 
-        	  var seller = $("#seller_id").text();
+        	  var seller = $("#sellerId").val();
         	  var reviewArea = $("#review_tb");
     		  reviewArea.html("");
     		  

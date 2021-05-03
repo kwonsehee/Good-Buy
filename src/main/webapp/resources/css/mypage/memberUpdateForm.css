@@ -84,15 +84,15 @@
 	background: #fff;
 }
 
-.joinform button {
-	width: 150px;
-	height: 47px;
+#submitBtn {
+	padding:10px 30px 10px 30px;
 	text-align: center;
 	border: 0px;
 	background: #222;
 	color: #fff;
 	border-radius: 27px;
 	font-weight: bold;
+	background:black;
 }
 
 #memberLeaveBtn {

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	
+	<div class="gray_back">
 	
 			<c:forEach var="f" items="${sellingList }">
 				<div class="follow_div">
@@ -27,7 +27,7 @@
 					
 				</div>
 			</c:forEach>
-
+</div>
 
 
 

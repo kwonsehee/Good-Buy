@@ -277,6 +277,30 @@ public class BusinessDaoImpl implements BusinessDao {
 	}
 
 	@Override
+	public int deleteReview(String reviewNo) {
+		
+		return sqlSession.delete("businessMapper.deleteReview",reviewNo);
+	}
+
+	@Override
+	public int deleteReview2(String reviewNo) {
+		
+		return sqlSession.delete("businessMapper.deleteReview2",reviewNo);
+	}
+
+	@Override
+	public int updateUserPoint(String userId) {
+		
+		return sqlSession.update("businessMapper.updateUserPoint",userId);
+	}
+
+	@Override
+	public int deleteNews(int n_no) {
+		
+		return sqlSession.update("businessMapper.deleteNews",n_no);
+	}
+
+	@Override
 	public List<Payment> selectBusis() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("businessMapper.selectBusis");

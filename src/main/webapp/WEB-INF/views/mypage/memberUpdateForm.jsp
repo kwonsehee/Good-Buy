@@ -21,7 +21,7 @@
             <h4 id="goodbuy_h2">good-buy Family</h4>
             <h4 id="join_h2">회원 정보 수정</h4>  
 
-            <form action="${ contextPath }/member/update" method="POST" class="joinform" onsubmit="sendNewInfo();">
+            <form action="${ contextPath }/member/update" method="POST" class="joinform">
                 <p>NICKNAME</p>
                 <input type="text" name="nickname" value="${ loginUser.nickname }"><br>
                 <input type="password" name="userPwd" placeholder="PASSWORD" required><br>
@@ -49,7 +49,7 @@
                     <option>&nbsp;${ townInfo.address_3 }</option>
                 </select>
                 <br><br><br><br><br><br><br>
-                <button type="submit" id="submitBtn">수정하기</button>
+                <a id="submitBtn" style="cursor:pointer">수정하기</a>
                 
             </form>         
             <a id="memberLeaveBtn" onclick="deleteMember('${loginUser.user_id}')" style="cursor:pointer;">탈퇴하기</a>
@@ -78,10 +78,11 @@
  					console.log(data);
  					// 비밀번호 일치 시 수정하기 버튼 활성화 불일치 시 버튼 비활성화 
  					 if(data == "success"){
- 						$("#submitBtn").removeAttr("disabled");
- 					}else {
- 						$("#submitBtn").removeAttr("disabled");
- 						//$("#submitBtn").attr("disabled",true);
+ 						$("#submitBtn").on('click',function(){
+ 							$(".joinform").submit();
+ 						});
+ 						
+ 					}else{
  						alert("기존 비밀번호를 맞게 입력해주세요!");
  					} 
  				},
@@ -91,6 +92,12 @@
  			});
  		});
  	});
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
  	
  	// 탈퇴할 때 기존 비밀번호 입력해야 탈퇴 가능
  	function deleteMember(user_id){

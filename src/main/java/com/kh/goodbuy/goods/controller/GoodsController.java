@@ -161,9 +161,11 @@ public class GoodsController {
 	public String goGoodsDetailView(HttpServletRequest request,
 			 @RequestParam(value="gno", required=false) int gno,
 			 Model model) {
+		System.out.println("받아오니? gno"+gno);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		//상품 정보셀렉
 		Goods g = gService.Goodsdetail(gno);
+		System.out.println("likegggg : "+g);
 		if(loginUser!=null) {
 		//찜정보 셀렉
 		int like = gService.likeGoods(gno, loginUser.getUser_id());
@@ -213,6 +215,8 @@ public class GoodsController {
 		List<Goods> sellingList = gService.selectSellingList(seller);
 		//판매자에게 달린 리뷰리스트
 		List<Review> reList = gService.selectReviewList(seller);
+		//판매자에게 리뷰달수있는지 여부
+		int ReviewOk = gService.reviewOk(seller, loginUser.getUser_id());
 		System.out.println("followlist : "+flist);
 		model.addAttribute("follow", follow);
 		model.addAttribute("seller", sellerInfo);
@@ -220,8 +224,15 @@ public class GoodsController {
 		model.addAttribute("fdlist", fdlist);
 		model.addAttribute("sellingList", sellingList);
 		model.addAttribute("reList", reList);
-		System.out.println("reList : "+ reList);
-		return "goods/sellerInfo";
+		model.addAttribute("ReviewOk", ReviewOk);
+		
+		System.out.println("ReviewOk : "+ ReviewOk);
+		if(seller.equals(loginUser.getUser_id())) {
+			return "goods/sellerMypage";
+		}else {
+			return "goods/sellerInfo";	
+		}
+		
 	}
 
 	// 판매자 following 페이지로
@@ -239,9 +250,11 @@ public class GoodsController {
 	}
 	// 판매자에게 메세지 보내는 팝업 페이지로
 	@GetMapping("/sendToseller")
-	public String gosendmsgView(String seller, Model model) {
+	public String gosendmsgView(String seller,String seller_id, Model model) {
 		System.out.println(seller);
 		model.addAttribute("seller", seller);
+		model.addAttribute("seller_id", seller_id);
+		
 		return "goods/sendToseller";
 	}
 	// 판매자에게 상품 메세지 보내는 팝업 페이지로
@@ -605,12 +618,12 @@ public class GoodsController {
 	@PostMapping(value = "/reviewInsert", produces = "application/json; charset= utf-8")
 	public @ResponseBody String insertReview(Review r, HttpSession session, HttpServletRequest request) {
 		
-		System.out.println("여기오니 ? review"+r);
 		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 
 		
 		r.setWriterId(loginUser.getUser_id());
 		
+		System.out.println("여기오니 ? review"+r);
 		// Service - > 댓글insert 후 댓글 select
 		List<Review> rlist=gService.insertReview(r, r.getUserId());
 		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성

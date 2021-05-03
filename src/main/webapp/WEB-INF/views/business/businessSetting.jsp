@@ -27,6 +27,7 @@
             </div>
             
             <div class="infoArea">
+            	<br>
 				<h4>카테고리</h4><br>
 				<select id="category" name="shopCate" required>
 				  <option value="일자리">일자리</option>
@@ -40,7 +41,7 @@
   								<h4>가게명</h4><br>
 								<input type="text" id="nameInput" name="shopName" placeholder="가게명을 입력해 주세요." required ><br><br>
 								<h4>주소</h4><br>
-								<input type="text" id="addressInput" name="shopAdd" placeholder="주소를 입력해 주세요." required ><br><br>
+								<input type="text" id="addressInput" name="shopAdd" placeholder="동네를 입력해 주세요. (예: 학익동)" required ><br><br>
 								<h4>전화번호</h4><br>
 								<input type="text" id="phoneInput" name="shopPhone" placeholder="고객이 연락할 수 있는 번호를 적어주세요."  required><br><br>
 								<h4>소개 문구</h4><br>
@@ -54,7 +55,8 @@
 								</div>
 			
             </div>
-            <div class="priceArea">		
+            <div class="priceArea">
+            	<br>		
 				<h4>대표 메뉴</h4><br>
 				<input type="text" id="topMenu" name="topMenu" placeholder="대표 메뉴를 입력하세요. (예: 커피)"  required><br><br>
 				<h4>추가 설명</h4><br>

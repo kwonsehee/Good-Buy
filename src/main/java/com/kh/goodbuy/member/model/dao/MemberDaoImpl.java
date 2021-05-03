@@ -10,6 +10,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
@@ -256,9 +258,93 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int checkMsg(int mno) {
+	public Member kakaoLogin(String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.kakaoLogin", userId);
+
+  }
+  @Override
+  public int checkMsg(int mno) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("memberMapper.checkMsg",mno);
+	}
+
+	@Override
+	public int selectUserReviewCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectUserReviewCount",user_id);
+	}
+
+	@Override
+	public List<Review> selectUserReviewList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("memberMapper.selectUserReviewList",user_id,rowBounds);
+	}
+
+	@Override
+	public int selectShopReviewCount(String user_id) {
+		return sqlSession.selectOne("memberMapper.selectShopReviewCount", user_id);
+	}
+
+	@Override
+	public List<Review> selectShopReviewList(String user_id, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("memberMapper.selectShopReviewList", user_id,rowBounds);
+	}
+
+	@Override
+	public int deleteUserReview(Review r) {
+		return sqlSession.update("memberMapper.deleteUserReview",r);
+	}
+
+	@Override
+	public int deleteShopReview(Review r) {
+		return sqlSession.update("memberMapper.deleteShopReview",r);
+	}
+
+	@Override
+	public int insertKakaoMember(Member km) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertKakaoMember", km);
+	}
+
+	@Override
+	public int selectReportedCount(String report_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectReportedCount", report_id);
+	}
+
+	@Override
+	public int insertwriteAlarm(String report_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertwriteAlarm", report_id);
+	}
+
+	@Override
+	public List<Alarm> selectAlarmList(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberMapper.selectAlarmList", user_id);
+	}
+
+	@Override
+	public int checkAlarm(int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.checkAlarm", mno);
+	}
+
+	@Override
+	public int updateUserComment(String user_id, String comment) {
+		Map<String, Object> map = new HashMap <String, Object>();
+		map.put("user_id",user_id);
+		map.put("comment", comment);
+		return sqlSession.update("memberMapper.updateUserComment", map);
+	}
+
+	@Override
+	public int checkMyshopNo(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.checkMyshopNo", user_id);
 	}
 
 

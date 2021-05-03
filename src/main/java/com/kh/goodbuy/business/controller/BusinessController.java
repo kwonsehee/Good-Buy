@@ -2,6 +2,7 @@ package com.kh.goodbuy.business.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,6 +44,7 @@ import com.kh.goodbuy.town.model.vo.Town;
 
 @Controller
 @RequestMapping("/business")
+@SessionAttributes({ "msg", "shopNo"})
 public class BusinessController {
 	@Autowired
 	private BusinessService bService;
@@ -262,8 +266,8 @@ public class BusinessController {
 	
 	@PostMapping("/news/insert")
 	public String newsInsert(@ModelAttribute News n ,MultipartFile file, @ModelAttribute Addfile a,
-			HttpServletRequest request,
-			HttpSession session) {
+			HttpServletRequest request, Model model
+			,HttpSession session) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String userId= loginUser.getUser_id();
@@ -290,12 +294,13 @@ public class BusinessController {
        int result = bService.newsInsert(n,a);
        
        if(result > 0) {
-
-      	 return "redirect:/business/change";
+    	   
+    	   model.addAttribute("msg", "success");
+      	 return "redirect:/business/newsWriter";
        }else {
-      	 System.out.println("실패");
+    	   model.addAttribute("msg", "fail");
+      	 return "redirect:/business/newsWriter";
        }
-       return "redirect:/business/change";
 	}
 	
 	public String saveFile(MultipartFile file, HttpServletRequest request) {
@@ -325,6 +330,10 @@ public class BusinessController {
 	
 	@GetMapping("create")
 	public String BusinessCreate() {
+		return "business/businessInfo";
+	}
+	@GetMapping("setting")
+	public String BusinessSetting() {
 		return "business/businessSetting";
 	}
 
@@ -480,13 +489,16 @@ public class BusinessController {
 	}
 	
 	@GetMapping("updateFaCount")
-	public String updateFaCount(String shopNo, HttpSession session) {
+	public String updateFaCount(String shopNo,String buserId ,HttpSession session) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			String userId = loginUser.getUser_id();
+			String nickName = loginUser.getNickname();
 			Map<String, String> map = new HashMap<>();
-			map.put("userId", userId);
-			map.put("shopNo", shopNo);
 			
+			map.put("userId", userId);
+			map.put("buserId", buserId);
+			map.put("shopNo", shopNo);
+			map.put("nickName", nickName);
 			int result = bService.updateFacount(map);
 			
 		return "redirect:/business/detail?shopNo="+shopNo;
@@ -530,18 +542,25 @@ public class BusinessController {
 	      Member loginUser = (Member)session.getAttribute("loginUser");
 	      String userId = loginUser.getUser_id();
 	      String grade = request.getParameter("grade");
-	      
+	      String shopNo2 = request.getParameter("shopNo");
+	      int shopNo = Integer.parseInt(shopNo2); 
+	      String shopName = request.getParameter("shopName");
+	      String buserId = request.getParameter("buserId");
+	     
 	      String content = request.getParameter("content");
 	      System.out.println(grade);
 	      r.setContent(content);
 	      r.setGrade(grade);
 	      r.setUserId(userId);
-	     
+	      r.setShopName(shopName);
+	      r.setBuserId(buserId);
 	      // +rcontent, refBid 
-	      
+	      System.out.println(shopName+"shopName");
+	      System.out.println("buserId " + buserId);
 	      // Service, Dao, board-mapper.xml 코드 추가
 	      // Service -> 댓글 insert 후 댓글 select
 	      List<Review> rlist = bService.insertReview(r);
+	      int result = bService.updateUserPoint(userId);
 	      
 	      // 응답 작성 
 	      // 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
@@ -551,6 +570,82 @@ public class BusinessController {
 	      
 	      return gson.toJson(rlist);
 	}
+	
+	@PostMapping(value="/review/delete", produces="application/json; charset=utf-8")
+	public @ResponseBody String reviewDelete(Review r, HttpSession session, HttpServletRequest request) {
+		  
+		  Member loginUser = (Member)session.getAttribute("loginUser");
+	      String userId = loginUser.getUser_id();
+	      
+	      String reviewNo = request.getParameter("reviewNo");
+	      String shopNo2 = request.getParameter("shopNo2");
+	      int shopNo = Integer.parseInt(shopNo2);
+	     System.out.println("이거 되는거니?");
+	      // +rcontent, refBid 
+	      
+	      // Service, Dao, board-mapper.xml 코드 추가
+	      // Service -> 댓글 insert 후 댓글 select
+	      int result = bService.deleteReview(reviewNo);
+	      // 응답 작성 
+	      // 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+	      Gson gson = new GsonBuilder()
+	               .setDateFormat("yyyy-MM-dd")
+	               .create();
+	      
+	      if(result > 0) {
+	    	  
+	    	  List<Review> rlist = bService.selectDetailReview(shopNo);
+	    	  System.out.println("이거되냐?");
+	    	  System.out.println(rlist + "딜리트");
+	    	  return gson.toJson(rlist);
+	    	  
+	      }else {
+	    	  return "business/list";
+	      }
+
+	      
+	      
+	     
+	      
+	      
+		
+	}
+	
+	@PostMapping(value="/news/delete", produces="application/json; charset=utf-8")
+	public @ResponseBody String NewsDelete(News n, HttpSession session, HttpServletRequest request) {
+		  
+		  Member loginUser = (Member)session.getAttribute("loginUser");
+	      String userId = loginUser.getUser_id();
+	      String n_no2 = request.getParameter("n_no");
+	      int n_no = Integer.parseInt(n_no2);
+	      String shopNo2 = request.getParameter("shopNo");
+	      int shopNo = Integer.parseInt(shopNo2);
+	      int result = bService.deleteNews(n_no);
+	      // 응답 작성 
+	      // 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+	      Gson gson = new GsonBuilder()
+	               .setDateFormat("yyyy-MM-dd")
+	               .create();
+	      
+	      if(result > 0) {
+	    	  
+	    	  List<News> nList = bService.selectNews(shopNo);
+	    	  System.out.println("이거되냐?");
+	    	  System.out.println(nList + "딜리트");
+	    	  return gson.toJson(nList);
+	    	  
+	      }else {
+	    	  return "business/list";
+	      }
+
+	      
+	      
+	     
+	      
+	      
+		
+	}
+	
 	
 	@GetMapping("cash")
 	public String cashInsert(int amount,HttpServletRequest request,HttpSession session,
@@ -592,5 +687,30 @@ public class BusinessController {
 		
 		return "redirect:/business/ad";
 	}
-		
+	
+	@RequestMapping(value = "/godetail", method = RequestMethod.POST)
+	public void checkMyshopNo( HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("비즈프로필 번호 알아오기");
+		try {
+			PrintWriter out = response.getWriter();
+			Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+			int ok = mService.checkMyshopNo(loginUser.getUser_id());
+			System.out.println("비즈프로필 번호느 "+ok);
+			out.write(ok);
+			
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	//비즈프로필번호 셀렉 후 이동
+	@GetMapping("/godetail")
+	public String checkMyshopNo(HttpServletRequest request,HttpSession session, Model model) {
+		System.out.println("비즈프로필 번호 알아오기");
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int ok = mService.checkMyshopNo(loginUser.getUser_id());
+		model.addAttribute("shopNo",ok);
+		return "redirect:/business/detail";
+	}
 }

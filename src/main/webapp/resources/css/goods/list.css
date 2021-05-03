@@ -1,7 +1,9 @@
 @charset "UTF-8";
 #gbSection{
-    margin-bottom: 3%;
+    margin-bottom: 150px;
+    margin-top:50px;
 }
+
 #gfilter{
 		margin-left: 15%;
 	width:18px !important;
@@ -9,8 +11,6 @@
 	padding-top : 0px !important;
 }
 #changeTown{
-	
-   
 	width: 25px !important;
 	height: 25px !important; 
 	padding-left: 25px !important; 
@@ -29,16 +29,18 @@
     margin-top: 3%;
     
 }
+.goodsWrapTr{
+	height: 360px;
+}
 #goodlist td{
 	width : 200px;
-	/* border : 1px solid red; */
 }
 .goodlistimg{
     width: 200px;
     height: 200px;
    	margin-left: 15%;
-     padding-top: 10px; 
-
+    padding-top: 10px; 
+    margin-bottom:10px;
 }
 
 .price_font{
@@ -49,22 +51,21 @@
 .title_font{
 	font-size: 15px !important;
 	padding-left: 15% !important;
+    font-weight: 500;
 }
 .date_font{
-    margin-left: 15% !important;
+    margin-right: 20% !important;
     font-size: 13px !important;
     color: #9a9999 !important;
     text-align : right !important;
     margin-top : -35px;
-    margin-right : 23%;
 
 }
 .id_font{
 	font-size: 13px; 
-	margin-top : -20px;
-    margin-right : 23%;
-	
-	 text-align : right !important;
+	margin-left: 220px;
+	margin-top:-20px;
+    color: #949999;
 }
 .deleteBtn{
 	font-size: 13px; 

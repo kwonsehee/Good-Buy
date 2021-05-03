@@ -37,25 +37,7 @@
       #a6{
           color: gray;
       }
-
-      #div3{
-          text-align: center;
-        font-family: 'Nanum Myeongjo', serif;
-          padding-top : 60px;
-          padding-left: 10%;
-          padding-right: 10%;
-          margin-bottom: 50px;
-      }
-      
-  #tr_hover1:hover{
-      background-color: rgb(182, 228, 255);
-  }
-  #tr_hover2:hover{
-      background-color: rgb(182, 228, 255);
-  }
-  #img1{
-      width: 20px;
-  }
+    
 
   #div5{
       font-weight: bold;
@@ -85,7 +67,7 @@
 
   }
   #notice_title{
-
+    margin-left: 40px;
     text-align: center;
     font-family: 'Nanum Myeongjo', serif;
     font-weight: bold;
@@ -98,23 +80,25 @@
           padding-top : 60px;
           padding-left: 10%;
           padding-right: 10%;
-          padding-bottom : 5%;
       }
       textarea {
         border: black 2px solid;
         font-family: 'Nanum Myeongjo', serif;
         font-size: 20px;
         width: 1100px;
-        height: 200px;
+        height: 400px;
         resize: none;
       }
       #label2{
           vertical-align: top;
-
+        padding-right: 40px;
  
       }
-      #src1{
-      width: auto; height: auto;
-    max-width: 500px;
-    max-height: 500px;
+      #div3{
+          text-align: center;
+        font-family: 'Nanum Myeongjo', serif;
+          padding-top : 60px;
+          padding-left: 10%;
+          padding-right: 10%;
+          margin-bottom: 50px;
       }

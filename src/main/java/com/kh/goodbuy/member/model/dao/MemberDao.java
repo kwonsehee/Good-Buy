@@ -3,6 +3,8 @@ package com.kh.goodbuy.member.model.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.goodbuy.business.model.vo.Review;
+import com.kh.goodbuy.common.model.vo.Alarm;
 import com.kh.goodbuy.common.model.vo.Keyword;
 import com.kh.goodbuy.common.model.vo.Messenger;
 import com.kh.goodbuy.common.model.vo.Reply;
@@ -101,10 +103,41 @@ public interface MemberDao {
 	public String findUserId(String email);
 	// 임시 비밀번호 업데이트 
 	public int updateRandomPwd(Member m);
+	//kakao login
+	public Member kakaoLogin(String userId);
+			
 	//msg봤다고 확인하기
 	public int checkMsg(int mno);
+	// 내가 쓴 유저 리뷰 카운트 
+	public int selectUserReviewCount(String user_id);
+	// 내가 쓴 유저 리뷰 리스트 
+	public List<Review> selectUserReviewList(String user_id, PageInfo pi);
+	// 내가 쓴 가게 리뷰 카운트 
+	public int selectShopReviewCount(String user_id);
+	// 내가 쓴 가게 리뷰 리스트 
+	public List<Review> selectShopReviewList(String user_id, PageInfo pi);
+	// 유저 리뷰 삭제 
+	public int deleteUserReview(Review r);
+	// 가게 리뷰 삭제 
+	public int deleteShopReview(Review r);
 
+	//kakao join
+	public int insertKakaoMember(Member km);
+
+	public int selectReportedCount(String report_id);
+
+	public int insertwriteAlarm(String report_id);
+	//새 알람 리스트 셀렉
+	public List<Alarm> selectAlarmList(String user_id);
+	//알람 확인했다
+	public int checkAlarm(int mno);
+	//판매자 메모 수정
+	public int updateUserComment(String user_id, String comment);
+	//비즈프로필번호알아오기
+	public int checkMyshopNo(String user_id);
 			
+
+
 
 
 }

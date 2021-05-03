@@ -152,7 +152,6 @@ public class AdminController {
 	// -------------------------------------------------------------------------------------------
 	// 신고 메인페이지 이동
 	@GetMapping("/report")
-
 	public ModelAndView ReportMainView(ModelAndView mv) {
 		List<Report> list1 = rService.selectReport1List();
 		List<Report> list2 = rService.selectReport2List();
@@ -173,11 +172,16 @@ public class AdminController {
 	// 신고 디테일페이지 이동
 	@GetMapping("/reportdetail")
 		public String ReportDetailView(@RequestParam int re_no, Model model) {
-
+		System.out.println("신고처리부분 "+re_no);
 			Report r = rService.selectReport(re_no);
+			System.out.println("r : " + r);
 			
+			
+			Goods g = gService.Goodsreportdetail(re_no);
+			System.out.println(g);
 			if (r != null) {
 				model.addAttribute("report", r);
+				model.addAttribute("g", g);
 				return "admin/report_detail";
 			} else {
 				model.addAttribute("msg", "공지사항 게시글 보기에 실패했습니다.");
@@ -188,20 +192,24 @@ public class AdminController {
 	// 신고 상세페이지에서 처리하기
 	@PostMapping("/reportupdate")
 	public String reportUpdate(@ModelAttribute Report r, HttpServletRequest request) {
-		
+		System.out.println("신고처리부분11111111 "+r);
 		//신고처리
 		int result = rService.updateReport(r);
-		
+		int result3 = rService.insertAlarmproduct(r);
 		
 		System.out.println("신고당한사람 : " + r.getReported_id());
 		System.out.println("r : " + r);
+		
 		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
 		int result2 = rService.addCountReported(r.getReported_id());
-		
+		//신고당한 사람이 몇번 신고당했는지확인하고 3번이면 알림 넣어주는 코드
+		int result4 = mService.selectReportedCount(r.getReported_id());
+		//상품상태 R로변경
+		int result5 = gService.updateProduct(r.getGno());
 		
 		System.out.println("유저인포 reported+1 됐나 : " + result2);
 		
-		if (result > 0) {
+		if (result3 > 0) {
 			return "redirect:/admin/report";
 		} else {
 			throw new NoticeException("신고처리에 실패하였습니다.");
@@ -224,15 +232,17 @@ public class AdminController {
 			
 		}
 	// 회원 신고
-	@PostMapping("/reportmemberupdate")
-	public String reportmemberUpdate(@ModelAttribute Member m, HttpServletRequest request) {
+	@GetMapping("/reportmemberupdate")
+	public String reportmemberUpdate(String reported_id, HttpServletRequest request) {
 		
-		System.out.println("신고당한사람 : " + m.getUser_id());
+		
+		System.out.println("신고당한사람 : " + reported_id);
 		// 신고 처리 시 유저인포 REPORTED 컬럼 +1
-		int result2 = rService.addCountReported(m.getUser_id());
+		int result = rService.insertAlarmMember(reported_id);
+		int result2 = rService.addCountReported(reported_id);
 		
 		System.out.println("유저인포 reported+1 됐나 : " + result2);
-		
+		int result4 = mService.selectReportedCount(reported_id);
 		if (result2 > 0) {
 			return "redirect:/admin/report";
 		} else {
@@ -314,19 +324,21 @@ public class AdminController {
 		}
 	// 업데이트
 	@GetMapping("/productupdate")
-	public String productUpdate(int gno, HttpServletRequest request) {
+	public String productUpdate(int gno, HttpServletRequest request, Model model) {
 		
-		System.out.println(gno);
+		System.out.println("신고처리하기 "+gno);
 		int result = gService.updateProduct(gno);
 		
 		
 		if (result > 0) {
+			//nullpoint
 			return "redirect:/admin/product";
 		} else {
 			throw new NoticeException("상품수정에 실패하였습니다.");
 		}
 		
 	}
+	
 	// 상품관리 검색
 	@GetMapping("/productsearch")
 	public String procductSearch(@ModelAttribute Search search,
@@ -485,7 +497,7 @@ public class AdminController {
 	@PostMapping("/QNAAwrite")
 	public String QNAUpdate(@ModelAttribute QNA q, HttpServletRequest request) {
 		
-		
+		System.out.println("질문 : "+q);
 		int result = qService.updateQNAA(q);
 		System.out.println(q);
 		

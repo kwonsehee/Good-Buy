@@ -37,9 +37,13 @@ public class Goods {
 	private Gcate goodcate;
 	private int user_like_cnt;
 	private int rep_cnt;
+	private String address_1;
+	private String address_2;
 	private String address_3;
 	private int likecnt;
 	private Date dealDate;
+	private int ranking;
+	private int rnum;
 	
 
 	

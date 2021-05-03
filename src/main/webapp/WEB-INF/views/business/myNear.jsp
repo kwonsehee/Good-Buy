@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,17 +41,26 @@
         <div class="nearArea">
         <c:forEach var="n" items="${nList}" >
             <div class="nearList" onclick="detailList(${n.shopNo})">
-            	<c:if test="${ n.filePath != null }">
+            	<c:if test="${ n.changeName != null }">
                 <img class="thumbnail" src="${contextPath}/resources/images/goodupload/${n.changeName}" >
                 </c:if>
-                <c:if test="${ n.filePath == null }">
+                <c:if test="${ n.changeName == null }">
                 <img  class="thumbnail" src="${contextPath}/resources/images/business/기본썸네일.png" >
                 </c:if>
  
                 <p class="title"> ${n.newsTitle} </p>
-                <p class="content"> ${ n.shopNews } </p>
+                <p class="content"> ${ fn:substring(n.shopNews,0,50) } 
+                <c:if test="${fn:length(n.shopNews )>50}">
+				...
+                </c:if>
+                </p>
                 <div class="lastInfo">
-                <img src="${contextPath}/resources/images/business/미니프로필샘플.png">
+                <c:if test="${n.photo !=null }">
+                <img class="userPhoto" src="${contextPath}/resources/images/userProfilePhoto/${n.photo}">
+                </c:if>
+                <c:if test="${n.photo ==null }">
+                <img  class="userPhoto" src="${contextPath}/resources/images/mypage/unknownUser.png">
+                </c:if>
                 <label class="name"> ${loginUser.nickname }</label>
                 <label class="address">	${ n.address_3 }</label>
                 </div>
@@ -95,10 +105,10 @@
         <div class="likeArea">
             <c:forEach var="b" items="${ bList }">
             <div class="likeList" onclick="detailList(${b.shopNo})">
-            	<c:if test="${ b.filePath !=null }">
+            	<c:if test="${ b.changeName !=null }">
                 <img class="thumbnail2" src="${contextPath}/resources/images/goodupload/${b.changeName}">
                 </c:if>
-                <c:if test="${ b.filePath ==null }">
+                <c:if test="${ b.changeName ==null }">
                 <img class="thumbnail2" src="${contextPath}/resources/images/business/기본썸네일.png">
                 </c:if>
                 <div class="firstLike">
@@ -106,7 +116,11 @@
                     <label class="shopAddress">${b.shopAdd }</label>
                 </div>
                 <div class="secondLike">
-                    <p> ${b.shopIntro }</p>
+                    <p class="shopIntrop"> ${ fn:substring(b.shopIntro,0,70) } 
+                    <c:if test="${fn:length(b.shopIntro )>70}">
+					...
+	                </c:if>
+                    </p>
                 </div>
                 <div class="thirdLike">
                     <label class="reviewCount"> 후기${b.reviewCount }</label>
@@ -134,7 +148,11 @@
                 <c:set var="check" value="0"/>
                 <c:forEach var="r" items="${ rList }">
                 <c:if test="${ r.shopNo == b.shopNo }">
-                    <p class="review"><b> ${r.nickName }</b>${ r.content } </p>
+                    <p class="review"><b> ${r.nickName }</b> ${fn:substring(r.content,0,50) } 
+                    <c:if test="${fn:length(r.content)>50}">
+					...
+	                </c:if>
+                    </p>
                     <c:set var="check" value="1"/>
                 </c:if>
                 </c:forEach>
