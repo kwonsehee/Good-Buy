@@ -27,6 +27,7 @@
             </div>
             
             <div class="infoArea">
+            	<br>
 				<h4>카테고리</h4><br>
 				<select id="category" name="shopCate" required>
 				  <option value="일자리">일자리</option>
@@ -54,7 +55,8 @@
 								</div>
 			
             </div>
-            <div class="priceArea">		
+            <div class="priceArea">
+            	<br>		
 				<h4>대표 메뉴</h4><br>
 				<input type="text" id="topMenu" name="topMenu" placeholder="대표 메뉴를 입력하세요. (예: 커피)"  required><br><br>
 				<h4>추가 설명</h4><br>
