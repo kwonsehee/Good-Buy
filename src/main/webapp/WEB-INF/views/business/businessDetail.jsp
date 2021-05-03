@@ -310,8 +310,6 @@
     	  var shopNo =${business.shopNo};
     	  var shopName = "${business.shopName}";
     	  var buserId = "${business.userId}";
-    	  console.log(grade+1111);
-    	  console.log(star);
     	  var userId = "${loginUser.user_id}";
     	  var reviewArea = $(".reviewArea");
 		  reviewArea.html("");
@@ -325,15 +323,12 @@
     		 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
     		 dataType : "json",
     		 success : function(data){
- 
-					 
+
 				 var reviewTitle = $("<label id='reviewTitle'>").text("후기");
     			 var reviewCount = $("<label id='reviewCount'>").text(data[0].reviewCount);
 				 var userPhoto;	 
     			 var grade1;
     			 var avgGrade;
-    			 
-    			
     			 
     			 if(data[0].avgGrade == 0){
     				 avgGrade = $("<img class='avgGrade'>").attr("src","${contextPath}/resources/images/business/별점0.png");
@@ -350,59 +345,52 @@
     			 }
     			 $(".reviewArea").append(reviewTitle,reviewCount,avgGrade); 
     			 for(var i in data){
-    		     var div = $("<div class='firstArea'>");
-    		     var reviewInfoArea = $("<div class='reviewInfoArea'>");
-    			 var Photo = data[i].photo;
-    			 var writer =$("<label class='writer'>").text(data[i].nickName);
-    			 if( Photo !=null){
-    			     userPhoto = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/userProfilePhoto/data[i].photo");
-    			 }else if(Photo == null){
-    				 userPhoto = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/mypage/unknownUser.png");
-    			 }
-    			 
-    			 
-    			 
-    			 
-    			 
-    			 if(data[i].grade == 0){
-    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점0.png");
-    			 }else if(data[i].grade == 1){
-    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점1.png");
-    			 }else if(data[i].grade == 2){
-    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점2.png");
-    			 }else if(data[i].grade == 3){
-    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점3.png");
-    			 }else if(data[i].grade == 4){
-    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점4.png");
-    			 }else if(data[i].grade == 5){
-    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점5.png");
-    			 }
-    		     var p = $("<p class='reviewInfo'>").text(data[i].content);
-    		     
-    		     var reviewNo = data[i].reviewNo;	 
-  				writer.append(userPhoto);	
-   				reviewInfoArea.append(writer,grade1,p);
-   				div.append(reviewInfoArea);
-      			 $(".reviewArea").append(div); 
-    		     
-    			 if(data[i].userId == userId ){
-    				 var deleteBtnArea =$("<div class='deleteReviewArea'>");
-        			 var deleteBtn = $("<button class='deleteReviewBtn'  onclick='deleteReview("+reviewNo+")'>");
-        			 deleteBtn.text("x");
-        			 deleteBtnArea.append(deleteBtn);
-    				 reviewInfoArea.append(writer,grade1,p);
-    	  			div.append(deleteBtnArea);
+	    		     var div = $("<div class='firstArea'>");
+	    		     var reviewInfoArea = $("<div class='reviewInfoArea'>");
+	    			 var Photo = data[i].photo;
+	    			 var writer =$("<label class='writer'>").text(data[i].nickName);
+	    			 var pLoot = "${contextPath}/resources/images/userProfilePhoto/";
+	    	   		 var changeName = data[i].photo;
+	    			 if( Photo !=null){
+	    			     userPhoto = $("<img class='userPhoto'>").attr("src",pLoot+changeName);
+	    			 }else if(Photo == null){
+	    				 userPhoto = $("<img class='userPhoto'>").attr("src","${ contextPath }/resources/images/mypage/unknownUser.png");
+	    			 }
 
-    				 
+	    			 if(data[i].grade == 0){
+	    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점0.png");
+	    			 }else if(data[i].grade == 1){
+	    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점1.png");
+	    			 }else if(data[i].grade == 2){
+	    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점2.png");
+	    			 }else if(data[i].grade == 3){
+	    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점3.png");
+	    			 }else if(data[i].grade == 4){
+	    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점4.png");
+	    			 }else if(data[i].grade == 5){
+	    				 grade1 = $("<img class='grade'>").attr("src","${contextPath}/resources/images/business/별점5.png");
+	    			 }
+	    			 
+	    		     var p = $("<p class='reviewInfo'>").text(data[i].content);
+	    		     var reviewNo = data[i].reviewNo;	
+	    		     
+		  				writer.append(userPhoto);	
+		   				reviewInfoArea.append(writer,grade1,p);
+		   				div.append(reviewInfoArea);
+		      			 $(".reviewArea").append(div); 
+	    		     
+	    			 if(data[i].userId == userId ){
+	    				 var deleteBtnArea =$("<div class='deleteReviewArea'>");
+	        			 var deleteBtn = $("<button class='deleteReviewBtn'  onclick='deleteReview("+reviewNo+")'>");
+	        			 deleteBtn.text("x");
+	        			 deleteBtnArea.append(deleteBtn);
+	    				 reviewInfoArea.append(writer,grade1,p);
+	    	  			div.append(deleteBtnArea);
+	    			 }
     			 }
-    			 
-
-    			 
-    			 }
-    			 
-    			 var plusBtnArea = $("<div id='plusReviewBtnArea'>")
-    			 plusBtnArea.text("▽");
-    			 $(".reviewArea").append(plusBtnArea); 
+		    			 var plusBtnArea = $("<div id='plusReviewBtnArea'>")
+		    			 plusBtnArea.text("▽");
+		    			 $(".reviewArea").append(plusBtnArea); 
     			 
     			 plusReview();
     			 
@@ -464,7 +452,7 @@
      			 var Photo2 = data1[j].photo;
      			 var writer2 =$("<label class='writer'>").text(data1[j].nickName);
      			var loot = "${contextPath}/resources/images/userProfilePhoto/";
-	   				var changeName = data[j].photo;
+	   			var changeName = data[j].photo;
      			 if( Photo2 !=null){
      			     userPhoto2 = $("<img class='userPhoto'>").attr("src",loot+changeName);
      			 }else if(Photo2 == null){
