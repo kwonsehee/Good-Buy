@@ -22,6 +22,15 @@ p{
     margin-left: 50px;
     margin-top: 150px;
     float:left;
+    z-index:1;
+	position: absolute;
+}
+
+#yellowdot{
+	width:33%;
+	z-index:0;
+	position: absolute;
+	top:130px;
 }
 
 #doublequotes{

@@ -78,7 +78,7 @@
             <p>${loginUser.user_id}</p>
             <p><a onclick="showFollowing()">팔로잉 ${ followingCnt }</a></p>
             <p><a onclick="showFollower()">팔로워 ${ followerCnt }</a></p>
-            <p><a href="${ contextPath }/mypage/pointList">1,500 P</a></p>
+            <p><a href="${ contextPath }/mypage/pointList">${ loginUser.point } P</a></p>
         </div>
 		<c:if test="${loginUser.user_type !=2 }">
         <button onclick="location.href='${contextPath}/mypage/updateMember'" id="editProfileBtn">프로필 수정</button>
