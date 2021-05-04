@@ -212,6 +212,7 @@ cursor : pointer !important;
     		});
             $("#payBtn").click(function() {
             	var amount = 100;
+            	var amount =$("#total_money").text();
             	var user_point =$("#input_area").val();
         	    var IMP = window.IMP;
         	    IMP.init('imp97294679');

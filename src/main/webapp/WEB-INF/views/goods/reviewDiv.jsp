@@ -16,10 +16,10 @@
                 <tr>
                     <td rowspan="2" style=" width : 130px; height: 130px; padding-left: 20px;">
                     <c:if test="${r.photo eq null }">
-                    <img src="${ contextPath }/resources/images/person.png">
+                    <img src="${ contextPath }/resources/images/person.png" class="flwphoto">
                 	</c:if>
                 	<c:if test="${r.photo ne null }">
-                    <img src="${ contextPath }/resources/images/userProfilePhoto/${r.photo}">
+                    <img src="${ contextPath }/resources/images/userProfilePhoto/${r.photo}"class="flwphoto">
                 	</c:if>
                 	</td>
                     <td><span>${r.nickName}</span>&nbsp;<span>${r.reviewDate }</span>&nbsp;
@@ -139,7 +139,7 @@
     		  reviewArea.html("");
     	
     		  $('#star a').parent().children("a").removeClass("on"); 
-              
+    		  $('#counter').html("(0 / 1000)");
     		  $("#reviewWriteArea").val("");
         	  $.ajax({
         		 url : "${ contextPath }/goods/reviewInsert" ,
@@ -152,6 +152,7 @@
 
         		 var loginid = $("#sessionloginuser").val();
         		 console.log("loginUser : "+loginid);
+        		 $('#counter').html("(0 / 1000)");
         		for(var i in data){
         		   var photo = data[i].photo;
         		   var grade = data[i].grade;
@@ -201,10 +202,10 @@
         				a+="</td></tr>";
         			 reviewArea.append(a); 
 
-        			 
+        			
         			 } 
         			 
-    				
+        	
         			 
         		 },
         		 error : function(e){

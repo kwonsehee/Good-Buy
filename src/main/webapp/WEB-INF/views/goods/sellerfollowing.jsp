@@ -18,7 +18,7 @@
 			<c:forEach var="f" items="${flist }">
 				<div class="follow_div">
 					<c:if test="${f.photo eq null }">
-						<img src="${ contextPath }/resources/images/image 57.png"class="follow_photo">
+						<img src="${ contextPath }/resources/images/mypage/unknownUser.png"class="follow_photo">
 					</c:if>
 
 					<c:if test="${f.photo ne null }">

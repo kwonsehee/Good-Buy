@@ -307,10 +307,10 @@
 	                	a+=goVal+","+ano;
 	                	a+=")'>";
 	                	
-	                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+	                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
 	                	a+=data[i].goods_thum;
 	                	
-	                	a+="' class='alarmImg'>";
+	                	a+="' class='alarmImg'>"; */
 	               
 	                	
 						}else if(aType ==2){
@@ -318,10 +318,10 @@
 		                	a+=ano;
 		                	a+=")'>";
 		                	
-		                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+		                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
 		                	a+=data[i].goods_thum;
 		                	
-		                	a+="' class='alarmImg'>";
+		                	a+="' class='alarmImg'>"; */
 		               
 						}else if(aType==0 ){
 							a +="<div class='alarmDiv' onclick='gotoQnADetail(";
@@ -486,22 +486,22 @@
 			                	a+=goVal+","+ano;
 			                	a+=")'>";
 			                	
-			                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+			                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
 			                	a+=data[i].goods_thum;
 			                	
 			                	a+="' class='alarmImg'>";
-			               
+			                */
 			                	
 								}else if(aType==13 ||aType ==2){
 									a +="<div class='alarmDiv' onclick='gotoReportDetail(";
 				                	a+=ano;
 				                	a+=")'>";
 				                	
-				                	a+="<img src='${ contextPath }/resources/images/goodupload/";
+				                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
 				                	a+=data[i].goods_thum;
 				                	
 				                	a+="' class='alarmImg'>";
-				               
+				                */
 								}else if(aType==0 ){
 									a +="<div class='alarmDiv' onclick='gotoQnADetail(";
 									a+=goVal+","+ano;

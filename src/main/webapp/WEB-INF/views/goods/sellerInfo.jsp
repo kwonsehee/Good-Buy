@@ -169,7 +169,7 @@
         $(function(){
             $(document).on("click","#followBtn",function(){
             	var seller_id = $("input[name=reported_id]").val();
-           
+           var follow2 = $("#seller_id").text();
             console.log(seller_id);
            	 document.getElementById("follow_area").value='';
           	  
@@ -187,7 +187,7 @@
                    	   $("#follow_area").html(values);
                    		swal.fire({
                      	  title: 'Follow',
-                     	  html: '<br>\'데세헤\' 님을 팔로우하였습니다.<br>판매자의 상품을 더욱더 빨리 만나보실 수 있습니다.<br>',
+                     	  html:'<br>'+follow2+'님을 팔로우하였습니다.<br>판매자의 상품을 더욱더 빨리 만나보실 수 있습니다.<br>',
                      	  imageUrl: '${ contextPath }/resources/images/logo.png',
                      	  imageWidth: 232,
                      	  imageHeight: 90,
@@ -218,6 +218,7 @@
           	 $(document).on("click","#canselfollowBtn",function(){
           		var seller_id = $("input[name=reported_id]").val();
               	 document.getElementById("follow_area").value='';
+              	var follow2 = $("#seller_id").text();
                $.ajax({
                   url : "${contextPath}/member/unfollow",
                   data : {seller : seller_id},
@@ -232,7 +233,7 @@
                     	  $("#follow_area").html(values);
                     		swal.fire({
                       	  title: 'Follow',
-                      	  html: '<br>\'데세헤\' 님을 팔로우를 취소하였습니다.<br>판매자의 상품을 더욱더 빨리 만나보실 수 있습니다.<br>',
+                      	html:'<br>'+follow2+'님을 팔로우를 취소하였습니다.<br>판매자의 상품을 더욱더 빨리 만나보실 수 있습니다.<br>',
                       	  imageUrl: '${ contextPath }/resources/images/logo.png',
                       	  imageWidth: 232,
                       	  imageHeight: 90,
