@@ -1179,7 +1179,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		, SYSDATE
 		, REVIEW_SEQ.CURRVAL
 		, DEFAULT      
-		, CONCAT(#{writerId}, '님이 안전거래 후기를 작성하였하였습니다.')
+		, CONCAT(#{writerId},'님이 상품 구매 후기를 작성하였하였습니다.')
 		)
 		SELECT * FROM DUAL
 	

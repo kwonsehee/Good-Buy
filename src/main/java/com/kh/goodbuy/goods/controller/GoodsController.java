@@ -73,6 +73,7 @@ public class GoodsController {
 				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 				glist = gService.selectCateList(pi, cate);
 				System.out.println("로그인 유저 없을때 cate: glist"+ glist);
+				model.addAttribute("cate", cate);
 			}else {
 				listCount = gService.selectAllCount();
 				System.out.println("로그인 유저 없을때 : listCount"+ listCount);
@@ -89,6 +90,7 @@ public class GoodsController {
 				pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 				glist = gService.selectCateList2(myTown, pi, cate);
 				System.out.println("로그인 유저 있을때 cate : glist"+ glist);
+				model.addAttribute("cate", cate);
 			}else {
 			System.out.println("loginUser : "+ loginUser.getUser_id());
 			System.out.println("myTown : "+ myTown);
@@ -101,6 +103,7 @@ public class GoodsController {
 		}
 		model.addAttribute("glist", glist);
 		model.addAttribute("pi", pi);
+		
 		return "goods/goodslist";
 	}
 
@@ -416,6 +419,12 @@ System.out.println("sellername"+sellername);
 		//Service, Dao, board-mapper.xml 코드 추가
 		//Service - > 댓글insert 후 댓글 select
 		List<Reply>rlist = gService.insertReply(r, g);
+		
+		if(rlist.size()!=0) {
+			//point추가
+			int point = mService.updatePoint(loginUser.getUser_id(), -10);
+		}
+		
 		//날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
 		Gson gson = new GsonBuilder()
 						.setDateFormat("yyyy-MM-dd")
@@ -626,8 +635,13 @@ System.out.println("sellername"+sellername);
 		r.setWriterId(loginUser.getUser_id());
 		
 		System.out.println("여기오니 ? review"+r);
+		
 		// Service - > 댓글insert 후 댓글 select
 		List<Review> rlist=gService.insertReview(r, r.getUserId());
+		if(rlist.size()!=0) {
+			//point추가
+			int point = mService.updatePoint(loginUser.getUser_id(), -10);
+		}
 		// 날짜 포맷하기 위해 GsonBuilder 를 이용해서 Gson객체 생성
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		System.out.println("새로 뽑은 리뷰 : "+rlist);

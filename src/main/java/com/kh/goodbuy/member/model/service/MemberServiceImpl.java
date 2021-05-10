@@ -260,6 +260,11 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDao.selectSellerNickname(user_id);
 	}
+	@Override
+	public int updatePoint(String user_id, int user_point) {
+		// TODO Auto-generated method stub
+		return mDao.updatePoint(user_id, user_point);
+	}
 
 
 

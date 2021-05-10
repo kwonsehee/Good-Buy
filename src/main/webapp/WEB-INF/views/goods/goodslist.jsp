@@ -24,7 +24,14 @@
             <td>
                  <span id="allCate" onclick="showCate();">
                 <img src="${ contextPath }/resources/images/filter.png"  id="gfilter">
-                전체 </span>
+                <c:if test="${cate eq null }">
+                전체 
+                </c:if>
+                <c:if test="${cate ne null }">
+                ${cate }
+                </c:if>
+                
+                </span>
                   <div class="catebar">
                   
                     <button onclick="closeCate()">X</button>

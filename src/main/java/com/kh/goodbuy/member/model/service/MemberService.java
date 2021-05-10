@@ -141,6 +141,8 @@ public interface MemberService {
 		public int checkMyshopNo(String user_id);
 		//selller 닉네임 알아오기
 		public String selectSellerNickname(String user_id);
+		//point 추가
+		public int updatePoint(String user_id, int i);
 		
 
 

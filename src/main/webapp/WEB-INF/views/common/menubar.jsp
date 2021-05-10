@@ -39,11 +39,11 @@
                 <li class="li_2"><a href="${ contextPath }"><img src="${ contextPath }/resources/images/logo.png" id="mainLogo"></a></li>
                 <li class="li_3">
                 <form action="${ contextPath }/goods/search" method="get">
-                    <c:if test="${search eq null }">
+                    <c:if test="${goodsearch eq null }">
                     <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!" style=" color:#05AAD1;">
                     </c:if>
-                     <c:if test="${search ne null }">
-                    <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!"  value="${search }" style=" color:#05AAD1;">
+                     <c:if test="${goodsearch ne null }">
+                    <input type="text" id="searchbox" name="search" placeholder="중고 매물을 검색하세요!"  value="${goodsearch }" style=" color:#05AAD1;">
                     </c:if>
                     <button type="submit">검색</button>
                 </form>
@@ -297,31 +297,34 @@
 						var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/onalarm.png' style='margin-top:27px;'id='alarm'></a>"; 
 						a+="<div id='alarmArea'>";
 						for(var i in data){
+							console.log(data[i].goods_thum);
 						var aType = data[i].alarm_type;
 						console.log(aType);
 						var goVal=data[i].ref_no;
 						var ano =data[i].alarm_no;
-						if(aType ==5||aType ==8||aType ==10 ){
+						var imgg=data[i].goods_thum;
 						
+						if(aType ==5||aType ==8||aType ==10 ){
+						console.log("여기오니?");
 	                	a +="<div class='alarmDiv' onclick='gotoGoodsDetail(";
 	                	a+=goVal+","+ano;
 	                	a+=")'>";
 	                	
-	                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
+	                	 a+="<img src='${ contextPath }/resources/images/goodupload/";
 	                	a+=data[i].goods_thum;
 	                	
-	                	a+="' class='alarmImg'>"; */
+	                	a+="' class='alarmImg'>"; 
 	               
 	                	
-						}else if(aType ==2){
+						}else if(aType ==2 ){
 							a +="<div class='alarmDiv' onclick='gotoReportDetail(";
 		                	a+=ano;
 		                	a+=")'>";
 		                	
-		                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
+		                	 a+="<img src='${ contextPath }/resources/images/goodupload/";
 		                	a+=data[i].goods_thum;
 		                	
-		                	a+="' class='alarmImg'>"; */
+		                	a+="' class='alarmImg'>"; 
 		               
 						}else if(aType==0 ){
 							a +="<div class='alarmDiv' onclick='gotoQnADetail(";
@@ -350,9 +353,9 @@
 						    
 						}
 	                	a+="<span>";
-	                	
+	                	console.log("안자른거"+data[i].alarm_content);
 	                	var conte=(data[i].alarm_content).substring(0,25)+"...";
-	                	console.log("자른거 "+conte);
+	                	
 	                	console.log("길이 ;"+(data[i].alarm_content).length);
 	                	var cl = (data[i].alarm_content).length;
 	                	if(cl>5){
@@ -472,6 +475,7 @@
 								
 					            tableBody.html("");
 								console.log("새알림관련 여기오니?");
+								console.log(data);
 								
 								var a = "<a onclick='alarmPopup()'><img src='${ contextPath }/resources/images/onalarm.png' style='margin-top:20px;'id='alarm'></a>"; 
 								a+="<div id='alarmArea'>";
@@ -486,22 +490,22 @@
 			                	a+=goVal+","+ano;
 			                	a+=")'>";
 			                	
-			                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
+			                	 a+="<img src='${ contextPath }/resources/images/goodupload/";
 			                	a+=data[i].goods_thum;
 			                	
 			                	a+="' class='alarmImg'>";
-			                */
+			                
 			                	
 								}else if(aType==13 ||aType ==2){
 									a +="<div class='alarmDiv' onclick='gotoReportDetail(";
 				                	a+=ano;
 				                	a+=")'>";
 				                	
-				                	/* a+="<img src='${ contextPath }/resources/images/goodupload/";
+				                	 a+="<img src='${ contextPath }/resources/images/goodupload/";
 				                	a+=data[i].goods_thum;
 				                	
 				                	a+="' class='alarmImg'>";
-				                */
+				                
 								}else if(aType==0 ){
 									a +="<div class='alarmDiv' onclick='gotoQnADetail(";
 									a+=goVal+","+ano;
@@ -530,8 +534,9 @@
 								    
 								}
 			                	a+="<span>";
+			                	console.log("안자른거"+data[i].alarm_content);
 			                	var conte=(data[i].alarm_content).substring(0,25)+"...";
-			                	console.log("자른거 "+conte);
+			                	
 			                	console.log("길이 ;"+(data[i].alarm_content).length);
 			                	var cl = (data[i].alarm_content).length;
 			                	if(cl>5){

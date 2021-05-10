@@ -291,24 +291,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		INTO USER_REPORT
 		VALUES
 		(REPORT_SEQ.CURRVAL, #{reported_id})
-		INTO ALARM
-		(
-		  ALARM_NO
-		, ALARM_TYPE
-		, ALARM_CONTENT
-		, USER_ID
-		, ALARM_DATE
-		
-		)
-		VALUES
-		(
-		  A_SEQ.NEXTVAL
-		, 2
-		,  #{reported_id}||'님이 신고 처리되어 '|| '누적 신고 횟수 '||(SELECT REPORTED FROM USER_INFO WHERE USER_ID=#{reported_id})||'회입니다.'
-		, #{reported_id}
-		, DEFAULT
-		
-		)
 		SELECT * FROM DUAL
 	</insert>
 <insert id="insertAlarmproduct" parameterType="java.util.Map">
@@ -347,7 +329,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		VALUES
 		(
 		  A_SEQ.NEXTVAL
-		, 2
+		, 1
 		, '회원님이 신고 처리 되었습니다.'
 		, #{reported_id}
 		, DEFAULT
