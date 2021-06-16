@@ -73,7 +73,6 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.updateMember(loginUser);
 	}
 	@Override
-
 	public int updateUserPhoto(Member loginUser) {
 		return mDao.updateUserPhoto(loginUser);
 	}

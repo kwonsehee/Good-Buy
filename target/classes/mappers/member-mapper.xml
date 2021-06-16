@@ -17,6 +17,75 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="admin_memo" column="ADMIN_MEMO"/>
 		<result property="ustatus" column="USTATUS"/>
 		<result property="is_business" column="IS_BUSINESS"/>
+		<result property="user_comment" column="USER_COMMENT"/>
+	</resultMap>
+	
+	<resultMap type="Keyword" id="keywordResultSet">
+		<id property="user_id" column="USER_ID"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rno" column="R_NO"/>
+		<result property="rcontent" column="RCONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="rstatus" column="R_STATUS"/>
+		<result property="ref_rid" column="REF_RID"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="gtitle" column="G_TITLE"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="gno" column="G_NO"/>
+	</resultMap>
+	<resultMap type="Member" id="Follow">
+		<id property="user_id" column="USER_ID"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="followCnt" column="FOLLOWCNT"/>
+		<result property="goodsCnt" column="GOODSCNT"/>
+		<result property="isfollow" column="ISFOLLOW"/>
+	</resultMap>
+	<resultMap type="Member" id="MyFollow">
+		<id property="user_id" column="USER_ID"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="photo" column="PHOTO"/>
+	</resultMap>
+	
+	<resultMap type="Messenger" id="MessengerResult">
+		<id property="mno" column="M_NO"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="receiver" column="RECEIVER"/>
+		<result property="mcontent" column="M_CONTENT"/>
+		<result property="gno" column="G_NO"/>
+		<result property="caller" column="CALLER"/>
+		<result property="mstatus" column="M_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="Review" id="ReviewResultSet">
+		<id property="reviewNo" column="REVIEW_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="status" column="STATUS"/>
+		<result property="reviewDate" column="REVIEW_DATE"/>
+		<result property="grade" column="GRADE"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="shopName" column="SHOP_NAME"/>
+		<result property="shopNo" column="SHOP_NO"/>
+		
+	</resultMap>
+	<resultMap type="Alarm" id="AlarmResult">
+		<id property="alarm_no" column="ALARM_NO"/>
+		<result property="alarm_type" column="ALARM_TYPE"/>
+		<result property="alarm_content" column="ALARM_CONTENT"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="ref_no" column="REF_NO"/>
+		<result property="a_status" column="A_STATUS"/>
+		<result property="alarm_date" column="ALARM_DATE"/>
+		<result property="goods_thum" column="CHANGE_NAME"/>
+	
 	</resultMap>
 	
 	<select id="selectMember" parameterType="Member" resultMap="memberResultSet">
@@ -34,12 +103,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 , ENROLL_DATE
 			 , IS_BUSINESS
 			 , USTATUS
+			 , USER_COMMENT
 		  FROM
 		  	   USER_INFO
 		 WHERE
 		 	   USER_ID = #{user_id}
 		<!--  암호화 적용 이후 삭제 : AND PWD = #{pwd} -->
 		   AND USTATUS = 'Y'
+		   
 	
 	</select>
 	<insert id="insertMember" parameterType="Member">
@@ -67,8 +138,693 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	, SYSDATE
 	, DEFAULT	
 	, DEFAULT
-
 	)
+	
 	</insert>
 	
+   
+   <select id="selectList" resultMap="memberResultSet">
+      SELECT
+             USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+       FROM
+             USER_INFO
+      WHERE
+               USTATUS = 'Y'
+     ORDER BY
+              USER_ID DESC
+   
+   </select>
+   
+   <select id="selectListCount" resultType="_int">
+      SELECT 
+            COUNT(*)
+          FROM
+                USER_INFO
+         WHERE
+               USTATUS = 'Y' OR USTATUS = 'N'
+   </select>
+    
+   <select id="searchList" parameterType="Search" resultMap="memberResultSet">
+		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
+		
+		SELECT
+		     USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+		  FROM
+		       USER_INFO
+		<where>
+			<choose>
+				<when test="searchCondition == 'common'">
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'N' AND ENROLL_DATE between #{date1} and #{date2})
+				</when>
+				<when test="searchCondition == 'business'">
+				AND (USER_ID LIKE #{sv} AND IS_BUSINESS LIKE 'Y')
+				</when>
+			</choose>
+		</where>
+		ORDER BY USER_ID ASC
+	</select>
+	<select id="selectMemberDetail" parameterType="string" resultMap="memberResultSet">
+		SELECT
+		     USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+			 , USER_COMMENT
+		  FROM
+		       USER_INFO
+		 WHERE
+		       USER_ID = #{user_id} 
+	</select>
+	
+	<select id="userIdCheck" parameterType="string" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		USER_INFO
+		 WHERE
+		 		USER_ID = #{user_id}
+	</select>
+
+	<update id="updateadminMember" parameterType="Member">
+      UPDATE
+           USER_INFO
+        SET
+            POINT = #{point}
+          , ADMIN_MEMO = #{admin_memo}
+       WHERE
+            USER_ID = #{user_id}     
+   </update>
+
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE 
+				USER_INFO
+		   SET 
+		   		NICKNAME = #{nickname},
+      			USER_PWD = #{user_pwd},
+   			    EMAIL = #{email},
+    			PHONE = #{phone}
+		 WHERE 
+		 		USER_ID = #{user_id}
+
+	</update>
+	
+	<update id="updateUserPhoto" parameterType="Member">
+		UPDATE
+				USER_INFO
+		   SET
+		   		PHOTO = #{photo}
+		 WHERE
+		 		USER_ID = #{user_id}
+	</update>
+	
+	<update id="deleteUserPhoto" parameterType="Member">
+		UPDATE
+				USER_INFO
+		   SET
+		   		PHOTO = NULL
+		 WHERE
+		 		USER_ID = #{user_id}
+	
+	</update>
+	
+	<update id="updatePoint" parameterType="java.util.Map">
+		UPDATE
+				USER_INFO
+		   SET
+		   		POINT = POINT-#{user_point}
+		 WHERE
+		 		USER_ID = #{user_id}
+	
+	</update>
+	<insert id="insertDeal" parameterType="java.util.Map">
+		INSERT ALL
+		INTO PAYMENT
+		(
+ 		  PID
+		, PAYMENT
+		, PAY_DATE
+		, PAY_WAY
+		)
+		VALUES
+		(
+		  PAY_SEQ.NEXTVAL
+		, #{amount}
+		, DEFAULT
+		, 1
+		)
+		INTO DEAL_PAYMENT
+		(
+		  PID
+		, G_NO
+		, USER_ID
+		)
+		VALUES
+		(
+		  PAY_SEQ.CURRVAL
+		 , #{gno}
+		,  #{user_id}
+		)
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_CONTENT
+		, ALARM_DATE
+		, REF_NO
+		, A_STATUS
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 10
+		, (SELECT USER_ID FROM GOODS WHERE G_NO = #{gno})
+		, #{user_id}|| '님이 '||(SELECT G_TITLE FROM GOODS WHERE G_NO = #{gno})|| '을 구매하였습니다.'
+		, DEFAULT
+		, #{gno}
+		, DEFAULT
+		)
+		SELECT *FROM DUAL
+	</insert>
+	<insert id="insertDealPoint" parameterType="java.util.Map">
+		INSERT ALL
+		INTO PAYMENT
+		(
+ 		  PID
+		, PAYMENT
+		, PAY_DATE
+		, PAY_WAY
+		)
+		VALUES
+		(
+		  PAY_SEQ.NEXTVAL
+		, #{amount}
+		, DEFAULT
+		, 2
+		)
+		INTO DEAL_PAYMENT
+		(
+		  PID
+		, G_NO
+		, USER_ID
+		, DEAL_DATE
+		)
+		VALUES
+		(
+		  PAY_SEQ.CURRVAL
+		 , #{gno}
+		,  #{user_id}
+		, DEFAULT
+		)
+		
+		SELECT *FROM DUAL
+	</insert>
+	<select id="selectSellerPhoto" parameterType="string" resultType="string">
+		SELECT
+			   PHOTO
+		  FROM USER_INFO
+		 WHERE USER_ID = #{user_id}
+	</select>
+	
+	<update id="deleteMember" parameterType="string">
+	UPDATE 
+			USER_INFO 
+	   SET 
+	   		USTATUS = 'N'
+	 WHERE 
+	 		USER_ID = #{user_id}
+	</update>
+	
+	<insert id="insertKeyword" parameterType="Keyword">
+		INSERT INTO KEYWORD
+		VALUES(
+			#{user_id}
+		  , #{keyword}
+		  , DEFAULT
+		)
+	
+	</insert>
+	
+	<select id="selectKeyword" parameterType="string" resultMap="keywordResultSet">
+		SELECT
+				USER_ID
+			  , KEYWORD
+			  , CREATE_DATE
+		  FROM
+		  		KEYWORD
+		 WHERE
+		 		USER_ID = #{user_id}
+	</select>
+
+	<select id="selectReplyCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(R_NO)
+	  FROM 	
+	  		REPLY
+	 WHERE 
+	 		USER_ID = #{user_id}
+	   AND
+	   		R_STATUS = 'Y'
+	</select>
+	
+	<select id="selectReplyList" parameterType="string" resultMap="replyResultSet">
+	SELECT 
+			R_NO,REPLY.CREATE_DATE,G_NO,G_TITLE,RCONTENT,CHANGE_NAME
+	  FROM 
+	  		REPLY
+	  JOIN 
+	  		GOODS_REPLY USING(R_NO)
+	  JOIN 
+	  		GOODS USING(G_NO)
+	  JOIN 
+	  		GOODSFILE USING(G_NO)
+	  JOIN 
+	  		ADDFILE USING(F_NO)
+	 WHERE 
+	 		REPLY.USER_ID = #{user_id}
+	   AND
+	   		R_STATUS = 'Y'
+	
+	</select>
+	
+	<update id="deleteReply" parameterType="Reply">
+	UPDATE 
+			REPLY
+	   SET 
+	   		R_STATUS = 'N'
+	 WHERE
+	 	   	USER_ID = #{user_id}
+	   AND 
+	   		R_NO = #{rno}
+	
+	
+	
+	</update>
+
+
+
+	<insert id="insertFollow"  parameterType="java.util.Map">
+	INSERT ALL
+	INTO FOLLOW
+	(FOLLOWER, FOLLOWING)
+	VALUES
+	(#{user_id}, #{seller})
+	  INTO ALARM
+    (ALARM_NO, ALARM_TYPE, ALARM_CONTENT, USER_ID, ALARM_DATE, A_STATUS)
+    VALUES
+    (A_SEQ.NEXTVAL, 12, CONCAT(#{user_id},'님이 팔로우신청을 하였습니다.'), #{seller}, SYSDATE, DEFAULT)
+    SELECT *FROM DUAL
+	</insert>
+	<select id="isFollow" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		  FROM FOLLOW
+		 WHERE FOLLOWER =#{user_id}
+		   AND FOLLOWING =#{seller}
+	</select>
+	<delete id="canselFollow" parameterType="java.util.Map">
+		DELETE FROM FOLLOW 
+	    WHERE FOLLOWER = #{user_id}
+   		  AND FOLLOWING = #{seller}
+	
+	</delete>
+
+
+	
+	<select id="selectFollowList" parameterType="java.util.Map" resultMap="Follow">
+		SELECT 
+			    U.USER_ID USER_ID
+			  , NICKNAME
+			  , EMAIL
+			  , PHONE
+			  , PHOTO
+			  , (SELECT COUNT(*) FROM FOLLOW WHERE FOLLOWING = U.USER_ID) FOLLOWCNT
+			  , (SELECT COUNT(*) FROM GOODS WHERE USER_ID = U.USER_ID) GOODSCNT
+			  , (SELECT COUNT(*) 
+			  	   FROM FOLLOW 
+			  	  WHERE FOLLOWING =U.USER_ID
+		   			AND FOLLOWER = #{user_id}) ISFOLLOW
+   		 FROM FOLLOW F JOIN USER_INFO U 
+		   ON (F.FOLLOWER = U.USER_ID)
+   		WHERE F.FOLLOWING = #{seller}
+	</select>
+	<select id="selectFollowingList" parameterType="java.util.Map" resultMap="Follow">
+		SELECT 
+			    U.USER_ID USER_ID
+			  , NICKNAME
+			  , EMAIL
+			  , PHONE
+			  , PHOTO
+			  , (SELECT COUNT(*) FROM FOLLOW WHERE FOLLOWING = U.USER_ID) FOLLOWCNT
+			  , (SELECT COUNT(*) FROM GOODS WHERE USER_ID = U.USER_ID) GOODSCNT
+			  , (SELECT COUNT(*)
+		 		   FROM FOLLOW
+				  WHERE FOLLOWING =U.USER_ID
+				    AND FOLLOWER =#{user_id}) ISFOLLOW
+		FROM FOLLOW F JOIN USER_INFO U 
+		  ON (F.FOLLOWING = U.USER_ID)
+	   WHERE F.FOLLOWER =  #{seller}
+	</select>
+	
+	<select id="selectMyFollowingCount" parameterType="string" resultType="_int">
+	
+	SELECT COUNT(FOLLOWING) CNT
+	  FROM FOLLOW
+     WHERE FOLLOWER = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowingList" parameterType="string" resultMap="MyFollow">
+	SELECT 
+			FOLLOWING USER_ID, 
+			NICKNAME, 
+			PHOTO
+	  FROM 
+	  		FOLLOW
+	  JOIN 
+	  		USER_INFO ON(FOLLOWING = USER_ID)
+	  WHERE 
+	  		FOLLOWER = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowerCount" parameterType="string" resultType="_int">
+	
+	SELECT COUNT(FOLLOWER) CNT
+	  FROM FOLLOW
+     WHERE FOLLOWING = #{user_id}
+	</select>
+	
+	<select id="selectMyFollowerList" parameterType="string" resultMap="MyFollow" >
+	SELECT 
+			FOLLOWER USER_ID, 
+			NICKNAME, 
+			PHOTO
+	  FROM 
+	  		FOLLOW
+	  JOIN 
+	  		USER_INFO ON(FOLLOWER = USER_ID)
+	 WHERE 
+	 		FOLLOWING = #{user_id}
+	</select>
+	
+	<delete id="deleteKey" parameterType="Keyword">
+		DELETE 
+		  FROM 
+		  		KEYWORD 
+	     WHERE 
+	     		KEYWORD = #{keyword}
+	       AND 
+	       		USER_ID = #{user_id}
+	</delete>
+	<select id="selectMsgList" parameterType="string" resultMap="MessengerResult">
+		SELECT 
+			    M_NO
+			  , CREATE_DATE
+			  , RECEIVER
+			  , M_CONTENT
+			  , G_NO
+			  , M_STATUS      
+			  , U.NICKNAME CALLER
+		  FROM MESSENGER M JOIN USER_INFO U ON(M.CALLER =U.USER_ID)
+		 WHERE RECEIVER = #{user_id}
+		   AND M_STATUS = 'Y'
+	
+	</select>
+
+	<select id="findUserId" parameterType="string" resultType="string">
+	
+	SELECT 
+			USER_ID
+	  FROM
+	  		USER_INFO
+	 WHERE
+	 		EMAIL = #{email}
+	
+	</select>
+	
+	<update id="updateRandomPwd" parameterType="Member">
+	UPDATE 
+			USER_INFO
+       SET
+       		USER_PWD = #{user_pwd}
+     WHERE
+     		USER_ID = #{user_id}
+       AND
+       		EMAIL = #{email}
+	</update>
+	<select id="kakaoLogin" parameterType="string" resultMap="memberResultSet">
+		SELECT
+			   USER_ID
+			 , USER_PWD
+			 , NICKNAME
+			 , EMAIL
+			 , PHOTO
+			 , POINT
+			 , PHONE
+			 , REPORTED
+			 , USER_TYPE
+			 , ADMIN_MEMO
+			 , ENROLL_DATE
+			 , IS_BUSINESS
+			 , USTATUS
+		  FROM
+		  	   USER_INFO
+		 WHERE
+		 	   USER_ID = #{user_id}
+		<!--  암호화 적용 이후 삭제 : AND PWD = #{pwd} -->
+		   AND USTATUS = 'Y'
+		   
+	
+	</select>
+	<update id="checkMsg" parameterType="_int" >
+		UPDATE MESSENGER
+		   SET M_STATUS='N'
+		 WHERE M_NO = #{mno}
+	</update>
+	
+	<select id="selectUserReviewCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(R.REVIEW_NO)
+	  FROM 
+	  		REVIEW R, USER_REVIEW UR
+	 WHERE 
+	 		R.REVIEW_NO = UR.REVIEW_NO
+	   AND 
+	   		R.USER_ID = #{user_id}
+	</select>
+	
+	<select id="selectUserReviewList" parameterType="string" resultMap="ReviewResultSet">
+		SELECT 
+				R.REVIEW_NO, 
+		        R.USER_ID,
+		        STATUS, 
+		        CONTENT, 
+		        REVIEW_DATE,
+		        GRADE,
+		        REVIEW_MODIFY,
+		        NICKNAME,
+		        PHOTO
+		  FROM 
+		  		REVIEW R, USER_REVIEW UR, USER_INFO U
+		 WHERE 
+		 		R.REVIEW_NO = UR.REVIEW_NO
+		   AND 
+		   		R.USER_ID = U.USER_ID
+		   AND 
+		   		UR.USER_ID = #{user_id}
+		   AND 
+		   		STATUS = 'Y'
+	 ORDER BY	
+	 			REVIEW_DATE DESC
+	</select>
+	
+	<select id="selectShopReviewCount" parameterType="string" resultType="_int">
+	SELECT 
+			COUNT(BR.REVIEW_NO)
+	  FROM 
+	  		REVIEW R, BUS_REVIEW BR
+	 WHERE 
+	 		R.REVIEW_NO = BR.REVIEW_NO
+	   AND 
+	   		R.USER_ID = #{user_id}
+	   
+	
+	</select>
+	
+	<select id="selectShopReviewList" parameterType="string" resultMap="ReviewResultSet">
+		SELECT 
+				R.REVIEW_NO, 
+		        R.USER_ID,
+		        R.STATUS, 
+		        CONTENT, 
+		        REVIEW_DATE,
+		        GRADE,
+		        REVIEW_MODIFY,
+		        CHANGE_NAME,
+		        SHOP_NAME,
+		        BR.SHOP_NO
+        
+		 FROM 
+		 		REVIEW R, BUS_REVIEW BR, V_BUS_INFO V
+		WHERE 
+				R.REVIEW_NO = BR.REVIEW_NO
+		  AND 
+		  		BR.SHOP_NO = V.SHOP_NO
+		  AND 
+		  		R.USER_ID = #{user_id}
+		  AND 
+		  		R.STATUS = 'Y'
+	 ORDER BY 
+	 			REVIEW_DATE DESC
+	</select>
+	
+	<update id="deleteUserReview" parameterType="Review">
+		UPDATE 
+				REVIEW
+		   SET 
+		   		STATUS = 'N'
+		 WHERE 
+		 		REVIEW_NO = (SELECT REVIEW_NO FROM USER_REVIEW WHERE USER_ID = #{userId} AND REVIEW_NO = #{reviewNo})
+	</update>
+	
+	<update id="deleteShopReview" parameterType="Review">
+	UPDATE 
+			REVIEW
+	   SET 
+	   		STATUS = 'N'
+	 WHERE 
+	 		REVIEW_NO = #{reviewNo}
+	   AND 
+	   		USER_ID = #{userId}
+	
+	</update>
+	<insert id="insertKakaoMember" parameterType="Member">
+	INSERT
+	INTO USER_INFO
+	(
+	  USER_ID
+	, USER_PWD
+	, NICKNAME
+	, EMAIL
+	, PHONE
+	, USER_TYPE
+	, ENROLL_DATE
+	, IS_BUSINESS
+	, USTATUS
+	)
+	VALUES
+	(
+	  #{ user_id }
+	, #{ user_pwd }
+	, #{ nickname}
+	, #{ email}
+	, #{ phone}
+	, 2
+	, SYSDATE
+	, DEFAULT	
+	, DEFAULT
+	)
+	
+	</insert>
+	<select id="selectReportedCount" parameterType="string" resultType="_int">
+	SELECT REPORTED
+	FROM USER_INFO
+	WHERE USER_ID = #{user_id}
+	</select>
+	<insert id="insertwriteAlarm" parameterType="string">
+	INSERT INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+        , ALARM_CONTENT
+		, USER_ID
+		, ALARM_DATE
+		
+		)
+		VALUES
+		(	
+		  A_SEQ.NEXTVAL
+		, 13
+        , '신고 횟수가 3회가 되어 글쓰기가 비활성화 되었습니다.'
+		, #{user_id}
+		, DEFAULT
+
+		)
+	</insert>
+	<select id="selectAlarmList" parameterType="string" resultMap="AlarmResult">
+SELECT 
+              DISTINCT ALARM_NO
+			  , ALARM_TYPE
+			  , ALARM_CONTENT
+			  , A.USER_ID USER_ID
+			  , REF_NO
+			  , A_STATUS
+			  , A.ALARM_DATE ALARM_DATE
+              ,GF.CHANGE_NAME CHANGE_NAME
+		 FROM ALARM A 
+		 LEFT JOIN GOODS G
+		   ON (A.REF_NO = G.G_NO AND (ALARM_TYPE=5 OR ALARM_TYPE=2 OR ALARM_TYPE=10 ))
+		 LEFT JOIN GOODS_REPLY GR
+		   ON (A.REF_NO = GR.R_NO AND ALARM_TYPE=8)
+        LEFT JOIN IMG GF ON(REF_NO = GF.G_NO  AND (ALARM_TYPE=5 OR ALARM_TYPE=2 OR ALARM_TYPE=10 OR ALARM_TYPE=8))
+		WHERE A.A_STATUS = 'Y'
+		  AND A.USER_ID = #{user_id}
+          ORDER BY ALARM_DATE DESC
+
+	</select>
+	
+	<update id="checkAlarm" parameterType="_int" >
+		UPDATE ALARM
+		   SET A_STATUS='N'
+		 WHERE ALARM_NO = #{mno}
+	</update>
+	<update id="updateUserComment" parameterType="java.util.Map">
+		UPDATE USER_INFO
+		   SET USER_COMMENT = #{comment}
+		 WHERE USER_ID = #{user_id}
+	
+	</update>
+	<select id="checkMyshopNo" parameterType="string" resultType="_int" >
+		SELECT SHOP_NO
+		  FROM BUS_INFO
+		 WHERE USER_ID = #{user_id}
+	</select>
+	<select id="selectSellerNickname" parameterType="string" resultType="string">
+		SELECT NICKNAME
+		FROM USER_INFO
+		WHERE USER_ID= #{user_id}
+	
+	</select>
 </mapper>

@@ -31,7 +31,7 @@
 	<img src="${ contextPath }/resources/images/main/yellowdot.png" id="yellowdot">
 	<div id="titleWrap">
 	<img src="${ contextPath }/resources/images/main/doublequotes.png" id="doublequotes">
-	<h1>당신 근처의 굿-바이 마켓</h1>
+	<h1>누구나 배울 수 있는 세상</h1>
 	<p>믿을 수 있는 중고거래</p>
 	<p>중고 거래부터 동네 정보까지, 이웃과 함께 해요.<br>
 	   가깝고 따뜻한 당신의 근처를 만들어요.</p>

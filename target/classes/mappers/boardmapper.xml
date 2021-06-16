@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="boardmapper">
+
+
+
+
+	<resultMap id="boardResultSet" type="Board">
+		<id property="bno" column="B_NO" /><!-- 게시글번호 -->
+		<result property="bstatus" column="B_STATUS" /><!-- 게시글상태 -->
+		<result property="btitle" column="B_TITLE" /><!-- 제목 -->
+		<result property="bhistory" column="B_HISTORY" /><!-- 내용 -->
+		<result property="bmodifydate" column="B_MODIFY_DATE" /><!-- 수정일 -->
+		<result property="bcreatedate" column="B_CREATE_DATE" /><!-- 작성일 -->
+		<result property="bcate" column="B_CATE" /><!-- 카테고리 -->
+		<result property="userid" column="USER_ID" /><!-- 아이디 -->
+		<result property="bfile" column="B_FILE" /><!-- 이미지 -->
+		<result property="bcatename" column="B_NAME" />
+		<result property="nickname" column="NICKNAME" />
+		<result property="like_cnt" column="LIKE_CNT" />
+		<result property="rep_cnt" column="REP_CNT" />
+	</resultMap>
+
+	<resultMap id="boardResultSet2" type="Board">
+		<id property="bno" column="B_NO" /><!-- 게시글번호 -->
+		<result property="bstatus" column="B_STATUS" /><!-- 게시글상태 -->
+		<result property="btitle" column="B_TITLE" /><!-- 제목 -->
+		<result property="bhistory" column="B_HISTORY" /><!-- 내용 -->
+		<result property="bmodifydate" column="B_MODIFY_DATE" /><!-- 수정일 -->
+		<result property="bcreatedate" column="B_CREATE_DATE" /><!-- 작성일 -->
+		<result property="bcate" column="B_CATE" /><!-- 카테고리 -->
+		<result property="userid" column="USER_ID" /><!-- 아이디 -->
+		<result property="bfile" column="B_FILE" /><!-- 이미지 -->
+		<result property="bcatename" column="B_NAME" /><!-- 닉네임 -->
+		<result property="bphoto" column="PHOTO" /> <!-- 프로필 사진 -->
+		<result property="bpostno" column="POST_NO" />
+		
+	</resultMap>
+	
+	
+	<resultMap id="replyResultSet" type="Reply">
+      <id property="rno" column="R_NO"/><!-- 댓글번호 -->
+      <result property="rcontent" column="RCONTENT"/><!--댓글내용  -->
+      <result property="ref_rid" column="REF_RID"/><!-- 작성날짜 -->
+      <result property="user_id" column="USER_ID"/><!--댓글상태-->
+      <result property="createDate" column="CREATE_DATE"/><!--댓글작성자  -->
+    
+   </resultMap>
+   
+<select id="selectmainlike" resultMap="boardResultSet">
+SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+		ORDER BY
+		B_NO DESC
+</select>
+
+<select id="selectlastestlist" resultMap="boardResultSet">
+	SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+		ORDER BY
+		B_NO DESC
+
+
+
+
+</select>
+
+
+
+
+
+
+
+
+	<select id="selectList" resultMap="boardResultSet">
+		SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+		ORDER BY
+		B_NO DESC
+	</select>
+	
+<select id="selectcatagory" parameterType="string"
+		resultMap="boardResultSet">
+		SELECT
+		TOWN_BOARD.B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,USER_ID
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		WHERE
+		B_STATUS ='Y'
+        AND B_NAME ="#{bcatename}"
+		ORDER BY
+		B_NO DESC
+	</select>
+
+
+
+
+
+
+	<insert id="insertboard" parameterType="Board">
+		INSERT
+		INTO TOWN_BOARD
+		(
+		B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_CATE
+		,USER_ID
+		,B_FILE
+	
+		)
+		VALUES
+		(
+		BOARD_SEQ.NEXTVAL
+		,DEFAULT
+		,#{btitle}
+		,#{bhistory}
+		,SYSDATE
+		,SYSDATE
+		,#{bcate}
+		,#{userid}
+		,#{bfile}
+	 
+	   
+	   
+		)
+	</insert>
+	
+	
+	
+	
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT
+		COUNT(*)
+		FROM
+		TOWN_BOARD
+		WHERE
+		B_STATUS = 'Y'
+	</select>
+
+	<select id="selectMyBoardListCount" parameterType="string"
+		resultType="_int">
+		SELECT
+		COUNT(B_NO)
+		FROM
+		TOWN_BOARD
+		WHERE
+		USER_ID = #{user_id}
+		AND
+		B_STATUS = 'Y'
+	</select>
+
+	<select id="selectMyBoardList" parameterType="string"
+		resultMap="boardResultSet">
+		SELECT
+		TOWN_BOARD.B_NO,
+		B_NAME,
+		B_TITLE,
+		B_HISTORY,
+		B_MODIFY_DATE,
+		B_CREATE_DATE,
+		NICKNAME,
+		B_FILE,
+		B_STATUS,
+		(SELECT COUNT(USER_ID) FROM LIKE_TOWN WHERE TOWN_BOARD.B_NO =
+		POST_NO)LIKE_CNT,
+		(SELECT COUNT(R_NO) FROM TOWN_REPLY WHERE TOWN_BOARD.B_NO = POST_NO)REP_CNT
+		FROM
+		TOWN_BOARD
+		JOIN
+		TOWN_CATE ON(B_CATE = TOWN_CATE.B_NO)
+		JOIN
+		USER_INFO USING(USER_ID)
+		WHERE
+		USER_ID = #{user_id}
+		AND
+		B_STATUS = 'Y'
+
+	</select>
+
+	<select id="selectdetail" resultMap="boardResultSet2">
+		SELECT
+		TOWN_BOARD.B_NO B_NO
+		,B_STATUS
+		,B_TITLE
+		,B_HISTORY
+		,B_MODIFY_DATE
+		,B_CREATE_DATE
+		,B_NAME
+		,TOWN_BOARD.USER_ID USER_ID
+		,PHOTO
+		,B_FILE
+		FROM
+		TOWN_BOARD
+		JOIN TOWN_CATE
+		ON (TOWN_BOARD.B_CATE=TOWN_CATE.B_NO)
+		JOIN USER_INFO
+		ON(TOWN_BOARD.USER_ID=USER_INFO.USER_ID)
+		WHERE
+		TOWN_BOARD.B_NO=#{bno}
+		AND
+		B_STATUS ='Y'
+
+
+	</select>
+
+
+	<update id="deleteBoard" parameterType="_int">
+		UPDATE
+		TOWN_BOARD
+		SET
+		B_STATUS = 'N'
+		WHERE
+		B_NO = #{bno}
+
+
+		<!-- 좋아요추천 -->
+	</update>
+	<insert id="insertlike" parameterType="java.util.Map">
+		INSERT
+		INTO LIKE_TOWN
+		(
+		USER_ID
+		,POST_NO
+		)
+		VALUES
+		(
+		#{userid}
+		,#{bno}
+		)
+
+	</insert>
+	<!-- 좋아요추천 삭제 -->
+	<delete id="countCancel" parameterType="_int">
+
+		DELETE FROM LIKE_TOWN WHERE POST_NO=#{bno}
+
+	</delete>
+	<select id="selectlike" parameterType="_int">
+	SELECT L.POST_NO,COUNT(POST_NO)
+		FROM
+		LIKE_TOWN L
+		JOIN TOWN_BOARD T ON(L.POST_NO = T.B_NO)
+		WHERE T.B_NO = L.POST_NO
+		GROUP BY L.POST_NO
+	</select>
+	
+	<insert id="insertReply" parameterType="java.util.Map">
+	INSERT 
+	INTO REPLY 
+	(
+	R_NO
+	,RCONTENT
+	,CREATE_DATE
+	,R_STATUS
+	,USER_ID
+	)
+	VALUES
+	(
+	R_SEQ.NEXTVAL
+	,#{r.rcontent}
+	,DEFAULT
+	,DEFAULT
+	,#{r.user_id}
+	)
+	INTO TOWN_REPLY
+	(
+	POST_NO 
+    ,R_NO
+	)
+	VALUES
+	(
+	#{r.rno}
+	, R_SEQ.CURRVAL
+	)
+	SELECT * FROM DUAL
+	</insert>
+	
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+	SELECT 
+			    R.R_NO R_NO
+			  , RCONTENT
+			  , TO_CHAR(CREATE_DATE,'YYYY.MM.DD HH24:MI' ) CREATE_DATE
+			  , USER_ID
+			  , R.REF_RID REF_RID
+		 FROM REPLY R JOIN TOWN_REPLY T
+		   ON(R.R_NO = T.R_NO)
+		WHERE T.POST_NO = #{rno}
+		  AND R_STATUS = 'Y'
+	 ORDER BY
+			  R.R_NO DESC
+	
+	
+	
+	
+	
+	</select>
+ 
+	
+	
+
+	<update id="insertPoint" parameterType="string">
+		UPDATE USER_INFO SET POINT = POINT + 10 WHERE USER_ID = #{user_id}
+	
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+</mapper>

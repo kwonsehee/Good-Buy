@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="noticeMapper">
+	<resultMap type="Notice" id="noticeResultSet">
+		<id property = "nt_no" column ="NT_NO"/>
+		<result property="nt_title" column="NT_TITLE"/>
+		<result property="nt_content" column="NT_CONTENT"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="nt_status" column="NT_STATUS"/>
+		<result property="nt_create_date" column="NT_CREATE_DATE"/>
+		<result property="nt_modify_date" column="NT_MODIFY_DATE"/>
+		<result property="nt_cnt" column="NT_CNT"/>
+	</resultMap>
+	
+	<select id="selectNoticeList" resultMap="noticeResultSet">
+		SELECT
+		       NT_NO
+		     , NT_TITLE
+		     , NT_CONTENT
+		     , USER_ID
+		     , NT_STATUS
+		     , NT_CREATE_DATE
+		     , NT_MODIFY_DATE
+		     , NT_CNT
+		  FROM
+		       NOTICE
+      ORDER BY
+               NT_NO DESC
+	</select>
+	
+	<insert id="insertNotice" parameterType="Notice">
+		INSERT
+			INTO NOTICE
+			(
+			   NT_NO
+		     , NT_TITLE
+		     , NT_CONTENT
+		     , USER_ID
+		     , NT_CREATE_DATE
+		     
+			)
+			VALUES
+			(
+				SEQ_NT_NO.NEXTVAL
+			  , #{nt_title}
+			  , #{nt_content}
+			  , #{user_id}
+			  , SYSDATE
+			)
+	
+	</insert>
+	
+	<select id="selectNotice" parameterType="_int" resultMap="noticeResultSet">
+		SELECT
+		       NT_NO
+		     , NT_TITLE
+		     , NT_CONTENT
+		     , USER_ID
+		     , NT_STATUS
+		     , NT_CREATE_DATE
+		     , NT_MODIFY_DATE
+		     , NT_CNT
+		  FROM
+		       NOTICE
+		 WHERE
+		       NT_NO = #{nt_no} 
+	</select>
+	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE
+		       NOTICE
+		   SET
+		       NT_TITLE = #{nt_title}
+		     , NT_CONTENT = #{nt_content}
+		     , NT_MODIFY_DATE = SYSDATE
+		 WHERE
+		       NT_NO = #{nt_no}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="_int">
+		DELETE 
+		  FROM NOTICE
+		 WHERE 
+		       NT_NO = #{nt_no}
+	</delete>
+</mapper>

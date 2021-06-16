@@ -298,10 +298,10 @@
 	width: 390px !important;
 	height: 400px !important;
 	margin-left: 0 !important;
-
-  #report_tb, #report_tb tr, #report_tb td{
-    /* border: 1px solid red; */
 }
+/* #report_tb, #report_tb tr, #report_tb td{
+     border: 1px solid red; 
+} */
 #report_tb{
     padding-top: 30px;
     margin: auto;

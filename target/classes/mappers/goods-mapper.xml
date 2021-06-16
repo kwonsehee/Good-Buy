@@ -1,0 +1,1271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="goodsMapper">
+
+	<resultMap type="Gcate" id="cateSet">
+		<id column="L_FILTER" property="topcate"/>
+		<collection property="subcate" ofType="Gcate">
+			<id column="M_FILTER" property="topcate" />
+			<collection property="subcate" ofType="Gcate">
+				<id column="S_FILTER" property="topcate" />
+			</collection>
+		</collection>
+	</resultMap>
+	
+	<resultMap type="Town" id="townResultSet">
+		<id property = "t_no" column ="T_NO"/>
+		<result property="address_1" column="ADDRESS_1"/>
+		<result property="address_2" column="ADDRESS_2"/>
+		<result property="address_3" column="ADDRESS_3"/>
+	</resultMap>
+	
+	<resultMap type="Goods" id="GoodsResultSet">
+		<id column="G_NO" property="gno"/>
+		<result column="G_PLACE" property="gplace"/>
+		<result column="G_TITLE" property="gtitle"/>
+		<result column="G_PRICE" property="gprice"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="PULL_DATE" property="pullDate"/>
+		<result column="G_STATUS" property="gstatus"/>
+		<result column="NICKNAME" property="user_id"/>
+		<!-- <result column="NICKNAME" property="nickname"/>
+ -->
+	</resultMap>
+	
+	<resultMap type="Goods" id="GoodsResultSet2">
+		<id column="GNO" property="gno"/>
+		<result column="RANKING" property="ranking"/>
+		<result column="RNUM" property="rnum"/>
+		<result column="G_PLACE" property="gplace"/>
+		<result column="G_PRICE" property="gprice"/>
+		<result column="G_TITLE" property="gtitle"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="PULL_DATE" property="pullDate"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="G_STATUS" property="gstatus"/>
+		<result column="USER_ID" property="user_id"/>
+		<result column="USER_LIKE_CNT" property="user_like_cnt"/>
+		<result column="LIKECNT" property="likecnt"/>
+		<result column="REP_CNT" property="rep_cnt"/>
+		<result column="ADDRESS_1" property="address_1"/>
+		<result column="ADDRESS_2" property="address_2"/>
+		<result column="ADDRESS_3" property="address_3"/>
+		<result column="DEAL_DATE" property="dealDate"/>
+	</resultMap>
+	
+	
+	<resultMap type="Goods" id="GoodsDetailResult">
+		<id column="G_NO" property="gno"/>
+		<result column="USER_ID" property="user_id"/>
+		<result column="G_TITLE" property="gtitle"/>
+		<result column="G_PRICE" property="gprice"/>
+		<result column="G_CONDITION" property="gcondition"/>
+		<result column="G_COMMENT" property="gcomment"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="USER_ID" property="user_id"/>
+		<result column="G_STATUS" property="gstatus"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		
+		<association property="goodcate" javaType="Gcate">
+			
+			<result column="L_FILTER" property="lfilter"/>
+			<result column="M_FILTER" property="mfilter"/>
+			<result column="S_FILTER" property="sfilter"/>
+		</association>
+		<association property="town" javaType="Town">
+			<result column="T_NO" property="t_no"/>
+
+			<result column="ADDRESS_1" property="address_1"/>
+			<result column="ADDRESS_2" property="address_2"/>
+			<result column="ADDRESS_3" property="address_3"/>
+		</association>
+		
+		<collection property="filelist" ofType="java.lang.String" javaType="java.util.List">
+        	<result column="CHANGE_NAME" />
+   	 </collection>
+	</resultMap>
+	
+	<resultMap id="replyResultSet" type="Reply">
+      <id property="rno" column="R_NO"/>
+      <result property="rcontent" column="RCONTENT"/>
+      <result property="ref_rid" column="REF_RID"/>
+      <result property="nickname" column="NICKNAME"/>
+      <result property="user_id" column="USER_ID"/>
+      <result property="createDate" column="CREATE_DATE"/>
+      
+   </resultMap>
+   
+   <resultMap type="Keyword" id="keywordResultSet">
+		<id property="user_id" column="USER_ID"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
+	
+	 <resultMap type="Review" id="ReviewResult">
+		<id property="userId" column="USER_ID"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="content" column="CONTENT"/>
+		<result property="reviewDate" column="REVIEW_DATE"/>
+		<result property="grade" column="GRADE"/>
+		<result property="reviewNo" column="REVIEW_NO"/>
+	</resultMap>
+	
+	
+	<select id="selectCate" resultMap="cateSet">
+		SELECT
+			   L_FILTER
+			 , M_FILTER
+			 , S_FILTER
+		  FROM
+		  	   GOODS_CATE
+	</select>
+	<select id="selectCateNo" parameterType="Gcate" resultType="_int">
+		SELECT C_NO
+		FROM GOODS_CATE
+		WHERE L_FILTER = #{lfilter}
+		 AND M_FILTER = #{mfilter}
+		 AND S_FILTER = #{sfilter}
+
+	</select>
+	<insert id="insertGoods" parameterType="Goods">
+		INSERT INTO
+		GOODS(
+			G_NO
+		  , G_PLACE
+		  , G_PRICE
+		  , G_CONDITION
+		  , G_COMMENT
+		  , CREATE_DATE
+		  , PULL_DATE
+		  , G_STATUS
+		  , USER_ID
+		  , C_NO
+		  , G_TITLE
+		)
+		VALUES
+		(
+			G_SEQ.NEXTVAL
+		  , (SELECT T_NO FROM MY_TOWN WHERE USER_ID = #{user_id} AND MYTOWN_TYPE=#{gplace})
+		  , #{gprice}
+		  , #{gcondition}
+		  , #{gcomment}
+		  , DEFAULT
+		  , DEFAULT
+		  , DEFAULT
+		  , #{user_id}
+	      , #{cno}
+		  , #{gtitle}
+		)
+	
+	
+	</insert>
+	
+	<insert id="insertFile" parameterType="Addfile">
+	 INSERT ALL
+		INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+          , FILE_LEVEL
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{originName}
+		  , #{changeName}
+          , DEFAULT
+          , #{file_level}
+		 
+		)
+        INTO GOODSFILE
+        (
+            G_NO
+          , F_NO
+        )
+        VALUES
+        (
+            G_SEQ.CURRVAL
+          , F_SEQ.CURRVAL
+        )
+        SELECT * FROM DUAL
+	
+	
+	</insert>
+	<select id="selectAllCount" resultType= "_int">
+		SELECT COUNT(*)
+	      FROM GOODS
+	     WHERE G_STATUS = 'Y'	
+
+	</select>
+	<select id="selectListCount" parameterType="Town"  resultType= "_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+			   WHERE G.G_PLACE = T.T_NO
+			   AND G.G_NO = GF.G_NO
+			   AND GF.F_NO = F.F_NO
+			   AND F.FILE_LEVEL = 1)
+		WHERE G_STATUS = 'Y'
+		<if test='area lt 4'>
+		AND ADDRESS_1 = #{address_1}
+		</if>
+		<if test='area lt 3'>
+		AND ADDRESS_2 = #{address_2}
+		</if>
+		<if test='area lt 2'>
+		AND ADDRESS_3 =#{address_3}
+		</if>	
+	</select>
+	<select id="selectAllList" resultMap="GoodsResultSet">
+		SELECT 
+				G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , NICKNAME
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , U.NICKNAME NICKNAME
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
+        		WHERE G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+	   ORDER BY CREATE_DATE DESC
+
+	</select>
+	
+	<select id="selectList" parameterType="Town" resultMap = "GoodsResultSet">
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , NICKNAME
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , G.USER_ID USER_ID
+                     , U.NICKNAME NICKNAME
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  	<if test='area lt 4'>
+			AND ADDRESS_1 = #{address_1}
+			</if>
+			<if test='area lt 3'>
+			AND ADDRESS_2 = #{address_2}
+			</if>
+			<if test='area lt 2'>
+			AND ADDRESS_3 =#{address_3}
+			</if>
+	   ORDER BY CREATE_DATE DESC
+	</select>
+	<select id="selectMyListCount" parameterType="string"  resultType= "_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G JOIN MY_TOWN T
+			   ON( G.G_PLACE = T.T_NO)
+               WHERE T.USER_ID = #{user_id}
+               AND G.USER_ID = #{user_id})
+		WHERE G_STATUS = 'Y'
+	</select>
+	<select id="selectMyList" parameterType="string" resultMap="GoodsResultSet">
+		SELECT 
+			   G.G_NO
+			 , G_PLACE
+			 , G_PRICE
+			 , G_TITLE
+			 , CREATE_DATE
+			 , PULL_DATE
+             , CHANGE_NAME
+             , G_STATUS
+             , U.NICKNAME NICKNAME
+		 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
+		WHERE G.G_NO = GF.G_NO
+		  AND GF.F_NO = F.F_NO
+		  AND G.USER_ID = U.USER_ID
+		  AND F.FILE_LEVEL = 1
+		  AND G.USER_ID =#{user_id}
+		  AND G_STATUS = 'Y'
+	 ORDER BY
+        	   G.CREATE_DATE DESC
+	</select>
+	
+	<!-- 마이페이지 - 판매내역 조회 -->
+	<select id="selectMySellingList" parameterType="string" resultMap="GoodsResultSet2">
+	SELECT GNO,G_PLACE,G_PRICE,G_TITLE,CREATE_DATE,PULL_DATE,CHANGE_NAME,G_STATUS,USER_ID,USER_LIKE_CNT,(select count(*) from LIKE_GOODS where G_NO = GNO)LIKECNT,REP_CNT,ADDRESS_3
+		FROM
+		(SELECT B.*, COUNT(GR.R_NO) REP_CNT
+		FROM
+		(SELECT  A.*, COUNT(LG.USER_ID) USER_LIKE_CNT
+		FROM
+		 (SELECT 
+					   G.G_NO GNO
+					 , G_PLACE
+					 , G_PRICE
+					 , G_TITLE
+					 , CREATE_DATE
+					 , PULL_DATE
+		             , CHANGE_NAME
+		             , G_STATUS
+		             , G.USER_ID USER_ID            
+				 FROM GOODS G, GOODSFILE GF, ADDFILE F
+				WHERE G.G_NO = GF.G_NO
+				  AND GF.F_NO = F.F_NO     
+				  AND F.FILE_LEVEL = 1
+				  AND G.USER_ID = #{user_id})A 
+		                            
+		LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
+		GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+		PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
+		
+		LEFT JOIN GOODS_REPLY GR ON B.GNO = GR.G_NO
+		GROUP BY B.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+		PULL_DATE, CHANGE_NAME, G_STATUS, B.USER_LIKE_CNT, B.USER_ID)C
+		JOIN TOWN ON(T_NO = G_PLACE)
+		WHERE G_STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<select id="selectMyHiddenListCount" parameterType="string"  resultType= "_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G JOIN MY_TOWN T
+			   ON( G.G_PLACE = T.T_NO)
+               WHERE T.MYTOWN_TYPE=1
+               AND T.USER_ID = #{user_id}
+               AND G.USER_ID = #{user_id})
+        WHERE
+        	   G_STATUS = 'H'
+       
+	</select>
+	<select id="selectMyHiddenList" parameterType="string" resultMap="GoodsResultSet2">
+	SELECT GNO,G_PLACE,G_PRICE,G_TITLE,CREATE_DATE,PULL_DATE,CHANGE_NAME,G_STATUS,USER_ID,USER_LIKE_CNT,(select count(*) from LIKE_GOODS where G_NO = GNO)LIKECNT,REP_CNT,ADDRESS_3
+		FROM
+		(SELECT B.*, COUNT(GR.R_NO) REP_CNT
+		FROM
+		(SELECT  A.*, COUNT(LG.USER_ID) USER_LIKE_CNT
+		FROM
+		 (SELECT 
+					   G.G_NO GNO
+					 , G_PLACE
+					 , G_PRICE
+					 , G_TITLE
+					 , CREATE_DATE
+					 , PULL_DATE
+		             , CHANGE_NAME
+		             , G_STATUS
+		             , G.USER_ID USER_ID            
+				 FROM GOODS G, GOODSFILE GF, ADDFILE F
+				WHERE G.G_NO = GF.G_NO
+				  AND GF.F_NO = F.F_NO     
+				  AND F.FILE_LEVEL = 1
+				  AND G.USER_ID = #{user_id})A 
+		                            
+		LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
+		GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+		PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
+		
+		LEFT JOIN GOODS_REPLY GR ON B.GNO = GR.G_NO
+		GROUP BY B.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+		PULL_DATE, CHANGE_NAME, G_STATUS, B.USER_LIKE_CNT, B.USER_ID)C
+		JOIN TOWN ON(T_NO = G_PLACE)
+		WHERE G_STATUS = 'H'
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	
+	<select id="selectSecondTown" parameterType="string" resultMap="townResultSet">
+		SELECT 
+			   T_NO
+			 , ADDRESS_1
+			 , ADDRESS_2
+			 , ADDRESS_3
+	   	 FROM TOWN RIGHT JOIN MY_TOWN
+	    USING (T_NO)
+	    WHERE USER_ID=#{user_id}
+	      AND MYTOWN_TYPE  = 2
+	
+	
+	</select>
+	<select id="selectCateCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		  FROM GOODS G, GOODS_CATE C
+		 WHERE  G.C_NO = C.C_NO
+		   AND L_FILTER =#{cate}
+	</select>
+	<select id="selectCateList" parameterType="string" resultMap="GoodsResultSet">
+		SELECT
+			   G.G_NO
+			 , G_TITLE
+			 , G_PRICE
+			 , CHANGE_NAME 
+			 , CREATE_DATE
+			 , U.NICKNAME NICKNAME
+		FROM GOODS G, GOODS_CATE C, GOODSFILE GF, ADDFILE F, USER_INFO U
+	   WHERE  G.C_NO = C.C_NO
+		 AND G.G_NO = GF.G_NO
+		 AND GF.F_NO = F.F_NO
+		 AND G.USER_ID = U.USER_ID
+		 AND F.FILE_LEVEL = 1
+		 AND L_FILTER = #{cate}
+		 AND G_STATUS = 'Y'
+	  ORDER BY CREATE_DATE DESC
+	</select>
+	<select id="selectCateCount2" parameterType="java.util.Map" resultType="_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+			   WHERE G.G_PLACE = T.T_NO
+			   AND G.G_NO = GF.G_NO
+			   AND GF.F_NO = F.F_NO
+			   AND F.FILE_LEVEL = 1)
+		WHERE G_STATUS = 'Y'
+			<if test='myTown.area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='myTown.area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='myTown.area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
+        AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
+	</select>
+	<select id="selectCateList2" parameterType="java.util.Map" resultMap="GoodsResultSet">
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , NICKNAME
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G.C_NO C_NO
+                     , G_STATUS
+                     , U.NICKNAME NICKNAME
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+			<if test='myTown.area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='myTown.area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='myTown.area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
+        AND C_NO IN (SELECT C_NO FROM GOODS_CATE WHERE L_FILTER =#{cate})
+	   ORDER BY CREATE_DATE DESC
+	</select>
+	<select id="selectMyCateListCount" parameterType="java.util.Map" resultType="_int">
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, MY_TOWN T , GOODS_CATE C
+			   WHERE G.G_PLACE = T.T_NO
+               AND G.C_NO = C.C_NO
+               AND T.MYTOWN_TYPE=1
+               AND T.USER_ID = #{user_id}
+               AND G.USER_ID = #{user_id}
+               AND L_FILTER = #{cate})
+		WHERE G_STATUS = 'Y'
+	</select>
+	<select id="selectMyCateList" parameterType="java.util.Map" resultMap="GoodsResultSet">
+		SELECT
+			   G.G_NO G_NO 
+			 , G_PRICE
+			 , G_TITLE
+			 , CREATE_DATE
+             , CHANGE_NAME
+             , U.NICKNAME NICKNAME
+             , G_PLACE 
+		 FROM GOODS G, MY_TOWN T , GOODS_CATE C,  GOODSFILE GF, ADDFILE F, USER_INFO U
+	    WHERE G.G_PLACE = T.T_NO
+          AND G.C_NO = C.C_NO
+          AND G.G_NO = GF.G_NO
+          AND GF.F_NO = F.F_NO
+          AND G.USER_ID = U.USER_ID
+          AND T.MYTOWN_TYPE=1
+          AND F.FILE_LEVEL = 1
+          AND T.USER_ID = #{user_id}
+          AND G.USER_ID = #{user_id}
+          AND L_FILTER = #{cate}
+     ORDER BY G.CREATE_DATE DESC
+	</select>
+	<select id="Goodsdetail" parameterType="_int" resultMap="GoodsDetailResult">
+		SELECT
+				G.USER_ID USER_ID
+			  , G.G_NO G_NO
+			  , G.G_TITLE G_TITLE 
+			  , G.G_CONDITION G_CONDITION
+			  , G.G_PRICE G_PRICE
+			  , G.G_COMMENT G_COMMENT
+			  , A.CHANGE_NAME CHANGE_NAME
+			  , C.L_FILTER L_FILTER
+			  , C.M_FILTER M_FILTER
+			  , C.S_FILTER S_FILTER 
+			  , T.T_NO T_NO
+			  , T.ADDRESS_1 ADDRESS_1
+			  , T.ADDRESS_2 ADDRESS_2
+			  , T.ADDRESS_3 ADDRESS_3
+		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
+		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
+		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
+		 JOIN TOWN T ON(G.G_PLACE = T.T_NO)
+		 WHERE G.G_NO = #{g_no}
+	</select>
+	<select id="GoodsMydetail" parameterType="_int" resultMap="GoodsDetailResult">
+	SELECT
+			    G.G_NO G_NO
+			  , G.G_TITLE G_TITLE 
+			  , G.G_CONDITION G_CONDITION
+			  , G.G_PRICE G_PRICE
+			  , G.G_COMMENT G_COMMENT
+			  , A.CHANGE_NAME CHANGE_NAME
+			  , C.L_FILTER L_FILTER
+			  , C.M_FILTER M_FILTER
+			  , C.S_FILTER S_FILTER 
+		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
+		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
+		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
+	WHERE G.G_NO = #{g_no}
+	
+	</select>
+	<select id="likeGoods" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		  FROM LIKE_GOODS
+		 WHERE G_NO = #{gno}
+		   AND USER_ID = #{user_id}
+	</select>
+	<delete id="deleteLike" parameterType="java.util.Map">
+		DELETE FROM LIKE_GOODS
+		 WHERE G_NO = #{gno}
+		   AND USER_ID = #{user_id}
+	</delete>
+	<insert id="insertLike" parameterType="java.util.Map">
+	INSERT INTO LIKE_GOODS
+	(G_NO, USER_ID)
+	VALUES
+	(#{gno}, #{user_id})
+	
+	</insert>
+
+	<insert id="insertReply" parameterType="java.util.Map">
+		INSERT ALL
+		INTO REPLY
+		(
+		  R_NO
+		, RCONTENT
+		, CREATE_DATE
+		, R_STATUS
+		, USER_ID
+		)
+		VALUES
+		( 
+  		   R_SEQ.NEXTVAL
+		, #{r.rcontent}
+		, DEFAULT
+		, DEFAULT
+		, #{r.user_id}
+		)
+		INTO GOODS_REPLY
+		(
+		  G_NO
+		, R_NO
+		)
+		VALUES
+		(
+		  #{g.gno}
+		, R_SEQ.CURRVAL
+		)
+		INTO ALARM
+		(
+  		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		, A_STATUS
+		, ALARM_CONTENT
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 8
+		, #{g.user_id}
+		, DEFAULT
+		, #{g.gno}
+		, DEFAULT
+		,  CONCAT(#{g.gtitle}, ' 게시글에 댓글이 등록되었습니다.')
+		)
+		SELECT *FROM DUAL
+	</insert>
+	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT 
+			    R.R_NO R_NO
+			  , RCONTENT
+			  , TO_CHAR(CREATE_DATE,'YYYY.MM.DD HH24:MI' ) CREATE_DATE
+			  , NICKNAME
+			  , R.USER_ID USER_ID
+			  , R.REF_RID REF_RID
+		 FROM REPLY R JOIN GOODS_REPLY G
+		   ON(R.R_NO = G.R_NO)
+		 JOIN USER_INFO U ON(R.USER_ID = U.USER_ID)
+		WHERE G.G_NO = #{g.getGno()}
+		  AND R_STATUS = 'Y'
+	 ORDER BY
+			  R.R_NO DESC
+
+	</select>
+	
+	<update id="changeGoodsStatus" parameterType="Goods">
+		UPDATE 
+				GOODS
+		   SET 
+		   		G_STATUS = 'H'
+		 WHERE 
+		 		USER_ID = #{user_id}
+		   AND 
+		   		G_NO = #{gno}
+	</update>
+	
+	<update id="changeGoodsStatus2" parameterType="Goods">
+		UPDATE 
+				GOODS
+		   SET 
+		   		G_STATUS = 'Y'
+		 WHERE 
+		 		USER_ID = #{user_id}
+		   AND 
+		   		G_NO = #{gno}
+	</update>  
+	<update id="deleteGoods" parameterType="_int">
+		UPDATE GOODS SET G_STATUS = 'N'
+		WHERE G_NO  = #{gno}
+	
+	</update>
+	<select id="selectMyLikeGoodsCount" resultType="_int">
+	SELECT 
+			COUNT(USER_ID)
+	  FROM 
+	  		LIKE_GOODS
+	 WHERE 
+	 		USER_ID=#{user_id}
+ 
+	</select>
+	
+	<select id="selectMyLikeGoodsList" parameterType="string" resultMap="GoodsResultSet2">
+		SELECT GNO,G_PLACE,G_PRICE,G_TITLE,CREATE_DATE,PULL_DATE,CHANGE_NAME,G_STATUS,USER_ID,USER_LIKE_CNT,(select count(*) from LIKE_GOODS where G_NO = GNO)LIKECNT,REP_CNT,ADDRESS_3
+		FROM
+		(SELECT B.*, COUNT(GR.R_NO) REP_CNT
+		FROM
+		(SELECT  A.*, COUNT(LG.USER_ID) USER_LIKE_CNT
+		FROM
+		 (SELECT 
+					   G.G_NO GNO
+					 , G_PLACE
+					 , G_PRICE
+					 , G_TITLE
+					 , CREATE_DATE
+					 , PULL_DATE
+		             , CHANGE_NAME
+		             , G_STATUS
+		             , G.USER_ID USER_ID            
+				 FROM GOODS G, GOODSFILE GF, ADDFILE F
+				WHERE G.G_NO = GF.G_NO
+				  AND GF.F_NO = F.F_NO     
+				  AND F.FILE_LEVEL = 1)A
+		                            
+				LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
+                WHERE LG.USER_ID = #{user_id}
+				GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+				PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
+		
+		LEFT JOIN GOODS_REPLY GR ON B.GNO = GR.G_NO
+		GROUP BY B.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+		PULL_DATE, CHANGE_NAME, G_STATUS, B.USER_LIKE_CNT, B.USER_ID)C
+		JOIN TOWN ON(T_NO = G_PLACE)
+		WHERE G_STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
+			
+	
+	</select>
+	
+	<update id="hideGoods" parameterType="_int">
+		UPDATE GOODS SET G_STATUS = 'H'
+		WHERE G_NO  = #{gno}
+	
+	</update>
+		<update id="payUpPoint" parameterType="_int">
+		UPDATE GOODS
+		   SET CREATE_DATE=SYSDATE
+		 	 , PULL_DATE =  SYSDATE
+		WHERE G_NO  = #{gno}
+	
+	</update>
+	<update id="upGoods" parameterType="string">
+		UPDATE USER_INFO SET POINT = POINT-500
+		WHERE USER_ID = #{user_id}
+	
+	</update>
+
+
+
+	<select id="selectGoodsList" resultMap="GoodsResultSet">
+      SELECT 
+				G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , NICKNAME
+			  , G_STATUS
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , U.NICKNAME NICKNAME
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
+        		WHERE G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
+        		  AND F.FILE_LEVEL = 1)
+		 
+	   ORDER BY CREATE_DATE DESC
+   
+   </select>
+
+	<select id="selectLike" parameterType="_int" resultType="string">
+	SELECT USER_ID
+	  FROM LIKE_GOODS
+     WHERE G_NO =#{gno}
+	</select>
+	<update id="updateGoods" parameterType="Goods">
+		UPDATE GOODS
+		  SET G_PLACE = (SELECT T_NO FROM MY_TOWN WHERE USER_ID = #{user_id} AND MYTOWN_TYPE=#{gplace})
+			, G_PRICE = #{gprice}
+			, G_CONDITION = #{gcondition}
+			, G_COMMENT = #{gcomment}
+			, C_NO = #{cno}
+			, G_TITLE = #{gtitle}
+			WHERE G_NO = #{gno}
+	
+	</update>
+	
+	<select id="selectMyDealListCount" parameterType="string" resultType="_int">
+		 SELECT 
+				COUNT(DISTINCT DEAL_DATE)
+		  FROM 
+		  		DEAL_PAYMENT 
+		  JOIN  
+		  		GOODS ON(GOODS.G_NO = DEAL_PAYMENT.G_NO)
+		 WHERE 
+		 		DEAL_PAYMENT.USER_ID = #{user_id}
+	</select>
+	
+	<select id="selectMyDealList" parameterType="string" resultMap="GoodsResultSet2">
+		SELECT DISTINCT A.*,DEAL_DATE,ADDRESS_3
+		  FROM
+		  		(SELECT 
+						   G.G_NO GNO
+						 , G_PLACE
+						 , G_PRICE
+						 , G_TITLE
+			             , CHANGE_NAME
+			             , G_STATUS
+			             , G.USER_ID USER_ID            
+					 FROM GOODS G, GOODSFILE GF, ADDFILE F
+					WHERE G.G_NO = GF.G_NO
+					  AND GF.F_NO = F.F_NO     
+					  AND F.FILE_LEVEL = 1)A
+		 JOIN DEAL_PAYMENT DP ON(G_NO = A.GNO)
+	     JOIN TOWN ON(T_NO = G_PLACE)
+		WHERE DP.USER_ID = #{user_id}
+	      AND G_STATUS = 'Y'
+	 ORDER BY DEAL_DATE DESC
+	
+	</select>
+
+<select id="selectProduct" parameterType="_int" resultMap="GoodsDetailResult">
+		SELECT
+				G.USER_ID USER_ID
+			  , G.G_NO G_NO
+			  , G.G_TITLE G_TITLE 
+			  , G.G_CONDITION G_CONDITION
+			  , G.G_PRICE G_PRICE
+			  , G.G_COMMENT G_COMMENT
+			  , A.CHANGE_NAME CHANGE_NAME
+			  , C.L_FILTER L_FILTER
+			  , C.M_FILTER M_FILTER
+			  , C.S_FILTER S_FILTER 
+			  , T.T_NO T_NO
+			  , T.ADDRESS_1 ADDRESS_1
+			  , T.ADDRESS_2 ADDRESS_2
+			  , T.ADDRESS_3 ADDRESS_3
+			  , G.G_STATUS G_STATUS
+			  , G.CREATE_DATE CREATE_DATE
+		 FROM GOODS G LEFT JOIN GOODSFILE F ON(G.G_NO = F.G_NO)
+		 JOIN ADDFILE A ON(F.F_NO = A.F_NO)
+		 JOIN GOODS_CATE C ON(G.C_NO = C.C_NO)
+		 JOIN TOWN T ON(G.G_PLACE = T.T_NO)
+		 WHERE G.G_NO = #{gno}
+	</select>
+	
+	<select id="searchList" parameterType="Search" resultMap="GoodsResultSet">
+		<bind name="sv" value="'%' + _parameter.getSearchValue() + '%'"/>
+		 SELECT 
+				G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , NICKNAME
+			  , G_STATUS
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , U.NICKNAME NICKNAME
+       			 FROM GOODS G, GOODSFILE GF, ADDFILE F, USER_INFO U
+        		WHERE G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
+        		  AND F.FILE_LEVEL = 1)
+		<where>
+			<choose>
+				<when test="searchCondition == 'proname'">
+				AND (G_TITLE LIKE #{sv} )
+				</when>
+				<when test="searchCondition == 'username'">
+				AND (NICKNAME LIKE #{sv} )
+				</when>
+			</choose>
+		</where>
+		ORDER BY CREATE_DATE DESC
+	</select>
+
+	<delete id="deleteFile" parameterType="string">
+		DELETE
+		  FROM GOODSFILE
+		 WHERE F_NO = (SELECT F_NO
+		  				 FROM ADDFILE
+		  				WHERE CHANGE_NAME= #{index})
+	</delete>
+  
+	<insert id="updateFile" parameterType="java.util.Map">
+	 INSERT ALL
+		INTO ADDFILE(
+			F_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+          , STATUS
+          , FILE_LEVEL
+		)
+		VALUES
+		(
+			F_SEQ.NEXTVAL
+		  , #{list.originName}
+		  , #{list.changeName}
+          , DEFAULT
+          , #{list.file_level}
+		 
+		)
+        INTO GOODSFILE
+        (
+            G_NO
+          , F_NO
+        )
+        VALUES
+        (
+            #{gno}
+          , F_SEQ.CURRVAL
+        )
+        SELECT * FROM DUAL
+	
+	
+	</insert>
+	<update id="updateReply" parameterType="_int">
+		UPDATE REPLY
+		SET R_STATUS = 'N'
+		WHERE R_NO = #{rno}
+	
+	
+	</update>
+	
+	
+	<update id="updateProduct" parameterType="_int">
+		UPDATE GOODS
+		SET G_STATUS = 'R'
+		WHERE G_NO = #{gno}
+	
+	
+	</update>
+
+<update id="updateProduct2" parameterType="Goods">
+		UPDATE GOODS
+		SET G_STATUS = 'N'
+		WHERE G_NO = #{gno}
+		
+	</update>
+	
+	<update id="productreportupdate" parameterType="Goods">
+		UPDATE GOODS
+		SET G_STATUS = 'N'
+		WHERE G_NO = #{gno}
+		
+	</update>
+	
+
+	<select id="selectSearchCount" parameterType="string" resultType="_int">
+		<bind name="searchb" value="'%'+_parameter+'%'"/>
+		SELECT COUNT(*)
+		FROM GOODS
+		WHERE G_TITLE LIKE #{searchb}
+	
+	</select>
+	<select id="selectSearchList" parameterType="string" resultMap = "GoodsResultSet">
+		<bind name="searchb" value="'%'+_parameter+'%'"/>
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , NICKNAME
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G_STATUS
+                     , U.NICKNAME NICKNAME
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  	AND G_TITLE LIKE  #{searchb}
+	   ORDER BY CREATE_DATE
+	  </select>
+	<select id="selectMySearchCount" parameterType="java.util.Map" resultType="_int">
+		<bind name="searchb" value="'%'+_parameter.search+'%'"/>
+		SELECT 
+			   COUNT(*)
+		 FROM (SELECT *
+			   FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F
+			   WHERE G.G_PLACE = T.T_NO
+			   AND G.G_NO = GF.G_NO
+			   AND GF.F_NO = F.F_NO
+			   AND F.FILE_LEVEL = 1)
+		WHERE G_STATUS = 'Y'
+        AND G_TITLE LIKE #{searchb}
+		<if test='myTown.area lt 4'>
+		AND ADDRESS_1 = #{myTown.address_1}
+		</if>
+		<if test='myTown.area lt 3'>
+		AND ADDRESS_2 = #{myTown.address_2}
+		</if>
+		<if test='myTown.area lt 2'>
+		AND ADDRESS_3 =#{myTown.address_3}
+		</if>
+
+	</select>
+	<select id="selectMySearchList" parameterType="java.util.Map" resultMap="GoodsResultSet">
+		<bind name="searchb" value="'%'+_parameter.search+'%'"/>
+		SELECT 
+			    G_NO
+			  , G_TITLE
+			  , G_PRICE
+			  , CHANGE_NAME
+			  , CREATE_DATE
+			  , NICKNAME
+		  FROM (SELECT
+		  			   G_PRICE
+		  			 , G_TITLE
+			 		 , CREATE_DATE
+			 		 , CHANGE_NAME
+			 		 , G.G_NO G_NO
+                     , G.C_NO C_NO
+                     , G_STATUS
+                     , U.NICKNAME NICKNAME
+                     , ADDRESS_1
+			 		 , ADDRESS_2
+			 		 , ADDRESS_3
+       			 FROM GOODS G, TOWN T, GOODSFILE GF, ADDFILE F, USER_INFO U
+        		WHERE G.G_PLACE = T.T_NO
+        		  AND G.G_NO = GF.G_NO
+        		  AND GF.F_NO = F.F_NO
+        		  AND G.USER_ID = U.USER_ID
+        		  AND F.FILE_LEVEL = 1)
+		  WHERE G_STATUS = 'Y'
+		  AND G_TITLE LIKE #{searchb}
+			<if test='myTown.area lt 4'>
+			AND ADDRESS_1 = #{myTown.address_1}
+			</if>
+			<if test='myTown.area lt 3'>
+			AND ADDRESS_2 = #{myTown.address_2}
+			</if>
+			<if test='myTown.area lt 2'>
+			AND ADDRESS_3 =#{myTown.address_3}
+			</if>
+	   ORDER BY CREATE_DATE DESC
+	</select>
+	<select id="selectSellingList" parameterType="string" resultMap="GoodsResultSet2">
+	SELECT C.*,ADDRESS_3
+	  FROM
+			(SELECT B.*, COUNT(GR.R_NO) REP_CNT
+			 FROM
+				 (SELECT  A.*, COUNT(LG.USER_ID) LIKE_CNT
+				  FROM
+				   	  (SELECT 
+							   G.G_NO GNO
+							 , G_PLACE
+							 , G_PRICE
+							 , G_TITLE
+							 , CREATE_DATE
+							 , PULL_DATE
+				             , CHANGE_NAME
+				             , G_STATUS
+				             , G.USER_ID USER_ID            
+						FROM 
+							   GOODS G, GOODSFILE GF, ADDFILE F
+						WHERE G.G_NO = GF.G_NO
+						  AND GF.F_NO = F.F_NO     
+						  AND F.FILE_LEVEL = 1
+						  AND G.USER_ID = #{user_id})A 
+					                            
+				  LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
+				  GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+				  PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
+					
+			 LEFT JOIN GOODS_REPLY GR ON B.GNO = GR.G_NO
+			 GROUP BY B.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+			 PULL_DATE, CHANGE_NAME, G_STATUS, B.LIKE_CNT, B.USER_ID)C
+	 JOIN TOWN ON(T_NO = G_PLACE)
+	 WHERE G_STATUS = 'Y'
+	 ORDER BY CREATE_DATE DESC
+	</select>
+	<select id="selectReviewList" parameterType="string" resultMap="ReviewResult">
+		SELECT 
+				UR.USER_ID USER_ID
+			  , NICKNAME 
+			  , U.PHOTO PHOTO
+			  , R.CONTENT CONTENT
+			  , R.REVIEW_DATE REVIEW_DATE
+			  , R.GRADE GRADE
+			  , R.REVIEW_NO REVIEW_NO
+		 FROM REVIEW R JOIN USER_REVIEW UR
+		   ON (R.REVIEW_NO = UR.REVIEW_NO)
+		 JOIN USER_INFO U
+		   ON (UR.USER_ID = U.USER_ID)
+	  	WHERE R.USER_ID = #{user_id}
+	  	  AND R.STATUS = 'Y'
+	 ORDER BY REVIEW_DATE DESC
+	</select>
+	
+	<insert id="insertKeywordAlarm" parameterType="Goods">
+	INSERT INTO ALARM
+			(
+			  ALARM_NO
+			, ALARM_TYPE
+	        , ALARM_CONTENT
+			, USER_ID
+			, ALARM_DATE
+			, REF_NO
+			)
+	SELECT 
+			A_SEQ.NEXTVAL, 5, CONCAT(KEYWORD, ' 키워드가 포함된 게시글이 등록되었습니다.'), USER_ID, SYSDATE, G_SEQ.CURRVAL
+	  FROM 
+	  		KEYWORD
+	 WHERE 
+	 		#{gtitle} LIKE '%'||KEYWORD||'%'
+
+	</insert>
+	
+	
+	<insert id="insertReview" parameterType="Review" >
+		INSERT ALL
+		INTO REVIEW
+		(
+		  REVIEW_NO
+		, STATUS
+		, CONTENT
+		, REVIEW_DATE
+		, GRADE
+		, USER_ID
+		)
+		VALUES
+		(  
+		  REVIEW_SEQ.NEXTVAL
+		, DEFAULT                                                                                                                   
+		, #{content}
+		, SYSDATE
+		, #{grade}
+		, #{userId}
+		)
+		INTO USER_REVIEW
+		VALUES ( REVIEW_SEQ.CURRVAL,#{writerId})
+		INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		, A_STATUS
+		, ALARM_CONTENT
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 11
+		, #{userId}
+		, SYSDATE
+		, REVIEW_SEQ.CURRVAL
+		, DEFAULT      
+		, CONCAT(#{writerId},'님이 상품 구매 후기를 작성하였하였습니다.')
+		)
+		SELECT * FROM DUAL
+	
+	
+	</insert>
+	<update id="deleteReview" parameterType="_int">
+		UPDATE REVIEW SET STATUS = 'N' WHERE REVIEW_NO = #{rno}
+	
+	</update>
+	<update id="insertPoint" parameterType="string">
+		UPDATE USER_INFO SET POINT = POINT + 10 WHERE USER_ID = #{user_id}
+	
+	</update>
+	<select id="reviewOk" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		  FROM DEAL_PAYMENT D JOIN GOODS G ON(D.G_NO = G.G_NO)
+		 WHERE G.USER_ID = #{seller}
+		   AND D.USER_ID = #{user_id}
+	
+	</select>
+	
+	<select id="selectGoodsRankList" resultMap="GoodsResultSet2">
+		SELECT RNUM,RANKING,GNO,G_PRICE,G_PLACE,G_TITLE,CREATE_DATE,PULL_DATE,CHANGE_NAME,G_STATUS,USER_ID,LIKECNT,REP_CNT,ADDRESS_1,ADDRESS_2,ADDRESS_3
+				FROM
+				(SELECT ROWNUM RNUM,RANKLIST.*
+				FROM
+				(SELECT RANK()OVER(ORDER BY LIKECNT DESC)RANKING,GOODSLIST.*
+				FROM
+				(SELECT GNO,G_PLACE,G_PRICE,G_TITLE,CREATE_DATE,PULL_DATE,CHANGE_NAME,G_STATUS,USER_ID,USER_LIKE_CNT,(select count(*) from LIKE_GOODS where G_NO = GNO)LIKECNT,REP_CNT,ADDRESS_1,ADDRESS_2,ADDRESS_3
+						FROM
+						(SELECT B.*, COUNT(GR.R_NO) REP_CNT
+						FROM
+						(SELECT  A.*, COUNT(LG.USER_ID) USER_LIKE_CNT
+						FROM
+						 (SELECT 
+									   G.G_NO GNO
+									 , G_PLACE
+									 , G_PRICE
+									 , G_TITLE
+									 , CREATE_DATE
+									 , PULL_DATE
+						             , CHANGE_NAME
+						             , G_STATUS
+						             , G.USER_ID USER_ID            
+								 FROM GOODS G, GOODSFILE GF, ADDFILE F
+								WHERE G.G_NO = GF.G_NO
+								  AND GF.F_NO = F.F_NO     
+								  AND F.FILE_LEVEL = 1)A
+						                            
+								LEFT JOIN LIKE_GOODS LG ON A.GNO = LG.G_NO
+				                
+								GROUP BY A.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+								PULL_DATE, CHANGE_NAME, G_STATUS,A.USER_ID)B
+						
+						LEFT JOIN GOODS_REPLY GR ON B.GNO = GR.G_NO
+						GROUP BY B.GNO, G_PLACE, G_PRICE, G_TITLE, CREATE_DATE, 
+						PULL_DATE, CHANGE_NAME, G_STATUS, B.USER_LIKE_CNT, B.USER_ID)C
+						JOIN TOWN ON(T_NO = G_PLACE)
+						WHERE G_STATUS = 'Y'
+						ORDER BY CREATE_DATE DESC)GOODSLIST)RANKLIST)ROWLIST
+				        WHERE RNUM &lt;= 8
+	</select>
+	
+	<select id="selectBestKeyword" resultMap="keywordResultSet">
+		SELECT 
+				KEYWORD 
+		  FROM(SELECT KEYWORD , COUNT(*)CNT
+				FROM KEYWORD
+				GROUP BY KEYWORD
+				ORDER BY CNT)
+				WHERE ROWNUM &lt;=10
+					
+	</select>
+	
+	
+	
+	
+	
+	
+	<select id="Goodsreportdetail" parameterType="_int" resultType="_int">
+		select g_no
+		 from goods_report
+		  where r_no = #{re_no}
+	</select>
+</mapper>
+
+
+
+

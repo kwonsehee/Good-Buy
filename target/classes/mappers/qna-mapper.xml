@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="qnaMapper">
+	<resultMap type="QNA" id="qnaResultSet">
+		<id property = "qa_no" column ="QA_NO"/>
+		<result property="qa_title" column="QA_TITLE"/>
+		<result property="qa_content" column="QA_CONTENT"/>
+		<result property="qa_date" column="QA_DATE"/>
+		<result property="qa_modify" column="QA_MODIFY"/>
+		<result property="qa_status" column="QA_STATUS"/>
+		<result property="qa_refno" column="QA_REFNO"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="FAQ" column="FAQ"/>
+		<result property="qa_answer" column="QA_ANSWER"/>
+		<result property="file_path" column="FILE_PATH"/>
+		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
+		<result property="renameFileName" column="RENAME_FILENAME"/>
+		
+	</resultMap>
+	
+	<select id="selectFAQList" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'Y'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	
+	<select id="selectFAQ" parameterType="_int" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		     
+		  FROM
+		       QNA
+		  WHERE
+		       QA_NO = #{qa_no} 
+	</select>
+	
+	<update id="updateFAQ" parameterType="QNA">
+		UPDATE
+		       QNA
+		   SET
+		       QA_TITLE = #{qa_title}
+		     , QA_CONTENT = #{qa_content}
+		     , QA_MODIFY = SYSDATE
+		 WHERE
+		       QA_NO = #{qa_no}
+	</update>
+	
+	<delete id="deleteFAQ" parameterType="_int">
+		DELETE 
+		  FROM QNA
+		 WHERE 
+		       QA_NO = #{qa_no}
+	</delete>
+	
+	<insert id="insertQNA" parameterType="QNA">
+		INSERT
+			INTO QNA
+			(
+			    QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		     , ORIGINAL_FILENAME
+		     , RENAME_FILENAME
+			)
+			VALUES
+			(
+				SEQ_QA_NO.NEXTVAL
+			  , #{qa_title}
+			  , #{qa_content}
+			  , SYSDATE
+			  , 'Y'
+			  , #{qa_refno}
+			  , #{user_id}
+			  , 'N'
+			  , #{originalFileName}
+			  , #{renameFileName}
+			)
+	
+	</insert>
+	
+	<select id="selectQNAList" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	
+	<select id="selectQNA" parameterType="_int" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		     , QA_ANSWER
+		     , ORIGINAL_FILENAME
+          	 , RENAME_FILENAME
+		  FROM
+		       QNA
+		  WHERE
+		       QA_NO = #{qa_no} 
+	</select>
+	
+	<insert id="insertFAQ" parameterType="QNA">
+		INSERT
+			INTO QNA
+			(
+			    QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , USER_ID
+		     , FAQ
+			)
+			VALUES
+			(
+				SEQ_QA_NO.NEXTVAL
+			  , #{qa_title}
+			  , #{qa_content}
+			  , #{user_id}
+			  , 'Y'
+			)
+	
+	</insert>
+	
+	<update id="updateQNAA" parameterType="QNA">
+		UPDATE
+		       QNA
+		   SET
+		       QA_TITLE = #{qa_title}
+		     , QA_CONTENT = #{qa_content}
+		     , QA_MODIFY = SYSDATE
+		     , QA_STATUS = 'N'
+		     , QA_ANSWER = #{qa_answer}
+		 WHERE
+		       QA_NO = #{qa_no}
+	</update>
+	
+	<select id="selectQNAQList" parameterType="string" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		 WHERE
+		       USER_ID = #{user_id} AND FAQ = 'N' 
+	</select>
+	<select id="selectQNAList1" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N' AND QA_REFNO = '1'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	<select id="selectQNAList2" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N' AND QA_REFNO = '2'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	<select id="selectQNAList3" resultMap="qnaResultSet">
+		SELECT
+		       QA_NO
+		     , QA_TITLE
+		     , QA_CONTENT
+		     , QA_DATE
+		     , QA_MODIFY
+		     , QA_STATUS
+		     , QA_REFNO
+		     , USER_ID
+		     , FAQ
+		  FROM
+		       QNA
+		  WHERE
+		  	   FAQ = 'N' AND QA_REFNO = '3'
+      ORDER BY
+               QA_NO DESC
+	</select>
+	<insert id="insertAlarmQNAA" parameterType="QNA">
+		INSERT INTO ALARM
+		(
+		  ALARM_NO
+		, ALARM_TYPE
+		, USER_ID
+		, ALARM_DATE
+		, REF_NO
+		, A_STATUS
+		, ALARM_CONTENT
+		)
+		VALUES
+		(
+		  A_SEQ.NEXTVAL
+		, 0
+		, #{user_id}
+		, SYSDATE
+		, #{qa_no}
+		, DEFAULT
+		, '문의하신 글에 관리자가 답변을 남겼습니다.'
+		)
+	
+	</insert>
+	</mapper>
